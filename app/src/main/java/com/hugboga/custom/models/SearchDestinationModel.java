@@ -15,7 +15,7 @@ import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.SearchUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -56,9 +56,9 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
 
     static class SearchDestinationHolder extends EpoxyHolder {
         View itemView;
-        @Bind(R.id.left_name)
+        @BindView(R.id.left_name)
         TextView left_name;
-        @Bind(R.id.right_name)
+        @BindView(R.id.right_name)
         TextView right_name;
         @Override
         protected void bindView(View itemView) {

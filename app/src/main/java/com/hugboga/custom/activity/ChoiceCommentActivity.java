@@ -16,16 +16,16 @@ import com.hugboga.custom.widget.HbcLoadingMoreFooter;
 import com.hugboga.custom.widget.SpaceItemDecoration;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 17/8/3.
  */
 public class ChoiceCommentActivity extends BaseActivity implements XRecyclerView.LoadingListener{
 
-    @Bind(R.id.choice_comment_recyclerview)
+    @BindView(R.id.choice_comment_recyclerview)
     XRecyclerView mRecyclerView;
-    @Bind(R.id.choice_comment_empty_layout)
+    @BindView(R.id.choice_comment_empty_layout)
     LinearLayout emptyLayout;
 
     private HbcRecyclerSingleTypeAdpater<ChoiceCommentsBean.ChoiceCommentsItemBean> mAdapter;

@@ -45,7 +45,7 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -54,23 +54,23 @@ import butterknife.OnClick;
 
 public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher {
 
-    @Bind(R.id.change_mobile_areacode)
+    @BindView(R.id.change_mobile_areacode)
     TextView areaCodeTextView;
-    @Bind(R.id.login_phone)
+    @BindView(R.id.login_phone)
     EditText phoneEditText;
-    @Bind(R.id.login_password)
+    @BindView(R.id.login_password)
     EditText passwordEditText;
-    @Bind(R.id.iv_pwd_visible)
+    @BindView(R.id.iv_pwd_visible)
     ImageView passwordVisible;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView fgTitle;
-    @Bind(R.id.login_submit)
+    @BindView(R.id.login_submit)
     Button loginButton;
-    @Bind(R.id.delete)
+    @BindView(R.id.delete)
     ImageView delete;
-    @Bind(R.id.delete1)
+    @BindView(R.id.delete1)
     ImageView delete1;
     boolean isPwdVisibility = false;
     String phone;

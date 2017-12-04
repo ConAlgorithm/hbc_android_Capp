@@ -19,7 +19,7 @@ import com.hugboga.custom.utils.Tools;
 
 import net.grobas.view.PolygonImageView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -28,15 +28,15 @@ import butterknife.ButterKnife;
 
 public class GuideSearchListItem extends LinearLayout implements HbcViewBehavior {
 
-    @Bind(R.id.search_guide_name)
+    @BindView(R.id.search_guide_name)
     TextView name;
-    @Bind(R.id.search_guide_location)
+    @BindView(R.id.search_guide_location)
     TextView location;
-    @Bind(R.id.label_search_guide)
+    @BindView(R.id.label_search_guide)
     TextView label;
-    @Bind(R.id.avatar_guide)
+    @BindView(R.id.avatar_guide)
     PolygonImageView avatar_guide;
-    @Bind(R.id.gender)
+    @BindView(R.id.gender)
     PolygonImageView gender;
 
     Context context;

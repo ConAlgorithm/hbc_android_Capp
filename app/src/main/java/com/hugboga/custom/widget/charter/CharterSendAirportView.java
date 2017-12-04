@@ -26,7 +26,7 @@ import com.hugboga.custom.utils.UIUtils;
 import java.text.ParseException;
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
@@ -39,47 +39,47 @@ public class CharterSendAirportView extends LinearLayout{
 
     private Context context;
 
-    @Bind(R.id.charter_pickup_item_root_layout)
+    @BindView(R.id.charter_pickup_item_root_layout)
     RelativeLayout rootLayout;
-    @Bind(R.id.charter_pickup_item_selected_iv)
+    @BindView(R.id.charter_pickup_item_selected_iv)
     ImageView selectedIV;
-    @Bind(R.id.charter_pickup_item_bottom_space_view)
+    @BindView(R.id.charter_pickup_item_bottom_space_view)
     View bottomSpaceView;
 
-    @Bind(R.id.charter_pickup_item_title_tv)
+    @BindView(R.id.charter_pickup_item_title_tv)
     TextView titleTV;
 
-    @Bind(R.id.charter_pickup_item_add_layout)
+    @BindView(R.id.charter_pickup_item_add_layout)
     LinearLayout addLayout;
 
-    @Bind(R.id.charter_pickup_item_add_address_layout)
+    @BindView(R.id.charter_pickup_item_add_address_layout)
     LinearLayout addAddressLayout;
-    @Bind(R.id.charter_pickup_item_add_address_tv)
+    @BindView(R.id.charter_pickup_item_add_address_tv)
     TextView addAddressTV;
 
-    @Bind(R.id.charter_pickup_item_add_address_layout2)
+    @BindView(R.id.charter_pickup_item_add_address_layout2)
     LinearLayout addAddressLayout2;
-    @Bind(R.id.charter_pickup_item_add_address_tv2)
+    @BindView(R.id.charter_pickup_item_add_address_tv2)
     TextView addAddressTV2;
 
-    @Bind(R.id.charter_pickup_item_add_time_layout)
+    @BindView(R.id.charter_pickup_item_add_time_layout)
     LinearLayout addTimeLayout;
-    @Bind(R.id.charter_pickup_item_add_time_tv)
+    @BindView(R.id.charter_pickup_item_add_time_tv)
     TextView addTimeTV;
 
-    @Bind(R.id.charter_pickup_item_address_layout)
+    @BindView(R.id.charter_pickup_item_address_layout)
     RelativeLayout addressLayout;
-    @Bind(R.id.charter_pickup_item_address_tv)
+    @BindView(R.id.charter_pickup_item_address_tv)
     TextView addressTV;
-    @Bind(R.id.charter_pickup_item_address_des_tv)
+    @BindView(R.id.charter_pickup_item_address_des_tv)
     TextView addressDesTV;
 
-    @Bind(R.id.charter_pickup_item_time_layout)
+    @BindView(R.id.charter_pickup_item_time_layout)
     RelativeLayout timeLayout;
-    @Bind(R.id.charter_pickup_item_time_tv)
+    @BindView(R.id.charter_pickup_item_time_tv)
     TextView timeTV;
 
-    @Bind(R.id.charter_pickup_item_distance_tv)
+    @BindView(R.id.charter_pickup_item_distance_tv)
     TextView distanceTV;
 
     private CharterDataUtils charterDataUtils;

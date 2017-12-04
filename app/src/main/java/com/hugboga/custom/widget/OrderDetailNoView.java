@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.CommonUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -20,7 +20,7 @@ import butterknife.OnClick;
 
 public class OrderDetailNoView extends RelativeLayout implements HbcViewBehavior{
 
-    @Bind(R.id.order_detail_travel_no_tv)
+    @BindView(R.id.order_detail_travel_no_tv)
     TextView noTV;
 
     public OrderDetailNoView(Context context) {

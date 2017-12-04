@@ -18,7 +18,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -31,14 +31,14 @@ public class OrderDetailAllTravelView extends LinearLayout implements HbcViewBeh
 
     private static final int DEFAULT_VIEW_COUNT = 3;
 
-    @Bind(R.id.order_detail_all_travel_container)
+    @BindView(R.id.order_detail_all_travel_container)
     LinearLayout containerLayout;
 
-    @Bind(R.id.order_detail_all_travel_more_layout)
+    @BindView(R.id.order_detail_all_travel_more_layout)
     LinearLayout moreLayout;
-    @Bind(R.id.order_detail_all_travel_more_iv)
+    @BindView(R.id.order_detail_all_travel_more_iv)
     ImageView moreIV;
-    @Bind(R.id.order_detail_all_travel_more_tv)
+    @BindView(R.id.order_detail_all_travel_more_tv)
     TextView moreTV;
 
     private boolean isShow = false;

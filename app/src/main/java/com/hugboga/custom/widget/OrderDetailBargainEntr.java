@@ -16,7 +16,7 @@ import com.hugboga.custom.data.event.EventType;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.iwgang.countdownview.CountdownView;
 
@@ -25,13 +25,13 @@ import cn.iwgang.countdownview.CountdownView;
  */
 public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBehavior, CountdownView.OnCountdownEndListener, View.OnClickListener{
 
-    @Bind(R.id.detail_bargain_entr_layout)
+    @BindView(R.id.detail_bargain_entr_layout)
     RelativeLayout parentLayout;
-    @Bind(R.id.detail_bargain_entr_title_tv)
+    @BindView(R.id.detail_bargain_entr_title_tv)
     TextView titleTV;
-    @Bind(R.id.detail_bargain_entr_price_tv)
+    @BindView(R.id.detail_bargain_entr_price_tv)
     TextView priceTV;
-    @Bind(R.id.detail_bargain_entr_countdown_view)
+    @BindView(R.id.detail_bargain_entr_countdown_view)
     CountdownView countdownView;
 
     private String orderNo;

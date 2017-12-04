@@ -21,7 +21,7 @@ import com.hugboga.custom.widget.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -29,23 +29,23 @@ import butterknife.OnClick;
  */
 public class OrderCancelActivity extends BaseActivity{
 
-    @Bind(R.id.order_cancel_type_value)
+    @BindView(R.id.order_cancel_type_value)
     TextView orderType;
-    @Bind(R.id.order_cancel_no_value)
+    @BindView(R.id.order_cancel_no_value)
     TextView orderNoValue;
-    @Bind(R.id.order_cancel_apply_value)
+    @BindView(R.id.order_cancel_apply_value)
     TextView orderApplyValue;//已付金额
-    @Bind(R.id.order_cancel_back_value)
+    @BindView(R.id.order_cancel_back_value)
     TextView orderBack;//退改费用
-    @Bind(R.id.order_cancel_cancel_layout)
+    @BindView(R.id.order_cancel_cancel_layout)
     View orderCancelLayout;//可退金额layout
-    @Bind(R.id.order_cancel_cancel_value)
+    @BindView(R.id.order_cancel_cancel_value)
     TextView orderCancel;//可退金额
-    @Bind(R.id.order_cancel_travel_fund_layout)
+    @BindView(R.id.order_cancel_travel_fund_layout)
     FrameLayout travelFundLyout;//可退旅游基金
-    @Bind(R.id.order_cancel_travel_fund_value)
+    @BindView(R.id.order_cancel_travel_fund_value)
     TextView travelFundTV;
-    @Bind(R.id.order_cancel_travel_fund_title_tv)
+    @BindView(R.id.order_cancel_travel_fund_title_tv)
     TextView travelFundTitleTV;
 
     private OrderBean orderBean;

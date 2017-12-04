@@ -59,23 +59,23 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
-    @Bind(R.id.guide_web_detail_titlebar)
+    @BindView(R.id.guide_web_detail_titlebar)
     RelativeLayout titlebar;
-    @Bind(R.id.titlebar_detail_right_1_btn)
+    @BindView(R.id.titlebar_detail_right_1_btn)
     ImageView collectIV;
-    @Bind(R.id.titlebar_detail_right_2_btn)
+    @BindView(R.id.titlebar_detail_right_2_btn)
     ImageView shareIV;
-    @Bind(R.id.titlebar_detail_title_tv)
+    @BindView(R.id.titlebar_detail_title_tv)
     TextView titleTV;
 
-    @Bind(R.id.guide_detail_webview)
+    @BindView(R.id.guide_detail_webview)
     WebView webView;
-    @Bind(R.id.guide_detail_bottom_view)
+    @BindView(R.id.guide_detail_bottom_view)
     GuideWebDetailBottomView bottomView;
 
     private DialogUtil mDialogUtil;

@@ -53,7 +53,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -63,35 +63,35 @@ import butterknife.OnClick;
 
 public class BargainActivity extends BaseActivity {
 
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
 
-    @Bind(R.id.countdown)
+    @BindView(R.id.countdown)
     CountDownLayout countdown;
-    @Bind(R.id.cut_money)
+    @BindView(R.id.cut_money)
     TextView cutMoney;
-    @Bind(R.id.list_layout)
+    @BindView(R.id.list_layout)
     LinearLayout listLayout;
-    @Bind(R.id.cute_money_tv)
+    @BindView(R.id.cute_money_tv)
     TextView cuteMoneyTv;
-    @Bind(R.id.rule)
+    @BindView(R.id.rule)
     TextView rule;
 
-    @Bind(R.id.cute_hint_tv1)
+    @BindView(R.id.cute_hint_tv1)
     TextView cuteHintTv1;
-    @Bind(R.id.cute_hint_tv2)
+    @BindView(R.id.cute_hint_tv2)
     TextView cuteHintTv2;
-    @Bind(R.id.cute_money_multiple_tv)
+    @BindView(R.id.cute_money_multiple_tv)
     TextView multipleTv;
-    @Bind(R.id.countdown_parent_layout)
+    @BindView(R.id.countdown_parent_layout)
     RelativeLayout countdownParentLayout;
-    @Bind(R.id.people_num_tv)
+    @BindView(R.id.people_num_tv)
     TextView peopleNumTv;
 
     private BarginBean barginBean;

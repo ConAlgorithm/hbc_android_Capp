@@ -34,7 +34,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -42,9 +42,9 @@ import butterknife.OnClick;
  */
 public class OrderCancelReasonActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener {
 
-    @Bind(R.id.cancel_reason_recyclerview)
+    @BindView(R.id.cancel_reason_recyclerview)
     RecyclerView mRecyclerView;
-    @Bind(R.id.cancel_reason_confirm_tv)
+    @BindView(R.id.cancel_reason_confirm_tv)
     TextView confirmTV;
 
     private HbcRecyclerSingleTypeAdpater<CancelReasonBean.CancelReasonItem> mAdapter;

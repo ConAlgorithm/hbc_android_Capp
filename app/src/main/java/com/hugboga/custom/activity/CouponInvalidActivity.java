@@ -41,25 +41,25 @@ import org.xutils.common.Callback;
 import java.text.ParseException;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 /**
  * Created by zhangqiang on 17/6/24.
  */
 public class CouponInvalidActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
-    @Bind(R.id.coupon_listview)
+    @BindView(R.id.coupon_listview)
     ZListView listView;
-    @Bind(R.id.coupon_listview_empty)
+    @BindView(R.id.coupon_listview_empty)
     RelativeLayout emptyLayout;
 
     CouponAdapter adapter;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
     private int mPageSize = 20;
     boolean isFromMyspace;

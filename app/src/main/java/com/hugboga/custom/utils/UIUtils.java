@@ -1,6 +1,7 @@
 package com.hugboga.custom.utils;
 
 import android.app.Activity;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -113,6 +114,12 @@ public final class UIUtils {
         }
         TextPaint paint = textView.getPaint();
         return (int)paint.measureText(str);
+    }
+
+    public static float getTextHeight(String text, Paint paint) {
+        Rect rect = new Rect();
+        paint.getTextBounds(text, 0, text.length(), rect);
+        return rect.height() / 1.1f;
     }
 
     public static int getColorWithAlpha(float alpha, int baseColor) {

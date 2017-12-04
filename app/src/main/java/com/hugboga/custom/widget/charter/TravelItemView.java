@@ -21,7 +21,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -30,78 +30,78 @@ import butterknife.OnClick;
  */
 public class TravelItemView extends LinearLayout {
 
-    @Bind(R.id.travel_item_parent_layout)
+    @BindView(R.id.travel_item_parent_layout)
     LinearLayout parentLayout;
 
-    @Bind(R.id.travel_item_edit_iv)
+    @BindView(R.id.travel_item_edit_iv)
     ImageView travelItemEditIv;
-    @Bind(R.id.travel_item_edit_tv)
+    @BindView(R.id.travel_item_edit_tv)
     TextView travelItemEditTv;
-    @Bind(R.id.travel_item_edit_line_view)
+    @BindView(R.id.travel_item_edit_line_view)
     View travelItemEditLineView;
-    @Bind(R.id.travel_item_del_tv)
+    @BindView(R.id.travel_item_del_tv)
     TextView travelItemDelTv;
 
-    @Bind(R.id.travel_item_title_tv)
+    @BindView(R.id.travel_item_title_tv)
     TextView travelItemTitleTv;
-    @Bind(R.id.travel_item_data_tv)
+    @BindView(R.id.travel_item_data_tv)
     TextView travelItemDataTv;
 
-    @Bind(R.id.travel_item_pickup_no_iv)
+    @BindView(R.id.travel_item_pickup_no_iv)
     ImageView travelItemPickupNoIv;
-    @Bind(R.id.travel_item_pickup_tv)
+    @BindView(R.id.travel_item_pickup_tv)
     TextView travelItemPickupTv;
-    @Bind(R.id.travel_item_arrdate_tv)
+    @BindView(R.id.travel_item_arrdate_tv)
     TextView travelItemArrdateTv;
-    @Bind(R.id.travel_item_pickup_layout)
+    @BindView(R.id.travel_item_pickup_layout)
     RelativeLayout travelItemPickupLayout;
 
-    @Bind(R.id.travel_item_charter_line_iv)
+    @BindView(R.id.travel_item_charter_line_iv)
     ImageView travelItemCharterLineIv;
-    @Bind(R.id.travel_item_line_tv)
+    @BindView(R.id.travel_item_line_tv)
     TextView travelItemLineTv;
-    @Bind(R.id.travel_item_charter_line_layout)
+    @BindView(R.id.travel_item_charter_line_layout)
     RelativeLayout travelItemCharterLineLayout;
-    @Bind(R.id.travel_item_scope_tv)
+    @BindView(R.id.travel_item_scope_tv)
     TextView travelItemScopeTv;
-    @Bind(R.id.travel_item_places_tv)
+    @BindView(R.id.travel_item_places_tv)
     TextView travelItemPlacesTv;
 
-    @Bind(R.id.travel_item_scope_tv2)
+    @BindView(R.id.travel_item_scope_tv2)
     TextView travelItemScopeTv2;
-    @Bind(R.id.travel_item_places_tv2)
+    @BindView(R.id.travel_item_places_tv2)
     TextView travelItemPlacesTv2;
 
-    @Bind(R.id.travel_item_line_tag_layout)
+    @BindView(R.id.travel_item_line_tag_layout)
     LinearLayout travelItemLineTagLayout;
-    @Bind(R.id.travel_item_line_time_tv)
+    @BindView(R.id.travel_item_line_time_tv)
     TextView travelItemLineTimeTv;
-    @Bind(R.id.travel_item_line_distance_tv)
+    @BindView(R.id.travel_item_line_distance_tv)
     TextView travelItemLineDistanceTv;
 
-    @Bind(R.id.travel_item_time_iv)
+    @BindView(R.id.travel_item_time_iv)
     ImageView travelItemTimeIv;
-    @Bind(R.id.travel_item_time_tv)
+    @BindView(R.id.travel_item_time_tv)
     TextView travelItemTimeTv;
-    @Bind(R.id.travel_item_time_hint_tv)
+    @BindView(R.id.travel_item_time_hint_tv)
     TextView travelItemTimeHintTv;
-    @Bind(R.id.travel_item_time_layout)
+    @BindView(R.id.travel_item_time_layout)
     RelativeLayout travelItemTimeLayout;
 
-    @Bind(R.id.travel_item_start_line_view)
+    @BindView(R.id.travel_item_start_line_view)
     View travelItemStartLineIv;
-    @Bind(R.id.travel_item_start_tv)
+    @BindView(R.id.travel_item_start_tv)
     TextView travelItemStartTv;
-    @Bind(R.id.travel_item_start_des_tv)
+    @BindView(R.id.travel_item_start_des_tv)
     TextView travelItemStartDesTv;
-    @Bind(R.id.travel_item_start_layout)
+    @BindView(R.id.travel_item_start_layout)
     RelativeLayout travelItemStartLayout;
 
-    @Bind(R.id.travel_item_end_tv)
+    @BindView(R.id.travel_item_end_tv)
     TextView travelItemEndTv;
-    @Bind(R.id.travel_item_end_des_tv)
+    @BindView(R.id.travel_item_end_des_tv)
     TextView travelItemEndDesTv;
-    @Bind(R.id.travel_item_end_layout)
+    @BindView(R.id.travel_item_end_layout)
     RelativeLayout travelItemEndLayout;
 
     private CharterDataUtils charterDataUtils;

@@ -34,7 +34,7 @@ import com.hugboga.custom.utils.Tools;
 
 import net.grobas.view.PolygonImageView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -43,41 +43,41 @@ import butterknife.OnClick;
  */
 public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavior, View.OnClickListener, HttpRequestListener {
 
-    @Bind(R.id.ogi_avatar_iv)
+    @BindView(R.id.ogi_avatar_iv)
     PolygonImageView avatarIV;
-    @Bind(R.id.ogi_name_tv)
+    @BindView(R.id.ogi_name_tv)
     TextView nameTV;
-    @Bind(R.id.ogi_star_iv)
+    @BindView(R.id.ogi_star_iv)
     ImageView starIV;
-    @Bind(R.id.ogi_star_tv)
+    @BindView(R.id.ogi_star_tv)
     TextView starTV;
-    @Bind(R.id.ogi_state_tv)
+    @BindView(R.id.ogi_state_tv)
     TextView stateTV;
 
-    @Bind(R.id.ogi_describe_tv)
+    @BindView(R.id.ogi_describe_tv)
     TextView describeTV;
-    @Bind(R.id.ogi_plate_number_tv)
+    @BindView(R.id.ogi_plate_number_tv)
     TextView numberTV;
 
-    @Bind(R.id.ogi_nav_layout)
+    @BindView(R.id.ogi_nav_layout)
     LinearLayout navLayout;
-    @Bind(R.id.ogi_call_layout)
+    @BindView(R.id.ogi_call_layout)
     LinearLayout callLayout;
-    @Bind(R.id.ogi_chat_layout)
+    @BindView(R.id.ogi_chat_layout)
     LinearLayout chatLayout;
 
-    @Bind(R.id.ogi_evaluate_layout)
+    @BindView(R.id.ogi_evaluate_layout)
     LinearLayout evaluateLayout;
-    @Bind(R.id.ogi_evaluate_iv)
+    @BindView(R.id.ogi_evaluate_iv)
     ImageView evaluateIV;
-    @Bind(R.id.ogi_evaluate_tv)
+    @BindView(R.id.ogi_evaluate_tv)
     TextView evaluateTV;
 
-    @Bind(R.id.ogi_collect_layout)
+    @BindView(R.id.ogi_collect_layout)
     LinearLayout collectLayout;
-    @Bind(R.id.ogi_collect_tv)
+    @BindView(R.id.ogi_collect_tv)
     TextView collectTV;
-    @Bind(R.id.ogi_collect_iv)
+    @BindView(R.id.ogi_collect_iv)
     ImageView collectIV;
 
     private OrderBean orderBean;

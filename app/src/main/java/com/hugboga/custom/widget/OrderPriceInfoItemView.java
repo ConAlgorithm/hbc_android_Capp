@@ -17,7 +17,7 @@ import com.hugboga.custom.utils.UIUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -25,9 +25,9 @@ import butterknife.ButterKnife;
  */
 public class OrderPriceInfoItemView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.order_price_info_item_title_tv)
+    @BindView(R.id.order_price_info_item_title_tv)
     TextView titleTV;
-    @Bind(R.id.order_price_info_item_taggroup)
+    @BindView(R.id.order_price_info_item_taggroup)
     TagGroup tagGroup;
 
     public OrderPriceInfoItemView(Context context) {

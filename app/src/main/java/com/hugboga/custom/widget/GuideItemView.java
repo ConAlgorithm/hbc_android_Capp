@@ -18,7 +18,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 import net.grobas.view.PolygonImageView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -27,33 +27,33 @@ import butterknife.ButterKnife;
 
 public class GuideItemView extends LinearLayout implements HbcViewBehavior {
 
-    @Bind(R.id.guide_item_include_avatar_iv)
+    @BindView(R.id.guide_item_include_avatar_iv)
     PolygonImageView avatarIV;
-    @Bind(R.id.guide_item_include_gender_iv)
+    @BindView(R.id.guide_item_include_gender_iv)
     ImageView genderIV;
 
-    @Bind(R.id.guide_item_include_name_tv)
+    @BindView(R.id.guide_item_include_name_tv)
     TextView nameTV;
 
-    @Bind(R.id.guide_item_include_city_iv)
+    @BindView(R.id.guide_item_include_city_iv)
     ImageView cityIV;
-    @Bind(R.id.guide_item_include_city_tv)
+    @BindView(R.id.guide_item_include_city_tv)
     TextView cityTV;
 
-    @Bind(R.id.guide_item_include_order_tv)
+    @BindView(R.id.guide_item_include_order_tv)
     TextView orderTV;
-    @Bind(R.id.guide_item_include_evaluate_tv)
+    @BindView(R.id.guide_item_include_evaluate_tv)
     TextView evaluateTV;
-    @Bind(R.id.guide_item_include_star_tv)
+    @BindView(R.id.guide_item_include_star_tv)
     TextView starTV;
 
-    @Bind(R.id.guide_item_include_info_layout)
+    @BindView(R.id.guide_item_include_info_layout)
     LinearLayout infoLayout;
-    @Bind(R.id.guide_item_include_taggroup)
+    @BindView(R.id.guide_item_include_taggroup)
     TagGroup tagGroup;
-    @Bind(R.id.view_guide_item_desc_tv)
+    @BindView(R.id.view_guide_item_desc_tv)
     TextView descTV;
-    @Bind(R.id.view_guide_item_service_type_tv)
+    @BindView(R.id.view_guide_item_service_type_tv)
     TextView serviceTypeTV;
 
     public GuideItemView(Context context) {

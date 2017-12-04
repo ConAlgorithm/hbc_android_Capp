@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -19,13 +19,13 @@ import butterknife.ButterKnife;
 
 public class OrderInfoItemView extends RelativeLayout {
 
-    @Bind(R.id.order_info_title_tv)
+    @BindView(R.id.order_info_title_tv)
     TextView titleTv;
-    @Bind(R.id.order_info_desc_tv1)
+    @BindView(R.id.order_info_desc_tv1)
     TextView descTv1;
-    @Bind(R.id.order_info_desc_tv2)
+    @BindView(R.id.order_info_desc_tv2)
     TextView descTv2;
-    @Bind(R.id.order_info_desc_tv3)
+    @BindView(R.id.order_info_desc_tv3)
     TextView descTv3;
 
     private String titleText;

@@ -32,14 +32,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 16/11/14.
  */
 public class ServiceQuestionActivity extends BaseActivity{
 
-    @Bind(R.id.service_question_rv)
+    @BindView(R.id.service_question_rv)
     RecyclerView mRecyclerView;
     private ServiceQuestionAdapter adapter;
 

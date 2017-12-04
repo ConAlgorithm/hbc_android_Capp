@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -49,15 +49,15 @@ public class ChooseCountryActivity extends BaseActivity{
 
     private PinyinComparator pinyinComparator;
 
-    @Bind(R.id.sidrbar)
+    @BindView(R.id.sidrbar)
     SideBar sideBar;
-    @Bind(R.id.dialog)
+    @BindView(R.id.dialog)
     TextView dialog;
-    @Bind(R.id.country_lvcountry)
+    @BindView(R.id.country_lvcountry)
     ListView sortListView;
-    @Bind(R.id.country_search)
+    @BindView(R.id.country_search)
     EditText searchEditText;
-    @Bind(R.id.delete)
+    @BindView(R.id.delete)
     ImageView delete;
 //    @ViewInject(R.id.head_btn_left)
 //    ImageView head_btn_leftl;

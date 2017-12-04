@@ -26,7 +26,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -34,19 +34,19 @@ import butterknife.OnClick;
  */
 public class ChangeMobileActivtiy extends BaseActivity implements TextWatcher{
 
-    @Bind(R.id.change_mobile_phone_view)
+    @BindView(R.id.change_mobile_phone_view)
     TextView phoneTextView;
-    @Bind(R.id.change_mobile_areacode)
+    @BindView(R.id.change_mobile_areacode)
     TextView areaCodeTextView;
-    @Bind(R.id.change_mobile_mobile)
+    @BindView(R.id.change_mobile_mobile)
     EditText mobileEditText;
-    @Bind(R.id.change_mobile_verity)
+    @BindView(R.id.change_mobile_verity)
     EditText verityEditText;
-    @Bind(R.id.change_mobile_getcode)
+    @BindView(R.id.change_mobile_getcode)
     TextView getCodeBtn;
-    @Bind(R.id.change_mobile_time)
+    @BindView(R.id.change_mobile_time)
     TextView timeTextView;
-    @Bind(R.id.change_mobile_submit)
+    @BindView(R.id.change_mobile_submit)
     Button changMobileSubnit;
 
     @Override

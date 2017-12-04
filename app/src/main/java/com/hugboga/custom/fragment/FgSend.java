@@ -67,7 +67,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -79,27 +79,27 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     public static final String TAG = FgSend.class.getSimpleName();
     private static final int ORDER_TYPE = 2;
 
-    @Bind(R.id.send_bottom_view)
+    @BindView(R.id.send_bottom_view)
     OrderBottomView bottomView;
-    @Bind(R.id.send_conpons_tipview)
+    @BindView(R.id.send_conpons_tipview)
     ConponsTipView conponsTipView;
 
-    @Bind(R.id.send_guide_layout)
+    @BindView(R.id.send_guide_layout)
     OrderGuideLayout guideLayout;
 
-    @Bind(R.id.send_airport_layout)
+    @BindView(R.id.send_airport_layout)
     OrderInfoItemView airportLayout;
-    @Bind(R.id.send_poi_layout)
+    @BindView(R.id.send_poi_layout)
     OrderInfoItemView startPoiLayout;
-    @Bind(R.id.send_time_layout)
+    @BindView(R.id.send_time_layout)
     OrderInfoItemView timeLayout;
 
-    @Bind(R.id.send_car_type_view)
+    @BindView(R.id.send_car_type_view)
     SkuOrderCarTypeView carTypeView;
-    @Bind(R.id.send_empty_layout)
+    @BindView(R.id.send_empty_layout)
     SkuOrderEmptyView emptyLayout;
 
-    @Bind(R.id.send_scrollview)
+    @BindView(R.id.send_scrollview)
     ScrollView scrollView;
 
     private AirPort airPortBean;
@@ -216,7 +216,6 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
         GuideCalendarUtils.getInstance().onDestory();
     }
 

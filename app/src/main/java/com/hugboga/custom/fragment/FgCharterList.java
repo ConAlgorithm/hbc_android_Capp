@@ -11,14 +11,14 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityRouteAdapter;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 17/3/27.
  */
 public class FgCharterList extends BaseFragment {
 
-    @Bind(R.id.fg_charter_list_recycler_view)
+    @BindView(R.id.fg_charter_list_recycler_view)
     RecyclerView recyclerView;
 
     private CityRouteAdapter adapter;

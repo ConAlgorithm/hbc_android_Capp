@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -17,11 +17,11 @@ import butterknife.ButterKnife;
 
 public class CouponItemView extends LinearLayout {
     View view;
-    @Bind(R.id.title_view1)
+    @BindView(R.id.title_view1)
     TextView titleView1;
-    @Bind(R.id.title_view2)
+    @BindView(R.id.title_view2)
     TextView titleView2;
-    @Bind(R.id.content_view)
+    @BindView(R.id.content_view)
     TextView contentView;
 
 

@@ -15,13 +15,13 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UnicornUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FgchatHeaderView extends LinearLayout {
 
-    @Bind(R.id.chat_header_online_service_unread)
+    @BindView(R.id.chat_header_online_service_unread)
     TextView serviceUnread;
 
     private CsDialog csDialog;

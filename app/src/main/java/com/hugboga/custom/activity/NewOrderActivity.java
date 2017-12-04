@@ -19,7 +19,7 @@ import com.hugboga.custom.data.request.RequestOrder;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by on 16/8/9.
@@ -29,11 +29,11 @@ public class NewOrderActivity extends BaseActivity implements ZBaseAdapter.OnIte
     public static final String SEARCH_TYPE = "search_type";
     public static final String SEARCH_USER = "search_user";
 
-    @Bind(R.id.listview)
+    @BindView(R.id.listview)
     ZListPageView recyclerView;
-    @Bind(R.id.swipe)
+    @BindView(R.id.swipe)
     ZSwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.order_empty)
+    @BindView(R.id.order_empty)
     RelativeLayout emptyLayout;
 
     private NewOrderAdapter adapter;

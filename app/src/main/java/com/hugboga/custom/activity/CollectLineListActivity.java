@@ -24,16 +24,16 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by zhangqiang on 17/8/28.
  */
 
 public class CollectLineListActivity extends BaseActivity implements XRecyclerView.LoadingListener{
-    @Bind(R.id.collect_line_list_recyclerview)
+    @BindView(R.id.collect_line_list_recyclerview)
     XRecyclerView mRecyclerView;
-    @Bind(R.id.collect_line_listview_empty)
+    @BindView(R.id.collect_line_listview_empty)
     LinearLayout emptyLayout;
     private HbcRecyclerSingleTypeAdpater<CollectLineBean.CollectLineItemBean> mAdapter;
     @Override

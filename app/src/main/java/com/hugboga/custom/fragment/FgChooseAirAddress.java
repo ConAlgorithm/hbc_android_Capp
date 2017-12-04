@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -50,35 +50,35 @@ import butterknife.OnClick;
  */
 public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayClickListener{
 
-    @Bind(R.id.from_city)
+    @BindView(R.id.from_city)
     TextView fromCity;
-    @Bind(R.id.end_city)
+    @BindView(R.id.end_city)
     TextView endCity;
-    @Bind(R.id.from_city_tips)
+    @BindView(R.id.from_city_tips)
     TextView fromCityTips;
-    @Bind(R.id.end_city_tips)
+    @BindView(R.id.end_city_tips)
     TextView endCityTips;
-    /*@Bind(R.id.address_left)
+    /*@BindView(R.id.address_left)
     TextView addressLeft;
-    @Bind(R.id.address_tips)
+    @BindView(R.id.address_tips)
     TextView addressTips;
-    @Bind(R.id.rl_address)
+    @BindView(R.id.rl_address)
     LinearLayout rlAddress;*/
-    @Bind(R.id.search)
+    @BindView(R.id.search)
     Button search;
-    @Bind(R.id.history_layout)
+    @BindView(R.id.history_layout)
     LinearLayout historyLayout;
-    @Bind(R.id.clean_all_history)
+    @BindView(R.id.clean_all_history)
     TextView cleanAllHistory;
-    @Bind(R.id.show_history)
+    @BindView(R.id.show_history)
     LinearLayout showHistory;
-    @Bind(R.id.exchange)
+    @BindView(R.id.exchange)
     ImageView exchange;
-    @Bind(R.id.start_layout)
+    @BindView(R.id.start_layout)
     LinearLayout startLayout;
-    @Bind(R.id.end_layout)
+    @BindView(R.id.end_layout)
     LinearLayout endLayout;
-    @Bind(R.id.view_month)
+    @BindView(R.id.view_month)
     MonthSwitchView mMonthPagerView;
     String dateFormat="";
     FlightBean flightBean;
@@ -189,7 +189,6 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

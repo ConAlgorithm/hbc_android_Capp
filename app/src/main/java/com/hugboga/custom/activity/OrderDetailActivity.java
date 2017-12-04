@@ -56,7 +56,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 16/8/2.
@@ -65,28 +65,28 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     public static final int EVALUATE_TYPE = 1000;
 
-    @Bind(R.id.order_detail_title_layout)
+    @BindView(R.id.order_detail_title_layout)
     OrderDetailTitleBar titleBar;
 
-    @Bind(R.id.order_detail_deliver_view)
+    @BindView(R.id.order_detail_deliver_view)
     OrderDetailDeliverView deliverView;
 
-    @Bind(R.id.order_detail_itinerary_view)
+    @BindView(R.id.order_detail_itinerary_view)
     OrderDetailItineraryView itineraryView;
 
-    @Bind(R.id.order_detail_float_view)
+    @BindView(R.id.order_detail_float_view)
     OrderDetailFloatView floatView;
 
-    @Bind(R.id.order_detail_group_layout)
+    @BindView(R.id.order_detail_group_layout)
     LinearLayout groupLayout;
 
-    @Bind(R.id.order_detail_empty_tv)
+    @BindView(R.id.order_detail_empty_tv)
     TextView emptyTV;
 
-    @Bind(R.id.order_detail_explain_tv)
+    @BindView(R.id.order_detail_explain_tv)
     TextView explainTV;
 
-    @Bind(R.id.order_detail_bargain_entr_view)
+    @BindView(R.id.order_detail_bargain_entr_view)
     OrderDetailBargainEntr bargainEntrView;
 
     private CompatPopupWindow popup;

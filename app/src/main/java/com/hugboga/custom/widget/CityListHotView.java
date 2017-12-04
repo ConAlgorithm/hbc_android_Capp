@@ -22,7 +22,7 @@ import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CityListHotView extends LinearLayout {
@@ -31,11 +31,11 @@ public class CityListHotView extends LinearLayout {
     public static final int TYPE_DEEP = 2;
     public static final int TYPE_SHORT = 3;
 
-    @Bind(R.id.city_hot_title_tv)
+    @BindView(R.id.city_hot_title_tv)
     TextView titleTV;
-    @Bind(R.id.city_hot_more_tv)
+    @BindView(R.id.city_hot_more_tv)
     TextView moreTV;
-    @Bind(R.id.city_hot_recyclerview)
+    @BindView(R.id.city_hot_recyclerview)
     RecyclerView cityRecyclerView;
 
     public List<SkuItemBean> hotLines;
@@ -54,7 +54,7 @@ public class CityListHotView extends LinearLayout {
         View view = inflate(context, R.layout.view_city_hot_item, this);
         ButterKnife.bind(view);
 
-        final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
+        final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.city_view_padding_left);
         displayImgWidth = UIUtils.getScreenWidth() - paddingLeft * 2 - UIUtils.dip2px(8);
         displayImgHeight = (int)((400 / 650.0) * displayImgWidth);
         int viewHeight = displayImgHeight + ScreenUtil.dip2px(84);

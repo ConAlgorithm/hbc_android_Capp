@@ -12,7 +12,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -22,15 +22,15 @@ import butterknife.OnClick;
 
 public class CharterSecondBottomView extends LinearLayout{
 
-    @Bind(R.id.sku_order_bottom_confirm_tv)
+    @BindView(R.id.sku_order_bottom_confirm_tv)
     TextView confirmTV;
-    @Bind(R.id.sku_order_bottom_confirm_arrow_iv)
+    @BindView(R.id.sku_order_bottom_confirm_arrow_iv)
     ImageView confirmArrowIV;
-    @Bind(R.id.sku_order_bottom_confirm_layout)
+    @BindView(R.id.sku_order_bottom_confirm_layout)
     LinearLayout confirmLayout;
-    @Bind(R.id.charter_bottom_travel_list_layout)
+    @BindView(R.id.charter_bottom_travel_list_layout)
     LinearLayout travelListLayout;
-    @Bind(R.id.charter_bottom_previous_layout)
+    @BindView(R.id.charter_bottom_previous_layout)
     LinearLayout previousLayout;
 
 

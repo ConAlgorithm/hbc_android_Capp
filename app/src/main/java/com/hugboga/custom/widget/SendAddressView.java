@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -19,16 +19,16 @@ import butterknife.OnClick;
  */
 public class SendAddressView extends RelativeLayout {
 
-    @Bind(R.id.send_start_address_tv)
+    @BindView(R.id.send_start_address_tv)
     TextView startTV;
-    @Bind(R.id.send_start_address_desc_tv)
+    @BindView(R.id.send_start_address_desc_tv)
     TextView startDescTV;
-    @Bind(R.id.send_start_address_dash_view)
+    @BindView(R.id.send_start_address_dash_view)
     DashView startDashView;
 
-    @Bind(R.id.send_end_address_tv)
+    @BindView(R.id.send_end_address_tv)
     TextView endTV;
-    @Bind(R.id.send_end_address_desc_tv)
+    @BindView(R.id.send_end_address_desc_tv)
     TextView endDescTV;
 
     private OnAddressClickListener onAddressClickListener;

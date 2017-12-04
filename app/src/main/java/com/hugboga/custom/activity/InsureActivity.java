@@ -41,7 +41,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -49,18 +49,18 @@ import butterknife.OnClick;
  */
 
 public class InsureActivity extends BaseActivity implements HttpRequestListener {
-    @Bind(R.id.list)
+    @BindView(R.id.list)
     ListView list;
-    @Bind(R.id.emptyView)
+    @BindView(R.id.emptyView)
     LinearLayout emptyView;
 
     InSureListAdapter adapter;
     List<InsureResultBean> beanList = new ArrayList<InsureResultBean>();
-    @Bind(R.id.commit)
+    @BindView(R.id.commit)
     TextView commit;
-    @Bind(R.id.people_num)
+    @BindView(R.id.people_num)
     TextView peopleNum;
-    @Bind(R.id.bottom)
+    @BindView(R.id.bottom)
     RelativeLayout bottom;
 
 
@@ -69,17 +69,17 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     String orderNo;
 
     int insureListSize = 0;
-    @Bind(R.id.people_num_all)
+    @BindView(R.id.people_num_all)
     TextView peopleNumAll;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
-    @Bind(R.id.left)
+    @BindView(R.id.left)
     TextView left;
 
     protected void initHeader() {

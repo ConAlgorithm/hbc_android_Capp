@@ -13,7 +13,7 @@ import com.hugboga.custom.widget.title.TitleBar;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 17/3/16.
@@ -21,9 +21,9 @@ import butterknife.Bind;
 
 public class DetailTravelListActivity extends BaseActivity {
 
-    @Bind(R.id.detail_travel_list_titlebar)
+    @BindView(R.id.detail_travel_list_titlebar)
     TitleBar titleBar;
-    @Bind(R.id.detail_travel_list_recyclerview)
+    @BindView(R.id.detail_travel_list_recyclerview)
     RecyclerView recyclerView;
 
     private OrderBean orderBean;

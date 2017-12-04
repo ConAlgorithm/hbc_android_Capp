@@ -32,7 +32,7 @@ import com.hugboga.custom.widget.guideview.Guide;
 import com.hugboga.custom.widget.guideview.GuideBuilder;
 import com.hugboga.custom.widget.guideview.MutiComponent;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -43,20 +43,20 @@ public class CharterSubtitleView extends LinearLayout{
 
     public static final String TAG = CharterSubtitleView.class.getSimpleName();
 
-    @Bind(R.id.charter_subtitle_day_tv)
+    @BindView(R.id.charter_subtitle_day_tv)
     TextView dayTV;
-    @Bind(R.id.charter_subtitle_amend_tv)
+    @BindView(R.id.charter_subtitle_amend_tv)
     TextView amendTV;
 
-    @Bind(R.id.charter_subtitle_pickup_layout)
+    @BindView(R.id.charter_subtitle_pickup_layout)
     LinearLayout pickupLayout;
-    @Bind(R.id.charter_subtitle_pickup_icon_iv)
+    @BindView(R.id.charter_subtitle_pickup_icon_iv)
     ImageView iconIV;
-    @Bind(R.id.charter_subtitle_pickup_left_tv)
+    @BindView(R.id.charter_subtitle_pickup_left_tv)
     TextView leftTV;
-    @Bind(R.id.charter_subtitle_pickup_right_tv)
+    @BindView(R.id.charter_subtitle_pickup_right_tv)
     TextView rightTV;
-    @Bind(R.id.charter_subtitle_pickup_arrow_iv)
+    @BindView(R.id.charter_subtitle_pickup_arrow_iv)
     ImageView pickupArrowIV;
 
     private Context context;

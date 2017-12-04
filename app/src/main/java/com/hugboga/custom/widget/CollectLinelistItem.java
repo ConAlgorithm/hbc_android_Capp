@@ -15,7 +15,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectLineBean;
 import com.hugboga.custom.utils.Tools;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,17 +23,17 @@ import butterknife.ButterKnife;
  */
 
 public class CollectLinelistItem extends LinearLayout implements HbcViewBehavior{
-    @Bind(R.id.title_line_search)
+    @BindView(R.id.title_line_search)
     TextView title;
-    @Bind(R.id.search_line_location)
+    @BindView(R.id.search_line_location)
     TextView location;
-    @Bind(R.id.pic_line)
+    @BindView(R.id.pic_line)
     ImageView picLine;
-    @Bind(R.id.price_per)
+    @BindView(R.id.price_per)
     TextView pricePer;
-    @Bind(R.id.offline_view)
+    @BindView(R.id.offline_view)
     View offline_view;
-    @Bind(R.id.offline_icon)
+    @BindView(R.id.offline_icon)
     TextView offline_icon;
     CollectLineBean.CollectLineItemBean collectLineItemBean;
 

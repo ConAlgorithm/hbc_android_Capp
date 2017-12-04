@@ -54,7 +54,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -64,25 +64,25 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     public static final String TAG = CharterFirstStepActivity.class.getSimpleName();
 
-    @Bind(R.id.charter_first_titlebar)
+    @BindView(R.id.charter_first_titlebar)
     TitleBar titlebar;
-    @Bind(R.id.charter_first_city_layout)
+    @BindView(R.id.charter_first_city_layout)
     OrderInfoItemView cityLayout;
-    @Bind(R.id.charter_first_date_layout)
+    @BindView(R.id.charter_first_date_layout)
     OrderInfoItemView dateLayout;
-    @Bind(R.id.charter_first_count_view)
+    @BindView(R.id.charter_first_count_view)
     CharterFirstCountView countLayout;
-    @Bind(R.id.charter_first_bottom_next_tv)
+    @BindView(R.id.charter_first_bottom_next_tv)
     TextView nextTV;
-    @Bind(R.id.charter_first_seckills_layout)
+    @BindView(R.id.charter_first_seckills_layout)
     RelativeLayout seckillsLayout;
 
-    @Bind(R.id.charter_first_conpons_tipview)
+    @BindView(R.id.charter_first_conpons_tipview)
     ConponsTipView conponsTipView;
-    @Bind(R.id.charter_first_scrollview)
+    @BindView(R.id.charter_first_scrollview)
     ScrollView scrollView;
 
-    @Bind(R.id.charter_first_guide_layout)
+    @BindView(R.id.charter_first_guide_layout)
     OrderGuideLayout guideLayout;
 
     private CityBean startBean;

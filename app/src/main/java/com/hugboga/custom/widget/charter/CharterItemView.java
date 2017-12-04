@@ -20,7 +20,7 @@ import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -31,31 +31,31 @@ public class CharterItemView extends LinearLayout{
 
     public static final String TAG = CharterItemView.class.getSimpleName();
 
-    @Bind(R.id.charter_item_root_layout)
+    @BindView(R.id.charter_item_root_layout)
     RelativeLayout rootLayout;
-    @Bind(R.id.charter_item_selected_iv)
+    @BindView(R.id.charter_item_selected_iv)
     ImageView selectedIV;
-    @Bind(R.id.charter_item_bottom_space_view)
+    @BindView(R.id.charter_item_bottom_space_view)
     View bottomSpaceView;
 
-    @Bind(R.id.charter_item_title_tv)
+    @BindView(R.id.charter_item_title_tv)
     TextView titleTV;
-    @Bind(R.id.charter_item_scope_tv)
+    @BindView(R.id.charter_item_scope_tv)
     TextView scopeTV;
-    @Bind(R.id.charter_item_places_tv)
+    @BindView(R.id.charter_item_places_tv)
     TextView placesTV;
-    @Bind(R.id.charter_item_time_tv)
+    @BindView(R.id.charter_item_time_tv)
     TextView timeTV;
-    @Bind(R.id.charter_item_distance_tv)
+    @BindView(R.id.charter_item_distance_tv)
     TextView distanceTV;
-    @Bind(R.id.charter_item_tag_layout)
+    @BindView(R.id.charter_item_tag_layout)
     LinearLayout tagLayout;
 
-    @Bind(R.id.charter_item_edit_arrived_city_layout)
+    @BindView(R.id.charter_item_edit_arrived_city_layout)
     RelativeLayout editArrivedCityLayout;
-    @Bind(R.id.charter_item_edit_arrived_city_tv)
+    @BindView(R.id.charter_item_edit_arrived_city_tv)
     TextView editArrivedCityTV;
-    @Bind(R.id.charter_item_add_arrived_city_layout)
+    @BindView(R.id.charter_item_add_arrived_city_layout)
     LinearLayout addArrivedCityLayout;
 
     private Context context;

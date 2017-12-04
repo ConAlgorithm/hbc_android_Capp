@@ -43,7 +43,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -52,76 +52,76 @@ import butterknife.ButterKnife;
 
 public class TravelListItem extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.travel_item_typestr)
+    @BindView(R.id.travel_item_typestr)
     public TextView mTypeStr; //订单类型
-    @Bind(R.id.travel_item_cartype)
+    @BindView(R.id.travel_item_cartype)
     public TextView mCarType; //车辆类型
-    @Bind(R.id.order_item_time_tv)
+    @BindView(R.id.order_item_time_tv)
     public TextView timeTV;
-    @Bind(R.id.travel_item_citys)
+    @BindView(R.id.travel_item_citys)
     public TextView citysTV;
-    @Bind(R.id.order_item_time_local_tv)
+    @BindView(R.id.order_item_time_local_tv)
     public TextView timeLocalTV;
-    @Bind(R.id.order_item_time)
+    @BindView(R.id.order_item_time)
     public ImageView itemTime;
-    @Bind(R.id.order_item_start_address_tv)
+    @BindView(R.id.order_item_start_address_tv)
     public TextView startAddressTV;
-    @Bind(R.id.order_item_end_address_tv)
+    @BindView(R.id.order_item_end_address_tv)
     public TextView endAddressTV;
-    @Bind(R.id.order_item_start_address_iv1_layout)
+    @BindView(R.id.order_item_start_address_iv1_layout)
     public LinearLayout startAddressIV1;
-    @Bind(R.id.order_item_start_address_iv2_layout)
+    @BindView(R.id.order_item_start_address_iv2_layout)
     public ImageView startAddressIV2;
-    @Bind(R.id.order_item_xianlu_iv)
+    @BindView(R.id.order_item_xianlu_iv)
     public ImageView xianlu_iv;
-    @Bind(R.id.order_item_chexing)
+    @BindView(R.id.order_item_chexing)
     public ImageView chexing;
-    @Bind(R.id.order_item_start_address_layout)
+    @BindView(R.id.order_item_start_address_layout)
     public LinearLayout startAddressLayout;
-    @Bind(R.id.order_item_end_address_layout)
+    @BindView(R.id.order_item_end_address_layout)
     public LinearLayout endAddressLayout;
-    @Bind(R.id.order_list_line)
+    @BindView(R.id.order_list_line)
     public View lineView;
-    @Bind(R.id.order_list_vertical_line)
+    @BindView(R.id.order_list_vertical_line)
     public View verticalLine;
-    @Bind(R.id.travel_item_status)
+    @BindView(R.id.travel_item_status)
     public TextView mStatus; //订单状态
-    @Bind(R.id.travel_item_status_layout)
+    @BindView(R.id.travel_item_status_layout)
     public RelativeLayout mStatusLayout; //状态行为操作栏
-    @Bind(R.id.travel_item_price)
+    @BindView(R.id.travel_item_price)
     public TextView mPrice; //支付费用
-    @Bind(R.id.travel_item_head_layout)
+    @BindView(R.id.travel_item_head_layout)
     public LinearLayout mHeadLayout; //导游信息
-    @Bind(R.id.travel_item_head_img)
+    @BindView(R.id.travel_item_head_img)
     public CircleImageView mHeadImg;//导游头像
-    @Bind(R.id.travel_item_head_title)
+    @BindView(R.id.travel_item_head_title)
     public TextView mHeadTitle; //导游名称
-    @Bind(R.id.travel_item_btn_pay)
+    @BindView(R.id.travel_item_btn_pay)
     public TextView mBtnPay; //立即支付
-    @Bind(R.id.travel_item_btn_chat)
+    @BindView(R.id.travel_item_btn_chat)
     public TextView mBtnChat; //聊一聊按钮
-    @Bind(R.id.travel_item_btn_chat_num)
+    @BindView(R.id.travel_item_btn_chat_num)
     public TextView mBtnChatNum; //未读消息个数
-    @Bind(R.id.travel_item_btn_assessment)
+    @BindView(R.id.travel_item_btn_assessment)
     public TextView mAssessment; //评价车导
-    @Bind(R.id.br_layout)
+    @BindView(R.id.br_layout)
     public LinearLayout br_layout;
-    @Bind(R.id.travel_item_btn_br)
+    @BindView(R.id.travel_item_btn_br)
     public TextView travel_item_btn_br;
-    @Bind(R.id.travel_item_btn_br_tips)
+    @BindView(R.id.travel_item_btn_br_tips)
     public ImageView travel_item_btn_br_tips;
 
-    @Bind(R.id.travel_item_head_layout_all)
+    @BindView(R.id.travel_item_head_layout_all)
     public LinearLayout travel_item_head_layout_all;
-    @Bind(R.id.travel_item_head_img1)
+    @BindView(R.id.travel_item_head_img1)
     public CircleImageView travel_item_head_img1;;
-    @Bind(R.id.travel_item_head_img2)
+    @BindView(R.id.travel_item_head_img2)
     public CircleImageView travel_item_head_img2;
-    @Bind(R.id.travel_item_head_layout_1)
+    @BindView(R.id.travel_item_head_layout_1)
     public FrameLayout travel_item_head_layout_1;
-    @Bind(R.id.travel_item_head_img3)
+    @BindView(R.id.travel_item_head_img3)
     public CircleImageView travel_item_head_img3;
-    @Bind(R.id.travel_item_head_more_tv)
+    @BindView(R.id.travel_item_head_more_tv)
     public TextView travel_item_head_more_tv;
 
     public TravelListItem(Context context) {

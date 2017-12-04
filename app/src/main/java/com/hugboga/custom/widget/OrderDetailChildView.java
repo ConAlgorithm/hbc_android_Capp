@@ -18,7 +18,7 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.request.RequestDeliverInfo;
 import com.hugboga.custom.utils.ApiReportHelper;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -27,13 +27,13 @@ import butterknife.ButterKnife;
 
 public class OrderDetailChildView extends LinearLayout implements HbcViewBehavior, HttpRequestListener {
 
-    @Bind(R.id.order_detail_child_guideinfo)
+    @BindView(R.id.order_detail_child_guideinfo)
     OrderDetailGuideInfo orderDetailGuideInfo;
-    @Bind(R.id.order_detail_child_travel_view)
+    @BindView(R.id.order_detail_child_travel_view)
     OrderDetailTravelView orderDetailTravelView;
-    @Bind(R.id.order_detail_child_cancel)
+    @BindView(R.id.order_detail_child_cancel)
     TextView childCancelTV;
-    @Bind(R.id.order_detail_child_deliver_view)
+    @BindView(R.id.order_detail_child_deliver_view)
     OrderDetailDeliverItemView orderDetailDeliverItemView;
 
     private OrderDetailActivity orderDetailActivity;

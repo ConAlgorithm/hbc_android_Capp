@@ -11,18 +11,18 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OrderBean;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TopTipsLayout extends RelativeLayout implements HbcViewBehavior{
 
     View view;
-    @Bind(R.id.img_close)
+    @BindView(R.id.img_close)
     ImageView imgClose;
-    @Bind(R.id.top_text)
+    @BindView(R.id.top_text)
     TextView topText;
-    @Bind(R.id.top_line)
+    @BindView(R.id.top_line)
     TextView topLine;
 
     public TopTipsLayout(Context context) {

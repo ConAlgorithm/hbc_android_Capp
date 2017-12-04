@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.hugboga.custom.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -15,14 +15,14 @@ import butterknife.OnClick;
  */
 public class TitleBarPickSend extends TitleBarBase {
 
-    @Bind(R.id.titlebar_ps_pickup_tv)
+    @BindView(R.id.titlebar_ps_pickup_tv)
     TextView tabPickupTV;
-    @Bind(R.id.titlebar_ps_pickup_line_view)
+    @BindView(R.id.titlebar_ps_pickup_line_view)
     View tabPickupLineView;
 
-    @Bind(R.id.titlebar_ps_send_tv)
+    @BindView(R.id.titlebar_ps_send_tv)
     TextView tabSendTV;
-    @Bind(R.id.titlebar_ps_send_line_view)
+    @BindView(R.id.titlebar_ps_send_line_view)
     View tabSendLineView;
 
     private TitlerBarOnClickLister lister;

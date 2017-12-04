@@ -13,7 +13,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.request.RequestCallBack;
 import com.hugboga.custom.utils.CommonUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -21,17 +21,17 @@ import butterknife.OnClick;
  */
 
 public class CallBackActivity extends BaseActivity {
-    @Bind(R.id.call_back_content)
+    @BindView(R.id.call_back_content)
     EditText contentEditText; //反馈内容
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
-    @Bind(R.id.call_back_submit)
+    @BindView(R.id.call_back_submit)
     Button callBackSubmit;
 
     @Override

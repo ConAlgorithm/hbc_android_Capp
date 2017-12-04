@@ -17,7 +17,7 @@ import com.hugboga.custom.utils.DateUtils;
 import java.text.ParseException;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -26,13 +26,13 @@ import butterknife.OnClick;
  */
 public class SkuOrderChooseDateView extends LinearLayout{
 
-    @Bind(R.id.sku_order_date_tv1)
+    @BindView(R.id.sku_order_date_tv1)
     TextView dateTV1;
-    @Bind(R.id.sku_order_date_tv2)
+    @BindView(R.id.sku_order_date_tv2)
     TextView dateTV2;
-    @Bind(R.id.sku_order_date_tv3)
+    @BindView(R.id.sku_order_date_tv3)
     TextView dateTV3;
-    @Bind(R.id.sku_order_date_other_tv)
+    @BindView(R.id.sku_order_date_other_tv)
     TextView otherTV;
 
     private String startDate;

@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:paddingLeft="@dimen/home_view_padding_left"
-        android:paddingRight="@dimen/home_view_padding_left">
+        android:paddingLeft="@dimen/city_view_padding_left"
+        android:paddingRight="@dimen/city_view_padding_left">
 
         <ImageView
             android:id="@+id/choiceness_guide_bg_iv"
@@ -44,8 +44,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/home_view_padding_left"
-        android:paddingRight="@dimen/home_view_padding_left">
+        android:paddingLeft="@dimen/city_view_padding_left"
+        android:paddingRight="@dimen/city_view_padding_left">
 
         <RelativeLayout
             android:id="@+id/choiceness_guide_level_layout"

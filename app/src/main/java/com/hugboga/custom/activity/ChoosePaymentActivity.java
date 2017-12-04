@@ -55,7 +55,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -66,17 +66,17 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
     public static final String PAY_PARAMS = "pay_params";
     public static final String TAG = "ChoosePaymentActivity";
 
-    @Bind(R.id.choose_payment_price_tv)
+    @BindView(R.id.choose_payment_price_tv)
     TextView priceTV;
-    @Bind(R.id.choose_payment_sign_tv)
+    @BindView(R.id.choose_payment_sign_tv)
     TextView choosePaymentSignTv;
-    @Bind(R.id.choose_payment_alipay_iv)
+    @BindView(R.id.choose_payment_alipay_iv)
     ImageView choosePaymentAlipayIv;
-    @Bind(R.id.choose_payment_alipay_layout)
+    @BindView(R.id.choose_payment_alipay_layout)
     RelativeLayout choosePaymentAlipayLayout;
-    @Bind(R.id.choose_payment_wechat_iv)
+    @BindView(R.id.choose_payment_wechat_iv)
     ImageView choosePaymentWechatIv;
-    @Bind(R.id.choose_payment_wechat_layout)
+    @BindView(R.id.choose_payment_wechat_layout)
     RelativeLayout choosePaymentWechatLayout;
 
     private DialogUtil mDialogUtil;

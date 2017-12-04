@@ -1,155 +1,59 @@
 package com.hugboga.custom.adapter;
 
-import android.app.Activity;
-import android.content.Context;
-
 import com.airbnb.epoxy.EpoxyAdapter;
-import com.hugboga.custom.data.bean.FilterGuideBean;
-import com.hugboga.custom.data.bean.HomeAggregationVo4;
-import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
-import com.hugboga.custom.data.bean.HomeCityContentVo2;
-import com.hugboga.custom.data.bean.HomeCommentInfoVo;
-import com.hugboga.custom.data.bean.HomeHotDestination;
-import com.hugboga.custom.models.HomeBannerModel;
-import com.hugboga.custom.models.HomeBottomBannerModel;
-import com.hugboga.custom.models.HomeCityRecommentGuideModel;
-import com.hugboga.custom.models.HomeFilterGuideModel;
-import com.hugboga.custom.models.HomeGuideEvaluateModel;
-import com.hugboga.custom.models.HomeH5Model;
-import com.hugboga.custom.models.HomeHotAlnum;
-import com.hugboga.custom.models.HomeHotAlnumGuide;
-import com.hugboga.custom.models.HomeHotDestinationModel;
-import com.hugboga.custom.models.HomeNetworkErrorModel;
-import com.hugboga.custom.models.HomePastAlbum;
-import com.hugboga.custom.models.HomeRecommendedRouteModel;
-import com.hugboga.custom.models.HomeServiceModel;
-import com.hugboga.custom.models.HomeTitleBannarModel;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.models.home.HomeAiModel;
+import com.hugboga.custom.models.home.HomeAlbumModel;
+import com.hugboga.custom.models.home.HomeBannerModel;
+import com.hugboga.custom.models.home.HomeExcitedActivityModel;
+import com.hugboga.custom.models.home.HomeGoodsModel;
+import com.hugboga.custom.models.home.HomeServiceCenterModel;
 
 /**
- * Created by zhangqiang on 17/8/1.
+ * Created by qingcha on 17/11/22.
  */
-
 public class HomeAdapter extends EpoxyAdapter {
-    HomeNetworkErrorModel homeNetworkErrorModel;
-    public HomeTitleBannarModel homeTitleBannarModel;
-    public HomeServiceModel homeServiceModel;
-    public HomeH5Model homeH5Model;
-    public HomeFilterGuideModel homeFilterGuideModel;
-    public HomeHotDestinationModel homeHotDestinationModel;
-    public HomeHotAlnum homeHotAlnum;
-    public HomeHotAlnumGuide homeHotAlnumGuide;
-    public HomePastAlbum homePastAlbum;
-    public HomeGuideEvaluateModel homeGuideEvaluateModel;
-    public HomeRecommendedRouteModel homeRecommendedRouteModel;
-    public HomeCityRecommentGuideModel homeCityRecommentGuideModel;
+
+    public HomeAiModel homeAiModel;
     public HomeBannerModel homeBannerModel;
-    public HomeBottomBannerModel homeBottomBannerModel;
 
-
-    public void addHomeTitleBannar(Context context, ArrayList<HomeAggregationVo4.ActivityPageSettingVo> activityPageSettings) {
-        if(activityPageSettings != null && activityPageSettings.size()>0){
-            homeTitleBannarModel = new HomeTitleBannarModel(context, activityPageSettings);
-            addModel(homeTitleBannarModel);
-        }
-
+    public HomeAdapter() {
+        homeAiModel = new HomeAiModel();
+        homeBannerModel = new HomeBannerModel();
     }
 
-    public void addHomeService(Context context) {
-        homeServiceModel = new HomeServiceModel(context);
-        addModel(homeServiceModel);
-    }
+    public void setData(HomeBean homeBean) {
+        removeAllModels();
 
-    public void addGuideModels(Activity activity, List<FilterGuideBean> guideList) {
-
-        if (guideList != null && guideList.size() > 0) {
-            homeFilterGuideModel = new HomeFilterGuideModel(activity);
-            homeFilterGuideModel.setGuideData(guideList);
-            addModel(homeFilterGuideModel);
-        }
-    }
-
-    public void addHomeHotDestination(Context context,ArrayList<HomeHotDestination> hotCities){
-        homeHotDestinationModel = new HomeHotDestinationModel(context,hotCities);
-        addModel(homeHotDestinationModel);
-    }
-
-    public void addHomeH5(Context context) {
-        homeH5Model = new HomeH5Model(context);
-        addModel(homeH5Model);
-    }
-
-    public void addHotAlbum(Activity activity, HomeAlbumInfoVo homeAlbumInfoVo, int position) {
-        if(homeAlbumInfoVo != null && homeAlbumInfoVo.albumType == 1){
-            homeHotAlnum = new HomeHotAlnum(activity);
-            homeHotAlnum.setAlbumData(homeAlbumInfoVo, position);
-            addModel(homeHotAlnum);
-        }else if(homeAlbumInfoVo != null && homeAlbumInfoVo.albumType == 2){
-            homeHotAlnumGuide = new HomeHotAlnumGuide(activity);
-            homeHotAlnumGuide.setAlbumData(homeAlbumInfoVo, position);
-            addModel(homeHotAlnumGuide);
-        }
-    }
-
-    public void addPastAlbum(Context context, ArrayList<HomeAlbumInfoVo> pastAlbumList) {
-        if(pastAlbumList!= null && pastAlbumList.size()>0){
-            homePastAlbum = new HomePastAlbum(context, pastAlbumList);
-            addModel(homePastAlbum);
-        }
-    }
-
-    public void addHomeGuideEvaluate(Context context, HomeCommentInfoVo homeCommentInfoVo, int position) {
-        if(homeCommentInfoVo != null){
-            homeGuideEvaluateModel = new HomeGuideEvaluateModel(context, homeCommentInfoVo, position);
-            addModel(homeGuideEvaluateModel);
-        }
-    }
-
-    public void addHomeRecommentRout(Context context, HomeCityContentVo2 cityGoodsList) {
-        if (cityGoodsList != null) {
-            homeRecommendedRouteModel = new HomeRecommendedRouteModel(context, cityGoodsList);
-            addModel(homeRecommendedRouteModel);
-        }
-    }
-
-    public void addHomeRecommentGuide(Context context, HomeCityContentVo2 cityGoodsList) {
-        if (cityGoodsList != null) {
-            homeCityRecommentGuideModel = new HomeCityRecommentGuideModel(context, cityGoodsList);
-            addModel(homeCityRecommentGuideModel);
-        }
-    }
-
-    public void addHomeBanner(Context context, ArrayList<HomeAggregationVo4.ActivityPageSettingVo> activityPageSettings) {
-        if(activityPageSettings != null && activityPageSettings.size()>0) {
-            homeBannerModel = new HomeBannerModel(context, activityPageSettings);
+        if (homeBean.bannerInfolList != null && homeBean.bannerInfolList.size() > 0) {
+            homeBannerModel.setData(homeBean.bannerInfolList);
             addModel(homeBannerModel);
         }
-    }
 
-    public void addHomeBottomBanner(Context context) {
-        homeBottomBannerModel = new HomeBottomBannerModel(context);
-        addModel(homeBottomBannerModel);
-    }
+        addModel(homeAiModel);
 
-    public void addNetworkErrorModel(HomeNetworkErrorModel.ReloadListener reloadListener) {
-        if (homeNetworkErrorModel == null) {
-            homeNetworkErrorModel = new HomeNetworkErrorModel(reloadListener);
+        addModel(new HomeServiceCenterModel());
+
+        if (homeBean.hotAlbumList != null && homeBean.hotAlbumList.size() > 0) {
+            int size = homeBean.hotAlbumList.size();
+            for (int i = 0; i < size; i++) {
+                HomeAlbumModel homeAlbumModel = new HomeAlbumModel();
+                homeAlbumModel.setDate(homeBean.hotAlbumList.get(i));
+                addModel(homeAlbumModel);
+            }
         }
-        removeNetworkErrorModel();
-        addModel(homeNetworkErrorModel);
-    }
 
-    public void removeNetworkErrorModel() {
-        if (homeNetworkErrorModel != null) {
-            removeModel(homeNetworkErrorModel);
-        }
-    }
+        HomeGoodsModel transferModel = new HomeGoodsModel<HomeBean.TransferBean>();
+        transferModel.setDate(homeBean.transferList, HomeGoodsModel.TYPE_TRANSFER);
+        addModel(transferModel);
 
-    public void removeModels(){
-        if(getItemCount() > 0){
-            removeAllModels();
-        }
+        HomeGoodsModel charteredModel = new HomeGoodsModel<HomeBean.CharteredBean>();
+        charteredModel.setDate(homeBean.charteredList, HomeGoodsModel.TYPE_CHARTERED);
+        addModel(charteredModel);
+
+        HomeExcitedActivityModel excitedActivityModel = new HomeExcitedActivityModel();
+        excitedActivityModel.setData(homeBean.excitingActivityList);
+        addModel(excitedActivityModel);
+
     }
 }

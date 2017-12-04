@@ -28,16 +28,16 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 16/8/4.
  */
 public class CollectGuideListActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener, XRecyclerView.LoadingListener{
 
-    @Bind(R.id.collect_list_recyclerview)
+    @BindView(R.id.collect_list_recyclerview)
     XRecyclerView mRecyclerView;
-    @Bind(R.id.collect_listview_empty)
+    @BindView(R.id.collect_listview_empty)
     LinearLayout emptyLayout;
 
     private HbcRecyclerSingleTypeAdpater<FilterGuideBean> mAdapter;

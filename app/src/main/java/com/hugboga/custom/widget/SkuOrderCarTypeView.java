@@ -29,7 +29,7 @@ import com.hugboga.custom.utils.UIUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -40,16 +40,16 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
 
     private static final int DEFAULT_SHOW_COUNT = 3;//默认展示条数
 
-    @Bind(R.id.sku_order_car_type_container_layout)
+    @BindView(R.id.sku_order_car_type_container_layout)
     LinearLayout containerLayot;
-    @Bind(R.id.sku_order_car_type_more_layout)
+    @BindView(R.id.sku_order_car_type_more_layout)
     LinearLayout moreLayout;
-    @Bind(R.id.sku_order_car_type_more_arrow_iv)
+    @BindView(R.id.sku_order_car_type_more_arrow_iv)
     ImageView moreaArrowIV;
 
-    @Bind(R.id.sku_order_car_type_luggage_explain_tv)
+    @BindView(R.id.sku_order_car_type_luggage_explain_tv)
     TextView explainTV;
-    @Bind(R.id.sku_order_car_type_luggage_explain_iv)
+    @BindView(R.id.sku_order_car_type_luggage_explain_iv)
     ImageView explainIV;
 
     private boolean isShow = false;

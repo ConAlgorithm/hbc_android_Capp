@@ -7,12 +7,12 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class LuggageInfoActivity extends BaseActivity {
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
 
     @Override

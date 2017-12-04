@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -18,13 +18,13 @@ import butterknife.OnClick;
  */
 public class ChooseCityTabLayout extends LinearLayout{
 
-    @Bind(R.id.choose_city_tab_inland_line)
+    @BindView(R.id.choose_city_tab_inland_line)
     View inlandLineView;
-    @Bind(R.id.choose_city_tab_foreign_line)
+    @BindView(R.id.choose_city_tab_foreign_line)
     View foreignLineView;
-    @Bind(R.id.choose_city_tab_inland_tv)
+    @BindView(R.id.choose_city_tab_inland_tv)
     TextView inlandTV;
-    @Bind(R.id.choose_city_tab_foreign_tv)
+    @BindView(R.id.choose_city_tab_foreign_tv)
     TextView foreignTV;
 
     private OnChangeListener listener;

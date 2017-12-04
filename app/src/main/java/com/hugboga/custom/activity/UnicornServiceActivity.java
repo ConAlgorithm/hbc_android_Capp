@@ -16,14 +16,14 @@ import com.qiyukf.unicorn.api.ProductDetail;
 
 import java.io.Serializable;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 16/11/9.
  */
 public class UnicornServiceActivity extends BaseActivity{
 
-    @Bind(R.id.unicorn_service_order_state_layout)
+    @BindView(R.id.unicorn_service_order_state_layout)
     FrameLayout orderStateLayout;
 
     private Params params;

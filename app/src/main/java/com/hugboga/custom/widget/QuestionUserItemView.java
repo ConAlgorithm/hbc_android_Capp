@@ -15,7 +15,7 @@ import com.hugboga.custom.utils.Tools;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,9 +23,9 @@ import butterknife.ButterKnife;
  */
 public class QuestionUserItemView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.question_user_item_avatar_iv)
+    @BindView(R.id.question_user_item_avatar_iv)
     ImageView avatarIV;
-    @Bind(R.id.question_user_item_title_tv)
+    @BindView(R.id.question_user_item_title_tv)
     TextView titleTV;
 
     public QuestionUserItemView(Context context) {

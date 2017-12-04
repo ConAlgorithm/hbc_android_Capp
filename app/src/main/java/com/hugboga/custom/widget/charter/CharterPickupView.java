@@ -20,7 +20,7 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -31,28 +31,28 @@ public class CharterPickupView extends LinearLayout {
 
     private Context context;
 
-    @Bind(R.id.charter_pickup_item_root_layout)
+    @BindView(R.id.charter_pickup_item_root_layout)
     RelativeLayout rootLayout;
-    @Bind(R.id.charter_pickup_item_selected_iv)
+    @BindView(R.id.charter_pickup_item_selected_iv)
     ImageView selectedIV;
-    @Bind(R.id.charter_pickup_item_bottom_space_view)
+    @BindView(R.id.charter_pickup_item_bottom_space_view)
     View bottomSpaceView;
 
-    @Bind(R.id.charter_pickup_item_title_tv)
+    @BindView(R.id.charter_pickup_item_title_tv)
     TextView titleTV;
 
-    @Bind(R.id.charter_pickup_item_add_address_layout)
+    @BindView(R.id.charter_pickup_item_add_address_layout)
     LinearLayout addAddressLayout;
-    @Bind(R.id.charter_pickup_item_add_address_tv)
+    @BindView(R.id.charter_pickup_item_add_address_tv)
     TextView addAddressTV;
 
-    @Bind(R.id.charter_pickup_item_address_layout)
+    @BindView(R.id.charter_pickup_item_address_layout)
     RelativeLayout addressLayout;
-    @Bind(R.id.charter_pickup_item_address_tv)
+    @BindView(R.id.charter_pickup_item_address_tv)
     TextView addressTV;
-    @Bind(R.id.charter_pickup_item_address_des_tv)
+    @BindView(R.id.charter_pickup_item_address_des_tv)
     TextView addressDesTV;
-    @Bind(R.id.charter_pickup_item_distance_tv)
+    @BindView(R.id.charter_pickup_item_distance_tv)
     TextView distanceTV;
 
     private CharterDataUtils charterDataUtils;

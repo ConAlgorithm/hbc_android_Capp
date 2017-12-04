@@ -15,7 +15,7 @@ import com.hugboga.custom.data.bean.DeductionBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.utils.CommonUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -28,14 +28,14 @@ public class SkuOrderDiscountView extends LinearLayout{
     public static final int TYPE_COUPON = 1;
     public static final int TYPE_TRAVEL_FUND = 2;
 
-    @Bind(R.id.sku_order_discount_coupon_choose_iv)
+    @BindView(R.id.sku_order_discount_coupon_choose_iv)
     ImageView couponChooseIV;
-    @Bind(R.id.sku_order_discount_coupon_count_tv)
+    @BindView(R.id.sku_order_discount_coupon_count_tv)
     TextView couponCountTV;
 
-    @Bind(R.id.sku_order_discount_travel_fund_choose_iv)
+    @BindView(R.id.sku_order_discount_travel_fund_choose_iv)
     ImageView travelFundChooseIV;
-    @Bind(R.id.sku_order_discount_travel_fund_count_tv)
+    @BindView(R.id.sku_order_discount_travel_fund_count_tv)
     TextView travelFundCountTV;
 
     private DiscountOnClickListener listener;

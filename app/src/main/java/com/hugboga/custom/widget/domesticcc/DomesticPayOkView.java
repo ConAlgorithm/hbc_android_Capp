@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.DomesticCreditCardActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -24,13 +24,13 @@ import butterknife.OnClick;
 
 public class DomesticPayOkView extends FrameLayout {
 
-    @Bind(R.id.domestic_pay_ok_img)
+    @BindView(R.id.domestic_pay_ok_img)
     ImageView domestic_pay_ok_img; //银行图标
-    @Bind(R.id.domestic_pay_ok_name)
+    @BindView(R.id.domestic_pay_ok_name)
     TextView domestic_pay_ok_name; //银行名称
-    @Bind(R.id.domestic_pay_ok_card)
+    @BindView(R.id.domestic_pay_ok_card)
     TextView domestic_pay_ok_card; //卡号
-    @Bind(R.id.domestic_pay_ok_btn)
+    @BindView(R.id.domestic_pay_ok_btn)
     Button domestic_pay_ok_btn;
 
     String bindId;

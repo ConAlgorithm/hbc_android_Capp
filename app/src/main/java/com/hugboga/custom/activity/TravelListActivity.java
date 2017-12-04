@@ -34,7 +34,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 17/2/28.
@@ -42,11 +42,11 @@ import butterknife.Bind;
 
 public class TravelListActivity extends BaseActivity {
 
-    @Bind(R.id.travel_list_titlebar)
+    @BindView(R.id.travel_list_titlebar)
     TitleBar titleBar;
-    @Bind(R.id.travel_list_recycler_view)
+    @BindView(R.id.travel_list_recycler_view)
     RecyclerView recyclerView;
-    @Bind(R.id.travel_list_bottom_view)
+    @BindView(R.id.travel_list_bottom_view)
     CharterSecondBottomView bottomView;
 
     @Override
