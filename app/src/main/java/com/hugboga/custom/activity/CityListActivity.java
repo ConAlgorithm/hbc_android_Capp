@@ -159,12 +159,29 @@ public class CityListActivity extends BaseActivity {
     /**
      * 游玩线路标签选中处理
      */
-    FilterView.OnSelectListener onSelectListener1 = new FilterView.OnSelectListener() {
+    FilterView.OnSelectListener onSelectListener1 = new FilterView.OnSelectResultListener() {
         @Override
-        public void onSelect(LabelBean labelBean) {
+        public void onParentSelect(FilterView filterView, LabelBean labelBean) {
+            super.onParentSelect(filterView, labelBean);
+            //关联重设，两个Tag布局内容
+            if (filterView == content_city_filte_view1) {
+                adapter.setSelectIds(filterView.getSelectIds());
+            } else {
+                content_city_filte_view1.setSelectIds(filterView.getSelectIds());
+            }
+        }
+
+        @Override
+        public void onSelect(FilterView filterView, LabelBean labelBean) {
             content_city_filte_view1.hide();
             cityFilterView.clear();
             labelBeanTag = labelBean;
+            //关联重设，两个Tag布局内容
+            if (filterView == content_city_filte_view1) {
+                adapter.setSelectIds(filterView.getSelectIds());
+            } else {
+                content_city_filte_view1.setSelectIds(filterView.getSelectIds());
+            }
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
             cityFilterView.setTextTag(labelBean.name);
@@ -174,9 +191,9 @@ public class CityListActivity extends BaseActivity {
     /**
      * 出发城市选中处理
      */
-    FilterView.OnSelectListener onSelectListener2 = new FilterView.OnSelectListener() {
+    FilterView.OnSelectListener onSelectListener2 = new FilterView.OnSelectResultListener() {
         @Override
-        public void onSelect(LabelBean labelBean) {
+        public void onSelect(FilterView filterView, LabelBean labelBean) {
             content_city_filte_view2.hide();
             cityFilterView.clear();
             labelBeanCity = labelBean;
@@ -189,9 +206,9 @@ public class CityListActivity extends BaseActivity {
     /**
      * 游玩天数选中处理
      */
-    FilterView.OnSelectListener onSelectListener3 = new FilterView.OnSelectListener() {
+    FilterView.OnSelectListener onSelectListener3 = new FilterView.OnSelectResultListener() {
         @Override
-        public void onSelect(LabelBean labelBean) {
+        public void onSelect(FilterView filterView, LabelBean labelBean) {
             cityFilterView.clear();
             content_city_filte_view3.hide();
             labelBeanDay = labelBean;

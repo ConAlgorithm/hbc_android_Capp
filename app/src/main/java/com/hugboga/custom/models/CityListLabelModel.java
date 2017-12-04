@@ -7,6 +7,7 @@ import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,6 +23,7 @@ public class CityListLabelModel extends EpoxyModelWithHolder<CityListLabelModel.
 
     List<LabelItemData> labels;
     FilterView.OnSelectListener onSelectListener1;
+    LabelHolder holder;
 
     public CityListLabelModel(List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1) {
         this.labels = labels;
@@ -39,6 +41,7 @@ public class CityListLabelModel extends EpoxyModelWithHolder<CityListLabelModel.
         if (holder == null) {
             return;
         }
+        this.holder = holder;
         holder.filterView.setData(labels, onSelectListener1);
     }
 
@@ -55,6 +58,17 @@ public class CityListLabelModel extends EpoxyModelWithHolder<CityListLabelModel.
         @Override
         protected void bindView(View itemView) {
             ButterKnife.bind(this, itemView);
+        }
+    }
+
+    /**
+     * 设置已选中标签序列
+     *
+     * @param ids
+     */
+    public void setSelectIds(Map<Integer, Boolean> ids) {
+        if (holder != null) {
+            holder.filterView.setSelectIds(ids);
         }
     }
 }

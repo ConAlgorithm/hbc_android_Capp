@@ -12,6 +12,7 @@ import com.hugboga.custom.models.CityWhatModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelItemData;
@@ -26,12 +27,14 @@ public class CityAdapter extends EpoxyAdapter {
     private Context mContext;
 
     private List<CityListModel> goodModels = new ArrayList<>(); //列表加载的SKU Model数据集合
+    CityListLabelModel cityListLabelModel; //快速选择标签区
     CityConfigModel configModel; //第一个配置model，sku数据加载到其上方
 
     public CityAdapter(Context context, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList,
                        List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1) {
         this.mContext = context;
-        addModel(new CityListLabelModel(labels, onSelectListener1));
+        cityListLabelModel = new CityListLabelModel(labels, onSelectListener1);
+        addModel(cityListLabelModel);
         addConfig(serviceConfigList);
         addModel(new CityWhatModel(mContext));
         addGoods(data);
@@ -82,6 +85,17 @@ public class CityAdapter extends EpoxyAdapter {
                 removeModel(model);
             }
             goodModels.clear();
+        }
+    }
+
+    /**
+     * 设置已选中标签序列
+     *
+     * @param ids
+     */
+    public void setSelectIds(Map<Integer, Boolean> ids) {
+        if (cityListLabelModel != null) {
+            cityListLabelModel.setSelectIds(ids);
         }
     }
 }
