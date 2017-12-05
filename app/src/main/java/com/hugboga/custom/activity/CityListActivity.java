@@ -1,108 +1,96 @@
 package com.hugboga.custom.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.CityListAdapter;
+import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.CityListBean;
-import com.hugboga.custom.data.bean.CountryGroupBean;
-import com.hugboga.custom.data.bean.FilterGuideBean;
-import com.hugboga.custom.data.bean.FilterGuideListBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.bean.UserFavoriteGuideListVo3;
-import com.hugboga.custom.data.bean.UserFavoriteLineList;
+import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
+import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
+import com.hugboga.custom.data.request.RequestCity;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
-import com.hugboga.custom.data.request.RequestFilterGuide;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
-import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.DatabaseManager;
-import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
-import com.hugboga.custom.widget.CsDialog;
-import com.hugboga.custom.widget.GiftController;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.hugboga.custom.data.request.RequestQuerySkuList;
+import com.hugboga.custom.utils.CityDataTools;
+import com.hugboga.custom.widget.city.CityFilterView;
+import com.hugboga.custom.widget.city.CityHeaderFilterView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import tk.hongbo.label.FilterView;
+import tk.hongbo.label.data.LabelBean;
+import tk.hongbo.label.data.LabelItemData;
+
+import static com.hugboga.custom.activity.CityListActivity.CityHomeType.COUNTRY;
 
 public class CityListActivity extends BaseActivity {
 
-    public static final int GUIDE_LIST_COUNT = 8;//精选司导显示的条数
+    Toolbar toolbar;
 
-    @BindView(R.id.city_list_titlebar)
-    RelativeLayout titlebar;
-    @BindView(R.id.view_bottom)
-    View titlebarBottomLineView;
-    @BindView(R.id.city_list_recyclerview)
-    RecyclerView recyclerView;
+    @BindView(R.id.city_toolbar_title)
+    TextView city_toolbar_title; //Toolbar标题
+    @BindView(R.id.city_header_filter_img_root)
+    CityHeaderFilterView city_header_filter_img_root; //头部城市信息
 
-    @BindView(R.id.city_list_back_layout)
-    FrameLayout backLayout;
+    @BindView(R.id.content_city_filte_view1)
+    FilterView content_city_filte_view1; //筛选条件内容，游玩线路
+    @BindView(R.id.content_city_filte_view2)
+    FilterView content_city_filte_view2; //筛选条件内容，出发城市
+    @BindView(R.id.content_city_filte_view3)
+    FilterView content_city_filte_view3; //筛选条件内容，游玩天数
+    @BindView(R.id.city_filter_view)
+    CityFilterView cityFilterView; //选择筛选项
+    @BindView(R.id.city_list_listview)
+    RecyclerView recyclerView; //筛选线路列表
 
-    @BindView(R.id.city_list_empty_layout)
-    LinearLayout emptyLayout;
-    @BindView(R.id.city_list_empty_iv)
-    ImageView emptyIV;
-    @BindView(R.id.city_list_empty_hint_tv)
-    TextView emptyHintTV;
-
-    @BindView(R.id.city_list_service_layout)
-    LinearLayout serviceLayout;
-    @BindView(R.id.city_list_service_hint_tv)
-    TextView serviceHintTV;
-
-    public CityListActivity.Params paramsData;
-    private CityListAdapter cityListAdapter;
-    private CountryGroupBean countryGroupBean;
-    private CityListBean cityListBean;
-    CsDialog csDialog;
     boolean isFromHome;
     boolean isFromDestination;
-    public enum CityHomeType {
-        CITY, ROUTE, COUNTRY, ALL
-    }
 
-    public static class Params implements Serializable {
-        public int id;
-        public CityListActivity.CityHomeType cityHomeType;
-        public String titleName;
-    }
+    DestinationHomeVo data; //目的地初始化数据
+    CityDataTools cityDataTools;
+
+    LabelBean labelBeanTag; //筛选项游玩线路标签
+    LabelBean labelBeanCity; //筛选项出发城市
+    LabelBean labelBeanDay; //筛选项游玩天数
+
+    List<LabelItemData> labels; //标签初始化数据
+    CityAdapter adapter;
+    private int page = 1; //sku页数
 
     @Override
     public int getContentViewId() {
-        return R.layout.activity_city_list;
+        return R.layout.activity_city;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.topbar_back);
         if (savedInstanceState != null) {
             paramsData = (CityListActivity.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
@@ -111,10 +99,34 @@ public class CityListActivity extends BaseActivity {
                 paramsData = (CityListActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
+        cityDataTools = new CityDataTools();
         EventBus.getDefault().register(this);
-        isFromHome = getIntent().getBooleanExtra("isFromHome",false);
-        isFromDestination = getIntent().getBooleanExtra("isFromDestination",false);
-        initView();
+        isFromHome = getIntent().getBooleanExtra("isFromHome", false);
+        isFromDestination = getIntent().getBooleanExtra("isFromDestination", false);
+
+        //监听筛选项变化
+        cityFilterView.setFilterSeeListener(filterSeeListener);
+
+        //初始化首页内容
+        paramsData.id = 1; //TODO remove
+        paramsData.cityHomeType = COUNTRY; //TODO remove
+        RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
+        HttpRequestUtils.request(this, requestCity, this);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); //展示线路数据
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!recyclerView.canScrollVertically(1) && dy > 0) {
+                    // 滚动到底部加载更多
+                    page++;
+                    flushSkuList();
+                }
+            }
+        });
     }
 
     @Override
@@ -126,262 +138,313 @@ public class CityListActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        GiftController.getInstance(this).showGiftDialog();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        GiftController.getInstance(this).abortion();
-    }
-
-    protected void initTitleBar() {
-        initDefaultTitleBar();
-        fgTitle.setText(paramsData.titleName);
-        fgTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.share_unfold, 0);
-        fgTitle.setCompoundDrawablePadding(UIUtils.dip2px(3));
-        if (paramsData.cityHomeType == CityListActivity.CityHomeType.CITY) {
-            titlebar.setBackgroundColor(0x00000000);
-            titlebarBottomLineView.setBackgroundColor(0x00000000);
-            fgTitle.setAlpha(0);
-            fgLeftBtn.setAlpha(0);
-            backLayout.setVisibility(View.VISIBLE);
-        } else {
-            backLayout.setVisibility(View.GONE);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-            params.topMargin = UIUtils.getActionBarSize();
-            recyclerView.setLayoutParams(params);
-        }
-        fgTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, ChooseCityNewActivity.class);
-                intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
-                intent.putExtra("isHomeIn", false);
-                intent.putExtra("source", getEventSource());
-                context.startActivity(intent);
-            }
-        });
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        setSensorsViewCityEndEvent();
     }
 
-    public void initView() {
-        initTitleBar();
-        cityListAdapter = new CityListAdapter();
-        cityListAdapter.setData(paramsData);
-        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(cityListAdapter);
-        requestCityList();
-        setOnScrollListener();
-        setSensorsViewCityBeginEvent();
-        SensorsUtils.setPageEvent(getEventSource(),null,getIntentSource());
+    /**
+     * 设置筛选项数据
+     */
+    private void flushFilterData(DestinationHomeVo data) {
+        //游玩线路数据
+        labels = cityDataTools.getTagData(data.destinationTagGroupList);
+        content_city_filte_view1.setData(labels, onSelectListener1);
+        //出发城市数据
+        content_city_filte_view2.setData(cityDataTools.getCityData(data.depCityList), onSelectListener2);
+        //游玩天数数据
+        content_city_filte_view3.setData(cityDataTools.getDayData(data.dayCountList), onSelectListener3);
     }
 
-    public void setOnScrollListener() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (paramsData.cityHomeType == CityHomeType.CITY && cityListAdapter.cityListHeaderModel != null) {
-                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                    int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
-                    int scrollY = Math.abs(recyclerView.getChildAt(0).getTop());
-                    float showRegionHight = cityListAdapter.cityListHeaderModel.getDisplayLayoutHeight() / 2.0f;
-                    if (firstVisibleItemPosition == 0 && scrollY <= showRegionHight) {
-                        float alpha;
-                        if (scrollY <= 0) {
-                            alpha = 0.0f;
-                        } else {
-                            alpha = Math.min(1, scrollY / showRegionHight);
-                        }
-                        titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
-                        titlebarBottomLineView.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFFE5E5E5));
-                        backLayout.setAlpha(1 - alpha);
-                        fgLeftBtn.setAlpha(alpha);
-                        fgTitle.setAlpha(0);
-                        fgTitle.setEnabled(false);
-                    } else {
-                        showTitleBar();
-                    }
-                }
+    /**
+     * 游玩线路标签选中处理
+     */
+    FilterView.OnSelectListener onSelectListener1 = new FilterView.OnSelectResultListener() {
+        @Override
+        public void onParentSelect(FilterView filterView, LabelBean labelBean) {
+            super.onParentSelect(filterView, labelBean);
+            //关联重设，两个Tag布局内容
+            if (filterView == content_city_filte_view1) {
+                adapter.setSelectIds(filterView.getSelectIds());
+            } else {
+                content_city_filte_view1.setSelectIds(filterView.getSelectIds());
             }
-        });
+            // 关联城市联动
+            linkCity(labelBean);
+        }
+
+        @Override
+        public void onSelect(FilterView filterView, LabelBean labelBean) {
+            content_city_filte_view1.hide();
+            cityFilterView.clear();
+            labelBeanTag = labelBean;
+            //关联重设，两个Tag布局内容
+            if (filterView == content_city_filte_view1) {
+                adapter.setSelectIds(filterView.getSelectIds());
+            } else {
+                content_city_filte_view1.setSelectIds(filterView.getSelectIds());
+            }
+            page = 1; //筛选条件后重置页数为首页
+            flushSkuList();
+            cityFilterView.setTextTag(labelBean.name);
+            // 关联城市联动
+            linkCity(labelBean);
+        }
+    };
+
+    /**
+     * 关联城市联动
+     *
+     * @param labelBean
+     */
+    private void linkCity(LabelBean labelBean) {
+        content_city_filte_view2.setEnableClickIds(cityDataTools.getDepCityIds(labelBean.depIdSet));
     }
 
-    private void showTitleBar() {
-        titlebar.setBackgroundColor(0xFFFFFFFF);
-        titlebarBottomLineView.setBackgroundColor(0xFFE5E5E5);
-        fgTitle.setEnabled(true);
-        fgTitle.setAlpha(1);
-        fgLeftBtn.setAlpha(1);
-        backLayout.setAlpha(0);
+    /**
+     * 关联标签联动
+     *
+     * @param labelBean
+     */
+    private void linkTag(LabelBean labelBean) {
+        content_city_filte_view1.setEnableClickIds(cityDataTools.getDepTagIds(data.destinationTagGroupList, labelBean.id));
     }
 
-    public void requestCityList() {
-        BaseRequest baseRequest = null;
-        switch (paramsData.cityHomeType) {
-            case CITY:
-                baseRequest = new RequestCityHomeList(this, "" + paramsData.id);
-                break;
-            case ROUTE:
-                baseRequest = new RequestCountryGroup(this, paramsData.id, "1");
-                break;
-            case COUNTRY:
-                baseRequest = new RequestCountryGroup(this, paramsData.id, "2");
+    /**
+     * 出发城市选中处理
+     */
+    FilterView.OnSelectListener onSelectListener2 = new FilterView.OnSelectResultListener() {
+        @Override
+        public void onSelect(FilterView filterView, LabelBean labelBean) {
+            content_city_filte_view2.hide();
+            cityFilterView.clear();
+            labelBeanCity = labelBean;
+            page = 1; //筛选条件后重置页数为首页
+            flushSkuList();
+            cityFilterView.setTextCity(labelBean.name);
+            linkTag(labelBean);
+        }
+    };
+
+    /**
+     * 游玩天数选中处理
+     */
+    FilterView.OnSelectListener onSelectListener3 = new FilterView.OnSelectResultListener() {
+        @Override
+        public void onSelect(FilterView filterView, LabelBean labelBean) {
+            cityFilterView.clear();
+            content_city_filte_view3.hide();
+            labelBeanDay = labelBean;
+            page = 1; //筛选条件后重置页数为首页
+            flushSkuList();
+            cityFilterView.setTextDay(labelBean.name);
+        }
+    };
+
+    /**
+     * 根据条件筛选玩法
+     */
+    private void flushSkuList() {
+        RequestQuerySkuList requestQuerySkuList = new RequestQuerySkuList(this, paramsData.id,
+                paramsData.cityHomeType.getType(), labelBeanDay != null ? labelBeanDay.id : "0",
+                labelBeanTag != null ? labelBeanTag.id : "0", labelBeanCity != null ? labelBeanCity.id : "0", page);
+        HttpRequestUtils.request(this, requestQuerySkuList, this, page == 1);
+    }
+
+    @OnClick({R.id.city_toolbar_title})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.city_toolbar_title:
+                //点击标题
+                Intent intent = new Intent(this, ChooseCityNewActivity.class);
+                intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
+                intent.putExtra("isHomeIn", false);
+                intent.putExtra("source", getEventSource());
+                startActivity(intent);
                 break;
         }
-        requestData(baseRequest);
     }
 
-    public void requestGuideList() {
-        RequestFilterGuide.Builder builder = new RequestFilterGuide.Builder();
-        switch (paramsData.cityHomeType) {
-            case CITY:
-                builder.setCityIds("" + paramsData.id);
-                break;
-            case ROUTE:
-                builder.setLineGroupId("" + paramsData.id);
-                break;
-            case COUNTRY:
-                builder.setCountryId("" + paramsData.id);
-                break;
-        }
-        builder.setLimit(GUIDE_LIST_COUNT);
-        requestData(new RequestFilterGuide(this, builder));
-    }
-    FilterGuideListBean filterGuideListBean;
     @Override
-    public void onDataRequestSucceed(BaseRequest _request) {
-        super.onDataRequestSucceed(_request);
-        if (_request instanceof RequestCityHomeList) {
-            cityListBean = ((RequestCityHomeList) _request).getData();
-            boolean isCanService = cityListBean != null && cityListBean.isCanService();
-            if (isCanService) {
-                setEmptyLayout(false, true);
-                cityListAdapter.setCityData(cityListBean);
-                fgTitle.setText(cityListBean.cityContent.cityName);
-                requestGuideList();
-            } else {
-                setEmptyLayout(true, true);
-            }
-            if(UserEntity.getUser().isLogin(this)){
-                FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this,UserEntity.getUser().getUserId(this));
-                HttpRequestUtils.request(this,favoriteLinesaved,this,false);
-            }
-        } else if (_request instanceof RequestCountryGroup) {
-            setEmptyLayout(false, true);
-            countryGroupBean = ((RequestCountryGroup) _request).getData();
-            if (!countryGroupBean.isEmpty()) {
-                cityListAdapter.setCountryGroupData(countryGroupBean);
-            }
-            if(UserEntity.getUser().isLogin(this)){
-                FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this,UserEntity.getUser().getUserId(this));
-                HttpRequestUtils.request(this,favoriteLinesaved,this,false);
-            }
-            requestGuideList();
-        } else if (_request instanceof RequestFilterGuide) {
-            filterGuideListBean = ((RequestFilterGuide) _request).getData();
-            if (paramsData.cityHomeType != CityHomeType.CITY && (countryGroupBean == null || countryGroupBean.isEmpty()) && filterGuideListBean.listCount == 0) {
-                setEmptyLayout(true, true);
-            } else {
-                setEmptyLayout(false, true);
-            }
-            if (paramsData.cityHomeType == CityHomeType.CITY
-                    && filterGuideListBean.listCount == 0
-                    && cityListBean != null
-                    && (cityListBean.hotLines == null || cityListBean.hotLines.size() <= 0)) {
-                CityBean cityBean = DatabaseManager.getCityBean("" + paramsData.id);
-                if (cityBean != null && !TextUtils.isEmpty(cityBean.placeName)) {
-                    serviceLayout.setVisibility(View.VISIBLE);
-                    serviceHintTV.setText(String.format("定制个性化行程，可咨询%1$s行程规划师", cityBean.placeName));
-                }
-            }
-            if(UserEntity.getUser().isLogin(this)){
-                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),null);
-                HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
-            }
-            cityListAdapter.setGuideListData(this,filterGuideListBean.listData, filterGuideListBean.listCount);
-        }else if (_request instanceof FavoriteGuideSaved){
-            if(_request.getData() instanceof UserFavoriteGuideListVo3){
-                for(int j=0;j<filterGuideListBean.listData.size();j++){
-                    filterGuideListBean.listData.get(j).isCollected = 0;
-                }
-                UserFavoriteGuideListVo3 favoriteGuideSavedBean = (UserFavoriteGuideListVo3)_request.getData();
-                for(int i=0 ;i< favoriteGuideSavedBean.guides.size();i++){
-                    for(int j=0;j<filterGuideListBean.listData.size();j++){
-                        if(favoriteGuideSavedBean.guides.get(i).equals(filterGuideListBean.listData.get(j).guideId)){
-                            filterGuideListBean.listData.get(j).isCollected = 1;
-                        }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_city, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Snackbar.make(toolbar, "点击了联系方式按钮！！！", Snackbar.LENGTH_SHORT).show();
+        } else if (id == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    CityFilterView.FilterSeeListener filterSeeListener = new CityFilterView.FilterSeeListener() {
+        @Override
+        public void onShowFilter(int position, boolean isSelect) {
+            clearContentCityFilteViews();
+            switch (position) {
+                case 0:
+                    if (content_city_filte_view1 != null) {
+                        content_city_filte_view1.setVisibility(isSelect ? View.VISIBLE : View.GONE);
                     }
-                }
-                cityListAdapter.notifyDataSetChanged();
+                    break;
+                case 1:
+                    if (content_city_filte_view2 != null) {
+                        content_city_filte_view2.setVisibility(isSelect ? View.VISIBLE : View.GONE);
+                    }
+                    break;
+                case 2:
+                    if (content_city_filte_view3 != null) {
+                        content_city_filte_view3.setVisibility(isSelect ? View.VISIBLE : View.GONE);
+                    }
+                    break;
             }
+        }
+    };
 
-        }else if(_request instanceof FavoriteLinesaved){
-            if(_request.getData() instanceof UserFavoriteLineList){
-                if(countryGroupBean!= null){
-                    //国家页深度线路
-                    if(countryGroupBean.deepLines != null && countryGroupBean.deepLines.size() >0){
-                        for(int m = 0;m< countryGroupBean.deepLines.size();m++){
-                            countryGroupBean.deepLines.get(m).favorited = 0;
-                        }
-                        UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) _request.getData();
-                        for(int n = 0;n<userFavoriteLineList.goodsNos.size();n++){
-                            for(int q=0;q<countryGroupBean.deepLines.size();q++){
-                                if(userFavoriteLineList.goodsNos.get(n).equals(countryGroupBean.deepLines.get(q).goodsNo)){
-                                    countryGroupBean.deepLines.get(q).favorited =1;
-                                }
-                            }
-                        }
-                    }
+    private void clearContentCityFilteViews() {
+        if (content_city_filte_view1 != null) {
+            content_city_filte_view1.setVisibility(View.GONE);
+        }
+        if (content_city_filte_view2 != null) {
+            content_city_filte_view2.setVisibility(View.GONE);
+        }
+        if (content_city_filte_view3 != null) {
+            content_city_filte_view3.setVisibility(View.GONE);
+        }
+    }
 
-                    //国家页浅度线路
-                    if(countryGroupBean.shortLines != null && countryGroupBean.shortLines.size()>0){
-                        for(int m = 0;m< countryGroupBean.shortLines.size();m++){
-                            countryGroupBean.shortLines.get(m).favorited = 0;
-                        }
-                        UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) _request.getData();
-                        for(int n = 0;n<userFavoriteLineList.goodsNos.size();n++){
-                            for(int q=0;q<countryGroupBean.shortLines.size();q++){
-                                if(userFavoriteLineList.goodsNos.get(n).equals(countryGroupBean.shortLines.get(q).goodsNo)){
-                                    countryGroupBean.shortLines.get(q).favorited =1;
-                                }
-                            }
-                        }
-                    }
 
+    /**************** Old codes *****************************/
+    public static final int GUIDE_LIST_COUNT = 8;//精选司导显示的条数
+
+    public enum CityHomeType {
+        CITY(202), ROUTE(101), COUNTRY(201), ALL(0);
+
+        int type;
+
+        CityHomeType(int i) {
+            this.type = i;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+    }
+
+    public static class Params implements Serializable {
+        public int id;
+        public CityListActivity.CityHomeType cityHomeType;
+        public String titleName;
+    }
+
+    public CityListActivity.Params paramsData;
+
+    public boolean isShowCity() {
+        if (paramsData.cityHomeType == CityHomeType.ROUTE || paramsData.cityHomeType == COUNTRY) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CLICK_USER_LOGIN:
+                StringBuilder tempUploadGuilds = new StringBuilder();
+                String uploadGuilds = "";
+//                if(filterGuideListBean != null && filterGuideListBean.listData != null && filterGuideListBean.listData.size() > 0){
+//                    for (FilterGuideBean guild : filterGuideListBean.listData) {
+//                        tempUploadGuilds.append(guild.guideId).append(",");
+//                    }
+//                    if (tempUploadGuilds.length() > 0) {
+//                        if (tempUploadGuilds.charAt(tempUploadGuilds.length() - 1) == ',') {
+//                            uploadGuilds = (String) tempUploadGuilds.subSequence(0, tempUploadGuilds.length() - 1);
+//                        }
+//                    }
+//                    Log.d("uploadGuilds",uploadGuilds.toString());
+//                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this, UserEntity.getUser().getUserId(this),uploadGuilds);
+//                    HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
+//                }
+                break;
+            case CLICK_USER_LOOUT:
+//                if(filterGuideListBean!= null){
+//                    for(int i=0;i<filterGuideListBean.listData.size();i++){
+//                        filterGuideListBean.listData.get(i).isCollected = 0;
+//                    }
+//                    cityListAdapter.notifyDataSetChanged();
+//                }
+                break;
+            case ORDER_DETAIL_UPDATE_COLLECT:
+                //查询已收藏司导
+                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this, UserEntity.getUser().getUserId(this), null);
+                HttpRequestUtils.request(this, favoriteGuideSaved, this, false);
+                break;
+            case LINE_UPDATE_COLLECT:
+                //查询已收藏线路
+                if (UserEntity.getUser().isLogin(this)) {
+                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this, UserEntity.getUser().getUserId(this));
+                    HttpRequestUtils.request(this, favoriteLinesaved, this, false);
                 }
+        }
+    }
 
-                //城市页热门线路
-                if(cityListBean!= null){
-                    if(cityListBean.hotLines!= null && cityListBean.hotLines.size()>0){
-                        for(int x=0;x<cityListBean.hotLines.size();x++){
-                            cityListBean.hotLines.get(x).favorited = 0;
-                        }
-                        UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) _request.getData();
-                        for(int n = 0;n<userFavoriteLineList.goodsNos.size();n++){
-                            for(int q=0;q<cityListBean.hotLines.size();q++){
-                                if(userFavoriteLineList.goodsNos.get(n).equals(cityListBean.hotLines.get(q).goodsNo)){
-                                    cityListBean.hotLines.get(q).favorited =1;
-                                }
-                            }
-                        }
-                    }
-
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
+        if (request instanceof RequestCity) {
+            //首页初始化数据
+            data = ((RequestCity) request).getData();
+            if (data != null) {
+                //修改标题
+                city_toolbar_title.setText(data.destinationName);
+                if (city_header_filter_img_root != null) {
+                    city_header_filter_img_root.init(this, data);
                 }
-                cityListAdapter.notifyDataSetChanged();
+                //设置标签部分
+                flushFilterData(data);
+                // 设置玩法列表初始化数据
+                if (data.destinationGoodsList != null && data.destinationGoodsList.size() > 0) {
+                    flushSkuList(data.destinationGoodsList);
+                } else {
+                    page = 1; //无条件查询玩法
+                    flushSkuList();
+                }
             }
+        } else if (request instanceof RequestQuerySkuList) {
+            //条件筛选玩法
+            flushSkuList((List<DestinationGoodsVo>) request.getData());
+        }
+    }
+
+    /**
+     * 设置玩法列表数据
+     *
+     * @param destinationGoodsList
+     */
+    private void flushSkuList(List<DestinationGoodsVo> destinationGoodsList) {
+        if (adapter == null) {
+            adapter = new CityAdapter(this, destinationGoodsList, data.serviceConfigList, labels, onSelectListener1);
+            recyclerView.setAdapter(adapter);
+        }
+        if (page == 1) {
+            adapter.load(destinationGoodsList);
+        } else {
+            adapter.addMoreGoods(destinationGoodsList);
         }
     }
 
@@ -396,12 +459,7 @@ public class CityListActivity extends BaseActivity {
     @Override
     public String getEventSource() {
         String result = "";
-        /*if(isFromHome){
-            return "全局搜索";
-        }else if(isFromDestination){
-            return "目的地搜索";
-        }*/
-        if(paramsData!= null){
+        if (paramsData != null) {
             switch (paramsData.cityHomeType) {
                 case CITY:
                     result = "城市";
@@ -417,128 +475,41 @@ public class CityListActivity extends BaseActivity {
         return result;
     }
 
-    @Override
-    protected String getPageTitle() {
-        return paramsData != null ? paramsData.titleName : "";
+    /**
+     * 打开更多司导界面
+     */
+    public void clickMoreGuide() {
+        Intent intent = new Intent(this, FilterGuideListActivity.class);
+        if (paramsData != null) {
+            FilterGuideListActivity.Params params = new FilterGuideListActivity.Params();
+            params.id = paramsData.id;
+            params.cityHomeType = paramsData.cityHomeType;
+            params.titleName = paramsData.titleName;
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        }
+        startActivity(intent);
     }
 
     private void setEmptyLayout(boolean isShow, boolean isDataNull) {
-        emptyLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
-        if (!isShow) {
-            return;
-        }
-        if (isDataNull) {
-            emptyIV.setBackgroundResource(R.drawable.empty_city);
-            emptyHintTV.setText("很抱歉该地区还未开通服务");
-            emptyLayout.setEnabled(false);
-        } else {
-            emptyIV.setBackgroundResource(R.drawable.empty_wifi);
-            emptyHintTV.setText("似乎与网络断开，点击屏幕重试");
-            emptyLayout.setEnabled(true);
-            emptyLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    requestCityList();
-                }
-            });
-        }
-        showTitleBar();
-    }
-
-    public boolean isShowCity() {
-        if (paramsData.cityHomeType == CityHomeType.ROUTE || paramsData.cityHomeType == CityHomeType.COUNTRY) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @OnClick(R.id.city_list_service_tv)
-    public void showServiceDialog() {
-        //DialogUtil.showServiceDialog(CityListActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-        csDialog = CommonUtils.csDialog(CityListActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
-            @Override
-            public void onCs() {
-                if (csDialog != null && csDialog.isShowing()) {
-                    csDialog.dismiss();
-                }
-            }
-        });
-    }
-
-    @Subscribe
-    public void onEventMainThread(EventAction action) {
-        switch (action.getType()) {
-            case CLICK_USER_LOGIN:
-                StringBuilder tempUploadGuilds = new StringBuilder();
-                String uploadGuilds = "";
-                if(filterGuideListBean != null && filterGuideListBean.listData != null && filterGuideListBean.listData.size() > 0){
-                    for (FilterGuideBean guild : filterGuideListBean.listData) {
-                        tempUploadGuilds.append(guild.guideId).append(",");
-                    }
-                    if (tempUploadGuilds.length() > 0) {
-                        if (tempUploadGuilds.charAt(tempUploadGuilds.length() - 1) == ',') {
-                            uploadGuilds = (String) tempUploadGuilds.subSequence(0, tempUploadGuilds.length() - 1);
-                        }
-                    }
-                    Log.d("uploadGuilds",uploadGuilds.toString());
-                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),uploadGuilds);
-                    HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
-                }
-                break;
-            case CLICK_USER_LOOUT:
-                if(filterGuideListBean!= null){
-                    for(int i=0;i<filterGuideListBean.listData.size();i++){
-                        filterGuideListBean.listData.get(i).isCollected = 0;
-                    }
-                    cityListAdapter.notifyDataSetChanged();
-                }
-                break;
-            case ORDER_DETAIL_UPDATE_COLLECT:
-                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),null);
-                HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
-                break;
-            case LINE_UPDATE_COLLECT:
-                if(UserEntity.getUser().isLogin(this)){
-                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this,UserEntity.getUser().getUserId(this));
-                    HttpRequestUtils.request(this,favoriteLinesaved,this,false);
-                }
-        }
-    }
-
-    private void setSensorsViewCityBeginEvent() {
-        try {
-            SensorsDataAPI.sharedInstance(this).trackTimerBegin("viewCity");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //神策统计_浏览城市/国家页
-    private void setSensorsViewCityEndEvent() {
-        if (paramsData == null) {
-            return;
-        }
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("refer", getIntentSource());
-            switch (paramsData.cityHomeType) {
-                case CITY:
-                    properties.put("cityId", paramsData.id);
-                    properties.put("cityName", paramsData.titleName);
-                    break;
-                case ROUTE:
-                    properties.put("lineGroupId", paramsData.id);
-                    properties.put("lineGroupName", paramsData.titleName);
-                    break;
-                case COUNTRY:
-                    properties.put("countryId", paramsData.id);
-                    properties.put("countryName", paramsData.titleName);
-                    break;
-            }
-            SensorsDataAPI.sharedInstance(this).trackTimerEnd("viewCity", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        emptyLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
+//        if (!isShow) {
+//            return;
+//        }
+//        if (isDataNull) {
+//            emptyIV.setBackgroundResource(R.drawable.empty_city);
+//            emptyHintTV.setText("很抱歉该地区还未开通服务");
+//            emptyLayout.setEnabled(false);
+//        } else {
+//            emptyIV.setBackgroundResource(R.drawable.empty_wifi);
+//            emptyHintTV.setText("似乎与网络断开，点击屏幕重试");
+//            emptyLayout.setEnabled(true);
+//            emptyLayout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    requestCityList();
+//                }
+//            });
+//        }
     }
 }

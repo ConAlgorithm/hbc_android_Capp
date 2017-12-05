@@ -1,4 +1,5 @@
 package com.hugboga.custom.data.parser;
+
 import android.text.TextUtils;
 
 import com.google.gson.reflect.TypeToken;
@@ -23,7 +24,7 @@ public class HbcParser extends ImplParser {
     private String url;
 
     public HbcParser(String _url, Type _type) {
-        this.url =_url;
+        this.url = _url;
         this.type = _type;
     }
 
@@ -31,7 +32,7 @@ public class HbcParser extends ImplParser {
     public Object parse(Type resultType, Class<?> resultClass, String result) throws Throwable {
         JSONObject jsonObject = new JSONObject(result);
         Object data = getServerParser().parseObject(jsonObject);
-        if (TextUtils.isEmpty(data.toString())) {
+        if (TextUtils.isEmpty(data.toString()) || "{}".equals(data.toString())) {
             return null;
         }
         if (data instanceof JSONArray) {

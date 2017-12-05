@@ -167,6 +167,11 @@
         <attr name="isHideArrow" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="TabView">
+        <attr name="text" format="string" />
+        <attr name="selected" format="boolean" />
+    </declare-styleable>
+
     <declare-styleable name="RecyclerViewPager">
         <attr name="rvp_triggerOffset" format="float" />
         <attr name="rvp_flingFactor" format="float" />
