@@ -414,7 +414,12 @@ public class CityActivity extends BaseActivity {
                     city_header_filter_img_root.init(this, data);
                 }
                 //设置标签部分
-                flushFilterData(data);
+                if (data.destinationGoodsCount > 0) {
+                    cityFilterView.setVisibility(View.VISIBLE);
+                    flushFilterData(data);
+                } else {
+                    cityFilterView.setVisibility(View.GONE);
+                }
                 // 设置玩法列表初始化数据
                 if (data.destinationGoodsList != null && data.destinationGoodsList.size() > 0) {
                     flushSkuList(data.destinationGoodsList);
@@ -436,7 +441,8 @@ public class CityActivity extends BaseActivity {
      */
     private void flushSkuList(List<DestinationGoodsVo> destinationGoodsList) {
         if (adapter == null) {
-            adapter = new CityAdapter(this, destinationGoodsList, data.serviceConfigList, labels, onSelectListener1);
+            adapter = new CityAdapter(this, destinationGoodsList, data.serviceConfigList,
+                    labels, onSelectListener1);
             recyclerView.setAdapter(adapter);
         }
         if (page == 1) {
