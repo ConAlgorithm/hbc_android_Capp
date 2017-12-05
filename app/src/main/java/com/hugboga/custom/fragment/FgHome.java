@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -22,14 +23,12 @@ import com.hugboga.custom.data.bean.HomeTopBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestHomeTop;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.home.HomeRefreshHeader;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -49,7 +48,7 @@ import butterknife.OnClick;
  * Created by qingcha on 17/11/22.
  */
 
-public class FgHome extends BaseFragment{
+public class FgHome extends BaseFragment {
 
 
     @BindView(R.id.home_refresh_layout)
@@ -144,7 +143,7 @@ public class FgHome extends BaseFragment{
                     float progress = ((scrollY - bannerHalfHeight) / bannerHalfHeight);
                     homeAdapter.homeAiModel.homeAIView.setProgress(progress);
                     titlebarAiIV.setVisibility(View.GONE);
-                    Log.i("aa","homeAiModel " + scrollY + "   bannerHeight " + ((scrollY - bannerHalfHeight) / bannerHalfHeight));
+                    Log.i("aa", "homeAiModel " + scrollY + "   bannerHeight " + ((scrollY - bannerHalfHeight) / bannerHalfHeight));
                 } else if (firstVisibleItemPosition > 1) {
                     titlebarAiIV.setVisibility(View.VISIBLE);
                 } else {
@@ -186,6 +185,11 @@ public class FgHome extends BaseFragment{
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, getEventSource());
     }
 
+    @OnClick(R.id.homed_titlebar_ai_iv)
+    public void aiClickActivity() {
+        startActivity(new Intent(getContext(), FakeAIActivity.class));
+    }
+
     @Override
     public String getEventSource() {
         return "首页";
@@ -216,8 +220,8 @@ public class FgHome extends BaseFragment{
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 if (homeBean != null && homeBean.hotAlbumList != null && homeBean.hotAlbumList.size() > 0) {
-                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(),UserEntity.getUser().getUserId(getContext()));
-                    HttpRequestUtils.request(getContext(),favoriteLinesaved,this,false);
+                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(), UserEntity.getUser().getUserId(getContext()));
+                    HttpRequestUtils.request(getContext(), favoriteLinesaved, this, false);
                 }
                 break;
             case CLICK_USER_LOOUT:
@@ -247,12 +251,12 @@ public class FgHome extends BaseFragment{
             }
         }
         //所有线路的收藏状态同步在此
-        if(_request.getData() instanceof UserFavoriteLineList) {
+        if (_request.getData() instanceof UserFavoriteLineList) {
             UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) _request.getData();
             for (int o = 0; o < userFavoriteLineList.goodsNos.size(); o++) {
                 for (int k = 0; k < homeBean.hotAlbumList.size(); k++) {
                     int itemSize = homeBean.hotAlbumList.get(k).albumRelItemList.size();
-                    for (int m = 0; m < itemSize; m++ ) {
+                    for (int m = 0; m < itemSize; m++) {
                         if (TextUtils.equals(userFavoriteLineList.goodsNos.get(o), homeBean.hotAlbumList.get(k).albumRelItemList.get(m).goodsNo)) {
                             homeBean.hotAlbumList.get(k).albumRelItemList.get(m).isCollected = 1;
                         }
@@ -266,7 +270,7 @@ public class FgHome extends BaseFragment{
     public void requestFavoriteLinesaved() {
         if (UserEntity.getUser().isLogin(getContext())) {
             FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(), UserEntity.getUser().getUserId(getContext()));
-            HttpRequestUtils.request(getContext(),favoriteLinesaved, this, false);
+            HttpRequestUtils.request(getContext(), favoriteLinesaved, this, false);
         }
     }
 

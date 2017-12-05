@@ -1,19 +1,18 @@
 package com.hugboga.custom.models;
 
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
-import com.hugboga.custom.data.bean.FakeAIBean;
 
 /**
  * Created by Administrator on 2017/12/2.
  */
 
 public class FakeAIItemOneModel extends EpoxyModel<RelativeLayout> {
-    private FakeAIBean fakeAIBean;
+
+    private String fakeAIBean;
 
     @Override
     protected int getDefaultLayout() {
@@ -24,9 +23,10 @@ public class FakeAIItemOneModel extends EpoxyModel<RelativeLayout> {
     public void bind(RelativeLayout view) {
         super.bind(view);
         TextView textView = (TextView) view.findViewById(R.id.fake_item1_text);
-        textView.setText(fakeAIBean.DuoDuoSaid.questionValue);
+        textView.setText(fakeAIBean);
     }
-    public void setData(FakeAIBean fakeAIBean) {
+
+    public void setData(String fakeAIBean) {
         this.fakeAIBean = fakeAIBean;
     }
 }

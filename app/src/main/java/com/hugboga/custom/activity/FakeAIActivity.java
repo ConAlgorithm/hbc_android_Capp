@@ -1,47 +1,43 @@
 package com.hugboga.custom.activity;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.CalendarContract;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FakeAIAdapter;
-import com.hugboga.custom.data.bean.FakeAIBean;
+import com.hugboga.custom.data.bean.ai.DuoDuoSaid;
+import com.hugboga.custom.data.bean.ai.FakeAIArrayBean;
+import com.hugboga.custom.data.bean.ai.FakeAIBean;
+import com.hugboga.custom.data.bean.ai.FakeAIQuestionsBean;
+import com.hugboga.custom.data.bean.ai.AiRequestInfo;
 import com.hugboga.custom.data.request.RaqustFakeAI;
+import com.hugboga.custom.data.request.RequsetFakeAIChange;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
+import com.hugboga.custom.widget.ai.AiTagView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static android.view.View.GONE;
 
 /**
  * Created by Administrator on 2017/11/28.
  */
 
 public class FakeAIActivity extends BaseActivity {
-
 
     @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
@@ -63,15 +59,9 @@ public class FakeAIActivity extends BaseActivity {
     HorizontalScrollView horizontalScrollView;
     @BindView(R.id.edit_text)
     EditText editText;
-    private  FakeAIAdapter fakeAIAdapter;
 
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            fakeData();
-        }
-    };
+    private FakeAIAdapter fakeAIAdapter;
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_fake_ai;
@@ -95,8 +85,6 @@ public class FakeAIActivity extends BaseActivity {
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-
-
             }
         });
         //点击了退出软件盘调用。。。没效果
@@ -115,7 +103,6 @@ public class FakeAIActivity extends BaseActivity {
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
                 if (editText.getText().toString().equals("") || editText.getText().toString().equals(null))
                     return false;
                 collapseSoftInputMethod(editText);
@@ -126,25 +113,18 @@ public class FakeAIActivity extends BaseActivity {
         });
         //handler.sendEmptyMessageDelayed(0,3000);
     }
-    public  void  fakeData(){
-        FakeAIBean fakeAIBean =  new FakeAIBean();
-        fakeAIAdapter.setData_All(fakeAIBean);
+
+    public void fakeData(List<FakeAIArrayBean> hotDestinationReqList) {
         editTextExist();
-        ArrayList list = new ArrayList<>();
-        list.add("东京");
-        list.add("悉尼");
-        list.add("纽约");
-        list.add("伦敦");
-        list.add("海南");
-        list.add("土耳其");
-        addScrollViewItem(list);
+        if (hotDestinationReqList != null && hotDestinationReqList.size() > 0) {
+            addScrollViewItem(hotDestinationReqList);
+        }
     }
+
     private void addClientData(String data) {
-
-        fakeAIAdapter.setData_ItemTwo(data);
-
+        fakeAIAdapter.addMyselfMessage(data);
+        requestSelf(null, data);
     }
-
 
     @OnClick({R.id.header_left_btn, R.id.edit_text})
     public void onClick(View view) {
@@ -153,25 +133,44 @@ public class FakeAIActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.edit_text:
-
                 break;
-
         }
     }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
-
         if (request instanceof RaqustFakeAI) {
-            final FakeAIBean dataList = (FakeAIBean) request.getData();
+            FakeAIBean dataList = (FakeAIBean) request.getData();
             if (dataList != null) {
-                Toast.makeText(FakeAIActivity.this,dataList.toString(),Toast.LENGTH_SHORT);
+                initTipMessage(dataList);
+                fakeData(dataList.hotDestinationReqList);
+                initServiceMessage(dataList.duoDuoSaid);
+            }
+        } else if (request instanceof RequsetFakeAIChange) {
+            FakeAIQuestionsBean data = ((RequsetFakeAIChange) request).getData();
+            //TODO 问答回复，稍后做处理
+//            fakeData(data.durationReqList);
+            initServiceMessage(data.duoDuoSaid);
+        }
+    }
 
+    /**
+     * 初始化界面信息
+     */
+    private void initTipMessage(FakeAIBean dataList) {
+        fakeAIAdapter.resetHeaderInfo(dataList.hiList); //设置头部信息
+    }
 
-
-            } else {
-
+    /**
+     * 显示服务端问题
+     *
+     * @param duoDuoSaid
+     */
+    private void initServiceMessage(List<DuoDuoSaid> duoDuoSaid) {
+        if (duoDuoSaid != null && duoDuoSaid.size() > 0) {
+            for (DuoDuoSaid bean : duoDuoSaid) {
+                fakeAIAdapter.addServerMessage(bean.questionValue);
             }
         }
     }
@@ -179,7 +178,6 @@ public class FakeAIActivity extends BaseActivity {
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-
     }
 
     @Override
@@ -187,80 +185,67 @@ public class FakeAIActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    private void addScrollViewItem(final ArrayList list) {
+    private void addScrollViewItem(final List<FakeAIArrayBean> list) {
+        scrollViewLinearLayout.removeAllViews();
         for (int i = 0; i < list.size(); i++) {
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            final Button button = new Button(this);
-            layoutParams.leftMargin = 13;
-            layoutParams.rightMargin = 13;
-            button.setLayoutParams(layoutParams);
-            button.setGravity(Gravity.CENTER);
-            button.setText(list.get(i).toString());
-            button.setTextSize(12);
-            button.setTextColor(getResources().getColor(R.color.contacts_letters_color));
-            button.setBackground( getResources().getDrawable(R.drawable.fake_ai_scrollbutton));
-            scrollViewLinearLayout.addView(button);
-            button.setTag(i);
-            button.setOnClickListener(new View.OnClickListener() {
+            AiTagView view = new AiTagView(this);
+            view.init(list.get(i));
+            view.setOnClickListener(new AiTagView.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    scrollViewButtonClick((Integer) button.getTag(), list);
+                public void click(AiTagView view, FakeAIArrayBean bean) {
+                    scrollViewButtonClick(bean);
                 }
             });
+            scrollViewLinearLayout.addView(view);
         }
-
     }
 
-    private void scrollViewButtonClick(int position, ArrayList list) {
-       fakeAIAdapter.setData_ItemTwo((String) list.get(position));
-       editTextOver();
+    private void scrollViewButtonClick(FakeAIArrayBean bean) {
+        fakeAIAdapter.addMyselfMessage(bean.destinationName);
+        editTextOver();
+        requestSelf(bean, null);
     }
-    private  void editTextOver(){
+
+    private void editTextOver() {
         horizontalScrollView.setVisibility(View.INVISIBLE);
         editText.setFocusable(false);
         editText.setText("");
         editText.setBackground(getResources().getDrawable(R.drawable.shape_rounded_ai_edit_over));
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm.isActive())
-            collapseSoftInputMethod(editText)
-
-
-       ;
+        if (imm.isActive()) {
+            collapseSoftInputMethod(editText);
+        }
     }
-    private  void editTextExist (){
+
+    private void editTextExist() {
         editText.setFocusable(true);
         editText.setBackground(getResources().getDrawable(R.drawable.shape_rounded_ai_edit));
     }
 
+    /**
+     * 初始化界面信息
+     */
     private void requestHotSearch() {
         RaqustFakeAI requestHotSearch = new RaqustFakeAI(this);
         HttpRequestUtils.request(this, requestHotSearch, this, false);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    /**
+     * 为自己的问题询问答案
+     */
+    private void requestSelf(FakeAIArrayBean bean, String str) {
+        AiRequestInfo info = new AiRequestInfo();
+        if (bean != null) {
+            info.destinationId = String.valueOf(bean.destinationId);
+            info.destinationType = String.valueOf(bean.destinationType);
+            info.destinationName = bean.destinationName;
+            info.guideCount = String.valueOf(bean.guideCount);
+        }
+        if (!TextUtils.isEmpty(str)) {
+            info.userWant = str;
+        }
+        RequsetFakeAIChange requsetFakeAIChange = new RequsetFakeAIChange(this, info);
+        HttpRequestUtils.request(this, requsetFakeAIChange, this, false);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
 
 }

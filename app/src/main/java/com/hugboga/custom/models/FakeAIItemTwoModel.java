@@ -1,18 +1,31 @@
 package com.hugboga.custom.models;
 
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModel;
+import com.airbnb.epoxy.EpoxyModelWithHolder;
+import com.airbnb.epoxy.EpoxyModelWithView;
 import com.hugboga.custom.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
  * Created by Administrator on 2017/12/2.
  */
 
-public class FakeAIItemTwoModel extends EpoxyModel<RelativeLayout> {
-    private String fakeAIBean;
+public class FakeAIItemTwoModel extends EpoxyModelWithHolder<FakeAIItemTwoModel.ChatMessageVH> {
+
+    String fakeStr; //内容
+
+    public FakeAIItemTwoModel(String fakeStr) {
+        this.fakeStr = fakeStr;
+    }
 
     @Override
     protected int getDefaultLayout() {
@@ -20,12 +33,24 @@ public class FakeAIItemTwoModel extends EpoxyModel<RelativeLayout> {
     }
 
     @Override
-    public void bind(RelativeLayout view) {
-        super.bind(view);
-        TextView textView = (TextView) view.findViewById(R.id.fake_item2_text);
-        textView.setText(fakeAIBean);
+    protected ChatMessageVH createNewHolder() {
+        return new ChatMessageVH();
     }
-    public void setData(String fakeAIBean) {
-        this.fakeAIBean = fakeAIBean;
+
+    @Override
+    public void bind(ChatMessageVH holder) {
+        super.bind(holder);
+        holder.textView.setText(fakeStr);
+    }
+
+    class ChatMessageVH extends EpoxyHolder{
+
+        @BindView(R.id.fake_item2_text)
+        TextView textView;
+
+        @Override
+        protected void bindView(View itemView) {
+            ButterKnife.bind(this, itemView);
+        }
     }
 }
