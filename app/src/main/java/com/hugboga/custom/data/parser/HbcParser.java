@@ -3,7 +3,6 @@ import android.text.TextUtils;
 
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.LogUtils;

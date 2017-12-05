@@ -80,7 +80,7 @@ public class MyApplication extends HbcApplication {
         initConfig();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-            CrashReport.initCrashReport(this, "900024779", false);
+//            CrashReport.initCrashReport(this, "900024779", false);
             Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
@@ -304,6 +304,7 @@ public class MyApplication extends HbcApplication {
             } else {
                 option.setChannel(BuildConfig.FLAVOR);
             }
+
             SmAntiFraud.create(getApplicationContext(), option);
         } catch (Exception e) {
             e.printStackTrace();

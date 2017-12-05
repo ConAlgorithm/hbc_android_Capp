@@ -136,7 +136,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         return rootView;
     }
-
     @Override
     protected void initHeader() {
         RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
