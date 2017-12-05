@@ -164,6 +164,7 @@ public class FakeAIActivity extends BaseActivity {
                 Intent intent = new Intent(this, AiResultActivity.class);
                 intent.putParcelableArrayListExtra(KEY_GOODS, (ArrayList<? extends Parcelable>) data.goodsList);
                 startActivity(intent);
+                finish();
             } else {
 //            fakeData(data.durationReqList);
                 initServiceMessage(data.duoDuoSaid);
