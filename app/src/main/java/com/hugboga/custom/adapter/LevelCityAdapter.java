@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -25,7 +25,7 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
     boolean middleLineShow;
     boolean isFilter;
 
-    CityListActivity.Params cityParams;
+    CityActivity.Params cityParams;
 
     public LevelCityAdapter(Context context,int flag) {
         super(context);
@@ -41,7 +41,7 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
         this.isFilter = isFilter;
     }
 
-    public void setCityParams(CityListActivity.Params cityParams) {
+    public void setCityParams(CityActivity.Params cityParams) {
         this.cityParams = cityParams;
         notifyDataSetChanged();
     }
@@ -217,30 +217,30 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
         }
         int flag = getItem(position).flag == 4 ? 4 : _flag;
         SearchGroupBean searchGroupBean = getItem(position);
-        if (flag == 1 && cityParams.cityHomeType == CityListActivity.CityHomeType.ROUTE) {
+        if (flag == 1 && cityParams.cityHomeType == CityActivity.CityHomeType.ROUTE) {
             return searchGroupBean.group_id == cityParams.id;
         } else if (flag == 2) {
-            if (searchGroupBean.type == 1 && cityParams.cityHomeType == CityListActivity.CityHomeType.ROUTE) {
+            if (searchGroupBean.type == 1 && cityParams.cityHomeType == CityActivity.CityHomeType.ROUTE) {
                 return searchGroupBean.group_id == cityParams.id;
-            } else if (searchGroupBean.type == 2 && cityParams.cityHomeType == CityListActivity.CityHomeType.COUNTRY) {
+            } else if (searchGroupBean.type == 2 && cityParams.cityHomeType == CityActivity.CityHomeType.COUNTRY) {
                 return searchGroupBean.sub_place_id == cityParams.id;
-            } else if (searchGroupBean.type == 3 && cityParams.cityHomeType == CityListActivity.CityHomeType.CITY) {
+            } else if (searchGroupBean.type == 3 && cityParams.cityHomeType == CityActivity.CityHomeType.CITY) {
                 return searchGroupBean.sub_city_id == cityParams.id;
             }
         } else if (flag == 3) {
-            if (searchGroupBean.type == 1 && cityParams.cityHomeType == CityListActivity.CityHomeType.ROUTE) {
+            if (searchGroupBean.type == 1 && cityParams.cityHomeType == CityActivity.CityHomeType.ROUTE) {
                 return searchGroupBean.group_id == cityParams.id;
-            } else if (searchGroupBean.type == 2 && cityParams.cityHomeType == CityListActivity.CityHomeType.COUNTRY) {
+            } else if (searchGroupBean.type == 2 && cityParams.cityHomeType == CityActivity.CityHomeType.COUNTRY) {
                 return searchGroupBean.sub_place_id == cityParams.id;
-            } else if (searchGroupBean.type == 3 && cityParams.cityHomeType == CityListActivity.CityHomeType.CITY){
+            } else if (searchGroupBean.type == 3 && cityParams.cityHomeType == CityActivity.CityHomeType.CITY){
                 return searchGroupBean.sub_city_id == cityParams.id;
             }
         } else if (flag == 4) {
-            if (searchGroupBean.type == 1 && cityParams.cityHomeType == CityListActivity.CityHomeType.CITY) {
+            if (searchGroupBean.type == 1 && cityParams.cityHomeType == CityActivity.CityHomeType.CITY) {
                 return searchGroupBean.spot_id == cityParams.id;
-            } else if (searchGroupBean.type == 2 && cityParams.cityHomeType == CityListActivity.CityHomeType.COUNTRY) {
+            } else if (searchGroupBean.type == 2 && cityParams.cityHomeType == CityActivity.CityHomeType.COUNTRY) {
                 return searchGroupBean.spot_id == cityParams.id;
-            } else if (cityParams.cityHomeType == CityListActivity.CityHomeType.ALL) {
+            } else if (cityParams.cityHomeType == CityActivity.CityHomeType.ALL) {
                 return searchGroupBean.spot_id ==cityParams.id;
             }
         }

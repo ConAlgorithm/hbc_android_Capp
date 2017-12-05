@@ -24,7 +24,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
@@ -157,7 +157,7 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         if (!TextUtils.isEmpty(data.cityName)) {
             if (getContext() instanceof MainActivity) {
                 isShowCity = true;
-            } else if (getContext() instanceof CityListActivity && ((CityListActivity)getContext()).isShowCity()) {
+            } else if (getContext() instanceof CityActivity && ((CityActivity)getContext()).isShowCity()) {
                 isShowCity = true;
             }
         }
@@ -189,9 +189,9 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
                 String source = "";
                 if (getContext() instanceof MainActivity) {
                     source = "首页";
-                } else if (getContext() instanceof CityListActivity) {
-                    CityListActivity cityListActivity = (CityListActivity) getContext();
-                    CityListActivity.Params paramsData = cityListActivity.paramsData;
+                } else if (getContext() instanceof CityActivity) {
+                    CityActivity cityActivity = (CityActivity) getContext();
+                    CityActivity.Params paramsData = cityActivity.paramsData;
                     if (paramsData != null) {
                         switch (paramsData.cityHomeType) {
                             case CITY:

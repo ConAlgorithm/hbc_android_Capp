@@ -1,6 +1,4 @@
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">皇包车</string>
     <string name="hbc_scheme">hbcc</string>
 
@@ -954,6 +952,7 @@
     <string name = "voice_captcha_send">验证码已发送到手机：</string>
     <string name = "voice_captcha_count_down">%1$ss后重新获取</string>
     <string name = "voice_captcha_retry">重新获取语音验证码</string>
+    <string name="voice_captcha_input_error">请输入手机号</string>
 
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">国内信用卡</string>

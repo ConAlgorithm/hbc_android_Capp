@@ -3,7 +3,7 @@ package com.hugboga.custom.adapter;
 import android.app.Activity;
 
 import com.airbnb.epoxy.EpoxyAdapter;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.CityListBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
 import com.hugboga.custom.data.bean.FilterGuideBean;
@@ -26,9 +26,9 @@ import java.util.List;
 public class CityListAdapter extends EpoxyAdapter {
 
     public CityListHeaderModel cityListHeaderModel;
-    private CityListActivity.Params paramsData;
+    private CityActivity.Params paramsData;
 
-    public void setData(CityListActivity.Params paramsData) {
+    public void setData(CityActivity.Params paramsData) {
         this.paramsData = paramsData;
     }
 
@@ -74,7 +74,7 @@ public class CityListAdapter extends EpoxyAdapter {
             guideModel.setGuideData(guideList.get(i));
             addModel(guideModel);
         }
-        if (listCount > CityListActivity.GUIDE_LIST_COUNT) {
+        if (listCount > CityActivity.GUIDE_LIST_COUNT) {
             addModel(new CityListGuideFooterModel(paramsData));
         }
     }

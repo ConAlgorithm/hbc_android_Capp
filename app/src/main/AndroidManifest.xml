@@ -213,7 +213,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.CityListActivity"
+            android:name=".activity.CityActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
@@ -400,6 +400,10 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.UnicornServiceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.FakeAIActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
@@ -667,7 +671,10 @@
             android:label="@string/title_domestic_cc_add"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-
+        <activity
+            android:name=".activity.AiResultActivity"
+            android:label="@string/ai_result_title"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

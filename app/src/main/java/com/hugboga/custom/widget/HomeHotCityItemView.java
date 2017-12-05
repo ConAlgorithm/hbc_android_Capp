@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.utils.Tools;
@@ -63,15 +63,15 @@ public class HomeHotCityItemView extends LinearLayout implements HbcViewBehavior
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                CityListActivity.Params params = new CityListActivity.Params();
+                CityActivity.Params params = new CityActivity.Params();
                 params.id = data.cityId;
                 params.titleName = data.cityName;
-                params.cityHomeType = CityListActivity.CityHomeType.CITY;
-                Intent intent = new Intent(getContext(), CityListActivity.class);
+                params.cityHomeType = CityActivity.CityHomeType.CITY;
+                Intent intent = new Intent(getContext(), CityActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 String source = "国家";
-                if (getContext() instanceof CityListActivity) {
-                    source = ((CityListActivity)getContext()).getEventSource();
+                if (getContext() instanceof CityActivity) {
+                    source = ((CityActivity)getContext()).getEventSource();
                 }
                 intent.putExtra(Constants.PARAMS_SOURCE, source);
                 getContext().startActivity(intent);

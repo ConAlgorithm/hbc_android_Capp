@@ -6,7 +6,7 @@ import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.ActionUtils;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.action.data.ActionSkuListBean;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
@@ -28,21 +28,21 @@ public class ActionPageSkuList extends ActionPageBase {
         if (bean == null) {
             return;
         }
-        CityListActivity.Params params = new CityListActivity.Params();
+        CityActivity.Params params = new CityActivity.Params();
         params.id = CommonUtils.getCountInteger(bean.areaId);
         params.titleName = bean.areaName;
         switch (CommonUtils.getCountInteger(bean.type)) {
             case 1:
-                params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
+                params.cityHomeType = CityActivity.CityHomeType.ROUTE;
                 break;
             case 2:
-                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
+                params.cityHomeType = CityActivity.CityHomeType.COUNTRY;
                 break;
             case 3:
-                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                params.cityHomeType = CityActivity.CityHomeType.CITY;
                 break;
         }
-        Intent intent = new Intent(context, CityListActivity.class);
+        Intent intent = new Intent(context, CityActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         if (actionBean.pushId != null){
             intent.putExtra(Constants.PARAMS_SOURCE, actionBean.pushId);

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.FilterGuideOptionsBean;
 import com.hugboga.custom.fragment.CityFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterFragment;
@@ -49,7 +49,7 @@ public class GuideFilterLayout extends LinearLayout {
     private Drawable grayDownArrow, yellowUpArrow, yellowDownArrow;
     private int pagerPosition;
 
-    private CityListActivity.Params cityParams;
+    private CityActivity.Params cityParams;
     private GuideFilterSortFragment.SortTypeBean sortTypeBean;
     private GuideFilterFragment.GuideFilterBean guideFilterBean;
 
@@ -161,12 +161,12 @@ public class GuideFilterLayout extends LinearLayout {
         return viewPager.isShown();
     }
 
-    public void initCityFilter(CityListActivity.Params cityParams) {
+    public void initCityFilter(CityActivity.Params cityParams) {
         pagerAdapter.setCityParams(cityParams);
         setCityParams(cityParams);
     }
 
-    public void setCityParams(CityListActivity.Params cityParams) {
+    public void setCityParams(CityActivity.Params cityParams) {
         if (cityParams == null) {
             return;
         }
@@ -221,7 +221,7 @@ public class GuideFilterLayout extends LinearLayout {
         GuideFilterFragment guideFilterFragment;
         GuideFilterSortFragment guideFilterSortFragment;
         FilterGuideOptionsBean rilterGuideOptionsBean;
-        CityListActivity.Params cityParams;
+        CityActivity.Params cityParams;
 
         public GuideFilterAdapter(FragmentManager fm) {
             super(fm);
@@ -264,7 +264,7 @@ public class GuideFilterLayout extends LinearLayout {
             }
         }
 
-        public void setCityParams(CityListActivity.Params cityParams) {
+        public void setCityParams(CityActivity.Params cityParams) {
             this.cityParams = cityParams;
         }
     }

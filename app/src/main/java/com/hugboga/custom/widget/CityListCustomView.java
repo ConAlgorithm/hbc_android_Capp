@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
@@ -237,8 +237,8 @@ public class CityListCustomView extends LinearLayout {
     }
 
     public String getEventSource() {
-        if (getContext() instanceof CityListActivity) {
-            return ((CityListActivity) getContext()).getEventSource();
+        if (getContext() instanceof CityActivity) {
+            return ((CityActivity) getContext()).getEventSource();
         } else if (cityListBean != null && cityListBean.cityContent != null) {
             return "城市";
         } else {

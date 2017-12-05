@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityActivity;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.utils.UIUtils;
@@ -85,15 +85,15 @@ public class HotCityView extends LinearLayout implements HbcViewBehavior{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_hotcity_more_tv:
-                if (getContext() instanceof CityListActivity) {
-                    CityListActivity cityListActivity = (CityListActivity) getContext();
+                if (getContext() instanceof CityActivity) {
+                    CityActivity cityActivity = (CityActivity) getContext();
                     Intent intent = new Intent(getContext(), ChooseCityActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, cityListActivity.getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, cityActivity.getEventSource());
                     intent.putExtra(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-                    if (cityListActivity.paramsData.cityHomeType == CityListActivity.CityHomeType.ROUTE) {
-                        intent.putExtra(ChooseCityActivity.KEY_GROUP_ID, cityListActivity.paramsData.id);
-                    } else if (cityListActivity.paramsData.cityHomeType == CityListActivity.CityHomeType.COUNTRY) {
-                        intent.putExtra(ChooseCityActivity.KEY_COUNTRY_ID, cityListActivity.paramsData.id);
+                    if (cityActivity.paramsData.cityHomeType == CityActivity.CityHomeType.ROUTE) {
+                        intent.putExtra(ChooseCityActivity.KEY_GROUP_ID, cityActivity.paramsData.id);
+                    } else if (cityActivity.paramsData.cityHomeType == CityActivity.CityHomeType.COUNTRY) {
+                        intent.putExtra(ChooseCityActivity.KEY_COUNTRY_ID, cityActivity.paramsData.id);
                     }
                     intent.putExtra(ChooseCityActivity.KEY_FROM, ChooseCityActivity.CITY_LIST);
                     intent.putExtra(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.CITY_LIST);

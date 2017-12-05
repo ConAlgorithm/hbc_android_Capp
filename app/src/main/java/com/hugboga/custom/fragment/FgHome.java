@@ -16,6 +16,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -24,14 +25,12 @@ import com.hugboga.custom.data.bean.HomeTopBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestHomeTop;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.home.HomeRefreshHeader;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -195,6 +194,11 @@ public class FgHome extends BaseFragment {
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         this.getContext().startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, getEventSource());
+    }
+
+    @OnClick(R.id.homed_titlebar_ai_iv)
+    public void aiClickActivity() {
+        startActivity(new Intent(getContext(), FakeAIActivity.class));
     }
 
     @Override

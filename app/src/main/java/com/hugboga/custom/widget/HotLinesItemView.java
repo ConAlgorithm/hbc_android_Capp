@@ -21,7 +21,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
@@ -102,9 +102,9 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,Ht
                     intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
                     intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
                     String source = "首页";
-                    if (v.getContext() instanceof CityListActivity) {
-                        CityListActivity cityListActivity = (CityListActivity) v.getContext();
-                        CityListActivity.Params paramsData = cityListActivity.paramsData;
+                    if (v.getContext() instanceof CityActivity) {
+                        CityActivity cityActivity = (CityActivity) v.getContext();
+                        CityActivity.Params paramsData = cityActivity.paramsData;
                         if (paramsData != null) {
                             switch (paramsData.cityHomeType) {
                                 case CITY:
@@ -143,8 +143,8 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,Ht
                 @Override
                 public void onClick(View view) {
                     String source = "";
-                    if (getContext() instanceof CityListActivity) {
-                        source = ((CityListActivity)getContext()).getEventSource();
+                    if (getContext() instanceof CityActivity) {
+                        source = ((CityActivity)getContext()).getEventSource();
                     }
                     if(CommonUtils.isLogin(context,source)) {
                         save_guild_layout.setEnabled(false);
