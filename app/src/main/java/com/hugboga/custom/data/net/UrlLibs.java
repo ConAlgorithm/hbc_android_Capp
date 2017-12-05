@@ -27,7 +27,7 @@ public class UrlLibs {
     public static String SERVER_IP_HOST_PUBLIC = SERVER_HTTP_SCHEME + SERVER_IP_HOST_PUBLIC_DEFAULT;//主域名
 
     public static final String SERVER_IP_HOST_FORMAL = "https://api5.huangbaoche.com/";//线上域名
-    public static final String SERVER_IP_HOST_FORMAL_TWO = "https://api7-dev.huangbaoche.com/";//线上域名api7
+
 
 //    开发环境 host  res.dev.hbc.tech
 //    测试环境 host  res.test.hbc.tech

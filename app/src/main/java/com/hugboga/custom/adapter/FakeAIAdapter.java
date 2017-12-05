@@ -24,9 +24,7 @@ public class FakeAIAdapter extends EpoxyAdapter {
     }
 
     public void setData_All(FakeAIBean data_all) {
-        removeAllModels();
         fake_ai_headerModel.setData(data_all);
-        addModel(fake_ai_headerModel);
         setData_ItemOne(data_all);
     }
 
@@ -34,8 +32,7 @@ public class FakeAIAdapter extends EpoxyAdapter {
         FakeAIItemOneModel fake_ai_item_one = new FakeAIItemOneModel();
         fake_ai_item_one.setData(data_all);
         addModel(fake_ai_item_one);
-//        if(fake_ai_headerModel.animator!=null)
-//        fake_ai_headerModel.imageAnimatorStop();
+        fake_ai_headerModel.imageAnimatorStop();
     }
 
     public void setData_ItemTwo(String data_all) {
@@ -43,9 +40,7 @@ public class FakeAIAdapter extends EpoxyAdapter {
         FakeAIItemTwoModel item_twoModel = new FakeAIItemTwoModel();
         item_twoModel.setData(data_all);
         addModel(item_twoModel);
-
-//        if(fake_ai_headerModel.animator!=null)
-//        fake_ai_headerModel.imageAnimatorStart();
+        fake_ai_headerModel.imageAnimatorStart();
     }
 
 

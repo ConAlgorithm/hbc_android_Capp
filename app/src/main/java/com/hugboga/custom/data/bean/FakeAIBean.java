@@ -7,10 +7,10 @@ import java.util.ArrayList;
  */
 
 public class FakeAIBean {
+    public String askDuoDuoSessionID;
     public FakeAiSaidBean DuoDuoSaid;
     public ArrayList<FakeAIArrayBean> hotDestinationList;
     public ArrayList<String> hiList;
-
 
     @Override
     public String toString() {

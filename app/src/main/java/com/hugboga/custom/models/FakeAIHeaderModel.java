@@ -32,38 +32,36 @@ public class FakeAIHeaderModel extends EpoxyModel<LinearLayout> {
 
     @Override
     public void bind(LinearLayout view) {
-        if(imageView==null)
-        init(view);
-
-        if(fakeAIBean==null)return;
-        textView.setText(fakeAIBean.hiList.get(0));
-        textView2.setText(fakeAIBean.hiList.get(1)+fakeAIBean.hiList.get(2));
-
-    }
-
-    private void init(View view) {
         float viewHeight = (35 / 100.0f) * UIUtils.getScreenHeight();
         view.getLayoutParams().height = (int)viewHeight;
         imageView = (ImageView) view.findViewById(R.id.fake_image);
         textView = (TextView) view.findViewById(R.id.fake_text_create1);
         textView2 = (TextView) view.findViewById(R.id.fake_text_create2);
 
-            animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 7200f);
-            animator.setDuration(20000);
-            imageAnimatorStart();
+        animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 7200f);
+        animator.setDuration(20000);
+        imageAnimatorStart();
+        if(fakeAIBean!=null&&textView!=null)
+            bindData();
 
+    }
+    public void bindData(){
+        textView.setText(fakeAIBean.hiList.get(0));
+        textView2.setText(fakeAIBean.hiList.get(1)+fakeAIBean.hiList.get(2));
     }
 
     public void imageAnimatorStart(){
         animator.start();
     }
     public void imageAnimatorStop(){
-
-        animator.clone();
+        animator.cancel();
     }
 
     public void setData(FakeAIBean fakeAIBean) {
         this.fakeAIBean = fakeAIBean;
+        if(fakeAIBean!=null&&textView!=null)
+            bindData();
+
     }
 
 
