@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,9 +59,6 @@ public class HomeHeaderView extends LinearLayout implements HbcViewBehavior {
 
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mViewPager.setLayoutManager(layout);
-        mAdapter = new HbcRecyclerSingleTypeAdpater(getContext(), HomeHeaderItemView.class);
-        mViewPager.setAdapter(mAdapter);
-
         mViewPager.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
             @Override
             public void OnPageChanged(int oldPosition, int newPosition) {
@@ -77,6 +75,7 @@ public class HomeHeaderView extends LinearLayout implements HbcViewBehavior {
                 indicatorView.onPageChanged(position);
             }
         });
+        setVisibility(View.GONE);
     }
 
     @Override
@@ -87,9 +86,17 @@ public class HomeHeaderView extends LinearLayout implements HbcViewBehavior {
             return;
         }
         this.setVisibility(View.VISIBLE);
-        RVViewUtils.setDataCompat(mAdapter, itemList);
+
+        if (mAdapter == null) {
+            mAdapter = new HbcRecyclerSingleTypeAdpater(getContext(), HomeHeaderItemView.class);
+            RVViewUtils.setDataCompat(mAdapter, itemList);
+            mViewPager.setAdapter(mAdapter);
+        } else {
+            RVViewUtils.setDataCompat(mAdapter, itemList);
+            mAdapter.notifyDataSetChanged();
+            mViewPager.scrollToPosition(mViewPager.getMiddlePosition());
+        }
         indicatorView.setItemCount(itemList.size());
-        mViewPager.scrollToMiddlePosition();
     }
 
 }

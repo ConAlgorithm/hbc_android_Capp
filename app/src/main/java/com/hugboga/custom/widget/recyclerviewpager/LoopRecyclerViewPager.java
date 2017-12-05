@@ -127,7 +127,7 @@ public class LoopRecyclerViewPager extends RecyclerViewPager {
         }
     }
 
-    private int getMiddlePosition() {
+    public int getMiddlePosition() {
         int middlePosition = Integer.MAX_VALUE / 2;
         final int actualItemCount = getActualItemCountFromAdapter();
         if (actualItemCount > 0 && middlePosition % actualItemCount != 0) {

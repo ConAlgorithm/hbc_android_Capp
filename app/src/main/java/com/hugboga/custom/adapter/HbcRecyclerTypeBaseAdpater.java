@@ -38,10 +38,14 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
     }
 
     public void addData(List<T> _data, boolean isNextPage) {
+        addData(_data, isNextPage, true);
+    }
+
+    public void addData(List<T> _data, boolean isNextPage, boolean isNotify) {
         if (_data == null) {
             return;
         }
-        int lastCount = getItemCount();
+//        int lastCount = getItemCount();
         if (!isNextPage) {
             clearData();
         }
@@ -51,7 +55,9 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
             //java.lang.IllegalArgumentException: Called attach on a child which is not de...
 //            this.notifyItemRangeInserted(lastCount, lastCount + _data.size());
 //        } else {
-            this.notifyDataSetChanged();
+            if (isNotify) {
+                this.notifyDataSetChanged();
+            }
 //        }
     }
 

@@ -58,8 +58,6 @@ public class HomeBannerView extends LinearLayout implements HbcViewBehavior {
 
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mViewPager.setLayoutManager(layout);
-        mAdapter = new HbcRecyclerSingleTypeAdpater(getContext(), HomeBannerItemView.class);
-        mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
             @Override
             public void OnPageChanged(int oldPosition, int newPosition) {
@@ -76,9 +74,16 @@ public class HomeBannerView extends LinearLayout implements HbcViewBehavior {
             return;
         }
         this.setVisibility(View.VISIBLE);
-        RVViewUtils.setDataCompat(mAdapter, itemList);
+        if (mAdapter == null) {
+            mAdapter = new HbcRecyclerSingleTypeAdpater(getContext(), HomeBannerItemView.class);
+            RVViewUtils.setDataCompat(mAdapter, itemList);
+            mViewPager.setAdapter(mAdapter);
+        } else {
+            RVViewUtils.setDataCompat(mAdapter, itemList);
+            mAdapter.notifyDataSetChanged();
+            mViewPager.scrollToPosition(mViewPager.getMiddlePosition());
+        }
         indicatorView.setItemCount(itemList.size());
-        mViewPager.scrollToMiddlePosition();
         mViewPager.startAutoScroll();
     }
 

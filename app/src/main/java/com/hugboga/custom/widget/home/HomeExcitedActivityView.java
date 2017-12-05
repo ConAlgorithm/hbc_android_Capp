@@ -7,6 +7,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -61,8 +62,6 @@ public class HomeExcitedActivityView extends LinearLayout implements HbcViewBeha
 
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mViewPager.setLayoutManager(layout);
-        mAdapter = new HbcRecyclerSingleTypeAdpater(getContext(), ItemImageView.class);
-        mViewPager.setAdapter(mAdapter);
 
         mViewPager.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
             @Override
@@ -80,10 +79,16 @@ public class HomeExcitedActivityView extends LinearLayout implements HbcViewBeha
             return;
         }
         this.setVisibility(View.VISIBLE);
-
-        RVViewUtils.setDataCompat(mAdapter, itemList);
+        if (mAdapter == null) {
+            mAdapter = new HbcRecyclerSingleTypeAdpater(getContext(), ItemImageView.class);
+            RVViewUtils.setDataCompat(mAdapter, itemList);
+            mViewPager.setAdapter(mAdapter);
+        } else {
+            RVViewUtils.setDataCompat(mAdapter, itemList);
+            mAdapter.notifyDataSetChanged();
+            mViewPager.scrollToPosition(mViewPager.getMiddlePosition());
+        }
         indicatorView.setItemCount(itemList.size());
-        mViewPager.scrollToMiddlePosition();
         mViewPager.startAutoScroll();
     }
 

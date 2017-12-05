@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -49,8 +51,7 @@ import butterknife.OnClick;
  * Created by qingcha on 17/11/22.
  */
 
-public class FgHome extends BaseFragment{
-
+public class FgHome extends BaseFragment {
 
     @BindView(R.id.home_refresh_layout)
     PullRefreshLayout refreshLayout;
@@ -58,6 +59,8 @@ public class FgHome extends BaseFragment{
     RecyclerView homeListView;
     @BindView(R.id.homed_titlebar_ai_iv)
     ImageView titlebarAiIV;
+    @BindView(R.id.home_network_layout)
+    LinearLayout networkLayout;
 
     HomeRefreshHeader homeRefreshHeader;
 
@@ -113,7 +116,6 @@ public class FgHome extends BaseFragment{
         refreshLayout.setDragDampingRatio(0.7f);
         refreshLayout.setTwinkEnable(false);
         homeRefreshHeader = new HomeRefreshHeader(getContext(), refreshLayout);
-        refreshLayout.setHeaderView(homeRefreshHeader);
         refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -144,7 +146,7 @@ public class FgHome extends BaseFragment{
                     float progress = ((scrollY - bannerHalfHeight) / bannerHalfHeight);
                     homeAdapter.homeAiModel.homeAIView.setProgress(progress);
                     titlebarAiIV.setVisibility(View.GONE);
-                    Log.i("aa","homeAiModel " + scrollY + "   bannerHeight " + ((scrollY - bannerHalfHeight) / bannerHalfHeight));
+                    Log.i("aa", "homeAiModel " + scrollY + "   bannerHeight " + ((scrollY - bannerHalfHeight) / bannerHalfHeight));
                 } else if (firstVisibleItemPosition > 1) {
                     titlebarAiIV.setVisibility(View.VISIBLE);
                 } else {
@@ -161,19 +163,37 @@ public class FgHome extends BaseFragment{
             homeBean = ((RequestHome) _request).getData();
             homeAdapter.setData(homeBean);
             requestFavoriteLinesaved();
+            RequestHomeTop requestHomeTop = new RequestHomeTop(getActivity());
+            requestData(requestHomeTop);
+            networkLayout.setVisibility(View.GONE);
         } else if (_request instanceof RequestHomeTop) {
             List<HomeTopBean> homeTopBeanList = ((RequestHomeTop) _request).getData();
+            if (refreshLayout.getHeaderView() == null) {
+                refreshLayout.setHeaderView(homeRefreshHeader);
+            }
             homeRefreshHeader.update(homeTopBeanList);
         } else if (_request instanceof FavoriteLinesaved) {
             onRequestFavoriteLineSucceed(_request);
         }
     }
 
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
+        super.onDataRequestError(errorInfo, _request);
+        if (_request instanceof RequestHome) {
+            networkLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void sendRequest() {
         RequestHome requestHome = new RequestHome(getActivity());
         requestData(requestHome);
-        RequestHomeTop requestHomeTop = new RequestHomeTop(getActivity());
-        requestData(requestHomeTop);
+    }
+
+    @OnClick({R.id.home_network_layout})
+    public void refreshHomeData() {
+        Log.i("aa", "refreshHomeData");
+        sendRequest();
     }
 
     @OnClick({R.id.homed_titlebar_search_iv})
@@ -216,8 +236,8 @@ public class FgHome extends BaseFragment{
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 if (homeBean != null && homeBean.hotAlbumList != null && homeBean.hotAlbumList.size() > 0) {
-                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(),UserEntity.getUser().getUserId(getContext()));
-                    HttpRequestUtils.request(getContext(),favoriteLinesaved,this,false);
+                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(), UserEntity.getUser().getUserId(getContext()));
+                    HttpRequestUtils.request(getContext(), favoriteLinesaved, this, false);
                 }
                 break;
             case CLICK_USER_LOOUT:
@@ -247,12 +267,12 @@ public class FgHome extends BaseFragment{
             }
         }
         //所有线路的收藏状态同步在此
-        if(_request.getData() instanceof UserFavoriteLineList) {
+        if (_request.getData() instanceof UserFavoriteLineList) {
             UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) _request.getData();
             for (int o = 0; o < userFavoriteLineList.goodsNos.size(); o++) {
                 for (int k = 0; k < homeBean.hotAlbumList.size(); k++) {
                     int itemSize = homeBean.hotAlbumList.get(k).albumRelItemList.size();
-                    for (int m = 0; m < itemSize; m++ ) {
+                    for (int m = 0; m < itemSize; m++) {
                         if (TextUtils.equals(userFavoriteLineList.goodsNos.get(o), homeBean.hotAlbumList.get(k).albumRelItemList.get(m).goodsNo)) {
                             homeBean.hotAlbumList.get(k).albumRelItemList.get(m).isCollected = 1;
                         }
@@ -266,7 +286,7 @@ public class FgHome extends BaseFragment{
     public void requestFavoriteLinesaved() {
         if (UserEntity.getUser().isLogin(getContext())) {
             FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(), UserEntity.getUser().getUserId(getContext()));
-            HttpRequestUtils.request(getContext(),favoriteLinesaved, this, false);
+            HttpRequestUtils.request(getContext(), favoriteLinesaved, this, false);
         }
     }
 
