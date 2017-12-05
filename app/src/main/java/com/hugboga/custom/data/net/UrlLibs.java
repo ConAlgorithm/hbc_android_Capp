@@ -232,6 +232,8 @@ public class UrlLibs {
     public static final String API_GOODS_GUIDE_FILTER_OPTIONS= "goods/v1.0/c/goodsguidecondition";                      // 关联商品的可服务司导过滤条件 175
     public static final String API_GOODS_LINE_SEARCH        = "goods/v1.0/c/goodsSearch";                               // 线路搜索 177
     public static final String API_RECOMMENDED_GOODS        = "goods/v1.0/c/crossRecommendedGoods";                     // 根据订单城市交叉推荐商品列表v1.0 185
+    public static final String API_CITY_DESTINATION_HOME    = "goods/v1.0/c/queryDestinationHome";                      // 查询目的地首页 194
+    public static final String API_CITY_QUERY_SKU_LIST      = "goods/v1.0/c/pageQueryDestinationGoodsList?";             // 查询目的地玩法列表 195
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券(弃用)
     public static final String SERVER_IP_COUPONS_UNUSED     = "marketing/v2.0/c/coupons/unused?";                       // 优惠券未使用(我的,未使用)154
@@ -285,16 +287,12 @@ public class UrlLibs {
     public static final String API_OSS_TOKEN_URL            = "passport/v1.0/ossToken";                                 // 获取图片上传环境参数 157
     public static final String API_UPDATE_ANTICHEAT_INFO    = "passport/v1.0/updateAntiCheatInfo";                      // 更新设备反作弊信息 186
 
-    public static final String API_HOTEXPLORATIONS          = "basicdata/v1.0/c/home/hotexplorations";                  // 首页热门探索列表 request code 131
-    public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     // 首页目的地列表    request code 132
-    public static final String API_TRAVEL_STORYS            = "basicdata/v1.0/c/home/storys";                           // 司导故事列表     request code 133
-    public static final String API_HOME                     = "basicdata/v1.2/c/home/aggregation";                      // 首页城市卡片列表
+    public static final String API_HOME                     = "basicdata/v1.5/c/home/aggregation";                      // 首页城市卡片列表
     public static final String API_DESTINATIONS_TAB         = "basicdata/v1.0/c/home/destlist";                         // 目的地列表  167
     public static final String API_DESTINATIONS_HOT         = "basicdata/v1.0/c/home/hotcities";                        // 目的地热门城市 168
     public static final String API_DESTINATIONS_LINE        = "basicdata/v1.0/c/home/destdetail";                       // 目的地线路   169
-    public static final String API_HOME_NEW                 = "basicdata/v1.4/c/home/aggregation";                      // 首页173
     public static final String API_HOT_SEARCH               = "basicdata/v1.0/e/search/hotkeywords";                    // 热词搜索 179
-    public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
+    public static final String API_TOP_DRAWER               = "basicdata/v1.0/c/home/hide/header";                      // 首页上二楼 193
 
     public static final String API_ERROR_FEEDBACK           = "communication/v2.0/c/biz/error";                         // 反馈app业务异常信息
     public static final String SERVER_IP_NIM_TOKEN_UPDATE   = "communication/v3.0/c/im/token";                          // 获取云信token
@@ -322,6 +320,7 @@ public class UrlLibs {
 
     public static final String POI_SEARCH_PLACES            = "search/v1.0/c/places";                                   // POI 搜索接口
     public static final String API_DIRECTION                = "proxy/v1.0/c/direction";                                 // 行程查询 120
+    public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 
     public static final String API_ACTIVITY_BUYNOW          = "activity/v1.0/c/buyNow";                                 // 参与接机秒杀活动详情 147
     public static final String API_AIRPORT_PICKUP_PRICE     = "activity/v1.0/c/airportPickupPrice";                     // 接机秒杀报价 148

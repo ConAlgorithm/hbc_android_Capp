@@ -85,7 +85,7 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         View view = inflate(context, R.layout.view_choiceness_guide, this);
         ButterKnife.bind(view);
 
-        int padding = getContext().getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
+        int padding = getContext().getResources().getDimensionPixelOffset(R.dimen.city_view_padding_left);
         setOrientation(LinearLayout.VERTICAL);
         setBackgroundColor(0xFFFFFFFF);
         setPadding(0, padding, 0, 0);

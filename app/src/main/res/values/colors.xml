@@ -86,7 +86,7 @@
     <color name="default_highlight_blue">#24BCFF</color>
     <color name="default_price_red">#FF2525</color>
     <color name="default_highlight_green">#09D3AF</color>
-
+    <color name="default_pic_gray">#F8F8F8</color>
 
     <color name="default_btn_yellow_n">#FF9600</color>
 

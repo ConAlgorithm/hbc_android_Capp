@@ -54,7 +54,7 @@ public class CityListHotView extends LinearLayout {
         View view = inflate(context, R.layout.view_city_hot_item, this);
         ButterKnife.bind(view);
 
-        final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
+        final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.city_view_padding_left);
         displayImgWidth = UIUtils.getScreenWidth() - paddingLeft * 2 - UIUtils.dip2px(8);
         displayImgHeight = (int)((400 / 650.0) * displayImgWidth);
         int viewHeight = displayImgHeight + ScreenUtil.dip2px(84);

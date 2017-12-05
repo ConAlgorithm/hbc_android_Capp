@@ -18,11 +18,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="?attr/actionBarSize"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_header_img" />
+            android:adjustViewBounds="true" />
 
-        <tk.hongbo.city.widget.CityHeaderCountView
+        <com.hugboga.custom.widget.city.CityHeaderCountView
             android:id="@+id/cityHeaderCountView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,13 +28,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp" />
 
-        <ImageView
+        <com.hugboga.custom.widget.city.CityBannerView
+            android:id="@+id/city_header_banner_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_banner_img" />
+            android:layout_margin="8dp" />
 
         <TextView
             android:id="@+id/textView5"
@@ -44,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="48dp"
             android:fontFamily="@font/fzdysjw"
             android:text="推荐的包车玩法"
             android:textColor="#151515"

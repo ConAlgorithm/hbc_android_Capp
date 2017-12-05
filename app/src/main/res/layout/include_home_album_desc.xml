@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="90dp">
+
+    <net.grobas.view.PolygonImageView
+        android:id="@+id/home_banner_avatar_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:src="@mipmap/icon_avatar_guide"
+        app:poly_vertices="0" />
+
+    <ImageView
+        android:id="@+id/home_banner_avatar_icon_iv"
+        android:layout_width="19dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="-5dp"
+        android:layout_alignLeft="@id/home_banner_avatar_iv"
+        android:layout_alignBottom="@id/home_banner_avatar_iv"
+        android:background="@mipmap/home_hbc_car"/>
+
+    <LinearLayout
+        android:id="@+id/home_banner_name_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/home_banner_avatar_iv"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/home_banner_type_tv"
+            android:layout_width="38dp"
+            android:layout_height="wrap_content"
+            android:background="#4a4a4a"
+            android:gravity="center"
+            android:text="@string/home_goodes_type1"
+            android:layout_marginRight="3dp"
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/home_banner_guide_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="2dp"
+            android:textColor="@color/basic_black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/home_banner_collect_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="#727272"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/home_banner_desc_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/home_banner_name_layout"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#727272"
+        android:textSize="12sp" />
+
+</RelativeLayout>
