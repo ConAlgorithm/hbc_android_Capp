@@ -59,8 +59,6 @@ public class FgHome extends BaseFragment {
     RecyclerView homeListView;
     @BindView(R.id.homed_titlebar_ai_iv)
     ImageView titlebarAiIV;
-    @BindView(R.id.home_network_layout)
-    LinearLayout networkLayout;
 
     HomeRefreshHeader homeRefreshHeader;
 
@@ -116,6 +114,8 @@ public class FgHome extends BaseFragment {
         refreshLayout.setDragDampingRatio(0.7f);
         refreshLayout.setTwinkEnable(false);
         homeRefreshHeader = new HomeRefreshHeader(getContext(), refreshLayout);
+        refreshLayout.setHeaderView(homeRefreshHeader);
+        refreshLayout.setRefreshEnable(false);
         refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -165,13 +165,10 @@ public class FgHome extends BaseFragment {
             requestFavoriteLinesaved();
             RequestHomeTop requestHomeTop = new RequestHomeTop(getActivity());
             requestData(requestHomeTop);
-            networkLayout.setVisibility(View.GONE);
         } else if (_request instanceof RequestHomeTop) {
             List<HomeTopBean> homeTopBeanList = ((RequestHomeTop) _request).getData();
-            if (refreshLayout.getHeaderView() == null) {
-                refreshLayout.setHeaderView(homeRefreshHeader);
-            }
             homeRefreshHeader.update(homeTopBeanList);
+            refreshLayout.setRefreshEnable(true);
         } else if (_request instanceof FavoriteLinesaved) {
             onRequestFavoriteLineSucceed(_request);
         }
@@ -181,19 +178,13 @@ public class FgHome extends BaseFragment {
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
         super.onDataRequestError(errorInfo, _request);
         if (_request instanceof RequestHome) {
-            networkLayout.setVisibility(View.VISIBLE);
+            homeAdapter.addEmptyModel();
         }
     }
 
     private void sendRequest() {
         RequestHome requestHome = new RequestHome(getActivity());
         requestData(requestHome);
-    }
-
-    @OnClick({R.id.home_network_layout})
-    public void refreshHomeData() {
-        Log.i("aa", "refreshHomeData");
-        sendRequest();
     }
 
     @OnClick({R.id.homed_titlebar_search_iv})
@@ -252,6 +243,9 @@ public class FgHome extends BaseFragment {
                 break;
             case LINE_UPDATE_COLLECT:
                 requestFavoriteLinesaved();
+                break;
+            case REQUEST_HOME_DATA:
+                sendRequest();
                 break;
         }
     }

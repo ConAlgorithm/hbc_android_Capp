@@ -5,6 +5,7 @@ import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.models.home.HomeAiModel;
 import com.hugboga.custom.models.home.HomeAlbumModel;
 import com.hugboga.custom.models.home.HomeBannerModel;
+import com.hugboga.custom.models.home.HomeEmptyModel;
 import com.hugboga.custom.models.home.HomeExcitedActivityModel;
 import com.hugboga.custom.models.home.HomeGoodsModel;
 import com.hugboga.custom.models.home.HomeServiceCenterModel;
@@ -16,6 +17,7 @@ public class HomeAdapter extends EpoxyAdapter {
 
     public HomeAiModel homeAiModel;
     public HomeBannerModel homeBannerModel;
+    public HomeEmptyModel emptyModel;
 
     public HomeAdapter() {
         homeAiModel = new HomeAiModel();
@@ -55,5 +57,13 @@ public class HomeAdapter extends EpoxyAdapter {
         excitedActivityModel.setData(homeBean.excitingActivityList);
         addModel(excitedActivityModel);
 
+    }
+
+    public void addEmptyModel() {
+        removeAllModels();
+        if (emptyModel == null) {
+            emptyModel = new HomeEmptyModel();
+        }
+        addModel(emptyModel);
     }
 }
