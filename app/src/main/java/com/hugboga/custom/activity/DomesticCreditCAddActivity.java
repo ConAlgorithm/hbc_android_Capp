@@ -463,6 +463,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         params1.orderType = requestParams.orderType;
         params1.apiType = requestParams.apiType;
         params1.payResult = true;
+        params1.extarParamsBean = requestParams.extarParamsBean;
         intentSuccess.putExtra(Constants.PARAMS_DATA, params1);
         startActivity(intentSuccess);
         finish(); //支付成功关闭当前界面
