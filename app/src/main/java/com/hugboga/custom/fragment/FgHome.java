@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -49,7 +51,6 @@ import butterknife.OnClick;
  */
 
 public class FgHome extends BaseFragment {
-
 
     @BindView(R.id.home_refresh_layout)
     PullRefreshLayout refreshLayout;
@@ -113,6 +114,7 @@ public class FgHome extends BaseFragment {
         refreshLayout.setTwinkEnable(false);
         homeRefreshHeader = new HomeRefreshHeader(getContext(), refreshLayout);
         refreshLayout.setHeaderView(homeRefreshHeader);
+        refreshLayout.setRefreshEnable(false);
         refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -160,19 +162,28 @@ public class FgHome extends BaseFragment {
             homeBean = ((RequestHome) _request).getData();
             homeAdapter.setData(homeBean);
             requestFavoriteLinesaved();
+            RequestHomeTop requestHomeTop = new RequestHomeTop(getActivity());
+            requestData(requestHomeTop);
         } else if (_request instanceof RequestHomeTop) {
             List<HomeTopBean> homeTopBeanList = ((RequestHomeTop) _request).getData();
             homeRefreshHeader.update(homeTopBeanList);
+            refreshLayout.setRefreshEnable(true);
         } else if (_request instanceof FavoriteLinesaved) {
             onRequestFavoriteLineSucceed(_request);
+        }
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
+        super.onDataRequestError(errorInfo, _request);
+        if (_request instanceof RequestHome) {
+            homeAdapter.addEmptyModel();
         }
     }
 
     private void sendRequest() {
         RequestHome requestHome = new RequestHome(getActivity());
         requestData(requestHome);
-        RequestHomeTop requestHomeTop = new RequestHomeTop(getActivity());
-        requestData(requestHomeTop);
     }
 
     @OnClick({R.id.homed_titlebar_search_iv})
@@ -236,6 +247,9 @@ public class FgHome extends BaseFragment {
                 break;
             case LINE_UPDATE_COLLECT:
                 requestFavoriteLinesaved();
+                break;
+            case REQUEST_HOME_DATA:
+                sendRequest();
                 break;
         }
     }

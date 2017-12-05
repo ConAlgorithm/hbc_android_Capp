@@ -21,31 +21,33 @@
                 android:layout_width="64dp"
                 android:layout_height="21dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/home_margin_left"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/home_margin_left"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/home_hbc_logo_icon" />
+
             <ImageView
                 android:id="@+id/homed_titlebar_search_iv"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:padding="11dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="6dp"
+                android:padding="11dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/home_top_search_icon" />
+
             <ImageView
                 android:id="@+id/homed_titlebar_ai_iv"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginRight="-3dp"
-                android:padding="11dp"
-                android:visibility="gone"
-                android:layout_toLeftOf="@id/homed_titlebar_search_iv"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="-3dp"
+                android:layout_toLeftOf="@id/homed_titlebar_search_iv"
+                android:padding="11dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/home_bar_automaton_icon" />
+                android:src="@mipmap/home_bar_automaton_icon"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView

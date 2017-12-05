@@ -15,9 +15,9 @@ public class RVViewUtils {
      *
      */
     public static void setDataCompat(HbcRecyclerTypeBaseAdpater adpater, ArrayList list) {
-        adpater.addData(list);
+        adpater.addData(list,false,false);
         if (list.size() == 2) {
-            adpater.addData(list,true);
+            adpater.addData(list,true,false);
         }
     }
 
