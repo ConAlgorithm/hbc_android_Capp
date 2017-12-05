@@ -108,8 +108,6 @@ public class CityListActivity extends BaseActivity {
         cityFilterView.setFilterSeeListener(filterSeeListener);
 
         //初始化首页内容
-        paramsData.id = 1; //TODO remove
-        paramsData.cityHomeType = COUNTRY; //TODO remove
         RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
         HttpRequestUtils.request(this, requestCity, this);
 
