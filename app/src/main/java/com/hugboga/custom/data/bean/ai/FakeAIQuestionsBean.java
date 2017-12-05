@@ -1,9 +1,7 @@
 package com.hugboga.custom.data.bean.ai;
 
 import com.google.gson.annotations.SerializedName;
-import com.hugboga.custom.data.bean.ai.DuoDuoSaid;
-import com.hugboga.custom.data.bean.ai.DurationReq;
-import com.hugboga.custom.data.bean.ai.UserSaid;
+import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 
 import java.util.List;
 
@@ -18,4 +16,6 @@ public class FakeAIQuestionsBean {
     @SerializedName("DuoDuoSaid")
     public List<DuoDuoSaid> duoDuoSaid;
     public List<DurationReq> durationReqList;
+    @SerializedName("recommendationDestinationGoodsList")
+    public List<DestinationGoodsVo> goodsList; //推荐结果
 }

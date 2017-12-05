@@ -671,7 +671,10 @@
             android:label="@string/title_domestic_cc_add"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-
+        <activity
+            android:name=".activity.AiResultActivity"
+            android:label="@string/ai_result_title"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
