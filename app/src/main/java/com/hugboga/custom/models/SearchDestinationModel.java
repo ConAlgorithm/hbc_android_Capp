@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
@@ -86,55 +86,55 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
     private void goCityList(SearchGroupBean searchGroupBean) {
         SearchUtils.addCityHistorySearch(CityUtils.getShowName(searchGroupBean));
 
-        CityListActivity.Params params = new CityListActivity.Params();
+        CityActivity.Params params = new CityActivity.Params();
 
         if (searchGroupBean.flag == 1) {
             params.id = searchGroupBean.group_id;
-            params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
+            params.cityHomeType = CityActivity.CityHomeType.ROUTE;
             params.titleName = searchGroupBean.group_name;
         } else if (searchGroupBean.flag == 2) {
             if (searchGroupBean.type == 1) {
                 params.id = searchGroupBean.group_id;
-                params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
+                params.cityHomeType = CityActivity.CityHomeType.ROUTE;
                 params.titleName = searchGroupBean.group_name;
             } else if (searchGroupBean.type == 2) {
                 params.id = searchGroupBean.sub_place_id;
                 params.titleName = searchGroupBean.sub_place_name;
-                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
+                params.cityHomeType = CityActivity.CityHomeType.COUNTRY;
             } else {
                 params.id = searchGroupBean.sub_city_id;
-                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                params.cityHomeType = CityActivity.CityHomeType.CITY;
                 params.titleName = searchGroupBean.sub_city_name;
             }
         } else if (searchGroupBean.flag == 3) {
             if (searchGroupBean.sub_city_name.equalsIgnoreCase("全境")) {
                 params.id = searchGroupBean.sub_city_id;
-                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
+                params.cityHomeType = CityActivity.CityHomeType.COUNTRY;
                 params.titleName = searchGroupBean.sub_place_name;
             } else if (searchGroupBean.type == 1) {
                 params.id = searchGroupBean.group_id;
-                params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
+                params.cityHomeType = CityActivity.CityHomeType.ROUTE;
                 params.titleName = searchGroupBean.group_name;
             } else if (searchGroupBean.type == 2) {
                 params.id = searchGroupBean.sub_place_id;
                 params.titleName = searchGroupBean.sub_place_name;
-                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
+                params.cityHomeType = CityActivity.CityHomeType.COUNTRY;
             } else {
                 params.id = searchGroupBean.sub_city_id;
-                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                params.cityHomeType = CityActivity.CityHomeType.CITY;
                 params.titleName = searchGroupBean.sub_city_name;
             }
         } else if (searchGroupBean.flag == 4) {
             params.id = searchGroupBean.spot_id;
             if (searchGroupBean.type == 1) {
-                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                params.cityHomeType = CityActivity.CityHomeType.CITY;
                 params.titleName = searchGroupBean.spot_name;
             } else if (searchGroupBean.type == 2) {
-                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
+                params.cityHomeType = CityActivity.CityHomeType.COUNTRY;
                 params.titleName = searchGroupBean.spot_name;
             }
         }
-        Intent intent = new Intent(context, CityListActivity.class);
+        Intent intent = new Intent(context, CityActivity.class);
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());

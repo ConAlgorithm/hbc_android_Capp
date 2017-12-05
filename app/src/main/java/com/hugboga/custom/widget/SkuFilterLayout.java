@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.GoodsFilterBean;
 import com.hugboga.custom.fragment.CityFilterFragment;
 import com.hugboga.custom.fragment.SkuScopeFilterFragment;
@@ -44,7 +44,7 @@ public class SkuFilterLayout extends LinearLayout {
     private int pagerPosition;
 
     private String dayTypes;
-    private CityListActivity.Params cityParams;
+    private CityActivity.Params cityParams;
     private SkuScopeFilterFragment.SkuFilterBean skuFilterBean;
 
     public SkuFilterLayout(Context context) {
@@ -157,12 +157,12 @@ public class SkuFilterLayout extends LinearLayout {
         return viewPager.isShown();
     }
 
-    public void initCityFilter(CityListActivity.Params cityParams) {
+    public void initCityFilter(CityActivity.Params cityParams) {
         pagerAdapter.setCityParams(cityParams);
         setCityParams(cityParams);
     }
 
-    public void setCityParams(CityListActivity.Params cityParams) {
+    public void setCityParams(CityActivity.Params cityParams) {
         if (cityParams == null) {
             return;
         }
@@ -211,7 +211,7 @@ public class SkuFilterLayout extends LinearLayout {
         SkuScopeFilterFragment skuScopeFilterFragment;
         ArrayList<GoodsFilterBean.FilterTheme> themeList;
         String dayTypes;
-        CityListActivity.Params cityParams;
+        CityActivity.Params cityParams;
 
         public SkuFilterAdapter(FragmentManager fm) {
             super(fm);
@@ -270,7 +270,7 @@ public class SkuFilterLayout extends LinearLayout {
             }
         }
 
-        public void setCityParams(CityListActivity.Params cityParams) {
+        public void setCityParams(CityActivity.Params cityParams) {
             this.cityParams = cityParams;
         }
     }

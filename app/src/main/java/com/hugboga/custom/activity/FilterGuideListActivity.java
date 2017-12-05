@@ -54,16 +54,16 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
     private Params paramsData;
 
-    private CityListActivity.Params cityParams;
+    private CityActivity.Params cityParams;
     private GuideFilterFragment.GuideFilterBean guideFilterBean;
     private GuideFilterSortFragment.SortTypeBean sortTypeBean;
 
     private HbcRecyclerSingleTypeAdpater<FilterGuideBean> mAdapter;
-    private CityListActivity.CityHomeType lastCityHomeType;//用来判断是否显示当前城市
+    private CityActivity.CityHomeType lastCityHomeType;//用来判断是否显示当前城市
 
     public static class Params implements Serializable {
         public int id;
-        public CityListActivity.CityHomeType cityHomeType;
+        public CityActivity.CityHomeType cityHomeType;
         public String titleName;
         public String goodsNo;
     }
@@ -123,7 +123,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         mRecyclerView.setAdapter(mAdapter);
 
         if (paramsData != null) {
-            CityListActivity.Params params = new CityListActivity.Params();
+            CityActivity.Params params = new CityActivity.Params();
             params.cityHomeType = paramsData.cityHomeType;
             params.id = paramsData.id;
             params.titleName = paramsData.titleName;
@@ -185,7 +185,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         }
     }
 
-    public void requestGuideList(CityListActivity.CityHomeType cityHomeType, int id, int offset, boolean isShowLoading) {
+    public void requestGuideList(CityActivity.CityHomeType cityHomeType, int id, int offset, boolean isShowLoading) {
         lastCityHomeType = cityHomeType;
         RequestFilterGuide requestFilterGuide = new RequestFilterGuide(this, getRequestBuilder(cityHomeType, id, offset));
         requestData(requestFilterGuide, isShowLoading);
@@ -195,7 +195,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         if (isGoods()) {
             requestData(new RequestGuideFilterOptions(this, paramsData.goodsNo));
         } else {
-            CityListActivity.CityHomeType cityHomeType = null;
+            CityActivity.CityHomeType cityHomeType = null;
             String id = "";
             if (cityParams != null) {
                 cityHomeType = cityParams.cityHomeType;
@@ -209,7 +209,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     }
 
     public boolean isShowCity() {
-        if (lastCityHomeType != null && lastCityHomeType == CityListActivity.CityHomeType.CITY) {
+        if (lastCityHomeType != null && lastCityHomeType == CityActivity.CityHomeType.CITY) {
             return false;
         } else {
             return true;
@@ -231,9 +231,9 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case GUIDE_FILTER_CITY:
-                if (action.getData() instanceof CityListActivity.Params) {
+                if (action.getData() instanceof CityActivity.Params) {
                     paramsData = null;
-                    cityParams = (CityListActivity.Params) action.getData();
+                    cityParams = (CityActivity.Params) action.getData();
                     filterLayout.setCityParams(cityParams);
                     requestGuideFilterOptions();
                     requestGuideList();
@@ -259,7 +259,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         }
     }
 
-    public RequestFilterGuide.Builder getRequestBuilder(CityListActivity.CityHomeType cityHomeType, int id, int offset) {
+    public RequestFilterGuide.Builder getRequestBuilder(CityActivity.CityHomeType cityHomeType, int id, int offset) {
         RequestFilterGuide.Builder builder = new RequestFilterGuide.Builder();
         if (cityHomeType != null && id > 0) {
             switch (cityHomeType) {

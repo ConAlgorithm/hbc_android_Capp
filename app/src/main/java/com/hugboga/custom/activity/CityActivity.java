@@ -43,9 +43,9 @@ import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelBean;
 import tk.hongbo.label.data.LabelItemData;
 
-import static com.hugboga.custom.activity.CityListActivity.CityHomeType.COUNTRY;
+import static com.hugboga.custom.activity.CityActivity.CityHomeType.COUNTRY;
 
-public class CityListActivity extends BaseActivity {
+public class CityActivity extends BaseActivity {
 
     Toolbar toolbar;
 
@@ -92,11 +92,11 @@ public class CityListActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.mipmap.topbar_back);
         if (savedInstanceState != null) {
-            paramsData = (CityListActivity.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
+            paramsData = (CityActivity.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
             Bundle bundle = this.getIntent().getExtras();
             if (bundle != null) {
-                paramsData = (CityListActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
+                paramsData = (CityActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
         cityDataTools = new CityDataTools();
@@ -345,11 +345,11 @@ public class CityListActivity extends BaseActivity {
 
     public static class Params implements Serializable {
         public int id;
-        public CityListActivity.CityHomeType cityHomeType;
+        public CityActivity.CityHomeType cityHomeType;
         public String titleName;
     }
 
-    public CityListActivity.Params paramsData;
+    public CityActivity.Params paramsData;
 
     public boolean isShowCity() {
         if (paramsData.cityHomeType == CityHomeType.ROUTE || paramsData.cityHomeType == COUNTRY) {

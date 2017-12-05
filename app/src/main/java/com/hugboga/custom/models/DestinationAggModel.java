@@ -18,7 +18,7 @@ import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -286,10 +286,10 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(),"city",Toast.LENGTH_LONG).show();
                 Bundle bundle=new Bundle();
-                CityListActivity.Params params = new CityListActivity.Params();
-                Intent intent = new Intent(v.getContext(), CityListActivity.class);
+                CityActivity.Params params = new CityActivity.Params();
+                Intent intent = new Intent(v.getContext(), CityActivity.class);
                 bundle.putSerializable(Constants.PARAMS_SOURCE,"目的地");
-                params.cityHomeType=CityListActivity.CityHomeType.CITY;
+                params.cityHomeType= CityActivity.CityHomeType.CITY;
                 params.titleName=hotCity.cityName;
                 params.id=hotCity.cityId;
                 intent.putExtra(Constants.PARAMS_DATA,params);
@@ -351,10 +351,10 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle=new Bundle();
-                    CityListActivity.Params params = new CityListActivity.Params();
-                    Intent intent = new Intent(v.getContext(), CityListActivity.class);
+                    CityActivity.Params params = new CityActivity.Params();
+                    Intent intent = new Intent(v.getContext(), CityActivity.class);
                     bundle.putSerializable(Constants.PARAMS_SOURCE,"目的地");
-                    params.cityHomeType=CityListActivity.CityHomeType.CITY;
+                    params.cityHomeType= CityActivity.CityHomeType.CITY;
                     params.titleName=hotCity.cityName;
                     params.id=hotCity.cityId;
                     intent.putExtra(Constants.PARAMS_DATA,params);
@@ -431,11 +431,11 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CityListActivity.Params params = new CityListActivity.Params();
+                    CityActivity.Params params = new CityActivity.Params();
                     params.id = hotCountry.countryId;
-                    params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
+                    params.cityHomeType = CityActivity.CityHomeType.COUNTRY;
                     params.titleName = hotCountry.countryName;
-                    Intent intent = new Intent(v.getContext(), CityListActivity.class);
+                    Intent intent = new Intent(v.getContext(), CityActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     intent.putExtra("source","目的地");
                     v.getContext().startActivity(intent);

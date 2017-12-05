@@ -17,7 +17,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.RecommendedGoodsBean;
 import com.hugboga.custom.data.request.RequestRecommendedGoods;
@@ -63,11 +63,11 @@ public class PayResultRecommendLayout extends LinearLayout implements HttpReques
         if (TextUtils.isEmpty(cityName) || TextUtils.isEmpty(cityId)) {
             return;
         }
-        CityListActivity.Params params = new CityListActivity.Params();
+        CityActivity.Params params = new CityActivity.Params();
         params.id = CommonUtils.getCountInteger(cityId);
-        params.cityHomeType = CityListActivity.CityHomeType.CITY;
+        params.cityHomeType = CityActivity.CityHomeType.CITY;
         params.titleName = cityName;
-        Intent intent = new Intent(getContext(), CityListActivity.class);
+        Intent intent = new Intent(getContext(), CityActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
         intent.putExtra(Constants.PARAMS_DATA, params);
         getContext().startActivity(intent);

@@ -55,7 +55,7 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
 
     private FilterSkuListActivity.Params paramsData;
 
-    private CityListActivity.Params cityParams;
+    private CityActivity.Params cityParams;
     private SkuScopeFilterFragment.SkuFilterBean skuFilterBean;
     private boolean isThemes;
 
@@ -64,7 +64,7 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
 
     public static class Params implements Serializable {
         public int id;
-        public CityListActivity.CityHomeType cityHomeType;
+        public CityActivity.CityHomeType cityHomeType;
         public String titleName;
         public String days;
     }
@@ -123,7 +123,7 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
         //mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
         if (paramsData != null) {
-            CityListActivity.Params params = new CityListActivity.Params();
+            CityActivity.Params params = new CityActivity.Params();
             params.cityHomeType = paramsData.cityHomeType;
             params.id = paramsData.id;
             params.titleName = paramsData.titleName;
@@ -144,10 +144,10 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case GUIDE_FILTER_CITY:
-                if (action.getData() instanceof CityListActivity.Params) {
+                if (action.getData() instanceof CityActivity.Params) {
                     paramsData = null;
                     skuFilterBean = null;
-                    cityParams = (CityListActivity.Params) action.getData();
+                    cityParams = (CityActivity.Params) action.getData();
                     filterLayout.setCityParams(cityParams);
                     requestGuideList(true);
                 }
@@ -191,7 +191,7 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
     }
 
     public void requestGuideList(boolean isThemes, int offset, boolean isShowLoading) {
-        CityListActivity.CityHomeType cityHomeType = null;
+        CityActivity.CityHomeType cityHomeType = null;
         int id = 0;
         String themeIds = null;
         String dayTypes = null;
@@ -212,7 +212,7 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
         requestGuideList(cityHomeType, id, themeIds, isThemes, dayTypes, offset, isShowLoading);
     }
 
-    public void requestGuideList(CityListActivity.CityHomeType cityHomeType, int id, String themeIds, boolean isThemes, String days, int offset, boolean isShowLoading) {
+    public void requestGuideList(CityActivity.CityHomeType cityHomeType, int id, String themeIds, boolean isThemes, String days, int offset, boolean isShowLoading) {
         this.isThemes = isThemes;
         RequestGoodsFilter.Builder builder = new RequestGoodsFilter.Builder();
         int type = -1;//全部
@@ -315,9 +315,9 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
                 @Override
                 public void onClick(View v) {
                     int cityId = -1;
-                    if (cityParams != null && cityParams.cityHomeType == CityListActivity.CityHomeType.CITY) {
+                    if (cityParams != null && cityParams.cityHomeType == CityActivity.CityHomeType.CITY) {
                         cityId = cityParams.id;
-                    } else if (paramsData != null && paramsData.cityHomeType == CityListActivity.CityHomeType.CITY ) {
+                    } else if (paramsData != null && paramsData.cityHomeType == CityActivity.CityHomeType.CITY ) {
                         cityId = paramsData.id;
                     }
                     Intent intent = new Intent(FilterSkuListActivity.this, CharterFirstStepActivity.class);
