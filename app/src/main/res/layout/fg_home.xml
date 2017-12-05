@@ -1,20 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.yan.pullrefreshlayout.PullRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="#ffffff"
+    app:prl_refreshTriggerDistance="60dp">
 
-    <include layout="@layout/home_search"></include>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/home_list_view"
-        android:descendantFocusability="blocksDescendants"
+    <com.hugboga.custom.widget.home.NestedFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:background="#f3f3f3"
-        android:clipChildren="false"
-        android:clipToPadding="false">
+        android:orientation="vertical">
 
-    </android.support.v7.widget.RecyclerView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
 
-</FrameLayout>
+            <ImageView
+                android:id="@+id/home_titlebar_app_icon"
+                android:layout_width="64dp"
+                android:layout_height="21dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/home_margin_left"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/home_hbc_logo_icon" />
+            <ImageView
+                android:id="@+id/homed_titlebar_search_iv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="11dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="6dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/home_top_search_icon" />
+            <ImageView
+                android:id="@+id/homed_titlebar_ai_iv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="-3dp"
+                android:padding="11dp"
+                android:visibility="gone"
+                android:layout_toLeftOf="@id/homed_titlebar_search_iv"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/home_bar_automaton_icon" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/home_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:descendantFocusability="blocksDescendants">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </com.hugboga.custom.widget.home.NestedFrameLayout>
+
+
+</com.yan.pullrefreshlayout.PullRefreshLayout>

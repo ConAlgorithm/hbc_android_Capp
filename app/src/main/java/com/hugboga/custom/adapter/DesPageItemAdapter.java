@@ -40,9 +40,4 @@ public class DesPageItemAdapter extends EpoxyAdapter {
             lister.visible();
         }*/
     }
-    /*public void addFooterModel(int tab){
-        HomeEndModel homeEndModel = new HomeEndModel();
-        homeEndModel.setCurrentTab(tab);
-        addModel(homeEndModel);
-    }*/
 }

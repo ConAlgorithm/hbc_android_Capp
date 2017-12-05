@@ -39,7 +39,7 @@ public class HomeHotCityItemView extends LinearLayout implements HbcViewBehavior
         View view = inflate(context, R.layout.view_home_hotcity_item, this);
         ButterKnife.bind(this, view);
 
-        final int paddingLeft = context.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
+        final int paddingLeft = context.getResources().getDimensionPixelOffset(R.dimen.city_view_padding_left);
         int imgWidth = (UIUtils.getScreenWidth() - paddingLeft * 2 - UIUtils.dip2px(8) * 2) / 3;
         int imgHeigh = (int)((160 / 220.0f) * imgWidth);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imgWidth, imgHeigh);

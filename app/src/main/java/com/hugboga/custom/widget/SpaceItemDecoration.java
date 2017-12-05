@@ -17,6 +17,7 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
     private int right = 0;
     private int bottom = 0;
     private int orientation = -1;
+    private int firstItemAdditionalOffsets = 0;
 
     public void setItemOffsets(int left, int top, int right, int bottom) {
         setItemOffsets(left, top, right, bottom, -1);
@@ -28,6 +29,10 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         this.right = right;
         this.bottom = bottom;
         this.orientation = orientation;
+    }
+
+    public void setFirstItemAdditionalOffsets(int firstItemAdditionalOffsets) {
+        this.firstItemAdditionalOffsets = firstItemAdditionalOffsets;
     }
 
     @Override
@@ -60,6 +65,14 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
 
         if (pos == 0 && parent instanceof XRecyclerView && orientation == LinearLayout.VERTICAL) {
             outRect.top = 0;
+        }
+
+        if (pos == 0 && firstItemAdditionalOffsets != 0) {
+            if (orientation == LinearLayout.VERTICAL) {
+                outRect.top += firstItemAdditionalOffsets;
+            } else if (orientation == LinearLayout.HORIZONTAL) {
+                outRect.left += firstItemAdditionalOffsets;
+            }
         }
     }
 }

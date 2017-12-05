@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.HomeBeanV2;
+import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
@@ -12,23 +12,16 @@ import com.hugboga.custom.data.parser.HbcParser;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
-import java.util.HashMap;
-
 /**
- * 首页数据请求
- * Created by admin on 2016/3/2.
+ * 首页
+ * Created by qingcha on 2017/11/22.
+ * http://wiki.hbc.tech/pages/viewpage.action?pageId=8556453
  */
 @HttpRequest(path = UrlLibs.API_HOME, builder = NewParamsBuilder.class)
-public class RequestHome extends BaseRequest<HomeBeanV2> {
-
-    public static final int HOME_DEFALT_LIMIT = 10;
+public class RequestHome extends BaseRequest<HomeBean> {
 
     public RequestHome(Context context ) {
         super(context);
-        map = new HashMap<String, Object>();
-        map.put("explorationLimit",HOME_DEFALT_LIMIT);
-        map.put("destinationLimit",HOME_DEFALT_LIMIT);
-        map.put("storyLimit",HOME_DEFALT_LIMIT);
     }
 
     @Override
@@ -38,7 +31,7 @@ public class RequestHome extends BaseRequest<HomeBeanV2> {
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_HOME, HomeBeanV2.class);
+        return new HbcParser(UrlLibs.API_HOME, HomeBean.class);
     }
 
     @Override
