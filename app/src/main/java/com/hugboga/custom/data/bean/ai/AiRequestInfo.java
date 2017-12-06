@@ -7,6 +7,7 @@ import java.util.List;
  */
 
 public class AiRequestInfo {
+    public String customServiceId;
     public String destinationId;
     public String destinationName;
     public String destinationType;

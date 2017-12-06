@@ -36,6 +36,7 @@
             android:background="#E0E0E0" />
 
         <EditText
+
             android:id="@+id/edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,6 +46,21 @@
             android:layout_marginTop="@dimen/default_margin_medium"
             android:background="@drawable/shape_rounded_ai_edit"
             android:hint="我想去...."
+            android:imeOptions="actionGo"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size_15" />
+        <Button
+            android:id="@+id/button"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_margin_medium"
+            android:layout_marginLeft="@dimen/default_margin_large"
+            android:layout_marginRight="@dimen/default_margin_large"
+            android:layout_marginTop="@dimen/default_margin_medium"
+            android:background="@drawable/shape_rounded_ai_button"
+            android:textColor="@color/allbg_white"
+            android:text="留下意见,让小管家联系我"
             android:imeOptions="actionGo"
             android:singleLine="true"
             android:textSize="@dimen/text_size_15" />

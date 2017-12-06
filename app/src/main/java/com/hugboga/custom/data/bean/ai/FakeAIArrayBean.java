@@ -5,7 +5,7 @@ package com.hugboga.custom.data.bean.ai;
  */
 
 public class FakeAIArrayBean {
-    public int  destinationId;
+    public String  destinationId;
     public String destinationImageUrl;
     public String destinationName;
     public int destinationType;

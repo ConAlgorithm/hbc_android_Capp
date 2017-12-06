@@ -18,4 +18,5 @@ public class FakeAIQuestionsBean {
     @SerializedName("DuoDuoSaid")
     public List<DuoDuoSaid> duoDuoSaid;
     public List<DurationReq> durationReqList;
+    public List<AccompanyReq>  accompanyReqList;
 }
