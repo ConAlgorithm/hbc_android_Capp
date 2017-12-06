@@ -9,30 +9,32 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FakeAIAdapter;
-import com.hugboga.custom.data.bean.ai.AiRequestInfo;
 import com.hugboga.custom.data.bean.ai.DuoDuoSaid;
 import com.hugboga.custom.data.bean.ai.FakeAIArrayBean;
 import com.hugboga.custom.data.bean.ai.FakeAIBean;
 import com.hugboga.custom.data.bean.ai.FakeAIQuestionsBean;
+import com.hugboga.custom.data.bean.ai.AiRequestInfo;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.request.RaqustFakeAI;
 import com.hugboga.custom.data.request.RequsetFakeAIChange;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ai.AiTagView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +69,12 @@ public class FakeAIActivity extends BaseActivity {
     HorizontalScrollView horizontalScrollView;
     @BindView(R.id.edit_text)
     EditText editText;
-
-    private FakeAIAdapter fakeAIAdapter;
+    @BindView(R.id.button)
+    Button button;
+    AiRequestInfo info;
+    public static final int AIGETDATA_DURATION = 1;//天数
+    public static final int AIGETDATA_ACCOMPANY = 2;//伴随
+     private FakeAIAdapter fakeAIAdapter;
 
     @Override
     public int getContentViewId() {
@@ -78,6 +84,7 @@ public class FakeAIActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        info = new AiRequestInfo();
         initView();
         requestHotSearch();
     }
@@ -119,12 +126,12 @@ public class FakeAIActivity extends BaseActivity {
                 return true;
             }
         });
-        //handler.sendEmptyMessageDelayed(0,3000);
+
     }
 
-    public void fakeData(List<FakeAIArrayBean> hotDestinationReqList) {
+    public void fakeData(List hotDestinationReqList) {
         editTextExist();
-        if (hotDestinationReqList != null && hotDestinationReqList.size() > 0) {
+        if (hotDestinationReqList.size() > 0) {
             addScrollViewItem(hotDestinationReqList);
         }
     }
@@ -134,13 +141,16 @@ public class FakeAIActivity extends BaseActivity {
         requestSelf(null, data);
     }
 
-    @OnClick({R.id.header_left_btn, R.id.edit_text})
+    @OnClick({R.id.header_left_btn, R.id.edit_text, R.id.button})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.header_left_btn:
                 finish();
                 break;
             case R.id.edit_text:
+                break;
+            case R.id.button:
+                Toast.makeText(FakeAIActivity.this, "ok", Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -156,9 +166,10 @@ public class FakeAIActivity extends BaseActivity {
                 initServiceMessage(dataList.duoDuoSaid);
             }
         } else if (request instanceof RequsetFakeAIChange) {
+
             FakeAIQuestionsBean data = ((RequsetFakeAIChange) request).getData();
             //TODO 问答回复，稍后做处理
-            data.goodsList = testData(); //TODO remove
+//            data.goodsList = testData(); //TODO remove
             if (data.goodsList != null) {
                 //有推荐结果
                 Intent intent = new Intent(this, AiResultActivity.class);
@@ -166,8 +177,17 @@ public class FakeAIActivity extends BaseActivity {
                 startActivity(intent);
                 finish();
             } else {
-//            fakeData(data.durationReqList);
+                if (data.durationReqList != null && data.durationReqList.size() != 0) {
+
+                    fakeData(data.durationReqList);
+                }
+                if (data.accompanyReqList != null && data.accompanyReqList.size() != 0) {
+
+                    fakeData(data.accompanyReqList);
+                }
+                info.userSaidList = data.userSaidList;
                 initServiceMessage(data.duoDuoSaid);
+                recyclerViewRoll();
             }
         }
     }
@@ -306,31 +326,46 @@ public class FakeAIActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    private void addScrollViewItem(final List<FakeAIArrayBean> list) {
-        scrollViewLinearLayout.removeAllViews();
+    private void addScrollViewItem(final List list) {
+
         for (int i = 0; i < list.size(); i++) {
             AiTagView view = new AiTagView(this);
             view.init(list.get(i));
             view.setOnClickListener(new AiTagView.OnClickListener() {
                 @Override
-                public void click(AiTagView view, FakeAIArrayBean bean) {
-                    scrollViewButtonClick(bean);
+                public void click(AiTagView view, FakeAIArrayBean bean, int type) {
+                    scrollViewButtonClick(bean, type);
                 }
             });
             scrollViewLinearLayout.addView(view);
         }
     }
 
-    private void scrollViewButtonClick(FakeAIArrayBean bean) {
+    private void scrollViewButtonClick(FakeAIArrayBean bean, int type) {
         fakeAIAdapter.addMyselfMessage(bean.destinationName);
         editTextOver();
-        requestSelf(bean, null);
+        if (type == 0) {
+            requestSelf(bean, null);
+        } else if (type == AIGETDATA_DURATION) {
+
+            info.durationOptId = bean.destinationId;//此参数为时间ID
+            requestSelf(null, bean.destinationName);
+        } else if (type == AIGETDATA_ACCOMPANY) {
+
+            info.accompanyOptId = bean.destinationId;//此参数为伴随ID
+            requestSelf(null, bean.destinationName);
+        }
     }
 
+    /**
+     * 禁止输入
+     */
     private void editTextOver() {
+        scrollViewLinearLayout.removeAllViews();
         horizontalScrollView.setVisibility(View.INVISIBLE);
-        editText.setFocusable(false);
         editText.setText("");
+        editText.setFocusable(false);
+        editText.setFocusableInTouchMode(false);
         editText.setBackground(getResources().getDrawable(R.drawable.shape_rounded_ai_edit_over));
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm.isActive()) {
@@ -338,9 +373,20 @@ public class FakeAIActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 可以输入
+     */
     private void editTextExist() {
+        horizontalScrollView.setVisibility(View.VISIBLE);
+        editText.setFocusableInTouchMode(true);
         editText.setFocusable(true);
+        editText.requestFocus();
         editText.setBackground(getResources().getDrawable(R.drawable.shape_rounded_ai_edit));
+    }
+
+    private void skipDialogue() {
+        editText.setVisibility(View.GONE);
+        button.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -355,7 +401,7 @@ public class FakeAIActivity extends BaseActivity {
      * 为自己的问题询问答案
      */
     private void requestSelf(FakeAIArrayBean bean, String str) {
-        AiRequestInfo info = new AiRequestInfo();
+        recyclerViewRoll();
         if (bean != null) {
             info.destinationId = String.valueOf(bean.destinationId);
             info.destinationType = String.valueOf(bean.destinationType);
@@ -365,8 +411,12 @@ public class FakeAIActivity extends BaseActivity {
         if (!TextUtils.isEmpty(str)) {
             info.userWant = str;
         }
+
         RequsetFakeAIChange requsetFakeAIChange = new RequsetFakeAIChange(this, info);
         HttpRequestUtils.request(this, requsetFakeAIChange, this, false);
+    }
+    private void recyclerViewRoll (){
+        recyclerView.scrollToPosition(recyclerView.getChildCount());
     }
 
 }

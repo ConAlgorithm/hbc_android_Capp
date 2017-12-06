@@ -18,4 +18,5 @@ public class FakeAIQuestionsBean {
     public List<DurationReq> durationReqList;
     @SerializedName("recommendationDestinationGoodsList")
     public List<DestinationGoodsVo> goodsList; //推荐结果
+    public List<AccompanyReq>  accompanyReqList;
 }
