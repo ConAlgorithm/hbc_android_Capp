@@ -109,9 +109,6 @@ public class CityActivity extends BaseActivity {
         RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
         HttpRequestUtils.request(this, requestCity, this);
 
-        //初始化已收藏线路数据
-        queryFavoriteLineList();
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //展示线路数据
         recyclerView.setHasFixedSize(true);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -410,6 +407,8 @@ public class CityActivity extends BaseActivity {
                     flushSkuList();
                 }
             }
+            //初始化已收藏线路数据
+            queryFavoriteLineList();
         } else if (request instanceof RequestQuerySkuList) {
             //条件筛选玩法
             flushSkuList((List<DestinationGoodsVo>) request.getData());
@@ -419,7 +418,6 @@ public class CityActivity extends BaseActivity {
             adapter.resetFavious(favoriteLine.goodsNos);
             adapter.notifyDataSetChanged();
         }
-
     }
 
     /**
