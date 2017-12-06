@@ -1,16 +1,16 @@
 package com.hugboga.custom.fragment;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -31,6 +31,7 @@ import com.hugboga.custom.data.request.RequestHomeTop;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.home.HomeRefreshHeader;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -63,6 +64,7 @@ public class FgHome extends BaseFragment {
 
     private HomeAdapter homeAdapter;
     private HomeBean homeBean;
+    private int movedDistance = 0;
 
     @Override
     public int getContentViewId() {
@@ -133,26 +135,66 @@ public class FgHome extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (homeAdapter.homeBannerModel == null || homeAdapter.homeBannerModel.itemView == null) {
+                if (homeAdapter.homeBannerModel == null || homeAdapter.homeBannerModel.itemView == null
+                        || homeAdapter.homeAiModel == null || homeAdapter.homeAiModel.homeAIView == null) {
                     return;
                 }
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
                 int scrollY = Math.abs(recyclerView.getChildAt(0).getTop());
                 float bannerHeight = homeAdapter.homeBannerModel.itemView.getBannerLayoutHeight();
-                float bannerHalfHeight = bannerHeight / 2.0f;
-                if (firstVisibleItemPosition == 0 && scrollY <= bannerHeight && scrollY >= bannerHalfHeight) {
-                    float progress = ((scrollY - bannerHalfHeight) / bannerHalfHeight);
+                float region = UIUtils.dip2px(130);
+                if (firstVisibleItemPosition == 0 && scrollY <= bannerHeight && scrollY >= bannerHeight - region) {
+                    float progress = ((scrollY - (bannerHeight - region)) / region);
                     homeAdapter.homeAiModel.homeAIView.setProgress(progress);
                     titlebarAiIV.setVisibility(View.GONE);
-                    Log.i("aa", "homeAiModel " + scrollY + "   bannerHeight " + ((scrollY - bannerHalfHeight) / bannerHalfHeight));
                 } else if (firstVisibleItemPosition > 1) {
                     titlebarAiIV.setVisibility(View.VISIBLE);
                 } else {
                     titlebarAiIV.setVisibility(View.GONE);
+//                    homeAdapter.homeAiModel.homeAIView.setProgress(0);
                 }
             }
         });
+        homeListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        RecyclerView.LayoutManager layoutManager = homeListView.getLayoutManager();
+                        int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                        int scrollY = Math.abs(homeListView.getChildAt(0).getTop());
+                        float bannerHeight = homeAdapter.homeBannerModel.itemView.getBannerLayoutHeight();
+                        float region = UIUtils.dip2px(130);
+                        if (firstVisibleItemPosition == 0 && scrollY <= bannerHeight && scrollY >= bannerHeight - region) {
+//                            float progress = ((scrollY - (bannerHeight - region)) / region);
+                            setHeaderAnimator((int)(bannerHeight + UIUtils.dip2px(46)) - scrollY);
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
+    private void setHeaderAnimator(int distance) {
+        if (distance <= 0) {
+            return;
+        }
+        movedDistance = 0;
+        ValueAnimator animator = ValueAnimator.ofInt(0, distance);
+        animator.setDuration(300);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                homeListView.scrollBy(0, value - movedDistance);
+                homeListView.invalidate();
+                movedDistance = value;
+            }
+        });
+        animator.start();
     }
 
     @Override
@@ -249,7 +291,9 @@ public class FgHome extends BaseFragment {
                 requestFavoriteLinesaved();
                 break;
             case REQUEST_HOME_DATA:
-                sendRequest();
+                if (homeBean == null) {
+                    sendRequest();
+                }
                 break;
         }
     }

@@ -64,7 +64,7 @@ public class HomeBean implements Serializable {
         public String airportPicture;                   // 机场图片
         public int airportPrice;                        // 接送机起价
         public int airportGuideNum;                     // 可服务司导数
-        public int airportUserNum;                      // 服务用户数
+        public String airportUserNum;                   // 服务用户数
     }
 
     public static class CharteredBean implements Serializable {
@@ -73,7 +73,7 @@ public class HomeBean implements Serializable {
         public String starCityPicture;                  // 出发城市图片
         public int charteredPrice;                      // 包车起价
         public int charteredGuideNum;                   // 可服务司导数
-        public int charteredUserNum;                    // 服务用户数
+        public String charteredUserNum;                 // 服务用户数
     }
 
     public static class ExcitedActivityBean implements Serializable {
