@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
@@ -28,11 +28,11 @@ public class CityListHotAdapter extends RecyclerView.Adapter<CityListHotAdapter.
     private Context mContext;
     private List<SkuItemBean> itemList;
     public int type;
-    public CityListActivity.Params paramsData;
+    public CityActivity.Params paramsData;
     private int displayImgWidth;
     private int displayImgHeight;
 
-    public CityListHotAdapter(Context context, CityListActivity.Params paramsData, List<SkuItemBean> _itemList, int type, int displayImgWidth, int displayImgHeight) {
+    public CityListHotAdapter(Context context, CityActivity.Params paramsData, List<SkuItemBean> _itemList, int type, int displayImgWidth, int displayImgHeight) {
         this.mContext = context;
         this.itemList = _itemList;
         this.paramsData = paramsData;

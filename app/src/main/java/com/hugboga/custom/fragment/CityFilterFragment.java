@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.event.EventAction;
@@ -49,9 +49,9 @@ public class CityFilterFragment extends BaseFragment {
     List<SearchGroupBean> groupList2;
     List<SearchGroupBean> groupList3;
 
-    private CityListActivity.Params cityParams;
+    private CityActivity.Params cityParams;
 
-    public void setCityParams(CityListActivity.Params cityParams) {
+    public void setCityParams(CityActivity.Params cityParams) {
         if (cityParams == null) {
             return;
         }
@@ -96,9 +96,9 @@ public class CityFilterFragment extends BaseFragment {
                 rightList.setVisibility(GONE);
                 levelCityAdapterMiddle.setMiddleLineShow(true);
                 if (groupList2.get(position).spot_id == -4) {//全部目的地
-                    CityListActivity.Params params = new CityListActivity.Params();
+                    CityActivity.Params params = new CityActivity.Params();
                     params.id = groupList2.get(position).spot_id;
-                    params.cityHomeType = CityListActivity.CityHomeType.ALL;
+                    params.cityHomeType = CityActivity.CityHomeType.ALL;
                     params.titleName = groupList2.get(position).spot_name;
                     EventBus.getDefault().post(new EventAction(EventType.GUIDE_FILTER_CITY, params));
                     cityParams = params;
@@ -202,51 +202,51 @@ public class CityFilterFragment extends BaseFragment {
         middleList.setAdapter(levelCityAdapterMiddle);
     }
 
-    private CityListActivity.Params goCityList(SearchGroupBean searchGroupBean) {
-        CityListActivity.Params params = new CityListActivity.Params();
+    private CityActivity.Params goCityList(SearchGroupBean searchGroupBean) {
+        CityActivity.Params params = new CityActivity.Params();
         if (searchGroupBean.flag == 1) {
             params.id = searchGroupBean.group_id;
-            params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
+            params.cityHomeType = CityActivity.CityHomeType.ROUTE;
             params.titleName = searchGroupBean.group_name;
         } else if (searchGroupBean.flag == 2) {
             if (searchGroupBean.type == 1) {
                 params.id = searchGroupBean.group_id;
-                params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
+                params.cityHomeType = CityActivity.CityHomeType.ROUTE;
                 params.titleName = searchGroupBean.group_name;
             } else if (searchGroupBean.type == 2) {
                 params.id = searchGroupBean.sub_place_id;
                 params.titleName = searchGroupBean.sub_place_name;
-                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
+                params.cityHomeType = CityActivity.CityHomeType.COUNTRY;
             } else {
                 params.id = searchGroupBean.sub_city_id;
-                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                params.cityHomeType = CityActivity.CityHomeType.CITY;
                 params.titleName = searchGroupBean.sub_city_name;
             }
         } else if (searchGroupBean.flag == 3) {
             if (searchGroupBean.sub_city_name.equalsIgnoreCase("全境")) {
                 params.id = searchGroupBean.sub_city_id;
-                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
+                params.cityHomeType = CityActivity.CityHomeType.COUNTRY;
                 params.titleName = searchGroupBean.sub_place_name;
             } else if (searchGroupBean.type == 1) {
                     params.id = searchGroupBean.group_id;
-                    params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
+                    params.cityHomeType = CityActivity.CityHomeType.ROUTE;
                     params.titleName = searchGroupBean.group_name;
             } else if (searchGroupBean.type == 2) {
                     params.id = searchGroupBean.sub_place_id;
                     params.titleName = searchGroupBean.sub_place_name;
-                    params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
+                    params.cityHomeType = CityActivity.CityHomeType.COUNTRY;
             } else {
                     params.id = searchGroupBean.sub_city_id;
-                    params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                    params.cityHomeType = CityActivity.CityHomeType.CITY;
                     params.titleName = searchGroupBean.sub_city_name;
             }
         } else if (searchGroupBean.flag == 4) {
             params.id = searchGroupBean.spot_id;
             if (searchGroupBean.type == 1) {
-                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                params.cityHomeType = CityActivity.CityHomeType.CITY;
                 params.titleName = searchGroupBean.spot_name;
             } else if (searchGroupBean.type == 2) {
-                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
+                params.cityHomeType = CityActivity.CityHomeType.COUNTRY;
                 params.titleName = searchGroupBean.spot_name;
             }
         }

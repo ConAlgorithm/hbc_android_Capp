@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.adapter.CityListHotAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -40,7 +40,7 @@ public class CityListHotView extends LinearLayout {
 
     public List<SkuItemBean> hotLines;
     public int type;
-    public CityListActivity.Params paramsData;
+    public CityActivity.Params paramsData;
 
     public int displayImgWidth, displayImgHeight;
     public CityListHotAdapter adapter;
@@ -70,7 +70,7 @@ public class CityListHotView extends LinearLayout {
         cityRecyclerView.addItemDecoration(itemDecoration);
     }
 
-    public void setDate(CityListActivity.Params _paramsData, List<SkuItemBean> hotLines, int _type) {
+    public void setDate(CityActivity.Params _paramsData, List<SkuItemBean> hotLines, int _type) {
         this.paramsData = _paramsData;
         this.hotLines = hotLines;
         this.type = _type;
@@ -103,8 +103,8 @@ public class CityListHotView extends LinearLayout {
                 }
                 Intent intent = new Intent(v.getContext(), FilterSkuListActivity.class);
                 String source = "";
-                if (v.getContext() instanceof CityListActivity) {
-                    source = ((CityListActivity) v.getContext()).getEventSource();
+                if (v.getContext() instanceof CityActivity) {
+                    source = ((CityActivity) v.getContext()).getEventSource();
                 } else if (paramsData != null) {
                     switch (paramsData.cityHomeType) {
                         case CITY:

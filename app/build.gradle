@@ -61,7 +61,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         //version start
-        versionCode 103020
+        versionCode 103100
         versionName "5.3.0"
         //version end
         //signingConfig signingConfigs.hbcSign

@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
@@ -27,6 +28,8 @@ public class CityHeaderFilterView extends FrameLayout {
 
     @BindView(R.id.city_header_img)
     ImageView city_header_img; //头部背景图
+    @BindView(R.id.textView5)
+    TextView textView5; //推荐包车玩法标题
     @BindView(R.id.cityHeaderCountView)
     CityHeaderCountView cityHeaderCountView; //统计部分信息
     @BindView(R.id.city_header_banner_view)
@@ -52,5 +55,7 @@ public class CityHeaderFilterView extends FrameLayout {
         if (city_header_banner_view != null) {
             city_header_banner_view.init(mActivity, vo.beginnerDirection);
         }
+        //无推荐玩法显示
+        textView5.setVisibility(vo.destinationGoodsCount > 0 ? View.VISIBLE : View.GONE);
     }
 }

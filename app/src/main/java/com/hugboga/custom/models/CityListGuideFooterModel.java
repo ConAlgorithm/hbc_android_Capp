@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.FilterGuideListActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.utils.UIUtils;
@@ -18,14 +18,14 @@ import com.hugboga.custom.utils.UIUtils;
  */
 public class CityListGuideFooterModel extends EpoxyModel<LinearLayout> {
 
-    private CityListActivity.Params paramsData;
+    private CityActivity.Params paramsData;
 
     @Override
     protected int getDefaultLayout() {
         return R.layout.home_page_footer;
     }
 
-    public CityListGuideFooterModel(CityListActivity.Params paramsData) {
+    public CityListGuideFooterModel(CityActivity.Params paramsData) {
         this.paramsData = paramsData;
     }
 

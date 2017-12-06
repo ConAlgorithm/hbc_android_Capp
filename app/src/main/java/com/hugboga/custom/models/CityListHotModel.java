@@ -2,7 +2,7 @@ package com.hugboga.custom.models;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.widget.CityListHotView;
 
@@ -12,7 +12,7 @@ public class CityListHotModel extends EpoxyModel<CityListHotView> {
 
     public List<SkuItemBean> hotLines;
     public int type;
-    public CityListActivity.Params paramsData;
+    public CityActivity.Params paramsData;
 
     @Override
     public boolean shouldSaveViewState() {
@@ -24,7 +24,7 @@ public class CityListHotModel extends EpoxyModel<CityListHotView> {
         return R.layout.model_city_list_hot;
     }
 
-    public void setDate(CityListActivity.Params paramsData, List<SkuItemBean> hotLines, int type) {
+    public void setDate(CityActivity.Params paramsData, List<SkuItemBean> hotLines, int type) {
         this.paramsData = paramsData;
         this.hotLines = hotLines;
         this.type = type;

@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.FilterGuideOptionsBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -24,7 +24,7 @@ public class RequestGuideFilterOptions extends BaseRequest<FilterGuideOptionsBea
 
     private String goodsNo;
 
-    public RequestGuideFilterOptions(Context context, CityListActivity.CityHomeType cityHomeType, String id) {
+    public RequestGuideFilterOptions(Context context, CityActivity.CityHomeType cityHomeType, String id) {
         super(context);
         map = new HashMap<String, Object>();
         if (cityHomeType != null) {

@@ -3,11 +3,13 @@ package com.hugboga.custom.adapter;
 import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyAdapter;
+import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
 import com.hugboga.custom.models.CityConfigModel;
 import com.hugboga.custom.models.CityListLabelModel;
 import com.hugboga.custom.models.CityListModel;
+import com.hugboga.custom.models.CitySkuNoModel;
 import com.hugboga.custom.models.CityWhatModel;
 
 import java.util.ArrayList;
@@ -27,17 +29,24 @@ public class CityAdapter extends EpoxyAdapter {
     private Context mContext;
 
     private List<CityListModel> goodModels = new ArrayList<>(); //列表加载的SKU Model数据集合
+    List<ServiceConfigVo> serviceConfigList;
+
     CityListLabelModel cityListLabelModel; //快速选择标签区
     CityConfigModel configModel; //第一个配置model，sku数据加载到其上方
+    CityWhatModel cityWhatModel; //我要咨询入口
+    CitySkuNoModel citySkuNoModel; //筛选没有玩法显示
 
     public CityAdapter(Context context, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList,
                        List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1) {
         this.mContext = context;
+        this.serviceConfigList = serviceConfigList;
         cityListLabelModel = new CityListLabelModel(labels, onSelectListener1);
+        citySkuNoModel = new CitySkuNoModel();
+        cityWhatModel = new CityWhatModel(mContext);
         addModel(cityListLabelModel);
         addConfig(serviceConfigList);
-        addModel(new CityWhatModel(mContext));
-        addGoods(data);
+        addModel(cityWhatModel);
+        addModelConfig(citySkuNoModel);
     }
 
     private void addGoods(List<DestinationGoodsVo> data) {
@@ -47,8 +56,16 @@ public class CityAdapter extends EpoxyAdapter {
         for (int i = 0; i < data.size(); i++) {
             DestinationGoodsVo vo = data.get(i);
             CityListModel model = new CityListModel(mContext, vo);
-            insertModelBefore(model, configModel);
+            addModelConfig(model);
             goodModels.add(model);
+        }
+    }
+
+    private void addModelConfig(EpoxyModel model) {
+        if (configModel != null) {
+            insertModelBefore(model, configModel);
+        } else {
+            insertModelBefore(model, cityWhatModel);
         }
     }
 
@@ -66,7 +83,14 @@ public class CityAdapter extends EpoxyAdapter {
 
     public void load(List<DestinationGoodsVo> data) {
         clearGoodeMode();
-        addGoods(data);
+        if (data != null && data.size() > 0) {
+            cityListLabelModel.show();
+            citySkuNoModel.hide();
+            addGoods(data);
+        } else {
+            cityListLabelModel.hide();
+            citySkuNoModel.show();
+        }
     }
 
     public void addMoreGoods(List<DestinationGoodsVo> data) {

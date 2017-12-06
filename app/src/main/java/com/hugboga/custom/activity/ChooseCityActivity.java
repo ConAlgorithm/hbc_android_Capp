@@ -588,11 +588,11 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             cityHeadText.setText(str);
             mAdapter.notifyDataSetChanged();
         } else if (showType == ShowType.CITY_LIST) {
-            CityListActivity.Params params = new CityListActivity.Params();
+            CityActivity.Params params = new CityActivity.Params();
             params.id = cityBean.cityId;
             params.titleName = cityBean.name;
-            params.cityHomeType = CityListActivity.CityHomeType.CITY;
-            Intent intent = new Intent(this, CityListActivity.class);
+            params.cityHomeType = CityActivity.CityHomeType.CITY;
+            Intent intent = new Intent(this, CityActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
             intent.putExtra(Constants.PARAMS_SOURCE, "热门城市页");
             startActivity(intent);
