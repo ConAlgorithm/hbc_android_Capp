@@ -122,4 +122,17 @@ public class CityAdapter extends EpoxyAdapter {
             cityListLabelModel.setSelectIds(ids);
         }
     }
+
+    /**
+     * 设置是否收藏数据
+     * @param goodsNos
+     */
+    public void resetFavious(ArrayList<String> goodsNos){
+        if (goodModels != null && goodModels.size() > 0) {
+            for (CityListModel model : goodModels) {
+                model.setGoodsNos(goodsNos);
+            }
+        }
+
+    }
 }

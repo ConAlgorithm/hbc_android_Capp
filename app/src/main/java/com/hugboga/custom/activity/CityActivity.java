@@ -11,25 +11,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCity;
-import com.hugboga.custom.data.request.RequestCityHomeList;
-import com.hugboga.custom.data.request.RequestCountryGroup;
 import com.hugboga.custom.data.request.RequestQuerySkuList;
 import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterView;
 import com.hugboga.custom.widget.city.CityHeaderFilterView;
+import com.hugboga.tools.HLog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -110,6 +108,9 @@ public class CityActivity extends BaseActivity {
         //初始化首页内容
         RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
         HttpRequestUtils.request(this, requestCity, this);
+
+        //初始化已收藏线路数据
+        queryFavoriteLineList();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //展示线路数据
         recyclerView.setHasFixedSize(true);
@@ -362,42 +363,23 @@ public class CityActivity extends BaseActivity {
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
-            case CLICK_USER_LOGIN:
-                StringBuilder tempUploadGuilds = new StringBuilder();
-                String uploadGuilds = "";
-//                if(filterGuideListBean != null && filterGuideListBean.listData != null && filterGuideListBean.listData.size() > 0){
-//                    for (FilterGuideBean guild : filterGuideListBean.listData) {
-//                        tempUploadGuilds.append(guild.guideId).append(",");
-//                    }
-//                    if (tempUploadGuilds.length() > 0) {
-//                        if (tempUploadGuilds.charAt(tempUploadGuilds.length() - 1) == ',') {
-//                            uploadGuilds = (String) tempUploadGuilds.subSequence(0, tempUploadGuilds.length() - 1);
-//                        }
-//                    }
-//                    Log.d("uploadGuilds",uploadGuilds.toString());
-//                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this, UserEntity.getUser().getUserId(this),uploadGuilds);
-//                    HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
-//                }
-                break;
-            case CLICK_USER_LOOUT:
-//                if(filterGuideListBean!= null){
-//                    for(int i=0;i<filterGuideListBean.listData.size();i++){
-//                        filterGuideListBean.listData.get(i).isCollected = 0;
-//                    }
-//                    cityListAdapter.notifyDataSetChanged();
-//                }
-                break;
-            case ORDER_DETAIL_UPDATE_COLLECT:
-                //查询已收藏司导
-                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this, UserEntity.getUser().getUserId(this), null);
-                HttpRequestUtils.request(this, favoriteGuideSaved, this, false);
-                break;
             case LINE_UPDATE_COLLECT:
                 //查询已收藏线路
-                if (UserEntity.getUser().isLogin(this)) {
-                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this, UserEntity.getUser().getUserId(this));
-                    HttpRequestUtils.request(this, favoriteLinesaved, this, false);
-                }
+                queryFavoriteLineList();
+                break;
+            case CLICK_USER_LOGIN:
+                queryFavoriteLineList();
+                break;
+        }
+    }
+
+    /**
+     * 查询已收藏线路数据
+     */
+    private void queryFavoriteLineList(){
+        if (UserEntity.getUser().isLogin(this)) {
+            FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this, UserEntity.getUser().getUserId(this));
+            HttpRequestUtils.request(this, favoriteLinesaved, this, false);
         }
     }
 
@@ -431,7 +413,13 @@ public class CityActivity extends BaseActivity {
         } else if (request instanceof RequestQuerySkuList) {
             //条件筛选玩法
             flushSkuList((List<DestinationGoodsVo>) request.getData());
+        } else if (request instanceof FavoriteLinesaved) {
+            //查询出已收藏线路信息
+            UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();
+            adapter.resetFavious(favoriteLine.goodsNos);
+            adapter.notifyDataSetChanged();
         }
+
     }
 
     /**
@@ -449,14 +437,6 @@ public class CityActivity extends BaseActivity {
             adapter.load(destinationGoodsList);
         } else {
             adapter.addMoreGoods(destinationGoodsList);
-        }
-    }
-
-    @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        super.onDataRequestError(errorInfo, request);
-        if (request instanceof RequestCityHomeList || request instanceof RequestCountryGroup) {
-            setEmptyLayout(true, false);
         }
     }
 
@@ -493,27 +473,5 @@ public class CityActivity extends BaseActivity {
             intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         }
         startActivity(intent);
-    }
-
-    private void setEmptyLayout(boolean isShow, boolean isDataNull) {
-//        emptyLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
-//        if (!isShow) {
-//            return;
-//        }
-//        if (isDataNull) {
-//            emptyIV.setBackgroundResource(R.drawable.empty_city);
-//            emptyHintTV.setText("很抱歉该地区还未开通服务");
-//            emptyLayout.setEnabled(false);
-//        } else {
-//            emptyIV.setBackgroundResource(R.drawable.empty_wifi);
-//            emptyHintTV.setText("似乎与网络断开，点击屏幕重试");
-//            emptyLayout.setEnabled(true);
-//            emptyLayout.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    requestCityList();
-//                }
-//            });
-//        }
     }
 }
