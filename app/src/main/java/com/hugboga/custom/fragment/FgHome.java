@@ -169,8 +169,13 @@ public class FgHome extends BaseFragment {
                     int scrollY = Math.abs(homeRecyclerView.getChildAt(0).getTop());
                     float bannerHeight = homeAdapter.homeBannerModel.itemView.getBannerLayoutHeight();
                     float region = UIUtils.dip2px(130);
-                    if (firstVisibleItemPosition == 0 && scrollY <= bannerHeight && scrollY >= bannerHeight - region) {
+
+                    boolean scope = firstVisibleItemPosition == 0 && scrollY <= bannerHeight && scrollY >= bannerHeight - region;
+                    boolean scope2 = firstVisibleItemPosition == 1 && scrollY <= UIUtils.dip2px(46);
+                    if (scope) {
                         setHeaderAnimator((int)(bannerHeight + UIUtils.dip2px(46) + UIUtils.dip2px(15)) - scrollY);
+                    } else if (scope2) {
+                        setHeaderAnimator(UIUtils.dip2px(46) - scrollY);
                     }
                 }
             }
