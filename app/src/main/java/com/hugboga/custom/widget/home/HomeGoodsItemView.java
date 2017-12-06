@@ -59,13 +59,13 @@ public class HomeGoodsItemView extends LinearLayout implements HbcViewBehavior, 
             HomeBean.TransferBean transferBean = (HomeBean.TransferBean) _data;
             Tools.showImage(desplayIV, transferBean.airportPicture);
             titleTV.setText(transferBean.airportName);
-            subtitleTV.setText(getContext().getResources().getString(R.string.home_goodes_item_subtitle, "" + transferBean.airportGuideNum, "" + transferBean.airportUserNum));
+            subtitleTV.setText(getContext().getResources().getString(R.string.home_goodes_item_subtitle, "" + transferBean.airportGuideNum, transferBean.airportUserNum));
             priceTV.setText(getContext().getResources().getString(R.string.home_goodes_price_car, "" + transferBean.airportPrice));
         } else if (_data instanceof HomeBean.CharteredBean) {
             HomeBean.CharteredBean charteredBean = (HomeBean.CharteredBean) _data;
             Tools.showImage(desplayIV, charteredBean.starCityPicture);
             titleTV.setText(charteredBean.starCityName);
-            subtitleTV.setText(getContext().getResources().getString(R.string.home_goodes_item_subtitle, "" + charteredBean.charteredGuideNum, "" + charteredBean.charteredUserNum));
+            subtitleTV.setText(getContext().getResources().getString(R.string.home_goodes_item_subtitle, "" + charteredBean.charteredGuideNum, charteredBean.charteredUserNum));
             priceTV.setText(getContext().getResources().getString(R.string.home_goodes_price_car, "" + charteredBean.charteredPrice));
         }
     }
