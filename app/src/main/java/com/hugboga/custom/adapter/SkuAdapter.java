@@ -61,6 +61,20 @@ public class SkuAdapter extends EpoxyAdapter {
     }
 
     /**
+     * 重置Model收藏信息
+     */
+    private void resetModelFavious() {
+        if (goodsFavious == null) {
+            goodsFavious = new HashMap<>();
+        }
+        if (goodModels != null && goodModels.size() > 0) {
+            for (CityListModel model : goodModels) {
+                model.setFavious(goodsFavious.containsKey(model.getDestinationGoodsVo().goodsNo));
+            }
+        }
+    }
+
+    /**
      * 修改收藏信息后修改当前收藏数据（没有访问接口之前）
      */
     CitySkuView.OnChangeFaviousListener listener = new CitySkuView.OnChangeFaviousListener() {
@@ -75,6 +89,7 @@ public class SkuAdapter extends EpoxyAdapter {
             } else {
                 goodsFavious.remove(destinationGoodsVo.goodsNo);
             }
+            resetModelFavious();
         }
     };
 }
