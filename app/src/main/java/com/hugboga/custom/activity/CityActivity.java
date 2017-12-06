@@ -20,6 +20,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
+import com.hugboga.custom.data.bean.city.PageQueryDestinationGoodsVo;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCity;
@@ -27,7 +28,6 @@ import com.hugboga.custom.data.request.RequestQuerySkuList;
 import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterView;
 import com.hugboga.custom.widget.city.CityHeaderFilterView;
-import com.hugboga.tools.HLog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -373,7 +373,7 @@ public class CityActivity extends BaseActivity {
     /**
      * 查询已收藏线路数据
      */
-    private void queryFavoriteLineList(){
+    private void queryFavoriteLineList() {
         if (UserEntity.getUser().isLogin(this)) {
             FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this, UserEntity.getUser().getUserId(this));
             HttpRequestUtils.request(this, favoriteLinesaved, this, false);
@@ -411,7 +411,10 @@ public class CityActivity extends BaseActivity {
             queryFavoriteLineList();
         } else if (request instanceof RequestQuerySkuList) {
             //条件筛选玩法
-            flushSkuList((List<DestinationGoodsVo>) request.getData());
+            PageQueryDestinationGoodsVo vo = (PageQueryDestinationGoodsVo) request.getData();
+            if (vo != null) {
+                flushSkuList(vo.destinationGoodsList);
+            }
         } else if (request instanceof FavoriteLinesaved) {
             //查询出已收藏线路信息
             UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();

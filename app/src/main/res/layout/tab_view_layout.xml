@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tab_view_title"
         app:layout_constraintTop_toTopOf="@+id/tab_view_title"
-        app:srcCompat="@mipmap/destination_screening_up_icon" />
+        app:srcCompat="@mipmap/destination_screening_an_icon" />
 
 
     <ImageView
