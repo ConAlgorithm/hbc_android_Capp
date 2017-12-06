@@ -245,7 +245,9 @@ public class FgHome extends BaseFragment {
                 requestFavoriteLinesaved();
                 break;
             case REQUEST_HOME_DATA:
-                sendRequest();
+                if (homeBean != null) {
+                    sendRequest();
+                }
                 break;
         }
     }
