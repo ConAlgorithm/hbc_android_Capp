@@ -21,7 +21,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.request.RequestCollectLineNo;
 import com.hugboga.custom.data.request.RequestUncollectLinesNo;
@@ -31,8 +30,6 @@ import com.hugboga.tools.NetImg;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,7 +60,6 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
     ImageView saveLineImg; //收藏线路
 
     DestinationGoodsVo destinationGoodsVo;
-    ArrayList<String> goodsNos; //已收藏线路列表
 
     public CitySkuView(@NonNull Context context) {
         this(context, null);
@@ -78,9 +74,8 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
     /**
      * 显示数据
      */
-    public void init(DestinationGoodsVo destinationGoodsVo, ArrayList<String> goodsNos) {
+    public void init(DestinationGoodsVo destinationGoodsVo, boolean isFavious) {
         this.destinationGoodsVo = destinationGoodsVo;
-        this.goodsNos = goodsNos;
         Tools.showImageNotCenterCrop(city_item_img, destinationGoodsVo.goodsImageUrl, R.mipmap.home_default_route_item);
         city_item_title.setText(destinationGoodsVo.goodsName);
         city_item_price.setText(String.format(getContext().getString(R.string.city_sku_item_price),
@@ -91,27 +86,14 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
                 destinationGoodsVo.depCityName, destinationGoodsVo.arrCityName));
         city_item_tip2.setText(String.format(getContext().getString(R.string.city_sku_title2),
                 String.valueOf(destinationGoodsVo.guideCount)));
-        showFavoritLine(goodsNos); //显示收藏线路信息
-    }
-
-    /**
-     * 显示是否收藏线路
-     *
-     * @param goodsNos
-     */
-    public void showFavoritLine(ArrayList<String> goodsNos) {
-        if (!UserEntity.getUser().isLogin(getContext()) || goodsNos == null || goodsNos.size() == 0) {
-            saveLineImg.setSelected(false);
-            return;
-        }
-        saveLineImg.setSelected(goodsNos.contains(destinationGoodsVo.goodsNo));
+        saveLineImg.setSelected(isFavious); //显示收藏线路信息
     }
 
     @OnClick({R.id.city_item_hear, R.id.city_item_root_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.city_item_hear:
-                if (CommonUtils.isLogin(getContext(),getEventSource())) {
+                if (CommonUtils.isLogin(getContext(), getEventSource())) {
                     saveLineImg.setEnabled(false);
                     if (saveLineImg.isSelected()) {
                         HttpRequestUtils.request(getContext(), new RequestUncollectLinesNo(getContext(), destinationGoodsVo.goodsNo), CitySkuView.this, false);
@@ -134,10 +116,16 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCollectLineNo) {
             saveLineImg.setSelected(true);
+            if (onChangeFavious != null) {
+                onChangeFavious.onChange(destinationGoodsVo, true);
+            }
             CommonUtils.showToast(getResources().getString(R.string.collect_succeed));
             setSensorsShareEvent(destinationGoodsVo.goodsNo);
         } else if (request instanceof RequestUncollectLinesNo) {
             saveLineImg.setSelected(false);
+            if (onChangeFavious != null) {
+                onChangeFavious.onChange(destinationGoodsVo, false);
+            }
             CommonUtils.showToast(getResources().getString(R.string.collect_cancel));
         }
         saveLineImg.setEnabled(true);
@@ -174,5 +162,15 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private OnChangeFaviousListener onChangeFavious;
+
+    public void setOnChangeFavious(OnChangeFaviousListener onChangeFavious) {
+        this.onChangeFavious = onChangeFavious;
+    }
+
+    public interface OnChangeFaviousListener {
+        void onChange(DestinationGoodsVo destinationGoodsVo, boolean isFavious);
     }
 }

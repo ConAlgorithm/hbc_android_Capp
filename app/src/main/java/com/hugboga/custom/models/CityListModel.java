@@ -7,8 +7,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.widget.city.CitySkuView;
 
-import java.util.ArrayList;
-
 /**
  * Created by HONGBO on 2017/11/30 11:15.
  */
@@ -17,17 +15,22 @@ public class CityListModel extends EpoxyModel<CitySkuView> {
 
     Context mContext;
     DestinationGoodsVo destinationGoodsVo;
-    ArrayList<String> goodsNos;
+    boolean isFavious = false;
+    CitySkuView view;
+    CitySkuView.OnChangeFaviousListener onChangeFaviousListener; //修改收藏状态
 
-    public CityListModel(Context mContext, DestinationGoodsVo destinationGoodsVo) {
+    public CityListModel(Context mContext, DestinationGoodsVo destinationGoodsVo,CitySkuView.OnChangeFaviousListener onChangeFaviousListener) {
         this.mContext = mContext;
         this.destinationGoodsVo = destinationGoodsVo;
+        this.onChangeFaviousListener = onChangeFaviousListener;
     }
 
     @Override
     public void bind(CitySkuView view) {
         super.bind(view);
-        view.init(destinationGoodsVo, goodsNos);
+        this.view = view;
+        view.init(destinationGoodsVo, isFavious);
+        view.setOnChangeFavious(onChangeFaviousListener);
     }
 
     @Override
@@ -35,7 +38,11 @@ public class CityListModel extends EpoxyModel<CitySkuView> {
         return R.layout.city_list_model;
     }
 
-    public void setGoodsNos(ArrayList<String> goodsNos) {
-        this.goodsNos = goodsNos;
+    public void setFavious(boolean favious) {
+        isFavious = favious;
+    }
+
+    public DestinationGoodsVo getDestinationGoodsVo() {
+        return destinationGoodsVo;
     }
 }

@@ -5,7 +5,9 @@ import android.content.Context;
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.models.CityListModel;
+import com.hugboga.custom.widget.city.CitySkuView;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,22 +15,9 @@ import java.util.List;
  * Created by HONGBO on 2017/12/5 16:25.
  */
 
-public class AiResultAdapter extends EpoxyAdapter {
-
-    private Context mContext;
+public class AiResultAdapter extends SkuAdapter {
 
     public AiResultAdapter(Context mContext) {
-        this.mContext = mContext;
-    }
-
-    public void addGoods(List<DestinationGoodsVo> data) {
-        if (data == null) {
-            return;
-        }
-        for (int i = 0; i < data.size(); i++) {
-            DestinationGoodsVo vo = data.get(i);
-            CityListModel model = new CityListModel(mContext, vo);
-            addModel(model);
-        }
+        super(mContext);
     }
 }

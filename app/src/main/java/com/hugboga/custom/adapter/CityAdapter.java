@@ -11,8 +11,10 @@ import com.hugboga.custom.models.CityListLabelModel;
 import com.hugboga.custom.models.CityListModel;
 import com.hugboga.custom.models.CitySkuNoModel;
 import com.hugboga.custom.models.CityWhatModel;
+import com.hugboga.custom.widget.city.CitySkuView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,11 +26,8 @@ import tk.hongbo.label.data.LabelItemData;
  * Created by HONGBO on 2017/11/27 16:50.
  */
 
-public class CityAdapter extends EpoxyAdapter {
+public class CityAdapter extends SkuAdapter {
 
-    private Context mContext;
-
-    private List<CityListModel> goodModels = new ArrayList<>(); //列表加载的SKU Model数据集合
     List<ServiceConfigVo> serviceConfigList;
 
     CityListLabelModel cityListLabelModel; //快速选择标签区
@@ -38,7 +37,7 @@ public class CityAdapter extends EpoxyAdapter {
 
     public CityAdapter(Context context, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList,
                        List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1) {
-        this.mContext = context;
+        super(context);
         this.serviceConfigList = serviceConfigList;
         cityListLabelModel = new CityListLabelModel(labels, onSelectListener1);
         citySkuNoModel = new CitySkuNoModel();
@@ -49,13 +48,13 @@ public class CityAdapter extends EpoxyAdapter {
         addModelConfig(citySkuNoModel);
     }
 
-    private void addGoods(List<DestinationGoodsVo> data) {
+    public void addGoods(List<DestinationGoodsVo> data) {
         if (data == null) {
             return;
         }
         for (int i = 0; i < data.size(); i++) {
             DestinationGoodsVo vo = data.get(i);
-            CityListModel model = new CityListModel(mContext, vo);
+            CityListModel model = new CityListModel(mContext, vo, listener);
             addModelConfig(model);
             goodModels.add(model);
         }
@@ -121,18 +120,5 @@ public class CityAdapter extends EpoxyAdapter {
         if (cityListLabelModel != null) {
             cityListLabelModel.setSelectIds(ids);
         }
-    }
-
-    /**
-     * 设置是否收藏数据
-     * @param goodsNos
-     */
-    public void resetFavious(ArrayList<String> goodsNos){
-        if (goodModels != null && goodModels.size() > 0) {
-            for (CityListModel model : goodModels) {
-                model.setGoodsNos(goodsNos);
-            }
-        }
-
     }
 }
