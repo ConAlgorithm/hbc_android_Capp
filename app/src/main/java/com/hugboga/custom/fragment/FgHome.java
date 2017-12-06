@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -56,7 +55,7 @@ public class FgHome extends BaseFragment {
     @BindView(R.id.home_refresh_layout)
     PullRefreshLayout refreshLayout;
     @BindView(R.id.home_list_view)
-    RecyclerView homeListView;
+    RecyclerView homeRecyclerView;
     @BindView(R.id.homed_titlebar_ai_iv)
     ImageView titlebarAiIV;
 
@@ -106,9 +105,9 @@ public class FgHome extends BaseFragment {
     protected void initView() {
         homeAdapter = new HomeAdapter();
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this.getActivity());
-        homeListView.setLayoutManager(layoutManager);
-        homeListView.setHasFixedSize(true);
-        homeListView.setAdapter(homeAdapter);
+        homeRecyclerView.setLayoutManager(layoutManager);
+        homeRecyclerView.setHasFixedSize(true);
+        homeRecyclerView.setAdapter(homeAdapter);
         sendRequest();
 
         refreshLayout.setHeaderShowGravity(ShowGravity.FOLLOW);
@@ -130,8 +129,11 @@ public class FgHome extends BaseFragment {
             public void onLoading() {
             }
         });
+        setRecyclerViewScrollListener();
+    }
 
-        homeListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+    private void setRecyclerViewScrollListener() {
+        homeRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -152,28 +154,25 @@ public class FgHome extends BaseFragment {
                     titlebarAiIV.setVisibility(View.VISIBLE);
                 } else {
                     titlebarAiIV.setVisibility(View.GONE);
-//                    homeAdapter.homeAiModel.homeAIView.setProgress(0);
+                }
+                if (firstVisibleItemPosition == 0 && scrollY < bannerHeight - UIUtils.dip2px(130) - UIUtils.dip2px(20)) {
+                    homeAdapter.homeAiModel.homeAIView.setProgress(0);
                 }
             }
-        });
-        homeListView.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        RecyclerView.LayoutManager layoutManager = homeListView.getLayoutManager();
-                        int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
-                        int scrollY = Math.abs(homeListView.getChildAt(0).getTop());
-                        float bannerHeight = homeAdapter.homeBannerModel.itemView.getBannerLayoutHeight();
-                        float region = UIUtils.dip2px(130);
-                        if (firstVisibleItemPosition == 0 && scrollY <= bannerHeight && scrollY >= bannerHeight - region) {
-//                            float progress = ((scrollY - (bannerHeight - region)) / region);
-                            setHeaderAnimator((int)(bannerHeight + UIUtils.dip2px(46)) - scrollY);
-                        }
-                        break;
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    RecyclerView.LayoutManager layoutManager = homeRecyclerView.getLayoutManager();
+                    int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                    int scrollY = Math.abs(homeRecyclerView.getChildAt(0).getTop());
+                    float bannerHeight = homeAdapter.homeBannerModel.itemView.getBannerLayoutHeight();
+                    float region = UIUtils.dip2px(130);
+                    if (firstVisibleItemPosition == 0 && scrollY <= bannerHeight && scrollY >= bannerHeight - region) {
+                        setHeaderAnimator((int)(bannerHeight + UIUtils.dip2px(46) + UIUtils.dip2px(15)) - scrollY);
+                    }
                 }
-                return false;
             }
         });
     }
@@ -189,8 +188,8 @@ public class FgHome extends BaseFragment {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer value = (Integer) animation.getAnimatedValue();
-                homeListView.scrollBy(0, value - movedDistance);
-                homeListView.invalidate();
+                homeRecyclerView.scrollBy(0, value - movedDistance);
+                homeRecyclerView.invalidate();
                 movedDistance = value;
             }
         });
