@@ -83,7 +83,7 @@ public class AiResultSkuMoreModel extends EpoxyModelWithHolder<AiResultSkuMoreMo
         if (vo != null) {
             params.id = vo.destinationId;
             params.cityHomeType = CityActivity.CityHomeType.getNew(vo.destinationType);
-//            params.titleName = paramsData.titleName;
+            params.titleName = vo.destinationName;
 //            params.days = "1,2"; // 游玩天数需要动态获取
         }
         Intent intent = new Intent(mContext, FilterSkuListActivity.class);
