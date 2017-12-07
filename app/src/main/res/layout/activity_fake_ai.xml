@@ -44,7 +44,7 @@
             android:layout_marginLeft="@dimen/default_margin_large"
             android:layout_marginRight="@dimen/default_margin_large"
             android:layout_marginTop="@dimen/default_margin_medium"
-            android:background="@drawable/shape_rounded_ai_edit"
+            android:background="@drawable/selector_rounded_ai"
             android:hint="我想去...."
             android:imeOptions="actionGo"
             android:singleLine="true"
