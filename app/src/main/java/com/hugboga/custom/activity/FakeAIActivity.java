@@ -3,8 +3,10 @@ package com.hugboga.custom.activity;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -16,37 +18,30 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FakeAIAdapter;
+import com.hugboga.custom.data.bean.ai.AiRequestInfo;
 import com.hugboga.custom.data.bean.ai.DuoDuoSaid;
 import com.hugboga.custom.data.bean.ai.FakeAIArrayBean;
 import com.hugboga.custom.data.bean.ai.FakeAIBean;
 import com.hugboga.custom.data.bean.ai.FakeAIQuestionsBean;
-import com.hugboga.custom.data.bean.ai.AiRequestInfo;
-import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.request.RaqustFakeAI;
 import com.hugboga.custom.data.request.RequsetFakeAIChange;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ai.AiTagView;
-import com.jakewharton.disklrucache.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.hugboga.custom.activity.AiResultActivity.KEY_GOODS;
+import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT;
 
 /**
  * Created by Administrator on 2017/11/28.
@@ -178,7 +173,6 @@ public class FakeAIActivity extends BaseActivity {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
-        boolean messageConsumption = false;//判断数据是否被消费掉
         if (request instanceof RaqustFakeAI) {
             FakeAIBean dataList = (FakeAIBean) request.getData();
             if (dataList != null) {
@@ -187,38 +181,23 @@ public class FakeAIActivity extends BaseActivity {
                 initServiceMessage(dataList.duoDuoSaid);
             }
         } else if (request instanceof RequsetFakeAIChange) {
-
             FakeAIQuestionsBean data = ((RequsetFakeAIChange) request).getData();
             //TODO 问答回复，稍后做处理
-//            data.goodsList = testData(); //TODO remove
-            if (data.goodsList != null && !messageConsumption) {
+            if (data.recommendationDestinationHome != null) {
                 //有推荐结果
-                Intent intent = null;
-                messageConsumption = true;
-                if (data.goodsList.destinationGoodsList != null && data.goodsList.destinationGoodsList.size() > 0) {
-                    intent = new Intent(this, AiResultActivity.class);
-                    intent.putParcelableArrayListExtra(KEY_GOODS, (ArrayList<? extends Parcelable>) data.goodsList.destinationGoodsList);
-                }else{
-
-                }
+                Intent intent = new Intent(this, AiResultActivity.class);
+                intent.putExtra(KEY_AI_RESULT, data.recommendationDestinationHome);
                 startActivity(intent);
                 finish();
             } else {
-                if (data.customServiceStatus != null && !messageConsumption) {
-                    messageConsumption = true;
+                if (data.customServiceStatus != null) {
                     skipDialogue(data.customServiceStatus);
 
-                }
-                if (data.durationReqList != null && data.durationReqList.size() != 0 && !messageConsumption) {
-                    messageConsumption = true;
+                } else if (data.durationReqList != null && data.durationReqList.size() != 0) {
                     fakeData(data.durationReqList);
-                }
-                if (data.accompanyReqList != null && data.accompanyReqList.size() != 0 && !messageConsumption) {
-                    messageConsumption = true;
+                } else if (data.accompanyReqList != null && data.accompanyReqList.size() != 0) {
                     fakeData(data.accompanyReqList);
-                }
-                if (data.hotDestinationReqList != null && data.hotDestinationReqList.size() != 0 && !messageConsumption) {
-                    messageConsumption = true;
+                } else if (data.hotDestinationReqList != null && data.hotDestinationReqList.size() != 0) {
                     fakeData(data.hotDestinationReqList);
                 }
                 if (data.userSaidList != null)
@@ -231,114 +210,8 @@ public class FakeAIActivity extends BaseActivity {
                     info.chooseDestinationType = data.chooseDestinationType;
                 }
                 initServiceMessage(data.duoDuoSaid);
-
-
             }
         }
-    }
-
-    private List<DestinationGoodsVo> testData() {
-        String str = "[\n" +
-                "            {\n" +
-                "                \"arrCityId\":0,\n" +
-                "                \"dayCount\":15,\n" +
-                "                \"depCityId\":218,\n" +
-                "                \"depCityName\":\"大阪\",\n" +
-                "                \"goodsImageUrl\":\"https://hbcdn-dev.huangbaoche.com/fr-hd-dev/EqanTa3jjg0!m\",\n" +
-                "                \"goodsName\":\"测试添加15天商品\",\n" +
-                "                \"goodsNo\":\"IC9171090001\",\n" +
-                "                \"goodsVersion\":4,\n" +
-                "                \"guideCount\":15,\n" +
-                "                \"guideHeadImageUrl\":\"https://hbcdn-dev.huangbaoche.com/guide/20150429033033.jpg\",\n" +
-                "                \"perPrice\":\"999.0\",\n" +
-                "                \"placeList\":\"\",\n" +
-                "                \"shareUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=IC9171090001\",\n" +
-                "                \"skuDetailUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=IC9171090001\",\n" +
-                "                \"userFavorCount\":0\n" +
-                "            },\n" +
-                "            {\n" +
-                "                \"arrCityId\":0,\n" +
-                "                \"dayCount\":1,\n" +
-                "                \"depCityId\":217,\n" +
-                "                \"depCityName\":\"东京\",\n" +
-                "                \"goodsImageUrl\":\"https://hbcdn-dev.huangbaoche.com/fr-hd-dev/ISyIlyPxhg0!m\",\n" +
-                "                \"goodsName\":\"sd \",\n" +
-                "                \"goodsNo\":\"IC9172370001\",\n" +
-                "                \"goodsVersion\":9,\n" +
-                "                \"guideCount\":1,\n" +
-                "                \"perPrice\":\"57.0\",\n" +
-                "                \"placeList\":\"\",\n" +
-                "                \"shareUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=IC9172370001\",\n" +
-                "                \"skuDetailUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=IC9172370001\",\n" +
-                "                \"userFavorCount\":0\n" +
-                "            },\n" +
-                "            {\n" +
-                "                \"arrCityId\":0,\n" +
-                "                \"dayCount\":13,\n" +
-                "                \"depCityId\":218,\n" +
-                "                \"depCityName\":\"大阪\",\n" +
-                "                \"goodsImageUrl\":\"https://hbcdn-dev.huangbaoche.com/fr-hd-dev/DFXRdITh1Q0!m\",\n" +
-                "                \"goodsName\":\"(20170421-10:58复制)测试推荐15天\",\n" +
-                "                \"goodsNo\":\"LT9171110002\",\n" +
-                "                \"goodsVersion\":4,\n" +
-                "                \"guideCount\":13,\n" +
-                "                \"perPrice\":\"16854.0\",\n" +
-                "                \"placeList\":\"\",\n" +
-                "                \"shareUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=LT9171110002\",\n" +
-                "                \"skuDetailUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=LT9171110002\",\n" +
-                "                \"userFavorCount\":0\n" +
-                "            },\n" +
-                "            {\n" +
-                "                \"arrCityId\":0,\n" +
-                "                \"dayCount\":1,\n" +
-                "                \"depCityId\":217,\n" +
-                "                \"depCityName\":\"东京\",\n" +
-                "                \"goodsImageUrl\":\"https://hbcdn-dev.huangbaoche.com/default/20160425/201604251612025590.png!m\",\n" +
-                "                \"goodsName\":\"【东京后花园】轻井泽奇幻石之教堂 银座街 血拼奥特莱斯一日游  中文兼车导\",\n" +
-                "                \"goodsNo\":\"QU1160140012\",\n" +
-                "                \"goodsVersion\":4,\n" +
-                "                \"guideCount\":1,\n" +
-                "                \"perPrice\":\"null\",\n" +
-                "                \"placeList\":\"神户->京都->福冈->福山->新泻->高松->山梨县->下吕->金泽->福井->宜野湾->浦添->南城->丰见城->大分->Flexstay Inn 常盘台->Hotel MyStays 羽田->The b 赤坂酒店->阿帕新桥虎之门酒店-\",\n" +
-                "                \"shareUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=QU1160140012\",\n" +
-                "                \"skuDetailUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=QU1160140012\",\n" +
-                "                \"userFavorCount\":0\n" +
-                "            },\n" +
-                "            {\n" +
-                "                \"arrCityId\":0,\n" +
-                "                \"dayCount\":4,\n" +
-                "                \"depCityId\":217,\n" +
-                "                \"depCityName\":\"东京\",\n" +
-                "                \"goodsImageUrl\":\"https://hbcdn-dev.huangbaoche.com/default/20161115/201611151536197821.jpg!m\",\n" +
-                "                \"goodsName\":\"【冬季必选 私享温泉】箱根温泉 芦之湖 御殿场奥特莱斯一日游 东京专车接送 中文司兼导\",\n" +
-                "                \"goodsNo\":\"ST1160140002\",\n" +
-                "                \"goodsVersion\":11,\n" +
-                "                \"guideCount\":4,\n" +
-                "                \"perPrice\":\"138.0\",\n" +
-                "                \"placeList\":\"箱根\",\n" +
-                "                \"shareUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=ST1160140002\",\n" +
-                "                \"skuDetailUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=ST1160140002\",\n" +
-                "                \"userFavorCount\":0\n" +
-                "            },\n" +
-                "            {\n" +
-                "                \"arrCityId\":0,\n" +
-                "                \"dayCount\":3,\n" +
-                "                \"depCityId\":1,\n" +
-                "                \"depCityName\":\"悉尼\",\n" +
-                "                \"goodsImageUrl\":\"https://hbcdn-dev.huangbaoche.com/default/20160524/201605241720129989.jpg!m\",\n" +
-                "                \"goodsName\":\"固定线路_0523_背包客旅行_副本2\",\n" +
-                "                \"goodsNo\":\"ST9161440005\",\n" +
-                "                \"goodsVersion\":16,\n" +
-                "                \"guideCount\":3,\n" +
-                "                \"perPrice\":\"4075.0\",\n" +
-                "                \"placeList\":\"\",\n" +
-                "                \"shareUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=ST9161440005\",\n" +
-                "                \"skuDetailUrl\":\"https://m-dev.huangbaoche.com/app/detail.html?t=1512409200685&goodsNo=ST9161440005\",\n" +
-                "                \"userFavorCount\":0\n" +
-                "            }\n" +
-                "        ]";
-        return new Gson().fromJson(str, new TypeToken<ArrayList<DestinationGoodsVo>>() {
-        }.getType());
     }
 
     /**
@@ -355,23 +228,39 @@ public class FakeAIActivity extends BaseActivity {
      */
     private void initServiceMessage(final List<DuoDuoSaid> duoDuoSaid) {
         if (duoDuoSaid != null && duoDuoSaid.size() > 0) {
-            new Thread(){
-                @Override
-                public void run() {
-                    super.run();
-                    for (DuoDuoSaid bean : duoDuoSaid) {
-                        fakeAIAdapter.addServerMessage(bean.questionValue);
-                        try {
-                            sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }.start();
-
+            new BuildMessageTask().execute(duoDuoSaid);
         }
-        recyclerViewRoll();
+    }
+
+    /**
+     * 收到滚动到底部消息
+     */
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            recyclerView.scrollToPosition(fakeAIAdapter.getItemCount() - 1);
+        }
+    };
+
+    class BuildMessageTask extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            if (objects.length == 0) {
+                return null;
+            }
+            List<DuoDuoSaid> duoDuoSaid = (List<DuoDuoSaid>) objects[0];
+            for (DuoDuoSaid bean : duoDuoSaid) {
+                fakeAIAdapter.addServerMessage(bean.questionValue);
+                handler.sendEmptyMessage(0);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
     }
 
     @Override
@@ -406,11 +295,9 @@ public class FakeAIActivity extends BaseActivity {
         if (type == 0) {
             requestSelf(bean, null);
         } else if (type == AIGETDATA_DURATION) {
-
             info.durationOptId = bean.destinationId;//此参数为时间ID
             requestSelf(null, bean.destinationName);
         } else if (type == AIGETDATA_ACCOMPANY) {
-
             info.accompanyOptId = bean.destinationId;//此参数为伴随ID
             requestSelf(null, bean.destinationName);
         }
@@ -470,7 +357,7 @@ public class FakeAIActivity extends BaseActivity {
      * 为自己的问题询问答案
      */
     private void requestSelf(FakeAIArrayBean bean, String str) {
-        recyclerViewRoll();
+        handler.sendEmptyMessage(0);
         if (bean != null) {
             info.destinationId = String.valueOf(bean.destinationId);
             info.destinationType = String.valueOf(bean.destinationType);
@@ -483,9 +370,5 @@ public class FakeAIActivity extends BaseActivity {
 
         RequsetFakeAIChange requsetFakeAIChange = new RequsetFakeAIChange(this, info);
         HttpRequestUtils.request(this, requsetFakeAIChange, this, false);
-    }
-
-    private void recyclerViewRoll() {
-        recyclerView.scrollToPosition(recyclerView.getChildCount()-1);
     }
 }

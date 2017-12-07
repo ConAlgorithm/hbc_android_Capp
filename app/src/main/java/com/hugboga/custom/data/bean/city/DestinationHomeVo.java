@@ -1,5 +1,6 @@
 package com.hugboga.custom.data.bean.city;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by HONGBO on 2017/11/27 20:58.
  */
 
-public class DestinationHomeVo {
+public class DestinationHomeVo implements Serializable {
     public int destinationId;   //目的地ID
     public String destinationName;  //目的地名称
     public int destinationType;    //目的地类型 101：线路圈 201：国家 202：城市

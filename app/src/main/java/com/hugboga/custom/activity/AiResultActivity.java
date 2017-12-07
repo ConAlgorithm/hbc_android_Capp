@@ -1,7 +1,6 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,17 +8,14 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.AiResultAdapter;
-import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class AiResultActivity extends BaseActivity {
 
-    public static final String KEY_GOODS = "key_goods";
+    public static final String KEY_AI_RESULT = "key_ai_result";
 
     @BindView(R.id.header_title_center)
     TextView header_title_center;
@@ -27,7 +23,7 @@ public class AiResultActivity extends BaseActivity {
     RecyclerView recyclerView;
 
     AiResultAdapter adapter;
-    public List<DestinationGoodsVo> goodsList;
+    public DestinationHomeVo destinationHomeVo; //推荐结果显示
 
     @Override
     public int getContentViewId() {
@@ -39,11 +35,11 @@ public class AiResultActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         header_title_center.setText(getTitle());
         if (savedInstanceState != null) {
-            goodsList = savedInstanceState.getParcelableArrayList(KEY_GOODS);
+            destinationHomeVo = (DestinationHomeVo) savedInstanceState.getSerializable(KEY_AI_RESULT);
         } else {
             Bundle bundle = this.getIntent().getExtras();
             if (bundle != null) {
-                goodsList = bundle.getParcelableArrayList(KEY_GOODS);
+                destinationHomeVo = (DestinationHomeVo) bundle.getSerializable(KEY_AI_RESULT);
             }
         }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -54,17 +50,17 @@ public class AiResultActivity extends BaseActivity {
         loadResult();
     }
 
-    private void loadResult(){
-        if(adapter!=null){
-            adapter.addGoods(goodsList);
+    private void loadResult() {
+        if (adapter != null) {
+            adapter.addGoods(destinationHomeVo.destinationGoodsList);
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (goodsList != null) {
-            outState.putParcelableArrayList(KEY_GOODS, (ArrayList<? extends Parcelable>) goodsList);
+        if (destinationHomeVo != null) {
+            outState.putSerializable(KEY_AI_RESULT, destinationHomeVo);
         }
     }
 
