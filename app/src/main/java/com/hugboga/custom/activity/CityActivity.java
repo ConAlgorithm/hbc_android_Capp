@@ -37,6 +37,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.qqtheme.framework.entity.City;
 import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelBean;
 import tk.hongbo.label.data.LabelItemData;
@@ -338,6 +339,19 @@ public class CityActivity extends BaseActivity {
 
         public void setType(int type) {
             this.type = type;
+        }
+
+        public static CityHomeType getNew(int type) {
+            switch (type) {
+                case 101:
+                    return ROUTE;
+                case 201:
+                    return COUNTRY;
+                case 202:
+                    return CITY;
+                default:
+                    return ALL;
+            }
         }
     }
 

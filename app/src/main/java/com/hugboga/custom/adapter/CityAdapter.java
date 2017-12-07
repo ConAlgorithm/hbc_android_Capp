@@ -29,9 +29,7 @@ import tk.hongbo.label.data.LabelItemData;
 public class CityAdapter extends SkuAdapter {
 
     List<ServiceConfigVo> serviceConfigList;
-
     CityListLabelModel cityListLabelModel; //快速选择标签区
-    CityConfigModel configModel; //第一个配置model，sku数据加载到其上方
     CityWhatModel cityWhatModel; //我要咨询入口
     CitySkuNoModel citySkuNoModel; //筛选没有玩法显示
 
@@ -65,18 +63,6 @@ public class CityAdapter extends SkuAdapter {
             insertModelBefore(model, configModel);
         } else {
             insertModelBefore(model, cityWhatModel);
-        }
-    }
-
-    private void addConfig(List<ServiceConfigVo> serviceConfigList) {
-        if (serviceConfigList != null) {
-            for (ServiceConfigVo vo : serviceConfigList) {
-                CityConfigModel model = new CityConfigModel(mContext, vo);
-                if (configModel == null) {
-                    configModel = model;
-                }
-                addModel(model);
-            }
         }
     }
 

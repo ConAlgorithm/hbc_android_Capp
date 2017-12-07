@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.AiResultAdapter;
+import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 
 import butterknife.BindView;
@@ -47,13 +48,7 @@ public class AiResultActivity extends BaseActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new AiResultAdapter(this);
         recyclerView.setAdapter(adapter);
-        loadResult();
-    }
-
-    private void loadResult() {
-        if (adapter != null) {
-            adapter.addGoods(destinationHomeVo.destinationGoodsList);
-        }
+        adapter.showAiResult(destinationHomeVo);
     }
 
     @Override
