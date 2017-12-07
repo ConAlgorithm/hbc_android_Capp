@@ -3,6 +3,7 @@ package com.hugboga.custom.models.ai;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
@@ -12,6 +13,7 @@ import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -39,10 +41,31 @@ public class AiResultSkuMoreModel extends EpoxyModelWithHolder<AiResultSkuMoreMo
         return R.layout.ai_result_sku_more_model_layout;
     }
 
+    @Override
+    public void bind(AiResultSkuMoreHolder holder) {
+        super.bind(holder);
+        if (holder == null) {
+            return;
+        }
+        if (vo != null) {
+            holder.setText(vo.destinationName);
+        }
+    }
+
     class AiResultSkuMoreHolder extends EpoxyHolder {
+
+        @BindView(R.id.ai_result_sku_more_title)
+        TextView ai_result_sku_more_title;
+
         @Override
         protected void bindView(View itemView) {
             ButterKnife.bind(this, itemView);
+        }
+
+        public void setText(String cityName) {
+            if (ai_result_sku_more_title != null) {
+                ai_result_sku_more_title.setText(String.format(mContext.getString(R.string.ai_result_sku_more_title), cityName));
+            }
         }
 
         @OnClick(R.id.ai_result_more_root_layout)
