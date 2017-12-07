@@ -196,7 +196,7 @@ public class FgHome extends BaseFragment {
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, getEventSource());
     }
 
-    @OnClick(R.id.homed_titlebar_ai_iv)
+    @OnClick({R.id.homed_titlebar_ai_iv})
     public void aiClickActivity() {
         startActivity(new Intent(getContext(), FakeAIActivity.class));
     }
