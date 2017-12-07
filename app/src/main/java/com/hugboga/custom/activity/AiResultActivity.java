@@ -6,10 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.AiResultAdapter;
-import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
+import com.hugboga.custom.data.request.FavoriteLinesaved;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,6 +53,7 @@ public class AiResultActivity extends BaseActivity {
         adapter = new AiResultAdapter(this);
         recyclerView.setAdapter(adapter);
         adapter.showAiResult(destinationHomeVo);
+        queryFavoriteLineList(); //查询收藏玩法信息
     }
 
     @Override
@@ -65,6 +70,27 @@ public class AiResultActivity extends BaseActivity {
             case R.id.header_left_btn:
                 finish();
                 break;
+        }
+    }
+
+    /**
+     * 查询已收藏线路数据
+     */
+    private void queryFavoriteLineList() {
+        if (UserEntity.getUser().isLogin(this)) {
+            FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this, UserEntity.getUser().getUserId(this));
+            HttpRequestUtils.request(this, favoriteLinesaved, this, false);
+        }
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
+        if (request instanceof FavoriteLinesaved) {
+            //查询出已收藏线路信息
+            UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();
+            adapter.resetFavious(favoriteLine.goodsNos);
+            adapter.notifyDataSetChanged();
         }
     }
 }

@@ -37,6 +37,7 @@ public class SkuAdapter extends EpoxyAdapter {
             DestinationGoodsVo vo = data.get(i);
             CityListModel model = new CityListModel(mContext, vo, listener);
             addModel(model);
+            goodModels.add(model);
         }
     }
 
