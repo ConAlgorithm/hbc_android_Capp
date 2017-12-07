@@ -192,7 +192,6 @@ public class FakeAIActivity extends BaseActivity {
             } else {
                 if (data.customServiceStatus != null) {
                     skipDialogue(data.customServiceStatus);
-
                 } else if (data.durationReqList != null && data.durationReqList.size() != 0) {
                     fakeData(data.durationReqList);
                 } else if (data.accompanyReqList != null && data.accompanyReqList.size() != 0) {

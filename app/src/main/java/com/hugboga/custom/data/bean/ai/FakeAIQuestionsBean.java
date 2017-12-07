@@ -3,14 +3,13 @@ package com.hugboga.custom.data.bean.ai;
 import com.google.gson.annotations.SerializedName;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/12/5.
  */
 
-public class FakeAIQuestionsBean implements Serializable {
+public class FakeAIQuestionsBean {
     public String customServiceStatus;
     public String chooseDestinationId;
     public String chooseDestinationType;

@@ -35,11 +35,11 @@ public class AiResultActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         header_title_center.setText(getTitle());
         if (savedInstanceState != null) {
-            destinationHomeVo = (DestinationHomeVo) savedInstanceState.getSerializable(KEY_AI_RESULT);
+            destinationHomeVo = savedInstanceState.getParcelable(KEY_AI_RESULT);
         } else {
             Bundle bundle = this.getIntent().getExtras();
             if (bundle != null) {
-                destinationHomeVo = (DestinationHomeVo) bundle.getSerializable(KEY_AI_RESULT);
+                destinationHomeVo = bundle.getParcelable(KEY_AI_RESULT);
             }
         }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -60,7 +60,7 @@ public class AiResultActivity extends BaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (destinationHomeVo != null) {
-            outState.putSerializable(KEY_AI_RESULT, destinationHomeVo);
+            outState.putParcelable(KEY_AI_RESULT, destinationHomeVo);
         }
     }
 
