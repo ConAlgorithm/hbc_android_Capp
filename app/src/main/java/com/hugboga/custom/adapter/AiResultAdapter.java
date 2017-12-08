@@ -1,34 +1,47 @@
 package com.hugboga.custom.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 
-import com.airbnb.epoxy.EpoxyAdapter;
-import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
-import com.hugboga.custom.models.CityListModel;
-
-import java.util.List;
+import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.city.DestinationHomeVo;
+import com.hugboga.custom.models.CityWhatModel;
+import com.hugboga.custom.models.ai.AiResultBannerModel;
+import com.hugboga.custom.models.ai.AiResultSkuMoreModel;
+import com.hugboga.custom.models.ai.AiResultTitleModel;
 
 /**
  * Ai adapter
  * Created by HONGBO on 2017/12/5 16:25.
  */
 
-public class AiResultAdapter extends EpoxyAdapter {
-
-    private Context mContext;
+public class AiResultAdapter extends SkuAdapter {
 
     public AiResultAdapter(Context mContext) {
-        this.mContext = mContext;
+        super(mContext);
     }
 
-    public void addGoods(List<DestinationGoodsVo> data) {
-        if (data == null) {
-            return;
+    public void showAiResult(DestinationHomeVo vo) {
+        //快速了解目的地,添加广告条，新手指引
+        if (vo.beginnerDirection != null) {
+            addModel(new AiResultTitleModel(mContext.getString(R.string.ai_result_banner_title_fast)));
+            addModel(new AiResultBannerModel((Activity) mContext, vo.beginnerDirection));
         }
-        for (int i = 0; i < data.size(); i++) {
-            DestinationGoodsVo vo = data.get(i);
-            CityListModel model = new CityListModel(mContext, vo);
-            addModel(model);
+        // 按照您的行程旅行小管家建议,添加推荐玩法结果
+        if (vo.destinationGoodsList != null && vo.destinationGoodsList.size() > 0) {
+            addModel(new AiResultTitleModel(mContext.getString(R.string.ai_result_banner_title_sku)));
+            addGoods(vo.destinationGoodsList);
+            // 添加查看全部玩法Banner
+            addModel(new AiResultSkuMoreModel(mContext,vo));
         }
+        // 添加您也可以自己包车畅玩Banner,添加主动下单入口
+        if (vo.serviceConfigList != null && vo.serviceConfigList.size() > 0) {
+            addModel(new AiResultTitleModel(mContext.getString(R.string.ai_result_banner_title_do)));
+            addConfig(vo.serviceConfigList);
+        }
+        // 咨询旅行小管家确认行程
+        addModel(new AiResultTitleModel(mContext.getString(R.string.ai_result_banner_title_call)));
+        //添加旅行小管家入口
+        addModel(new CityWhatModel(mContext));
     }
 }

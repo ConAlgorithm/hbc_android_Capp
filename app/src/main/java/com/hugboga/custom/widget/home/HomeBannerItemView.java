@@ -16,6 +16,7 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HbcViewBehavior;
@@ -32,7 +33,7 @@ import butterknife.OnClick;
 
 public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
 
-    public static final float DESPLAY_IMG_RATIO = 800 / 670.0f;
+    public static final float DESPLAY_IMG_RATIO = 700 / 670.0f;
 
     @BindView(R.id.home_banner_desplay_iv)
     ImageView desplayIV;
@@ -75,7 +76,15 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
         bannerBean = (HomeBean.BannerBean)_data;
         Tools.showImage(desplayIV, bannerBean.bannerPicture);
         titleTV.setText(bannerBean.bannerName);
-        if (bannerBean.bannerType == 1) {//商品
+        if (bannerBean.bannerType == 1 || bannerBean.bannerType == 3) {//1活动、2广告
+            typeTV.setText(resources.getString(bannerBean.bannerType == 1 ? R.string.home_goodes_type2 : R.string.home_goodes_type2));
+            typeTV.setBackgroundColor(getContext().getResources().getColor(R.color.default_yellow));
+            guideNameTV.setVisibility(GONE);
+            descTV.setVisibility(View.GONE);
+            collectTV.setText(bannerBean.bannerDesc);
+            avatarIV.setVisibility(GONE);
+            avatarIconIV.setVisibility(GONE);
+        } else if (bannerBean.bannerType == 2) {//商品
             typeTV.setText(resources.getString(R.string.home_goodes_type1));
             typeTV.setBackgroundColor(0xFF4A4A4A);
             guideNameTV.setVisibility(VISIBLE);
@@ -86,14 +95,6 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
             avatarIV.setVisibility(VISIBLE);
             avatarIconIV.setVisibility(VISIBLE);
             Tools.showImage(avatarIV, bannerBean.guideAvatar, R.mipmap.icon_avatar_guide);
-        } else {//活动
-            typeTV.setText(resources.getString(R.string.home_goodes_type2));
-            typeTV.setBackgroundColor(getContext().getResources().getColor(R.color.default_yellow));
-            guideNameTV.setVisibility(GONE);
-            descTV.setVisibility(View.GONE);
-            collectTV.setText(bannerBean.bannerDesc);
-            avatarIV.setVisibility(GONE);
-            avatarIconIV.setVisibility(GONE);
         }
     }
 
@@ -102,7 +103,11 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
         if (bannerBean == null) {
             return;
         }
-        if (bannerBean.bannerType == 1) {
+        if (bannerBean.needLogin == 1) {
+             boolean isLogin =  CommonUtils.isLogin(getContext(),getEventSource());
+             if (!isLogin) return;
+        }
+        if (bannerBean.bannerType == 2) {
             Intent intent = new Intent(getContext(), SkuDetailActivity.class);
             intent.putExtra(WebInfoActivity.WEB_URL, bannerBean.bannerAddress);
             intent.putExtra(Constants.PARAMS_ID, bannerBean.bannerSettingId);

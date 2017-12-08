@@ -7,6 +7,8 @@ import java.util.List;
  */
 
 public class AiRequestInfo {
+    public String customServiceStatus;
+    public String customServiceId;
     public String destinationId;
     public String destinationName;
     public String destinationType;
@@ -18,4 +20,6 @@ public class AiRequestInfo {
     public List<UserSaid> userSaidList;
     public String questionId;
     public String askDuoDuoSessionID;
+    public String chooseDestinationId;
+    public String chooseDestinationType;
 }

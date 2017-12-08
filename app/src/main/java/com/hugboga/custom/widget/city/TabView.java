@@ -40,7 +40,7 @@ public class TabView extends FrameLayout {
         String text = ta.getString(R.styleable.TabView_text);
         boolean isSelect = ta.getBoolean(R.styleable.TabView_selected, false);
         tab_view_title.setText(text);
-        tab_view_arrow.setImageResource(isSelect ? R.mipmap.destination_screening_up_icon : R.mipmap.destination_screening_an_icon);
+        tab_view_arrow.setImageResource(isSelect ? R.mipmap.destination_screening_an_icon : R.mipmap.destination_screening_up_icon);
         tab_view_bottom.setVisibility(isSelect ? View.VISIBLE : View.GONE);
         tab_view_title.setSelected(isSelect);
         ta.recycle();
@@ -51,7 +51,7 @@ public class TabView extends FrameLayout {
     }
 
     public void setSelected(boolean isSelect) {
-        tab_view_arrow.setImageResource(isSelect ? R.mipmap.destination_screening_up_icon : R.mipmap.destination_screening_an_icon);
+        tab_view_arrow.setImageResource(isSelect ? R.mipmap.destination_screening_an_icon : R.mipmap.destination_screening_up_icon);
         tab_view_bottom.setVisibility(isSelect ? View.VISIBLE : View.GONE);
         tab_view_title.setSelected(isSelect);
     }

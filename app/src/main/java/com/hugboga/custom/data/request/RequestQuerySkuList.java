@@ -2,10 +2,9 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
+import com.hugboga.custom.data.bean.city.PageQueryDestinationGoodsVo;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
@@ -14,7 +13,6 @@ import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by HONGBO on 2017/11/29 11:36.
@@ -23,7 +21,7 @@ import java.util.List;
 public class RequestQuerySkuList extends BaseRequest {
 
     public RequestQuerySkuList(Context context, int destinationId, int destinationType,
-                               String dayCountTypeList, String destinationTagIdList, String depCityIdList,int page) {
+                               String dayCountTypeList, String destinationTagIdList, String depCityIdList, int page) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("destinationId", destinationId); //目的地ID
@@ -47,7 +45,6 @@ public class RequestQuerySkuList extends BaseRequest {
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_CITY_QUERY_SKU_LIST, new TypeToken<List<DestinationGoodsVo>>() {
-        }.getType());
+        return new HbcParser(UrlLibs.API_CITY_QUERY_SKU_LIST, PageQueryDestinationGoodsVo.class);
     }
 }

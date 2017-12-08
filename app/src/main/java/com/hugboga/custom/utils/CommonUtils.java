@@ -341,7 +341,7 @@ public final class CommonUtils {
         return cachePath;
     }
 
-    public static boolean isLogin(Context context,String source) {
+    public static boolean isLogin(Context context, String source) {
         if (context != null && !UserEntity.getUser().isLogin(context)) {
             CommonUtils.showToast(R.string.login_hint);
             Intent intent= new Intent(context, LoginActivity.class);

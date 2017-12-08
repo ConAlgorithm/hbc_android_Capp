@@ -928,6 +928,7 @@
     <string name="home_goodes_service_day">%1$s天 · %2$s</string>
     <string name="home_goodes_type1">已认证</string>
     <string name="home_goodes_type2">活动</string>
+    <string name="home_goodes_type3">广告</string>
     <string name="home_goodes_price">¥%1$s起/人</string>
     <string name="home_book">立即预订</string>
     <string name="home_goodes_price_car">¥%1$s起/车</string>
@@ -1003,4 +1004,9 @@
 
     <!--AI text-->
     <string name="ai_result_title">为您推荐</string>
+    <string name="ai_result_banner_title_fast">快速了解您的目的地</string>
+    <string name="ai_result_banner_title_sku">按照您的行程，旅行小管家建议</string>
+    <string name="ai_result_banner_title_do">您也可以自己包车畅游</string>
+    <string name="ai_result_banner_title_call">咨询旅行小管家确认行程</string>
+    <string name="ai_result_sku_more_title">查看%s全部玩法</string>
 </resources>

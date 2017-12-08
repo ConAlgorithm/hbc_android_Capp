@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by HONGBO on 2017/11/28 10:34.
  */
 
-public class DestinationGoodsVo implements Parcelable {
+public class DestinationGoodsVo implements Parcelable{
 
     public String goodsNo; //商品编号
     public int goodsVersion; //商品版本号

@@ -2,7 +2,6 @@ package com.hugboga.custom.developer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.huangbaoche.hbcframe.data.bean.UserSession;
@@ -14,16 +13,15 @@ import com.hugboga.custom.action.data.ActionGuideDetailBean;
 import com.hugboga.custom.action.data.ActionOrderDetailBean;
 import com.hugboga.custom.action.data.ActionSkuDetailBean;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.SettingActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.CommonUtils;
+
 import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/8/15.
  */
-public class DeveloperOptionsActivity extends BaseActivity{
+public class DeveloperOptionsActivity extends BaseActivity {
 
     @Override
     public int getContentViewId() {
@@ -78,6 +76,7 @@ public class DeveloperOptionsActivity extends BaseActivity{
         Intent intent = new Intent(this, WebInfoActivity.class);
         final String url = "https://cdms2.huangbaoche.com/app/switchRoute.html?ak=" + UserSession.getUser().getAccessKey(this);
         intent.putExtra(WebInfoActivity.WEB_URL, url);
+        intent.putExtra(WebInfoActivity.WEB_DEV, true);
         startActivity(intent);
     }
 }
