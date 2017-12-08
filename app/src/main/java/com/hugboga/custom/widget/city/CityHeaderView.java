@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by HONGBO on 2017/11/21 20:16.
  */
 
-public class CityHeaderFilterView extends FrameLayout {
+public class CityHeaderView extends FrameLayout {
 
     Activity mActivity;
 
@@ -35,11 +35,11 @@ public class CityHeaderFilterView extends FrameLayout {
     @BindView(R.id.city_header_banner_view)
     CityBannerView city_header_banner_view; //头部广告部分
 
-    public CityHeaderFilterView(@NonNull Context context) {
+    public CityHeaderView(@NonNull Context context) {
         this(context, null);
     }
 
-    public CityHeaderFilterView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public CityHeaderView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         View view = inflate(context, R.layout.city_header_img, this);
         ButterKnife.bind(this, view);

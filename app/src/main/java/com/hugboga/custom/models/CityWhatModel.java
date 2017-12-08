@@ -1,16 +1,19 @@
 package com.hugboga.custom.models;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
+import android.content.Intent;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.tools.HLog;
+import com.hugboga.custom.activity.UnicornServiceActivity;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.ServiceQuestionBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.utils.SharedPre;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -54,8 +57,15 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
 
         @OnClick(R.id.city_item_what_btn)
         public void onClick(View view) {
-            //TODO 这里开始咨询跳转到指定坐席的人工客服
-            HLog.d("==========> 在这里开始咨询AI");
+            // 这里开始咨询跳转到指定坐席的人工客服
+            UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+            params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+            ServiceQuestionBean.QuestionItem questionItem = new ServiceQuestionBean.QuestionItem();
+            questionItem.customRole = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_GROUP_ID, 0);
+            params.questionItem = questionItem;
+            Intent intent = new Intent(mContext, UnicornServiceActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            mContext.startActivity(intent);
         }
     }
 }
