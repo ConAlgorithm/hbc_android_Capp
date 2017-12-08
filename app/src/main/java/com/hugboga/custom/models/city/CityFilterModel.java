@@ -1,5 +1,7 @@
 package com.hugboga.custom.models.city;
 
+import android.view.View;
+
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
 import com.hugboga.custom.widget.city.CityFilterView;
@@ -12,6 +14,7 @@ import com.hugboga.custom.widget.city.CityFilterView;
 public class CityFilterModel extends EpoxyModel<CityFilterView> {
 
     public CityFilterView cityFilterView;
+    public CityFilterView.FilterSeeListener filterSeeListener;
 
     @Override
     public void bind(CityFilterView view) {
@@ -20,6 +23,8 @@ public class CityFilterModel extends EpoxyModel<CityFilterView> {
             return;
         }
         this.cityFilterView = view;
+        //监听筛选项变化
+        cityFilterView.setFilterSeeListener(filterSeeListener);
     }
 
     @Override

@@ -29,7 +29,6 @@ import com.hugboga.custom.data.request.RequestQuerySkuList;
 import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterContentView;
 import com.hugboga.custom.widget.city.CityFilterView;
-import com.hugboga.custom.widget.city.CityHeaderView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,21 +51,10 @@ public class CityActivity extends BaseActivity {
     @BindView(R.id.city_toolbar_title)
     TextView city_toolbar_title; //Toolbar标题
     @BindView(R.id.city_filter_con_view)
-    CityFilterContentView filterView; //筛选弹出框
+    CityFilterContentView filterContentView; //筛选弹出框
 
     @BindView(R.id.city_list_listview)
     RecyclerView recyclerView; //筛选线路列表
-
-    @BindView(R.id.city_header_filter_img_root)
-    CityHeaderView city_header_filter_img_root; //头部城市信息
-    @BindView(R.id.content_city_filte_view1)
-    FilterView content_city_filte_view1; //筛选条件内容，游玩线路
-    @BindView(R.id.content_city_filte_view2)
-    FilterView content_city_filte_view2; //筛选条件内容，出发城市
-    @BindView(R.id.content_city_filte_view3)
-    FilterView content_city_filte_view3; //筛选条件内容，游玩天数
-    @BindView(R.id.city_filter_view)
-    CityFilterView cityFilterView; //选择筛选项
 
     boolean isFromHome;
     boolean isFromDestination;
@@ -107,9 +95,6 @@ public class CityActivity extends BaseActivity {
         isFromHome = getIntent().getBooleanExtra("isFromHome", false);
         isFromDestination = getIntent().getBooleanExtra("isFromDestination", false);
 
-        //监听筛选项变化
-        cityFilterView.setFilterSeeListener(filterSeeListener);
-
         //初始化首页内容
         RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
         HttpRequestUtils.request(this, requestCity, this);
@@ -141,6 +126,7 @@ public class CityActivity extends BaseActivity {
                 }
             }
         });
+        filterContentView.setAdapter(adapter); //Filter需要数据设置
     }
 
     private void resetBannerUI(int top) {
@@ -150,9 +136,9 @@ public class CityActivity extends BaseActivity {
     }
 
     private void resetFilterUI(int top) {
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(filterView.getLayoutParams());
-        layoutParams.setMargins(0, top, layoutParams.width, top + filterView.getHeight());
-        filterView.setLayoutParams(layoutParams);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(filterContentView.getLayoutParams());
+        layoutParams.setMargins(0, top, layoutParams.width, top + filterContentView.getHeight());
+        filterContentView.setLayoutParams(layoutParams);
     }
 
     private void onScrollFloat(int dy) {
@@ -164,14 +150,14 @@ public class CityActivity extends BaseActivity {
                 }
                 resetBannerUI(newTop);
                 int newFilterTop = newTop + toolbar.getHeight();
-                if (filterView.getTop() < newFilterTop) {
+                if (filterContentView.getTop() < newFilterTop) {
                     resetFilterUI(newFilterTop);
                 }
             } else {
                 if (adapter.cityFilterModel.cityFilterView != null) {
                     int bannerTop = adapter.cityFilterModel.cityFilterView.getTop();
-                    if (bannerTop > filterView.getTop()) {
-                        resetFilterUI(0 - Math.abs(filterView.getTop()));
+                    if (bannerTop > filterContentView.getTop()) {
+                        resetFilterUI(0 - Math.abs(filterContentView.getTop()));
                     }
                 }
             }
@@ -216,95 +202,43 @@ public class CityActivity extends BaseActivity {
     private void flushFilterData(DestinationHomeVo data) {
         //游玩线路数据
         labels = cityDataTools.getTagData(data.destinationTagGroupList);
-        content_city_filte_view1.setData(labels, onSelectListener1);
-        //出发城市数据
-        content_city_filte_view2.setData(cityDataTools.getCityData(data.depCityList), onSelectListener2);
-        //游玩天数数据
-        content_city_filte_view3.setData(cityDataTools.getDayData(data.dayCountList), onSelectListener3);
+        filterContentView.reset(labels, cityDataTools.getCityData(data.depCityList), cityDataTools.getDayData(data.dayCountList),
+                filterConSelect1, filterConSelect2, filterConSelect3);
     }
 
-    /**
-     * 游玩线路标签选中处理
-     */
-    FilterView.OnSelectListener onSelectListener1 = new FilterView.OnSelectResultListener() {
-        @Override
-        public void onParentSelect(FilterView filterView, LabelBean labelBean) {
-            super.onParentSelect(filterView, labelBean);
-            //关联重设，两个Tag布局内容
-            if (filterView == content_city_filte_view1) {
-                adapter.setSelectIds(filterView.getSelectIds());
-            } else {
-                content_city_filte_view1.setSelectIds(filterView.getSelectIds());
-            }
-            // 关联城市联动
-            linkCity(labelBean);
-        }
+    CityFilterContentView.FilterConSelect filterConSelect1 = new CityFilterContentView.FilterConSelect() {
 
         @Override
         public void onSelect(FilterView filterView, LabelBean labelBean) {
-            content_city_filte_view1.hide();
-            cityFilterView.clear();
+            filterContentView.city_content_filter_view.clear();
             labelBeanTag = labelBean;
-            //关联重设，两个Tag布局内容
-            if (filterView == content_city_filte_view1) {
-                adapter.setSelectIds(filterView.getSelectIds());
-            } else {
-                content_city_filte_view1.setSelectIds(filterView.getSelectIds());
-            }
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
-            cityFilterView.setTextTag(labelBean.name);
-            // 关联城市联动
-            linkCity(labelBean);
+            filterContentView.city_content_filter_view.setTextTag(labelBean.name);
         }
     };
 
-    /**
-     * 关联城市联动
-     *
-     * @param labelBean
-     */
-    private void linkCity(LabelBean labelBean) {
-        content_city_filte_view2.setEnableClickIds(cityDataTools.getDepCityIds(labelBean.depIdSet));
-    }
+    CityFilterContentView.FilterConSelect filterConSelect2 = new CityFilterContentView.FilterConSelect() {
 
-    /**
-     * 关联标签联动
-     *
-     * @param labelBean
-     */
-    private void linkTag(LabelBean labelBean) {
-        content_city_filte_view1.setEnableClickIds(cityDataTools.getDepTagIds(data.destinationTagGroupList, labelBean.id));
-    }
-
-    /**
-     * 出发城市选中处理
-     */
-    FilterView.OnSelectListener onSelectListener2 = new FilterView.OnSelectResultListener() {
         @Override
         public void onSelect(FilterView filterView, LabelBean labelBean) {
-            content_city_filte_view2.hide();
-            cityFilterView.clear();
+            filterContentView.city_content_filter_view.clear();
             labelBeanCity = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
-            cityFilterView.setTextCity(labelBean.name);
-            linkTag(labelBean);
+            filterContentView.city_content_filter_view.setTextCity(labelBean.name);
         }
     };
 
-    /**
-     * 游玩天数选中处理
-     */
-    FilterView.OnSelectListener onSelectListener3 = new FilterView.OnSelectResultListener() {
+    CityFilterContentView.FilterConSelect filterConSelect3 = new CityFilterContentView.FilterConSelect() {
+
         @Override
         public void onSelect(FilterView filterView, LabelBean labelBean) {
-            cityFilterView.clear();
-            content_city_filte_view3.hide();
+            filterContentView.city_content_filter_view.clear();
             labelBeanDay = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
-            cityFilterView.setTextDay(labelBean.name);
+            filterContentView.city_content_filter_view.setTextDay(labelBean.name);
         }
     };
 
@@ -353,43 +287,6 @@ public class CityActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    CityFilterView.FilterSeeListener filterSeeListener = new CityFilterView.FilterSeeListener() {
-        @Override
-        public void onShowFilter(int position, boolean isSelect) {
-            clearContentCityFilteViews();
-            switch (position) {
-                case 0:
-                    if (content_city_filte_view1 != null) {
-                        content_city_filte_view1.setVisibility(isSelect ? View.VISIBLE : View.GONE);
-                    }
-                    break;
-                case 1:
-                    if (content_city_filte_view2 != null) {
-                        content_city_filte_view2.setVisibility(isSelect ? View.VISIBLE : View.GONE);
-                    }
-                    break;
-                case 2:
-                    if (content_city_filte_view3 != null) {
-                        content_city_filte_view3.setVisibility(isSelect ? View.VISIBLE : View.GONE);
-                    }
-                    break;
-            }
-        }
-    };
-
-    private void clearContentCityFilteViews() {
-        if (content_city_filte_view1 != null) {
-            content_city_filte_view1.setVisibility(View.GONE);
-        }
-        if (content_city_filte_view2 != null) {
-            content_city_filte_view2.setVisibility(View.GONE);
-        }
-        if (content_city_filte_view3 != null) {
-            content_city_filte_view3.setVisibility(View.GONE);
-        }
-    }
-
 
     /**************** Old codes *****************************/
     public static final int GUIDE_LIST_COUNT = 8;//精选司导显示的条数
@@ -473,16 +370,6 @@ public class CityActivity extends BaseActivity {
             if (data != null) {
                 //修改标题
                 city_toolbar_title.setText(data.destinationName);
-                if (city_header_filter_img_root != null) {
-                    city_header_filter_img_root.init(this, data);
-                }
-                //设置标签部分
-                if (data.destinationGoodsCount > 0) {
-                    cityFilterView.setVisibility(View.VISIBLE);
-                    flushFilterData(data);
-                } else {
-                    cityFilterView.setVisibility(View.GONE);
-                }
                 // 设置玩法列表初始化数据
                 if (data.destinationGoodsList != null && data.destinationGoodsList.size() > 0) {
                     flushSkuList(data.destinationGoodsList);
@@ -490,6 +377,8 @@ public class CityActivity extends BaseActivity {
                     page = 1; //无条件查询玩法
                     flushSkuList();
                 }
+                //设置过滤条件筛选中的数据
+                filterContentView.setData(data);
             }
             //初始化已收藏线路数据
             queryFavoriteLineList();
@@ -507,6 +396,20 @@ public class CityActivity extends BaseActivity {
         }
     }
 
+    private void resetFilterView() {
+        //设置标签部分
+        if (data.destinationGoodsCount > 0) {
+            //有玩法数据则显示筛选器
+            adapter.showFilterModel(true);
+            filterContentView.city_content_filter_view.setVisibility(View.VISIBLE);
+            flushFilterData(data);
+        } else {
+            //无玩法数据隐藏筛选器
+            adapter.showFilterModel(false);
+            filterContentView.city_content_filter_view.setVisibility(View.GONE);
+        }
+    }
+
     /**
      * 设置玩法列表数据
      *
@@ -514,16 +417,40 @@ public class CityActivity extends BaseActivity {
      */
     private void flushSkuList(List<DestinationGoodsVo> destinationGoodsList) {
         if (adapter == null) {
-            adapter = new CityAdapter(this, destinationGoodsList, data.serviceConfigList,
-                    labels, onSelectListener1);
+            adapter = new CityAdapter(this, data, destinationGoodsList, data.serviceConfigList,
+                    labels, filterContentView.onSelectListener1);
             recyclerView.setAdapter(adapter);
+            adapter.cityFilterModel.filterSeeListener = filterSeeListener;
         }
         if (page == 1) {
             adapter.load(destinationGoodsList);
         } else {
             adapter.addMoreGoods(destinationGoodsList);
         }
+        //FIXME 依赖Adapter都放在这里=====================
+        //构建筛选器
+        resetFilterView();
     }
+
+    /**
+     * Adapter中FilterModel筛选项点击事件
+     */
+    CityFilterView.FilterSeeListener filterSeeListener = new CityFilterView.FilterSeeListener() {
+        @Override
+        public void onShowFilter(int position, boolean isSelect) {
+            switch (position) {
+                case 0:
+
+                    break;
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+            }
+        }
+    };
 
     @Override
     public String getEventSource() {

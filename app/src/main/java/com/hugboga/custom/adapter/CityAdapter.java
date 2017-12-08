@@ -1,9 +1,11 @@
 package com.hugboga.custom.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
+import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
 import com.hugboga.custom.models.CityListLabelModel;
 import com.hugboga.custom.models.CityListModel;
@@ -33,11 +35,11 @@ public class CityAdapter extends SkuAdapter {
 
     List<ServiceConfigVo> serviceConfigList;
 
-    public CityAdapter(Context context, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList,
+    public CityAdapter(Context context, DestinationHomeVo vo, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList,
                        List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1) {
         super(context);
         this.serviceConfigList = serviceConfigList;
-        cityHeaderModel = new CityHeaderModel();
+        cityHeaderModel = new CityHeaderModel((Activity) context, vo);
         cityFilterModel = new CityFilterModel();
         cityListLabelModel = new CityListLabelModel(labels, onSelectListener1);
         citySkuNoModel = new CitySkuNoModel();
@@ -48,7 +50,9 @@ public class CityAdapter extends SkuAdapter {
         addModel(cityListLabelModel);
         addConfig(serviceConfigList);
         addModel(cityWhatModel);
+        //添加筛选为空sku展示位，默认隐藏
         addModelConfig(citySkuNoModel);
+        citySkuNoModel.hide();
     }
 
     public void addGoods(List<DestinationGoodsVo> data) {
@@ -110,6 +114,22 @@ public class CityAdapter extends SkuAdapter {
     public void setSelectIds(Map<String, Boolean> ids) {
         if (cityListLabelModel != null) {
             cityListLabelModel.setSelectIds(ids);
+        }
+    }
+
+    public void showFilterModel(boolean isShow) {
+        if (isShow) {
+            cityFilterModel.show();
+        } else {
+            cityFilterModel.hide();
+        }
+    }
+
+    public void showNoSkuModel(boolean isShow) {
+        if (isShow) {
+            citySkuNoModel.show();
+        } else {
+            citySkuNoModel.hide();
         }
     }
 }
