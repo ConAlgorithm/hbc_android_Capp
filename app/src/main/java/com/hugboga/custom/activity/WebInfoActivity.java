@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MyApplication;
@@ -56,6 +57,12 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     public static final String WEB_URL = "web_url";
     public static final String CONTACT_SERVICE = "contact_service";
 
+    public static final String WEB_DEV = "web_dev"; //是否开发者模式
+    private final String WEB_DEV_NAME = "name=HbcAppAk";
+    private final String WEB_DEV_VALUE = "value=" + UserSession.getUser().getAccessKey(this);
+    private final String WEB_DEV_PATH = "path=/";
+    private final String WEB_DEV_DOMAIN = "domain=huangbaoche.com";
+
     public boolean isHttps = false;
     @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
@@ -77,6 +84,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     private String url;
     private WebAgent webAgent;
     private String title;
+    private boolean dev = false;
 
     @Override
     public int getContentViewId() {
@@ -85,14 +93,14 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        this.cityBean = (CityBean)getIntent().getSerializableExtra("cityBean");
+        this.cityBean = (CityBean) getIntent().getSerializableExtra("cityBean");
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         initView();
         setSensorsDefaultEvent();
     }
 
-    protected boolean isDefaultEvent(){
+    protected boolean isDefaultEvent() {
         return false;
     }
 
@@ -270,7 +278,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
                 mDialogUtil.dismissDialog();
             }
             webView.destroy();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         EventBus.getDefault().unregister(this);
@@ -329,14 +337,14 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
             headerRightBtn.setLayoutParams(headerRightImageParams);
-            headerRightBtn.setPadding(0,0,0,0);
+            headerRightBtn.setPadding(0, 0, 0, 0);
             headerRightBtn.setImageResource(R.mipmap.topbar_cs);
             headerRightBtn.setVisibility(View.VISIBLE);
             headerRightBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //DialogUtil.getInstance(activity).showCallDialog();
-                    CommonUtils.csDialog(activity,null,"联系客服",null,UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
+                    CommonUtils.csDialog(activity, null, "联系客服", null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource());
                 }
             });
         }
@@ -364,8 +372,13 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         initHeader();
         isLogin = UserEntity.getUser().isLogin(this);
         url = getIntent().getStringExtra(WEB_URL);
-
+        dev = getIntent().getBooleanExtra(WEB_DEV, false);
         setUrlUserId();
+
+        //开发者模式，设置特殊cookies
+        if (dev) {
+            synCookiesArray(url, WEB_DEV_NAME, WEB_DEV_VALUE, WEB_DEV_PATH, WEB_DEV_DOMAIN); //设置cookies
+        }
 
         if (isLogin) {
             try {
@@ -381,7 +394,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             webView.loadUrl(url);
         }
         MLog.e("url=" + url);
-
         SensorsUtils.setSensorsShowUpWebView(webView);
     }
 
@@ -421,6 +433,22 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             } else {
                 url = CommonUtils.getBaseUrl(url) + "userId=" + userId;
             }
+        }
+    }
+
+    public void synCookiesArray(String url, String... value) {
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        if (value != null) {
+            for (String i : value) {
+                cookieManager.setCookie(url, i);
+            }
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.flush();
+        } else {
+            CookieSyncManager.createInstance(MyApplication.getAppContext());
+            CookieSyncManager.getInstance().sync();
         }
     }
 

@@ -163,6 +163,10 @@ public class FgHome extends BaseFragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                if (homeAdapter.homeBannerModel == null || homeAdapter.homeBannerModel.itemView == null
+                        || homeAdapter.homeAiModel == null || homeAdapter.homeAiModel.homeAIView == null) {
+                    return;
+                }
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     RecyclerView.LayoutManager layoutManager = homeRecyclerView.getLayoutManager();
                     int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
