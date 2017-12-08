@@ -210,11 +210,11 @@ public class FakeAIActivity extends BaseActivity {
                     skipDialogue(data.customServiceStatus);
                 } else if (data.durationReqList != null && data.durationReqList.size() != 0) {
                     fakeData(data.durationReqList);
+                    editText.setHint("我要玩.....");
                 } else if (data.accompanyReqList != null && data.accompanyReqList.size() != 0) {
                     editText.setHint("我和.....");
                     fakeData(data.accompanyReqList);
                 } else if (data.hotDestinationReqList != null && data.hotDestinationReqList.size() != 0) {
-                    editText.setHint("我和.....");
                     fakeData(data.hotDestinationReqList);
                 }
                 if (data.userSaidList != null) {
