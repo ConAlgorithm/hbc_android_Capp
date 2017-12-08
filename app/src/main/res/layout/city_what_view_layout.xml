@@ -29,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/city_banner_default" />
+        app:srcCompat="@color/default_pic_gray" />
 
     <TextView
         android:id="@+id/city_what_view_title"
