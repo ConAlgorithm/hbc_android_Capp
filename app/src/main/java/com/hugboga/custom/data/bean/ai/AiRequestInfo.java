@@ -20,6 +20,4 @@ public class AiRequestInfo {
     public List<UserSaid> userSaidList;
     public String questionId;
     public String askDuoDuoSessionID;
-    public String chooseDestinationId;
-    public String chooseDestinationType;
 }
