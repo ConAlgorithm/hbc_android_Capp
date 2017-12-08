@@ -18,26 +18,29 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FakeAIAdapter;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.ServiceQuestionBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.ai.AiRequestInfo;
 import com.hugboga.custom.data.bean.ai.DuoDuoSaid;
 import com.hugboga.custom.data.bean.ai.FakeAIArrayBean;
 import com.hugboga.custom.data.bean.ai.FakeAIBean;
 import com.hugboga.custom.data.bean.ai.FakeAIQuestionsBean;
-import com.hugboga.custom.data.request.RaqustFakeAI;
-import com.hugboga.custom.data.request.RequsetFakeAIChange;
+import com.hugboga.custom.data.request.RaquestFakeAI;
+import com.hugboga.custom.data.request.RequestFakeAIChange;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ai.AiTagView;
-
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -76,7 +79,7 @@ public class FakeAIActivity extends BaseActivity {
     public static final int AIGETDATA_ACCOMPANY = 2;//伴随
     private FakeAIAdapter fakeAIAdapter;
     private int buttonType; //判断客服状态
-    private int i = 1;
+
 
     @Override
     public int getContentViewId() {
@@ -102,6 +105,7 @@ public class FakeAIActivity extends BaseActivity {
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                handler.sendEmptyMessageDelayed(0, 1000);
             }
         });
         //点击了退出软件盘调用。。。没效果
@@ -150,21 +154,29 @@ public class FakeAIActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.edit_text:
+                handler.sendEmptyMessage(0);
                 break;
             case R.id.button:
                 Intent intent = null;
                 switch (buttonType) {
                     case 1://跳转客服对话
-                        UnicornUtils.openServiceActivity(FakeAIActivity.this, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null);
+                        UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+                        ServiceQuestionBean.QuestionItem questionItem = new ServiceQuestionBean.QuestionItem();
+                        questionItem.customRole = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_GROUP_ID, 0);
+                        params.questionItem = questionItem;
+                        intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
+                        intent.putExtra(Constants.PARAMS_DATA, params);
+
                         break;
                     case 2://跳转填单页
                         intent = new Intent(FakeAIActivity.this, TravelPurposeFormActivity.class);
                         if (info.userSaidList != null && info.userSaidList.size() >= 2) {
                             intent.putExtra("cityName", info.userSaidList.get(0).saidContent);
                         }
-                        startActivity(intent);
                         break;
                 }
+                startActivity(intent);
                 finish();
                 break;
         }
@@ -173,15 +185,18 @@ public class FakeAIActivity extends BaseActivity {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
-        if (request instanceof RaqustFakeAI) {
+        if (request instanceof RaquestFakeAI) {
             FakeAIBean dataList = (FakeAIBean) request.getData();
+            if (dataList.askDuoDuoSessionID != null) {
+                info.askDuoDuoSessionID = dataList.askDuoDuoSessionID;
+            }
             if (dataList != null) {
                 initTipMessage(dataList);
                 fakeData(dataList.hotDestinationReqList);
                 initServiceMessage(dataList.duoDuoSaid);
             }
-        } else if (request instanceof RequsetFakeAIChange) {
-            FakeAIQuestionsBean data = ((RequsetFakeAIChange) request).getData();
+        } else if (request instanceof RequestFakeAIChange) {
+            FakeAIQuestionsBean data = ((RequestFakeAIChange) request).getData();
             //TODO 问答回复，稍后做处理
             if (data.recommendationDestinationHome != null) {
                 //有推荐结果
@@ -190,24 +205,31 @@ public class FakeAIActivity extends BaseActivity {
                 startActivity(intent);
                 finish();
             } else {
+
                 if (data.customServiceStatus != null) {
                     skipDialogue(data.customServiceStatus);
                 } else if (data.durationReqList != null && data.durationReqList.size() != 0) {
                     fakeData(data.durationReqList);
                 } else if (data.accompanyReqList != null && data.accompanyReqList.size() != 0) {
+                    editText.setHint("我和.....");
                     fakeData(data.accompanyReqList);
                 } else if (data.hotDestinationReqList != null && data.hotDestinationReqList.size() != 0) {
+                    editText.setHint("我和.....");
                     fakeData(data.hotDestinationReqList);
                 }
-                if (data.userSaidList != null)
+                if (data.userSaidList != null) {
                     info.userSaidList = data.userSaidList;
-
+                }
                 if (data.chooseDestinationId != null) {
-                    info.customServiceId = data.chooseDestinationId;
+                    info.destinationId = data.chooseDestinationId;
                 }
                 if (data.chooseDestinationType != null) {
-                    info.chooseDestinationType = data.chooseDestinationType;
+                    info.destinationType = data.chooseDestinationType;
                 }
+                if (data.chooseDurationId != null) {
+                    info.durationOptId = data.chooseDurationId;
+                }
+
                 initServiceMessage(data.duoDuoSaid);
             }
         }
@@ -241,10 +263,10 @@ public class FakeAIActivity extends BaseActivity {
         }
     };
 
-    class BuildMessageTask extends AsyncTask {
+    class BuildMessageTask extends AsyncTask<Object, Object, DuoDuoSaid> {
 
         @Override
-        protected Object doInBackground(Object[] objects) {
+        protected DuoDuoSaid doInBackground(Object[] objects) {
             if (objects.length == 0) {
                 return null;
             }
@@ -258,7 +280,16 @@ public class FakeAIActivity extends BaseActivity {
                     e.printStackTrace();
                 }
             }
-            return null;
+            return duoDuoSaid.get(duoDuoSaid.size() - 1);
+        }
+
+        @Override
+        protected void onPostExecute(DuoDuoSaid o) {
+            super.onPostExecute(o);
+            if (o.questionId!=null){
+                info.questionId = o.questionId;
+            }
+            editTextExist();
         }
     }
 
@@ -285,7 +316,7 @@ public class FakeAIActivity extends BaseActivity {
             });
             scrollViewLinearLayout.addView(view);
         }
-        editTextExist();
+
     }
 
     private void scrollViewButtonClick(FakeAIArrayBean bean, int type) {
@@ -309,6 +340,7 @@ public class FakeAIActivity extends BaseActivity {
         scrollViewLinearLayout.removeAllViews();
         horizontalScrollView.setVisibility(View.INVISIBLE);
         editText.setText("");
+        editText.setHint("");
         editText.setFocusable(false);
         editText.setFocusableInTouchMode(false);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -330,7 +362,9 @@ public class FakeAIActivity extends BaseActivity {
         editText.setFocusable(true);
         editText.requestFocus();
 
+
     }
+
 
     private void skipDialogue(String str) {
         String buttonContent;
@@ -348,7 +382,7 @@ public class FakeAIActivity extends BaseActivity {
      * 初始化界面信息
      */
     private void requestHotSearch() {
-        RaqustFakeAI requestHotSearch = new RaqustFakeAI(this);
+        RaquestFakeAI requestHotSearch = new RaquestFakeAI(this);
         HttpRequestUtils.request(this, requestHotSearch, this, false);
     }
 
@@ -367,7 +401,16 @@ public class FakeAIActivity extends BaseActivity {
             info.userWant = str;
         }
 
-        RequsetFakeAIChange requsetFakeAIChange = new RequsetFakeAIChange(this, info);
+        RequestFakeAIChange requsetFakeAIChange = new RequestFakeAIChange(this, info);
         HttpRequestUtils.request(this, requsetFakeAIChange, this, false);
+    }
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {//点击的是返回键
+            if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {//按键的按下事件
+            finish();
+               return false;
+            }
+        }
+        return super.dispatchKeyEvent(event);
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 public class FakeAIQuestionsBean {
     public String customServiceStatus;
+    public String chooseDurationId;
     public String chooseDestinationId;
     public String chooseDestinationType;
     public List<UserSaid> userSaidList;

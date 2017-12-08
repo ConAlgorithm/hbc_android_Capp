@@ -18,9 +18,9 @@ import org.xutils.http.annotation.HttpRequest;
  * Created by Administrator on 2017/12/4.
  */
 @HttpRequest(path = UrlLibs.API_IP_FAKE_AI_POST, builder = NewParamsBuilder.class)
-public class RequsetFakeAIChange extends BaseRequest<FakeAIQuestionsBean> {
+public class RequestFakeAIChange extends BaseRequest<FakeAIQuestionsBean> {
 
-    public RequsetFakeAIChange(Context context, AiRequestInfo info) {
+    public RequestFakeAIChange(Context context, AiRequestInfo info) {
         super(context);
         bodyEntity = new Gson().toJson(info);
     }
