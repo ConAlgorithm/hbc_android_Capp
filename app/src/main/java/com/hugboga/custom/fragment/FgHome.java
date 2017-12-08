@@ -164,7 +164,7 @@ public class FgHome extends BaseFragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (homeAdapter.homeBannerModel == null || homeAdapter.homeBannerModel.itemView == null
-                        || homeAdapter.homeAiModel == null || homeAdapter.homeAiModel.homeAIView == null) {
+                        || homeRecyclerView.getChildCount() <= 0 || homeRecyclerView.getChildAt(0) == null) {
                     return;
                 }
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
