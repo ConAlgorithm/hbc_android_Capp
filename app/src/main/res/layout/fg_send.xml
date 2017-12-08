@@ -47,7 +47,7 @@
                 android:id="@+id/send_airport_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
+                app:isShowBottomLine="true"
                 app:hintText="@string/send_airport_hint"
                 app:titleText="@string/send_airport_title" />
 
@@ -55,7 +55,7 @@
                 android:id="@+id/send_poi_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
+                app:isShowBottomLine="true"
                 app:hintText="@string/send_start_where"
                 app:titleText="@string/send_start_address" />
 
@@ -63,7 +63,7 @@
                 android:id="@+id/send_time_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
+                app:isShowBottomLine="true"
                 app:hintText="@string/send_time_hint"
                 app:titleText="@string/send_time_title" />
 
@@ -71,8 +71,6 @@
                 android:id="@+id/send_car_type_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/order_margin_vertical"
-                android:layout_marginTop="@dimen/order_margin_vertical"
                 android:background="#ffffff"
                 android:visibility="gone" />
 
@@ -80,7 +78,6 @@
                 android:id="@+id/send_empty_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
                 android:background="#ffffff"
                 android:gravity="center"
                 android:orientation="vertical"

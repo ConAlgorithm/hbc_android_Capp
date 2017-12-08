@@ -52,7 +52,6 @@
                 android:id="@+id/pickup_flight_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
                 app:hintText="@string/pick_flight_hint"
                 app:titleText="@string/pick_flight_title" />
 
@@ -80,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingBottom="12dp"
+                    android:paddingBottom="14dp"
                     android:paddingTop="2dp">
 
                     <TextView
@@ -101,12 +100,15 @@
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_line_height"
+                android:background="@color/default_dividing_line" />
             <com.hugboga.custom.widget.OrderInfoItemView
                 android:id="@+id/pickup_city_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
+                app:isShowBottomLine="true"
                 app:hintText="@string/pick_send_where"
                 app:titleText="@string/pick_send_title" />
 
@@ -114,8 +116,6 @@
                 android:id="@+id/pickup_car_type_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/order_margin_vertical"
-                android:layout_marginTop="@dimen/order_margin_vertical"
                 android:background="#ffffff"
                 android:visibility="gone" />
 
@@ -123,7 +123,6 @@
                 android:id="@+id/pickup_empty_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
                 android:background="#ffffff"
                 android:gravity="center"
                 android:orientation="vertical"
