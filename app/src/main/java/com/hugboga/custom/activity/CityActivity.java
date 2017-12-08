@@ -392,10 +392,12 @@ public class CityActivity extends BaseActivity {
             }
         } else if (request instanceof FavoriteLinesaved) {
             //查询出已收藏线路信息
-            UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();
-            if (favoriteLine != null && favoriteLine.goodsNos != null) {
-                adapter.resetFavious(favoriteLine.goodsNos);
-                adapter.notifyDataSetChanged();
+            if (request.getData() != null) {
+                UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();
+                if (adapter != null && favoriteLine != null && favoriteLine.goodsNos != null) {
+                    adapter.resetFavious(favoriteLine.goodsNos);
+                    adapter.notifyDataSetChanged();
+                }
             }
         }
     }
