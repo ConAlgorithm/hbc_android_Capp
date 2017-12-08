@@ -1,20 +1,19 @@
 package com.hugboga.custom.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 
-import com.airbnb.epoxy.EpoxyAdapter;
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
+import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
-import com.hugboga.custom.models.CityConfigModel;
 import com.hugboga.custom.models.CityListLabelModel;
 import com.hugboga.custom.models.CityListModel;
 import com.hugboga.custom.models.CitySkuNoModel;
 import com.hugboga.custom.models.CityWhatModel;
-import com.hugboga.custom.widget.city.CitySkuView;
+import com.hugboga.custom.models.city.CityFilterModel;
+import com.hugboga.custom.models.city.CityHeaderModel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,21 +27,30 @@ import tk.hongbo.label.data.LabelItemData;
 
 public class CityAdapter extends SkuAdapter {
 
-    List<ServiceConfigVo> serviceConfigList;
+    CityHeaderModel cityHeaderModel; //头部广告部分
+    public CityFilterModel cityFilterModel; //过滤器部分
     CityListLabelModel cityListLabelModel; //快速选择标签区
-    CityWhatModel cityWhatModel; //我要咨询入口
     CitySkuNoModel citySkuNoModel; //筛选没有玩法显示
+    CityWhatModel cityWhatModel; //我要咨询入口
 
-    public CityAdapter(Context context, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList,
+    List<ServiceConfigVo> serviceConfigList;
+
+    public CityAdapter(Context context, DestinationHomeVo vo, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList,
                        List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1) {
         super(context);
         this.serviceConfigList = serviceConfigList;
+        cityHeaderModel = new CityHeaderModel((Activity) context, vo);
+        cityFilterModel = new CityFilterModel();
         cityListLabelModel = new CityListLabelModel(labels, onSelectListener1);
         citySkuNoModel = new CitySkuNoModel();
         cityWhatModel = new CityWhatModel(mContext);
+        //业务添加Model
+        addModel(cityHeaderModel);
+        addModel(cityFilterModel);
         addModel(cityListLabelModel);
         addConfig(serviceConfigList);
         addModel(cityWhatModel);
+        //添加筛选为空sku展示位，默认隐藏
         addModelConfig(citySkuNoModel);
     }
 
@@ -66,7 +74,7 @@ public class CityAdapter extends SkuAdapter {
         }
     }
 
-    public void load(List<DestinationGoodsVo> data) {
+    public void load(List<DestinationGoodsVo> data, boolean isInit) {
         clearGoodeMode();
         if (data != null && data.size() > 0) {
             cityListLabelModel.show();
@@ -74,7 +82,11 @@ public class CityAdapter extends SkuAdapter {
             addGoods(data);
         } else {
             cityListLabelModel.hide();
-            citySkuNoModel.show();
+            if (isInit) {
+                citySkuNoModel.hide();
+            } else {
+                citySkuNoModel.show();
+            }
         }
     }
 
@@ -105,6 +117,22 @@ public class CityAdapter extends SkuAdapter {
     public void setSelectIds(Map<String, Boolean> ids) {
         if (cityListLabelModel != null) {
             cityListLabelModel.setSelectIds(ids);
+        }
+    }
+
+    public void showFilterModel(boolean isShow) {
+        if (isShow) {
+            cityFilterModel.show();
+        } else {
+            cityFilterModel.hide();
+        }
+    }
+
+    public void showNoSkuModel(boolean isShow) {
+        if (isShow) {
+            citySkuNoModel.show();
+        } else {
+            citySkuNoModel.hide();
         }
     }
 }
