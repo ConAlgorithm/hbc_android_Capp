@@ -21,7 +21,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnTagItemClickListener {
@@ -74,15 +73,15 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
     public void onSelectDay(View view) {
         switch (view.getId()) {
             case R.id.sku_filter_day_one_tv:
-                skuFilterBean.dayOne =!dayOneTV.isSelected();
+                skuFilterBean.dayOne = !dayOneTV.isSelected();
                 setDatViewSelected(dayOneTV, skuFilterBean.dayOne);
                 break;
             case R.id.sku_filter_day_two_tv:
-                skuFilterBean.dayTwo =!dayTwoTV.isSelected();
+                skuFilterBean.dayTwo = !dayTwoTV.isSelected();
                 setDatViewSelected(dayTwoTV, skuFilterBean.dayTwo);
                 break;
             case R.id.sku_filter_day_multi_tv:
-                skuFilterBean.dayMulti =!dayMultiTV.isSelected();
+                skuFilterBean.dayMulti = !dayMultiTV.isSelected();
                 setDatViewSelected(dayMultiTV, skuFilterBean.dayMulti);
                 break;
         }
@@ -234,9 +233,12 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
             try {
                 skuFilterBean = (SkuFilterBean) super.clone();
                 skuFilterBean.themeList = new ArrayList<>();
-                int size = themeList.size();
+                int size = 0;
+                if (themeList != null) {
+                    size = themeList.size();
+                }
                 for (int i = 0; i < size; i++) {
-                    skuFilterBean.themeList.add((GoodsFilterBean.FilterTheme)themeList.get(i).clone());
+                    skuFilterBean.themeList.add((GoodsFilterBean.FilterTheme) themeList.get(i).clone());
                 }
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
