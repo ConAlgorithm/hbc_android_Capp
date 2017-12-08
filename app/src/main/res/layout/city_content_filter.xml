@@ -4,17 +4,37 @@
     android:layout_height="match_parent"
     android:background="#66000000">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:minHeight="300dp"
         android:orientation="vertical">
 
-        <tk.hongbo.label.widget.LabelItemView
-            android:id="@+id/city_content_filter_item"
+        <com.hugboga.custom.widget.city.CityFilterView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <tk.hongbo.label.FilterView
+                android:id="@+id/content_city_filte_view1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <tk.hongbo.label.FilterView
+                android:id="@+id/content_city_filte_view2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <tk.hongbo.label.FilterView
+                android:id="@+id/content_city_filte_view3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+
 </android.support.v4.widget.NestedScrollView>
