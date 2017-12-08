@@ -7,5 +7,6 @@
         android:icon="@mipmap/destination_news_icon"
         android:orderInCategory="100"
         android:title="邮箱"
+        android:visible="false"
         app:showAsAction="always" />
 </menu>

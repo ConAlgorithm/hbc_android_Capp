@@ -52,7 +52,6 @@ public class CityAdapter extends SkuAdapter {
         addModel(cityWhatModel);
         //添加筛选为空sku展示位，默认隐藏
         addModelConfig(citySkuNoModel);
-        citySkuNoModel.hide();
     }
 
     public void addGoods(List<DestinationGoodsVo> data) {
@@ -75,7 +74,7 @@ public class CityAdapter extends SkuAdapter {
         }
     }
 
-    public void load(List<DestinationGoodsVo> data) {
+    public void load(List<DestinationGoodsVo> data, boolean isInit) {
         clearGoodeMode();
         if (data != null && data.size() > 0) {
             cityListLabelModel.show();
@@ -83,7 +82,11 @@ public class CityAdapter extends SkuAdapter {
             addGoods(data);
         } else {
             cityListLabelModel.hide();
-            citySkuNoModel.show();
+            if (isInit) {
+                citySkuNoModel.hide();
+            } else {
+                citySkuNoModel.show();
+            }
         }
     }
 

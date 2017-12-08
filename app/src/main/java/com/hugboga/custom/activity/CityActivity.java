@@ -130,9 +130,11 @@ public class CityActivity extends BaseActivity {
     }
 
     private void resetBannerUI(int top) {
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(toolbar.getLayoutParams());
-        layoutParams.setMargins(0, top, layoutParams.width, top + adapter.cityFilterModel.cityFilterView.getHeight());
-        toolbar.setLayoutParams(layoutParams);
+        if (adapter != null && adapter.cityFilterModel != null && adapter.cityFilterModel.cityFilterView != null) {
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(toolbar.getLayoutParams());
+            layoutParams.setMargins(0, top, layoutParams.width, top + adapter.cityFilterModel.cityFilterView.getHeight());
+            toolbar.setLayoutParams(layoutParams);
+        }
     }
 
     private void resetFilterUI(int top) {
@@ -391,8 +393,10 @@ public class CityActivity extends BaseActivity {
         } else if (request instanceof FavoriteLinesaved) {
             //查询出已收藏线路信息
             UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();
-            adapter.resetFavious(favoriteLine.goodsNos);
-            adapter.notifyDataSetChanged();
+            if (favoriteLine != null && favoriteLine.goodsNos != null) {
+                adapter.resetFavious(favoriteLine.goodsNos);
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -416,14 +420,16 @@ public class CityActivity extends BaseActivity {
      * @param destinationGoodsList
      */
     private void flushSkuList(List<DestinationGoodsVo> destinationGoodsList) {
+        boolean isInit = false;
         if (adapter == null) {
+            isInit = true; //初次加载数据
             adapter = new CityAdapter(this, data, destinationGoodsList, data.serviceConfigList,
                     labels, filterContentView.onSelectListener1);
             recyclerView.setAdapter(adapter);
             adapter.cityFilterModel.filterSeeListener = filterSeeListener;
         }
         if (page == 1) {
-            adapter.load(destinationGoodsList);
+            adapter.load(destinationGoodsList, isInit);
         } else {
             adapter.addMoreGoods(destinationGoodsList);
         }
