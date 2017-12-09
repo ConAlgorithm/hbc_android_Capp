@@ -128,18 +128,18 @@ public class CityActivity extends BaseActivity {
         3. 下滑toolbar动画出来，上滑toolbar去除
          */
         if (adapter.cityFilterModel.cityFilterView != null) {
-            if (dy < 0 && Math.abs(dy) > 3) {
+            if (dy < 0) {
                 //向下滑动
                 if (city_toolbar_root.getTop() != 0) {
                     translate(true);
                 }
-                if (adapter.cityFilterModel.cityFilterView.getTop() > toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
+                if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
                     //filterView出来，toolbar退出
                     filterContentView.setVisibility(View.GONE);
                 }
-            } else if (dy > 0 && Math.abs(dy) > 3) {
+            } else if (dy > 0) {
                 //向上滑动
-                if (adapter.cityFilterModel.cityFilterView.getTop() < toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
+                if (adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
                     //filterView出来，toolbar退出
                     filterContentView.setVisibility(View.VISIBLE);
                 }
@@ -156,7 +156,7 @@ public class CityActivity extends BaseActivity {
         if (!isShow) {
             translateAnimation = new TranslateAnimation(0, 0, 0, -height);
         }
-        translateAnimation.setDuration(120);
+        translateAnimation.setDuration(100);
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
