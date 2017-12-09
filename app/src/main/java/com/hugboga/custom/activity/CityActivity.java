@@ -225,8 +225,7 @@ public class CityActivity extends BaseActivity {
      */
     private void flushSkuList() {
         RequestQuerySkuList requestQuerySkuList = new RequestQuerySkuList(this, paramsData.id,
-                paramsData.cityHomeType.getType(), labelBeanDay != null ? labelBeanDay.id : "0",
-                labelBeanTag != null ? labelBeanTag.id : "0", labelBeanCity != null ? labelBeanCity.id : "0", page);
+                paramsData.cityHomeType.getType(), labelBeanDay, labelBeanTag, labelBeanCity, page);
         HttpRequestUtils.request(this, requestQuerySkuList, this, page == 1);
     }
 

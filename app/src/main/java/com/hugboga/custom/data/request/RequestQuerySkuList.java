@@ -14,6 +14,8 @@ import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
 
+import tk.hongbo.label.data.LabelBean;
+
 /**
  * Created by HONGBO on 2017/11/29 11:36.
  */
@@ -21,14 +23,20 @@ import java.util.HashMap;
 public class RequestQuerySkuList extends BaseRequest {
 
     public RequestQuerySkuList(Context context, int destinationId, int destinationType,
-                               String dayCountTypeList, String destinationTagIdList, String depCityIdList, int page) {
+                               LabelBean dayCountTypeList, LabelBean destinationTagIdList, LabelBean depCityIdList, int page) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("destinationId", destinationId); //目的地ID
         map.put("destinationType", destinationType); //目的地类型
-        map.put("dayCountTypeList", dayCountTypeList); //游玩天数类型列表,全部为空
-        map.put("destinationTagIdList", destinationTagIdList); //目的地标签列表,全部为空
-        map.put("depCityIdList", depCityIdList); //出发城市列表,全部为空
+        if (dayCountTypeList != null && !"0".equals(dayCountTypeList.id)) {
+            map.put("dayCountTypeList", dayCountTypeList.id); //游玩天数类型列表,全部为空
+        }
+        if (destinationTagIdList != null && !"0".equals(destinationTagIdList.id)) {
+            map.put("destinationTagIdList", destinationTagIdList.id); //目的地标签列表,全部为空
+        }
+        if (depCityIdList != null && !"0".equals(depCityIdList.id)) {
+            map.put("depCityIdList", depCityIdList.id); //出发城市列表,全部为空
+        }
         map.put("offset", (page - 1) * 10 + 1); // 起始项 默认值：1
         map.put("limit", 10); // 每页数量 默认值：10
     }
