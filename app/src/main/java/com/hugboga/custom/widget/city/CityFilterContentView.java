@@ -193,12 +193,15 @@ public class CityFilterContentView extends FrameLayout {
         clearAllFilterCon();
         switch (position) {
             case 0:
+                city_content_filter_view.tabView1.setSelected(isSelect);
                 content_city_filte_view1.setVisibility(isSelect ? View.VISIBLE : View.GONE);
                 break;
             case 1:
+                city_content_filter_view.tabView2.setSelected(isSelect);
                 content_city_filte_view2.setVisibility(isSelect ? View.VISIBLE : View.GONE);
                 break;
             case 2:
+                city_content_filter_view.tabView3.setSelected(isSelect);
                 content_city_filte_view3.setVisibility(isSelect ? View.VISIBLE : View.GONE);
                 break;
         }
@@ -213,5 +216,11 @@ public class CityFilterContentView extends FrameLayout {
 
     @OnClick(R.id.city_content_filter_con)
     public void unClick(View view) {
+        //关闭当前筛选内容框
+        city_content_filter_view.clear();
+        content_city_filte_view1.hide();
+        content_city_filte_view2.hide();
+        content_city_filte_view3.hide();
+        checkFilterConSee();
     }
 }
