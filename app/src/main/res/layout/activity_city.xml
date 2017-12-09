@@ -10,42 +10,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/toolbar_bg"
-        app:contentInsetEnd="0dp"
-        app:contentInsetLeft="0dp"
-        app:contentInsetRight="0dp"
-        app:contentInsetStart="0dp"
-        app:layout_collapseMode="pin">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/toolbar_bg"
+            app:layout_collapseMode="pin">
 
-            <TextView
-                android:id="@+id/city_toolbar_title"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:drawableRight="@mipmap/destination_city_screening_icon"
-                android:fontFamily="@font/fzdysjw"
-                android:gravity="center"
-                android:text="日本"
-                android:textAllCaps="false"
-                android:textColor="@android:color/background_dark"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:typeface="monospace" />
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
+                android:layout_marginRight="?attr/actionBarSize">
 
-    <com.hugboga.custom.widget.city.CityFilterContentView
-        android:id="@+id/city_filter_con_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/city_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableRight="@mipmap/destination_city_screening_icon"
+                    android:fontFamily="@font/fzdysjw"
+                    android:gravity="center"
+                    android:text="日本"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:typeface="monospace" />
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+
+        <com.hugboga.custom.widget.city.CityFilterContentView
+            android:id="@+id/city_filter_con_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </FrameLayout>
