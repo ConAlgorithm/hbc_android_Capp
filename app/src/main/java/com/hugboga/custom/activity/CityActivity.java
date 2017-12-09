@@ -117,20 +117,6 @@ public class CityActivity extends BaseActivity {
         filterContentView.setAdapter(adapter); //Filter需要数据设置
     }
 
-    private void resetBannerUI(int top) {
-        if (adapter != null && adapter.cityFilterModel != null && adapter.cityFilterModel.cityFilterView != null) {
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(toolbar.getLayoutParams());
-            layoutParams.setMargins(0, top, layoutParams.width, top + adapter.cityFilterModel.cityFilterView.getHeight());
-            toolbar.setLayoutParams(layoutParams);
-        }
-    }
-
-    private void resetFilterUI(int top) {
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(filterContentView.getLayoutParams());
-        layoutParams.setMargins(0, top, layoutParams.width, top + filterContentView.getHeight());
-        filterContentView.setLayoutParams(layoutParams);
-    }
-
     /**
      * 滚动效果修改
      *
