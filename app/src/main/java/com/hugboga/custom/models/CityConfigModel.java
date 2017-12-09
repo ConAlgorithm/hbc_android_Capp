@@ -14,6 +14,7 @@ import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
+import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.TagGroup;
 import com.hugboga.custom.widget.city.CityWhatDoTag;
@@ -65,15 +66,15 @@ public class CityConfigModel extends EpoxyModelWithHolder<CityConfigModel.CityCo
             switch (vo.serviceType) {
                 case 1:
                     //进入接送机
-                    intentActivity(mContext, PickSendActivity.class);
+                    IntentUtils.intentPickupActivity(mContext, "目的地首页");
                     break;
                 case 3:
                     //进入包车
-                    intentActivity(mContext, CharterFirstStepActivity.class);
+                    IntentUtils.intentCharterActivity(mContext, "目的地首页");
                     break;
                 case 4:
-                    intentActivity(mContext, SingleActivity.class);
                     //进入次租
+                    IntentUtils.intentSingleActivity(mContext, "目的地首页");
                     break;
             }
         }

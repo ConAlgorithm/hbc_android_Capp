@@ -11,17 +11,22 @@
         android:background="#eeeeee">
 
         <LinearLayout
-            android:paddingTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <com.hugboga.custom.widget.OrderGuidanceView
+                android:id="@+id/air_num_guidance_layout"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/basic_white"
                 android:clickable="true"
-                android:minHeight="72dp"
+                android:minHeight="82dp"
                 android:orientation="vertical">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -32,7 +37,7 @@
                         android:id="@+id/number_left"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="14dp"
                         android:layout_weight="1"
                         android:minEms="4"
                         android:text="@string/choose_input_air_no_left"
@@ -43,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:paddingTop="10dp"
+                        android:paddingTop="14dp"
                         android:paddingRight="15dp"
                         android:paddingLeft="15dp"
                         android:gravity="center"
@@ -61,7 +66,8 @@
                     android:id="@+id/rl_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="14dp"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="1"
                     android:clickable="true"
@@ -86,13 +92,12 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#eeeeee" />
+                android:layout_height="@dimen/default_line_height"
+                android:background="@color/default_dividing_line" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
                 android:background="@color/basic_white"
                 android:clickable="true"
                 android:minHeight="40dp">

@@ -32,6 +32,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CityUtils;
+import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.FlowLayout;
@@ -313,19 +314,11 @@ public class ChooseCityNewActivity extends BaseActivity {
                 levelCityAdapterMiddle.setMiddleLineShow(true);
 
                 if (groupList2.get(position).spot_id == -1) {
-                    Intent intent = new Intent(activity, PickSendActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
-                    startActivity(intent);
-
+                    IntentUtils.intentPickupActivity(activity, getEventSource());
                 } else if (groupList2.get(position).spot_id == -2) {
-                    Intent intent = new Intent(activity, SingleActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
-                    startActivity(intent);
-
+                    IntentUtils.intentSingleActivity(activity, getEventSource());
                 } else if (groupList2.get(position).spot_id == -3) {
-                    Intent intent = new Intent(activity, CharterFirstStepActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    startActivity(intent);
+                    IntentUtils.intentCharterActivity(activity, getEventSource());
                 } else {
                     if (CityUtils.canGoCityList(groupList2.get(position))) {
                         if(isFromTravelPurposeForm){

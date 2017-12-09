@@ -154,6 +154,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public volatile int groupId = -1;
     public volatile String startCityName;
     CsDialog csDialog;
+
     private static final class MessageType {
         /**
          * 全部城市
@@ -600,16 +601,44 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             saveHistoryDate(cityBean);
             bundle.putSerializable(KEY_CITY, cityBean);
             hideSoftInput();
-            finish();
+            if (TextUtils.equals(fromTag, GuidanceOrderActivity.TAG)) {
+                GuidanceOrderActivity.Params guidanceParams = (GuidanceOrderActivity.Params) getIntent().getSerializableExtra(GuidanceOrderActivity.PARAMS_GUIDANCE);
+                if (guidanceParams == null) {
+                    return;
+                }
+                Intent intent = null;
+                switch (guidanceParams.orderType) {
+                    case 3:
+                    case 888:
+                        intent = new Intent(this, CharterFirstStepActivity.class);
+                        intent.putExtra(Constants.PARAMS_SOURCE, guidanceParams.source);
+                        if (guidanceParams.seckillsBean != null) {
+                            intent.putExtra(Constants.PARAMS_SECKILLS, guidanceParams.seckillsBean);
+                        }
+                        intent.putExtra(Constants.PARAMS_START_CITY_BEAN, cityBean);
+                        startActivity(intent);
+                        break;
+                    case 4:
+                        intent = new Intent(this, SingleActivity.class);
+                        SingleActivity.Params singleParams = new SingleActivity.Params();
+                        singleParams.cityId = "" + cityBean.cityId;
+                        intent.putExtra(Constants.PARAMS_DATA, singleParams);
+                        intent.putExtra(Constants.PARAMS_SOURCE, guidanceParams.source);
+                        startActivity(intent);
+                        break;
+                }
 
-            if ("lastCity".equalsIgnoreCase(from) || GROUP_OUTTOWN.equalsIgnoreCase(from)) {
-                EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
-            } else if (null != from && from.equalsIgnoreCase("end")) {
-                EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
-            } else if (null != from && from.equalsIgnoreCase("purpose")){
-                EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,cityBean));
-            }else {
-                EventBus.getDefault().post(new EventAction(EventType.CHOOSE_START_CITY_BACK, cityBean));
+            } else {
+                finish();
+                if ("lastCity".equalsIgnoreCase(from) || GROUP_OUTTOWN.equalsIgnoreCase(from)) {
+                    EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
+                } else if (null != from && from.equalsIgnoreCase("end")) {
+                    EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
+                } else if (null != from && from.equalsIgnoreCase("purpose")){
+                    EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,cityBean));
+                }else {
+                    EventBus.getDefault().post(new EventAction(EventType.CHOOSE_START_CITY_BACK, cityBean));
+                }
             }
         }
     }

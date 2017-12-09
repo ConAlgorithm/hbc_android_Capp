@@ -43,6 +43,7 @@ import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.CsDialog;
+import com.hugboga.custom.widget.OrderGuidanceView;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
 import com.hugboga.custom.widget.title.TitleBar;
@@ -76,6 +77,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     TextView nextTV;
     @BindView(R.id.charter_first_seckills_layout)
     RelativeLayout seckillsLayout;
+    @BindView(R.id.charter_first_guidance_layout)
+    OrderGuidanceView guidanceLayout;
 
     @BindView(R.id.charter_first_conpons_tipview)
     ConponsTipView conponsTipView;
@@ -166,6 +169,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
         if (guidesDetailData == null) {
             guideLayout.setVisibility(View.GONE);
+            guidanceLayout.setVisibility(View.VISIBLE);
         } else {
             charterDataUtils.guidesDetailData = guidesDetailData;
             startBean = DatabaseManager.getCityBean("" + guidesDetailData.cityId);
@@ -173,6 +177,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             guideLayout.setData(guidesDetailData);
             requestData(new RequestGuideCrop(this, guidesDetailData.guideId), false);
             GuideCalendarUtils.getInstance().sendRequest(this, guidesDetailData.guideId, 3);
+            guidanceLayout.setVisibility(View.GONE);
         }
 
         charterDataUtils.seckillsBean = seckillsBean;
@@ -181,6 +186,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             cityLayout.setDesc(startBean.name);
             if (guidesDetailData == null) {
                 requestCarMaxCapaCity();
+                guidanceLayout.setData("" + startBean.cityId, startBean.name);
             } else {
                 getGuideCars();
             }
@@ -306,6 +312,10 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 startBean = cityBean;
                 cityLayout.setDesc(cityBean.name);
                 requestCarMaxCapaCity();
+                if (guidesDetailData == null) {
+                    guidanceLayout.setVisibility(View.VISIBLE);
+                    guidanceLayout.setData("" + startBean.cityId, startBean.name);
+                }
                 break;
             case CHOOSE_GUIDE_CITY_BACK:
                 ChooseGuideCityActivity.GuideServiceCitys guideServiceCitys = (ChooseGuideCityActivity.GuideServiceCitys) action.getData();
@@ -331,6 +341,10 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 cityLayout.setDesc(startBean.name);
                 setDateViewText();
                 countLayout.setMaxPassengers(false, maxPassengers, isSupportChildSeat, guidesDetailData != null, charterDataUtils.isSeckills());
+                if (guidesDetailData == null) {
+                    guidanceLayout.setVisibility(View.VISIBLE);
+                    guidanceLayout.setData("" + startBean.cityId, startBean.name);
+                }
                 break;
             case FROM_PURPOSER:
                 finish();

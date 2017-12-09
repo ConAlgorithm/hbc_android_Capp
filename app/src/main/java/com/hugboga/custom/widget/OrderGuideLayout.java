@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -21,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * Created by qingcha on 17/5/17.
  */
-public class OrderGuideLayout extends LinearLayout {
+public class OrderGuideLayout extends RelativeLayout {
 
     @BindView(R.id.order_guide_avatar_iv)
     PolygonImageView avatarIV;
@@ -37,10 +38,11 @@ public class OrderGuideLayout extends LinearLayout {
         View view = inflate(context, R.layout.view_order_guide_layout, this);
         ButterKnife.bind(view);
 
+        setClipChildren(false);
+        setClipToPadding(false);
         int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.order_padding_left);
-        setPadding(paddingLeft, UIUtils.dip2px(15), paddingLeft, UIUtils.dip2px(15));
+        setPadding(paddingLeft, UIUtils.dip2px(17), paddingLeft, 0);
         setBackgroundColor(0xFFFFFFFF);
-        setOrientation(HORIZONTAL);
     }
 
     public void setData(GuidesDetailData guidesDetailData) {

@@ -120,6 +120,7 @@
     <declare-styleable name="OrderInfoItemView">
         <attr name="titleText" format="string"/>
         <attr name="hintText" format="string"/>
+        <attr name="isShowBottomLine" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="EffectiveShapeView">

@@ -50,6 +50,7 @@ import com.hugboga.custom.utils.GuideCalendarUtils;
 import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.OrderBottomView;
+import com.hugboga.custom.widget.OrderGuidanceView;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
@@ -86,6 +87,8 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     @BindView(R.id.send_guide_layout)
     OrderGuideLayout guideLayout;
+    @BindView(R.id.send_guidance_layout)
+    OrderGuidanceView guidanceLayout;
 
     @BindView(R.id.send_airport_layout)
     OrderInfoItemView airportLayout;
@@ -177,6 +180,10 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
             }
             if (params.airPortBean != null) {
                 setAirPortBean(params.airPortBean);
+            } else if (params.flightBean != null) {//机场信息为空，默认显示接机机场所在城市
+                setGuidanceLayout("" + params.flightBean.arrCityId, params.flightBean.arrCityName);
+            } else if (!TextUtils.isEmpty(params.cityId) && !TextUtils.isEmpty(params.cityName)) {
+                setGuidanceLayout("" +  params.cityId, params.cityName);
             }
             if (params.startPoiBean != null) {
                 setStartPoiBean(params.startPoiBean);
@@ -316,6 +323,13 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         }
     }
 
+    public void setGuidanceLayout(String cityId, String cityName) {
+        if (params == null || params.guidesDetailData == null) {
+            guidanceLayout.setVisibility(View.VISIBLE);
+            guidanceLayout.setData(cityId, cityName);
+        }
+    }
+
     public void setAirPortBean(AirPort airPort) {
         airPortBean = airPort;
         airportLayout.setDesc(airPortBean.cityName + " " + airPortBean.airportName);
@@ -327,6 +341,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         poiBean = null;
         cityBean = DBHelper.findCityById("" + airPortBean.cityId);
         hintConponsTipView();
+        setGuidanceLayout("" + airPortBean.cityId, airPortBean.cityName);
     }
 
     public void setStartPoiBean(PoiBean _poiBean) {

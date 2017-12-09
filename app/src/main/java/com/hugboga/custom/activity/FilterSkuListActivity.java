@@ -14,6 +14,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.GoodsFilterBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -23,6 +24,7 @@ import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestGoodsFilter;
 import com.hugboga.custom.fragment.SkuScopeFilterFragment;
 import com.hugboga.custom.utils.DatabaseManager;
+import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.HbcLoadingMoreFooter;
 import com.hugboga.custom.widget.SkuFilterLayout;
@@ -320,12 +322,11 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
                     } else if (paramsData != null && paramsData.cityHomeType == CityActivity.CityHomeType.CITY ) {
                         cityId = paramsData.id;
                     }
-                    Intent intent = new Intent(FilterSkuListActivity.this, CharterFirstStepActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    CityBean cityBean = null;
                     if (cityId != -1) {
-                        intent.putExtra(Constants.PARAMS_START_CITY_BEAN, DatabaseManager.getCityBean("" + cityId));
+                        cityBean = DatabaseManager.getCityBean("" + cityId);
                     }
-                    startActivity(intent);
+                    IntentUtils.intentCharterActivity(FilterSkuListActivity.this, null, null, cityBean, getEventSource());
                 }
             });
         } else {

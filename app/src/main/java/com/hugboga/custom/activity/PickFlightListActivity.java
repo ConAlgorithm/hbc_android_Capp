@@ -91,6 +91,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     private String flightToCity;
     private DbManager mDbManager;
     private String source = "";
+    private String sourceTag;
     CsDialog csDialog;
     int mBusinessType = Constants.BUSINESS_TYPE_PICK;
 
@@ -131,6 +132,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         flightFromCityId = getIntent().getIntExtra(KEY_FLIGHT_FROM, -1);
         flightToCityId = getIntent().getIntExtra(KEY_FLIGHT_TO, -1);
         flightType = getIntent().getIntExtra(KEY_FLIGHT_TYPE, -1);
+        sourceTag = getIntent().getStringExtra(Constants.PARAMS_TAG);
 
         if(flightType == 2){
             flightFromCity = DBHelper.findCityById(String.valueOf(flightFromCityId)).name;
@@ -253,7 +255,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         map.put("searchinput", flightNo);
         map.put("searchcity", bean.flightNo);
         MobclickAgent.onEvent(activity, "search", map);
-
+        bean.sourceTag = sourceTag;
 
         EventBus.getDefault().post(new EventAction(EventType.AIR_NO, bean));
         //根据选航班类型,方便以后再次进入,根据航班类型,需要带入上次填写的航班类型数据

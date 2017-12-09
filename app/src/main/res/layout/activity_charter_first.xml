@@ -120,6 +120,13 @@
 
             <com.hugboga.custom.widget.OrderGuideLayout
                 android:id="@+id/charter_first_guide_layout"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.hugboga.custom.widget.OrderGuidanceView
+                android:id="@+id/charter_first_guidance_layout"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -127,7 +134,7 @@
                 android:id="@+id/charter_first_city_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
+                app:isShowBottomLine="true"
                 app:hintText="@string/daily_first_city_hint"
                 app:titleText="@string/daily_first_start_city" />
 
@@ -135,15 +142,14 @@
                 android:id="@+id/charter_first_date_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
+                app:isShowBottomLine="true"
                 app:hintText="@string/daily_first_date_hint"
                 app:titleText="@string/daily_first_date" />
 
             <com.hugboga.custom.widget.CharterFirstCountView
                 android:id="@+id/charter_first_count_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 

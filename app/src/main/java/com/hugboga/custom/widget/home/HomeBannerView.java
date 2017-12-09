@@ -84,7 +84,6 @@ public class HomeBannerView extends LinearLayout implements HbcViewBehavior {
             mViewPager.scrollToPosition(mViewPager.getMiddlePosition());
         }
         indicatorView.setItemCount(itemList.size());
-        mViewPager.startAutoScroll();
     }
 
     public int getBannerLayoutHeight() {

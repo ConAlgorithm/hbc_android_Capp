@@ -50,6 +50,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="2dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxWidth="100dp"
             android:textColor="@color/basic_black"
             android:textSize="12sp"
             android:textStyle="bold" />

@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
@@ -37,18 +38,22 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
     TitleBarPickSend titlebar;
 
     private Fragment currentFragment;
-
     private PickSendActivity.Params params;
+
     CsDialog csDialog;
     public static class Params implements Serializable {
         public GuidesDetailData guidesDetailData;
         public Integer type;
         public AirPort airPortBean;
         public PoiBean startPoiBean;
+        public FlightBean flightBean;
 
         public String timeLimitedSaleNo;         // 秒杀活动编号
         public String timeLimitedSaleScheduleNo; // 秒杀活动场次编号
         public boolean isSeckills = false;       // 是否进入秒杀通道
+
+        public String cityId;
+        public String cityName;
     }
 
     @Override
@@ -135,6 +140,10 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
         if (params != null && params.isSeckills) {
             EventBus.getDefault().post(new EventAction(EventType.WEBINFO_REFRESH));
         }
+    }
+
+    public PickSendActivity.Params getParams() {
+        return params;
     }
 
     @Override

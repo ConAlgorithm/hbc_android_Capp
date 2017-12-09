@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -81,6 +82,6 @@ public class HomeAlbumView extends LinearLayout {
         } else {
             adapter.setData(hotAlbumBean.albumRelItemList);
         }
-        titleTV.setText(hotAlbumBean.albumName);
+        titleTV.setText(TextUtils.isEmpty(hotAlbumBean.albumName) ? hotAlbumBean.aliasName : hotAlbumBean.albumName);
     }
 }

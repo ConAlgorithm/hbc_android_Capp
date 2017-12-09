@@ -34,4 +34,6 @@ public class FlightBean implements IBaseBean{
     public int depCityId;
     public int arrCityId;
 
+    public String sourceTag;
+
 }

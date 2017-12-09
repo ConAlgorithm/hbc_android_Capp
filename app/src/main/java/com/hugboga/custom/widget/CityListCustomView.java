@@ -19,10 +19,12 @@ import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityListBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
+import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.Tools;
 
 import net.grobas.view.PolygonImageView;
@@ -209,31 +211,27 @@ public class CityListCustomView extends LinearLayout {
 
     @OnClick({R.id.city_custom_charter_layout})
     public void intentCharter() {
-        Intent intent = new Intent(getContext(), CharterFirstStepActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        CityBean cityBean = null;
         if (cityListBean != null && cityListBean.cityContent != null) {
-            intent.putExtra(Constants.PARAMS_START_CITY_BEAN, DatabaseManager.getCityBean("" + cityListBean.cityContent.cityId));
+            DatabaseManager.getCityBean("" + cityListBean.cityContent.cityId);
         }
-        getContext().startActivity(intent);
+        IntentUtils.intentCharterActivity(getContext(), null, null, cityBean, getEventSource());
     }
 
     @OnClick({R.id.city_custom_picksend_layout})
     public void intentPickSend() {
-        Intent intent = new Intent(getContext(), PickSendActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-        getContext().startActivity(intent);
+        IntentUtils.intentPickupActivity(getContext(), getEventSource());
     }
 
     @OnClick({R.id.city_custom_single_layout})
     public void intentSingle() {
-        Intent intent = new Intent(getContext(), SingleActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         if (cityListBean != null && cityListBean.cityContent != null) {
             SingleActivity.Params singleParams = new SingleActivity.Params();
             singleParams.cityId = "" + cityListBean.cityContent.cityId;
-            intent.putExtra(Constants.PARAMS_DATA, singleParams);
+            IntentUtils.intentSingleActivity(getContext(), singleParams, getEventSource());
+        } else {
+            IntentUtils.intentSingleActivity(getContext(), getEventSource());
         }
-        getContext().startActivity(intent);
     }
 
     public String getEventSource() {

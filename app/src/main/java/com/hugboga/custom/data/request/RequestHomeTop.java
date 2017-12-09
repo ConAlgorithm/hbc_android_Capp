@@ -39,7 +39,7 @@ public class RequestHomeTop extends BaseRequest<List<HomeTopBean>> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40193";
+        return "40198";
     }
 
 }

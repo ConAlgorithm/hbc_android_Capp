@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/common_font_color_black"
             android:textSize="21sp"
-            android:textStyle="bold"/>
+            android:fontFamily="@font/fzdysjw" />
 
         <ImageView
             android:id="@+id/home_album_title_arrow_iv"

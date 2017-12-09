@@ -7,11 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CharterFirstStepActivity;
-import com.hugboga.custom.activity.PickSendActivity;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.models.home.HomeGoodsModel;
-import com.hugboga.custom.utils.DatabaseManager;
+import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.home.HomeGoodsItemView;
 import com.hugboga.custom.widget.home.HomeMoreView;
@@ -73,15 +70,11 @@ public class HomeGoodsAdapter<T> extends RecyclerView.Adapter<HomeGoodsAdapter.M
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Class<?> cls;
-                    if (type == HomeGoodsModel.TYPE_TRANSFER) {//接送机
-                        cls = CharterFirstStepActivity.class;
-                    } else {//包车
-                        cls =  CharterFirstStepActivity.class;
+                    if (type == HomeGoodsModel.TYPE_TRANSFER) {
+                        IntentUtils.intentPickupActivity(mContext, "首页");
+                    } else {
+                        IntentUtils.intentCharterActivity(mContext, "首页");
                     }
-                    Intent intent = new Intent(mContext, cls);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    mContext.startActivity(intent);
                 }
             });
         } else {
