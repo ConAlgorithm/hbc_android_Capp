@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 195
+    //current urlErrorCode 199
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -203,8 +203,8 @@ public class UrlLibs {
     public static final String API_EPOS_SMS_SEND            = "trade/v1.0/c/epos/verifycodereceive";                    // 易宝获取验证码 191
     public static final String API_EPOS_SMS_VERIFY          = "trade/v1.0/c/epos/verifysale";                           // 易宝短信验证 192
     public static final String API_EPOS_BIND_LIST           = "trade/v1.0/c/epos/bindlist";                             // 国内信用卡绑定列表  193
-    public static final String API_IP_FAKE_AI_GET           = "trade/v1.0/c/ai/askready?";                              //AI数据GET  194
-    public static final String  API_IP_FAKE_AI_POST         = "trade/v1.0/c/ai/askDuoDuo?";                              //AI数据POST 195
+    public static final String API_IP_FAKE_AI_GET           = "trade/v1.0/c/ai/askready?";                              // AI数据GET  197
+    public static final String API_IP_FAKE_AI_POST          = "trade/v1.0/c/ai/askDuoDuo?";                             // AI数据POST 196
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机
@@ -233,7 +233,8 @@ public class UrlLibs {
     public static final String API_GOODS_LINE_SEARCH        = "goods/v1.0/c/goodsSearch";                               // 线路搜索 177
     public static final String API_RECOMMENDED_GOODS        = "goods/v1.0/c/crossRecommendedGoods";                     // 根据订单城市交叉推荐商品列表v1.0 185
     public static final String API_CITY_DESTINATION_HOME    = "goods/v1.0/c/queryDestinationHome";                      // 查询目的地首页 194
-    public static final String API_CITY_QUERY_SKU_LIST      = "goods/v1.0/c/pageQueryDestinationGoodsList?";             // 查询目的地玩法列表 195
+    public static final String API_CITY_QUERY_SKU_LIST      = "goods/v1.0/c/pageQueryDestinationGoodsList?";            // 查询目的地玩法列表 195
+    public static final String API_QUERY_CITY_GUIDE         = "goods/v1.0/c/queryCityGuide";                            // 查询目的地玩法列表 199
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券(弃用)
     public static final String SERVER_IP_COUPONS_UNUSED     = "marketing/v2.0/c/coupons/unused?";                       // 优惠券未使用(我的,未使用)154
@@ -292,7 +293,7 @@ public class UrlLibs {
     public static final String API_DESTINATIONS_HOT         = "basicdata/v1.0/c/home/hotcities";                        // 目的地热门城市 168
     public static final String API_DESTINATIONS_LINE        = "basicdata/v1.0/c/home/destdetail";                       // 目的地线路   169
     public static final String API_HOT_SEARCH               = "basicdata/v1.0/e/search/hotkeywords";                    // 热词搜索 179
-    public static final String API_TOP_DRAWER               = "basicdata/v1.0/c/home/hide/header";                      // 首页上二楼 193
+    public static final String API_TOP_DRAWER               = "basicdata/v1.0/c/home/hide/header";                      // 首页上二楼 198
 
     public static final String API_ERROR_FEEDBACK           = "communication/v2.0/c/biz/error";                         // 反馈app业务异常信息
     public static final String SERVER_IP_NIM_TOKEN_UPDATE   = "communication/v3.0/c/im/token";                          // 获取云信token

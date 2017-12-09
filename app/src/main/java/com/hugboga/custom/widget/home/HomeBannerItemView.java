@@ -15,7 +15,6 @@ import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;

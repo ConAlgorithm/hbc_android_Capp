@@ -120,11 +120,13 @@
 
             <com.hugboga.custom.widget.OrderGuideLayout
                 android:id="@+id/charter_first_guide_layout"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <com.hugboga.custom.widget.OrderGuidanceView
                 android:id="@+id/charter_first_guidance_layout"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

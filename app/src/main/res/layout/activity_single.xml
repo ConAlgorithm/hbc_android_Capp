@@ -51,6 +51,12 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
 
+            <com.hugboga.custom.widget.OrderGuidanceView
+                android:id="@+id/single_guidance_layout"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <com.hugboga.custom.widget.OrderInfoItemView
                 android:id="@+id/single_city_layout"
                 android:layout_width="match_parent"

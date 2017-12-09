@@ -65,6 +65,8 @@ public class HomeBean implements Serializable {
         public int airportPrice;                        // 接送机起价
         public int airportGuideNum;                     // 可服务司导数
         public String airportUserNum;                   // 服务用户数
+        public String airportCityId;
+        public String airportCityName;
     }
 
     public static class CharteredBean implements Serializable {

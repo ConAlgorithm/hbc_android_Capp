@@ -29,7 +29,7 @@ public class RaqustFakeAI extends BaseRequest<FakeAIBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40194";
+        return "40197";
     }
 
     @Override

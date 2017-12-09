@@ -42,6 +42,7 @@ import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.OrderBottomView;
+import com.hugboga.custom.widget.OrderGuidanceView;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
 import com.hugboga.custom.widget.SendAddressView;
@@ -91,6 +92,8 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     ScrollView scrollView;
     @BindView(R.id.single_conpons_tipview)
     ConponsTipView conponsTipView;
+    @BindView(R.id.single_guidance_layout)
+    OrderGuidanceView guidanceLayout;
 
     private CarListBean carListBean;
     private CarBean carBean;
@@ -169,6 +172,10 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 }
                 carTypeView.setGuidesDetailData(guidesDetailData);
                 GuideCalendarUtils.getInstance().sendRequest(this, guidesDetailData.guideId, ORDER_TYPE);
+                guidanceLayout.setVisibility(View.GONE);
+            } else {
+                guidanceLayout.setVisibility(View.VISIBLE);
+                guideLayout.setVisibility(View.GONE);
             }
             if (!TextUtils.isEmpty(params.cityId)) {
                 setCityBean(DBHelper.findCityById(params.cityId));
@@ -262,6 +269,9 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         startPoiBean = null;
         endPoiBean = null;
         hintConponsTipView();
+        if (params == null || params.guidesDetailData == null) {
+            guidanceLayout.setData("" + cityBean.cityId, cityBean.name);
+        }
     }
 
     @Subscribe

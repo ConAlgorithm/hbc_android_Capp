@@ -48,6 +48,12 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
 
+            <com.hugboga.custom.widget.OrderGuidanceView
+                android:id="@+id/pickup_guidance_layout"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <com.hugboga.custom.widget.OrderInfoItemView
                 android:id="@+id/pickup_flight_layout"
                 android:layout_width="match_parent"

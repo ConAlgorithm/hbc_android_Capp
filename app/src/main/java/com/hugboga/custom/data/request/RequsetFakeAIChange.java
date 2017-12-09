@@ -32,7 +32,7 @@ public class RequsetFakeAIChange extends BaseRequest<FakeAIQuestionsBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40195";
+        return "40196";
     }
 
     @Override

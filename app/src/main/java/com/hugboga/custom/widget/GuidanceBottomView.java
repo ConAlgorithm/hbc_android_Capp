@@ -28,6 +28,9 @@ public class GuidanceBottomView extends LinearLayout {
     @BindView(R.id.guidance_bottom_info_view)
     OrderInfoItemView infoView;
 
+    private OnInfoViewClickListener listener;
+    private boolean isPickup;
+    private int orderType;
 
     public GuidanceBottomView(Context context) {
         this(context, null);
@@ -37,6 +40,18 @@ public class GuidanceBottomView extends LinearLayout {
         super(context, attrs);
         inflate(context, R.layout.view_guidance_order_bottom, this);
         ButterKnife.bind(this);
+        infoView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    int _orderType = orderType;
+                    if (_orderType == 1 || _orderType == 2) {
+                        _orderType = isPickup ? 1 : 2;
+                    }
+                    listener.onInfoViewClicked(_orderType);
+                }
+            }
+        });
     }
 
     @OnClick({R.id.guidance_bottom_switch_pickup_tv, R.id.guidance_bottom_switch_send_tv})
@@ -49,6 +64,7 @@ public class GuidanceBottomView extends LinearLayout {
                 switchSendTV.setTextColor(0xFF7f7f7f);
                 infoView.setTitle("您的航班号？");
                 infoView.setHintText("请输入航班号，如CA167");
+                isPickup = true;
                 break;
             case R.id.guidance_bottom_switch_send_tv:
                 switchPickupTV.setBackgroundColor(0x00000000);
@@ -57,16 +73,21 @@ public class GuidanceBottomView extends LinearLayout {
                 switchSendTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
                 infoView.setTitle("送您到哪个机场?");
                 infoView.setHintText("请选择送达机场");
+                isPickup = false;
                 break;
         }
     }
 
     public void setOrderType(int orderType) {
+        this.orderType = orderType;
         switch (orderType) {
             case 1:
-            case 2:
                 switchLayout.setVisibility(View.VISIBLE);
                 switchPickupTV.performClick();
+                break;
+            case 2:
+                switchLayout.setVisibility(View.VISIBLE);
+                switchSendTV.performClick();
                 break;
             case 3:
             case 888:
@@ -80,5 +101,17 @@ public class GuidanceBottomView extends LinearLayout {
                 infoView.setHintText("请选择用车城市");
                 break;
         }
+    }
+
+    public OrderInfoItemView getInfoView() {
+        return infoView;
+    }
+
+    public interface OnInfoViewClickListener {
+        public void onInfoViewClicked(int orderType);
+    }
+
+    public void setOnInfoViewClickListener(OnInfoViewClickListener listener) {
+        this.listener = listener;
     }
 }

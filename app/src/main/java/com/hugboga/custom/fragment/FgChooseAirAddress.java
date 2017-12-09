@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
+import com.hugboga.custom.widget.OrderGuidanceView;
 import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
 import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthSwitchView;
 import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthView;
@@ -80,6 +81,8 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
     LinearLayout endLayout;
     @BindView(R.id.view_month)
     MonthSwitchView mMonthPagerView;
+    @BindView(R.id.air_address_guidance_layout)
+    OrderGuidanceView guidanceLayout;
     String dateFormat="";
     FlightBean flightBean;
     @Override
@@ -158,6 +161,8 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
         mMonthPagerView.setOnDayClickListener(this);
         mMonthPagerView.setSelectDay(new CalendarDay(year, month, day));
         dateFormat = new CalendarDay(year, month, day).getDayString();
+
+        setGuidanceLayout();
     }
 
     private void updateDate(String date) {
@@ -491,6 +496,7 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
         bundle.putInt(PickFlightListActivity.KEY_FLIGHT_TO, cityToId);
         bundle.putInt(PickFlightListActivity.KEY_FLIGHT_TYPE, 2);
         bundle.putString(PickFlightListActivity.KEY_FLIGHT_DATE, dateFormat);
+        bundle.putString(Constants.PARAMS_TAG, getSourceTag());
         bundle.putInt("mBusinessType",1);
 //        fragment.setArguments(bundle);
 //        startFragment(fragment);
@@ -527,6 +533,39 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
             return ((ChooseAirActivity) getContext()).getIntentSource();
         } else {
             return "";
+        }
+    }
+
+    public String getSourceTag() {
+        if (getContext() instanceof ChooseAirActivity) {
+            return ((ChooseAirActivity) getContext()).getSourceTag();
+        }
+        return null;
+    }
+
+    public void setGuidanceLayout() {
+        if (getContext() instanceof PickSendActivity) {
+            PickSendActivity.Params params = ((PickSendActivity) getContext()).getParams();
+            if (params == null || params.guidesDetailData != null) {
+                guidanceLayout.setVisibility(View.GONE);
+                return;
+            } else {
+                guidanceLayout.setVisibility(View.VISIBLE);
+                String cityId = "";
+                String cityName = "";
+                if (params.flightBean != null) {
+                    cityId = "" + params.flightBean.arrCityId;
+                    cityName = params.flightBean.arrCityName;
+                } else if (params.airPortBean != null) {//航班信息为空，默认显示送机机场所在城市
+                    cityId = "" +  params.airPortBean.cityId;
+                    cityName = params.airPortBean.cityName;
+                } else if (!TextUtils.isEmpty(params.cityId) && !TextUtils.isEmpty(params.cityName)) {
+                    guidanceLayout.setData("" +  params.cityId, params.cityName);
+                    cityId = "" +  params.cityId;
+                    cityName = params.cityName;
+                }
+                guidanceLayout.setData(cityId, cityName);
+            }
         }
     }
 

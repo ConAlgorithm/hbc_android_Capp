@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.ImageView;
@@ -7,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.SeckillsBean;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.GuidanceBottomView;
 
@@ -19,6 +21,9 @@ import butterknife.BindView;
  */
 
 public class GuidanceOrderActivity extends BaseActivity {
+
+    public static final String TAG = GuidanceOrderActivity.class.getSimpleName();
+    public static final String PARAMS_GUIDANCE = "params_guidance";
 
     @BindView(R.id.guidance_bottom_view)
     GuidanceBottomView bottomView;
@@ -36,6 +41,9 @@ public class GuidanceOrderActivity extends BaseActivity {
 
     public static class Params implements Serializable {
         public int orderType;
+        public String source;
+
+        public SeckillsBean seckillsBean;
     }
 
     @Override
@@ -69,7 +77,46 @@ public class GuidanceOrderActivity extends BaseActivity {
     }
 
     private void init() {
+
         bottomView.setOrderType(params.orderType);
+        bottomView.setOnInfoViewClickListener(new GuidanceBottomView.OnInfoViewClickListener() {
+            @Override
+            public void onInfoViewClicked(int orderType) {
+                Intent intent = null;
+
+                switch (orderType) {
+                    case 1:
+                        intent = new Intent(GuidanceOrderActivity.this, ChooseAirActivity.class);
+                        intent.putExtra(Constants.PARAMS_TYPE, TAG);
+                        intent.putExtra(PARAMS_GUIDANCE, params);
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        intent = new Intent(GuidanceOrderActivity.this, ChooseAirPortActivity.class);
+                        intent.putExtra(PARAMS_GUIDANCE, params);
+                        startActivity(intent);
+                        break;
+                    case 3:
+                    case 888:
+                        intent = new Intent(GuidanceOrderActivity.this, ChooseCityActivity.class);
+                        intent.putExtra(ChooseCityActivity.KEY_FROM, ChooseCityActivity.PARAM_TYPE_START);
+                        intent.putExtra(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+                        intent.putExtra(ChooseCityActivity.KEY_FROM_TAG, TAG);
+                        intent.putExtra(Constants.PARAMS_SOURCE, params.source);
+                        intent.putExtra(PARAMS_GUIDANCE, params);
+                        startActivity(intent);
+                        break;
+                    case 4:
+                        intent = new Intent(GuidanceOrderActivity.this, ChooseCityActivity.class);
+                        intent.putExtra(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
+                        intent.putExtra(ChooseCityActivity.KEY_FROM_TAG, TAG);
+                        intent.putExtra(Constants.PARAMS_SOURCE, params.source);
+                        intent.putExtra(PARAMS_GUIDANCE, params);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
 
         int imgIV3Width = 0;
         int imgIV3Height = 0;
@@ -80,7 +127,6 @@ public class GuidanceOrderActivity extends BaseActivity {
         switch (params.orderType) {
             case 1:
             case 2:
-
                 imgIV1.setBackgroundResource(R.drawable.aeroplaneorder_picture_a);
                 imgIV2.setBackgroundResource(R.drawable.aeroplaneorder_picture_b);
                 imgIV3.setBackgroundResource(R.drawable.aeroplaneorder_picture_c);
