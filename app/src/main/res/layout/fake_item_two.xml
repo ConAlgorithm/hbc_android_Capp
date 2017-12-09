@@ -38,7 +38,7 @@
                     android:layout_marginBottom="3dp"
                     android:maxEms="10"
                     android:singleLine="false"
-                    android:textColor="@color/basic_black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_size_15" />
 
                 <View

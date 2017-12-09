@@ -16,9 +16,9 @@ import org.xutils.http.annotation.HttpRequest;
  * Created by Administrator on 2017/12/1.
  */
 @HttpRequest(path = UrlLibs.API_IP_FAKE_AI_GET, builder = NewParamsBuilder.class)
-public class RaqustFakeAI extends BaseRequest<FakeAIBean> {
+public class RaquestFakeAI extends BaseRequest<FakeAIBean> {
 
-    public RaqustFakeAI(Context context) {
+    public RaquestFakeAI(Context context) {
         super(context);
     }
 

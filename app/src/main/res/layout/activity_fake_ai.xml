@@ -21,6 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginBottom="@dimen/text_size_10"
+            android:visibility="invisible"
             android:scrollbars="none">
 
             <LinearLayout
@@ -46,7 +48,8 @@
             android:layout_marginTop="@dimen/default_margin_medium"
             android:background="@drawable/selector_rounded_ai"
             android:hint="我想去...."
-            android:imeOptions="actionGo"
+            android:imeOptions="actionSend"
+            android:focusable="false"
             android:singleLine="true"
             android:textSize="@dimen/text_size_15" />
         <Button
@@ -60,7 +63,7 @@
             android:layout_marginTop="@dimen/default_margin_medium"
             android:background="@drawable/shape_rounded_ai_button"
             android:textColor="@color/allbg_white"
-            android:text="留下意见,让小管家联系我"
+            android:text=""
             android:imeOptions="actionGo"
             android:singleLine="true"
             android:textSize="@dimen/text_size_15" />
