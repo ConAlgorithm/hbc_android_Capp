@@ -9,7 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -46,8 +48,10 @@ import static com.hugboga.custom.activity.CityActivity.CityHomeType.COUNTRY;
 
 public class CityActivity extends BaseActivity {
 
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-
+    @BindView(R.id.city_toolbar_root)
+    LinearLayout city_toolbar_root; //toolbar和筛选层
     @BindView(R.id.city_toolbar_title)
     TextView city_toolbar_title; //Toolbar标题
     @BindView(R.id.city_filter_con_view)
@@ -78,7 +82,6 @@ public class CityActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.mipmap.topbar_back);
@@ -131,7 +134,10 @@ public class CityActivity extends BaseActivity {
         if (adapter.cityFilterModel.cityFilterView != null) {
             if (dy < 0 && Math.abs(dy) > 3) {
                 //向下滑动
-                toolbar.setVisibility(View.VISIBLE);
+//                toolbar.setVisibility(View.VISIBLE);
+                if (city_toolbar_root.getTop() != 0) {
+                    translate(true);
+                }
                 if (adapter.cityFilterModel.cityFilterView.getTop() > toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
                     //filterView出来，toolbar退出
                     filterContentView.setVisibility(View.GONE);
@@ -142,11 +148,41 @@ public class CityActivity extends BaseActivity {
                     //filterView出来，toolbar退出
                     filterContentView.setVisibility(View.VISIBLE);
                 }
-                if (adapter.cityFilterModel.cityFilterView.getTop() < 0) {
-                    toolbar.setVisibility(View.GONE);
+                if (adapter.cityFilterModel.cityFilterView.getTop() < 0 && city_toolbar_root.getTop() == 0) {
+//                    toolbar.setVisibility(View.GONE);
+                    translate(false);
                 }
             }
         }
+    }
+
+    private void translate(final boolean isShow) {
+        int height = toolbar.getHeight();
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, height);
+        if (!isShow) {
+            translateAnimation = new TranslateAnimation(0, 0, 0, -height);
+        }
+        translateAnimation.setDuration(150);
+        translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                city_toolbar_root.clearAnimation();
+                int top = 0;
+                if (!isShow) {
+                    top = 0 - toolbar.getHeight();
+                }
+                city_toolbar_root.layout(0, top, city_toolbar_root.getWidth(), top + city_toolbar_root.getHeight());
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        city_toolbar_root.startAnimation(translateAnimation);
     }
 
     @Override
