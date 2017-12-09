@@ -113,18 +113,6 @@ public class CityActivity extends BaseActivity {
                     flushSkuList();
                 }
             }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition() ==
-                            recyclerView.getLayoutManager().getItemCount() - 1) {
-                        resetBannerUI(0 - toolbar.getHeight());
-                        resetFilterUI(0);
-                    }
-                }
-            }
         });
         filterContentView.setAdapter(adapter); //Filter需要数据设置
     }
@@ -143,43 +131,34 @@ public class CityActivity extends BaseActivity {
         filterContentView.setLayoutParams(layoutParams);
     }
 
+    /**
+     * 滚动效果修改
+     *
+     * @param dy
+     */
     private void onScrollFloat(int dy) {
-        if (dy < 0) {
-            if (toolbar.getTop() < 0) {
-                int newTop = toolbar.getTop() + Math.abs(dy);
-                if (newTop > 0) {
-                    newTop = 0;
+        /*
+        1. 默认，有toolbar，无filterview
+        2. adapterFilterView滑动toolbar底部，动画去除toolbar，filterview滑动顶部
+        3. 下滑toolbar动画出来，上滑toolbar去除
+         */
+        if (adapter.cityFilterModel.cityFilterView != null) {
+            if (dy < 0 && Math.abs(dy) > 3) {
+                //向下滑动
+                toolbar.setVisibility(View.VISIBLE);
+                if (adapter.cityFilterModel.cityFilterView.getTop() > toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
+                    //filterView出来，toolbar退出
+                    filterContentView.setVisibility(View.GONE);
                 }
-                resetBannerUI(newTop);
-                int newFilterTop = newTop + toolbar.getHeight();
-                if (filterContentView.getTop() < newFilterTop) {
-                    resetFilterUI(newFilterTop);
+            } else if (dy > 0 && Math.abs(dy) > 3) {
+                //向上滑动
+                if (adapter.cityFilterModel.cityFilterView.getTop() < toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
+                    //filterView出来，toolbar退出
+                    filterContentView.setVisibility(View.VISIBLE);
                 }
-            } else {
-                if (adapter.cityFilterModel.cityFilterView != null) {
-                    int bannerTop = adapter.cityFilterModel.cityFilterView.getTop();
-                    if (bannerTop > filterContentView.getTop()) {
-                        resetFilterUI(0 - Math.abs(filterContentView.getTop()));
-                    }
+                if (adapter.cityFilterModel.cityFilterView.getTop() < 0) {
+                    toolbar.setVisibility(View.GONE);
                 }
-            }
-        } else if (dy > 0) {
-            //向上滑动
-            if (toolbar.getBottom() > 0) {
-                if (adapter.cityFilterModel.cityFilterView != null) {
-                    int bannerTop = adapter.cityFilterModel.cityFilterView.getTop();
-                    if (bannerTop < toolbar.getBottom()) {
-                        //滑动退出toolbar
-                        resetBannerUI(bannerTop - toolbar.getHeight());
-                        resetFilterUI(toolbar.getBottom());
-                    } else {
-//                                if (toolbar.getBottom() < 0) {
-//                                    resetFilterUI(0);
-//                                }
-                    }
-                }
-            } else {
-                resetFilterUI(0);
             }
         }
     }
