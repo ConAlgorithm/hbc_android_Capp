@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.CommonUtils;
 import com.wang.avi.AVLoadingIndicatorView;
 
 /**
@@ -21,6 +22,7 @@ public class HomeHeaderOrFooter extends HomePullRefreshView {
     protected TextView tv;
     private AVLoadingIndicatorView loadingView;
     protected FrameLayout rlContainer;
+    private String homeTopPullText = CommonUtils.getString(R.string.home_top_pull);
 
     private boolean isStateFinish;
     private boolean isHolding;
@@ -89,7 +91,6 @@ public class HomeHeaderOrFooter extends HomePullRefreshView {
         if (percent > 0.2 && percent < 1) {
             if (loadingView.getVisibility() != VISIBLE) {
                 loadingView.smoothToShow();
-                Log.i("aa","onPullChange  smoothToShow  11");
             }
             if (percent < 1) {
                 loadingView.setScaleX(percent);
@@ -97,7 +98,6 @@ public class HomeHeaderOrFooter extends HomePullRefreshView {
             }
         } else if (percent <= 0.2 && loadingView.getVisibility() == VISIBLE) {
             loadingView.smoothToHide();
-            Log.i("aa","onPullChange  smoothToHide 22");
         } else if (loadingView.getScaleX() != 1) {
             loadingView.setScaleX(1f);
             loadingView.setScaleY(1f);
@@ -107,13 +107,13 @@ public class HomeHeaderOrFooter extends HomePullRefreshView {
     @Override
     public void onPullHoldTrigger() {
         super.onPullHoldTrigger();
-        tv.setText("继续拖动，新世界");//release loading
+        tv.setText(homeTopPullText);//release loading
     }
 
     @Override
     public void onPullHoldUnTrigger() {
         super.onPullHoldUnTrigger();
-        tv.setText("继续拖动，新世界");//drag
+        tv.setText(homeTopPullText);//drag
     }
 
     @Override
@@ -127,19 +127,17 @@ public class HomeHeaderOrFooter extends HomePullRefreshView {
     @Override
     public void onPullFinish() {
         super.onPullFinish();
-        tv.setText("继续拖动，新世界");//loading finish
+        tv.setText(homeTopPullText);//loading finish
         isStateFinish = true;
         loadingView.smoothToHide();
-        Log.i("aa","onPullChange  onPullFinish");
     }
 
     @Override
     public void onPullReset() {
         super.onPullReset();
-        tv.setText("继续拖动，新世界");//drag
+        tv.setText(homeTopPullText);//drag
         isStateFinish = false;
         isHolding = false;
-        Log.i("aa","onPullChange  onPullReset");
         rlContainer.setVisibility(VISIBLE);
 
     }

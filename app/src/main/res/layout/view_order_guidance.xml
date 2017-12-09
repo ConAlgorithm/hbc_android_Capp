@@ -88,7 +88,7 @@
         android:textSize="22sp" />
 
     <TextView
-        android:id="@+id/order_guidance_sbtitle_tv"
+        android:id="@+id/order_guidance_subtitle_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

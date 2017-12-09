@@ -23,7 +23,7 @@ import java.util.List;
 
 public class HomeRefreshHeader extends HomeHeaderOrFooter{
 
-    private final String TWO_REFRESH_TEXT = "松手更新，了解更多";
+//    private final String TWO_REFRESH_TEXT = CommonUtils.getString(R.string.home_top_up_detail);
     private final int REFRESH_FIRST_DURING = 180;
     private final int TWO_REFRESH_DURING = 400;
 
@@ -101,9 +101,7 @@ public class HomeRefreshHeader extends HomeHeaderOrFooter{
             case MotionEvent.ACTION_CANCEL:
                 if (pullRefreshLayout.getMoveDistance() <= getHeight() - firstRefreshTriggerDistance) {
                     pullRefreshLayout.refreshComplete();
-                    Log.i("aa", "ACTION_UP  111 ");
                 } else if (pullRefreshLayout.getMoveDistance() < getHeight()) {
-                    Log.i("aa", "ACTION_UP   222 ");
                     translateYAnimation.setFloatValues(pullRefreshLayout.getMoveDistance(), getHeight());
                     translateYAnimation.start();
                 }
@@ -115,17 +113,16 @@ public class HomeRefreshHeader extends HomeHeaderOrFooter{
     @Override
     public void onPullChange(float percent) {
         super.onPullChange(percent);
+        String topUpDetailText = getContext().getResources().getString(R.string.home_top_up_detail);
         if (!pullRefreshLayout.isHoldingTrigger()) {
-            Log.i("aa", "onPullChange  11");
             if (pullRefreshLayout.getMoveDistance() >= twoRefreshDistance) {
-                if (!tv.getText().toString().equals(TWO_REFRESH_TEXT)) {
-                    tv.setText(TWO_REFRESH_TEXT);
+                if (!tv.getText().toString().equals(topUpDetailText)) {
+                    tv.setText(topUpDetailText);
                 }
-            } else if (tv.getText().toString().equals(TWO_REFRESH_TEXT)) {
-                tv.setText("继续拖动，新世界");//release loading
+            } else if (tv.getText().toString().equals(topUpDetailText)) {
+                tv.setText(getContext().getResources().getString(R.string.home_top_pull));//release loading
             }
         } else if (pullRefreshLayout.getMoveDistance() >= getHeight() && percent <= 1.0) {
-            Log.i("aa", "onPullChange 22   " + percent + " " + pullRefreshLayout.getRefreshTriggerDistance());
             pullRefreshLayout.setDispatchPullTouchAble(true);
             isTwoRefresh = true;
         }
@@ -135,7 +132,6 @@ public class HomeRefreshHeader extends HomeHeaderOrFooter{
     public void onPullHolding() {
         super.onPullHolding();
         if (pullRefreshLayout.getMoveDistance() >= twoRefreshDistance) {
-            Log.i("aa", "onPullHolding");
             pullRefreshLayout.setPullDownMaxDistance(getHeight() * 2);
             pullRefreshLayout.setRefreshTriggerDistance(getHeight());
             pullRefreshLayout.setRefreshAnimationDuring(TWO_REFRESH_DURING);
@@ -148,7 +144,6 @@ public class HomeRefreshHeader extends HomeHeaderOrFooter{
     public void onPullFinish() {
         super.onPullFinish();
         if (isTwoRefresh) {
-            Log.i("aa", "onPullFinish");
             isTwoRefresh = false;
             if (headerView.getAlpha() > 0) {
                 alphaOutAnimation.start();
@@ -164,7 +159,6 @@ public class HomeRefreshHeader extends HomeHeaderOrFooter{
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        Log.i("aa", "onDetachedFromWindow");
         if (alphaInAnimation.isRunning()) {
             alphaInAnimation.cancel();
         }

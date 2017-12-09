@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_guidance_order_send"
             android:gravity="center"
-            android:text="接机"
+            android:text="@string/guidance_pickup"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="送机"
+            android:text="@string/guidance_send"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
     </LinearLayout>

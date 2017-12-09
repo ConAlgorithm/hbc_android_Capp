@@ -33,8 +33,8 @@ public class OrderGuidanceView extends LinearLayout {
 
     @BindView(R.id.order_guidance_title_tv)
     TextView titleTV;
-    @BindView(R.id.order_guidance_sbtitle_tv)
-    TextView sbtitleTV;
+    @BindView(R.id.order_guidance_subtitle_tv)
+    TextView subtitleTV;
     @BindView(R.id.order_guidance_avatar_layout)
     LinearLayout avatarLayout;
 
@@ -54,7 +54,7 @@ public class OrderGuidanceView extends LinearLayout {
         avatarViewList.add((PolygonImageView) findViewById(R.id.order_guidance_avatar_iv3));
         avatarViewList.add((PolygonImageView) findViewById(R.id.order_guidance_avatar_iv4));
         avatarViewList.add((PolygonImageView) findViewById(R.id.order_guidance_avatar_iv5));
-        sbtitleTV.setVisibility(View.GONE);
+        subtitleTV.setVisibility(View.GONE);
         avatarLayout.setVisibility(View.INVISIBLE);
     }
 
@@ -62,8 +62,8 @@ public class OrderGuidanceView extends LinearLayout {
         if (getVisibility() == View.GONE) {
             return;
         }
-        titleTV.setText(String.format("Hi\n欢迎您来%1$s!", cityName));
-        sbtitleTV.setVisibility(View.GONE);
+        titleTV.setText(getContext().getResources().getString(R.string.guidance_view_title, cityName));
+        subtitleTV.setVisibility(View.GONE);
         avatarLayout.setVisibility(View.INVISIBLE);
         RequestQueryCityGuide requestTravelPurposeForm = new RequestQueryCityGuide(getContext(), cityId);
         HttpRequestUtils.request(getContext(), requestTravelPurposeForm, new HttpRequestListener() {
@@ -71,9 +71,9 @@ public class OrderGuidanceView extends LinearLayout {
             public void onDataRequestSucceed(BaseRequest _request) {
                 ApiReportHelper.getInstance().addReport(_request);
                 QueryCityGuideBean queryCityGuideBean = ((RequestQueryCityGuide) _request).getData();
-                sbtitleTV.setVisibility(View.VISIBLE);
+                subtitleTV.setVisibility(View.VISIBLE);
                 avatarLayout.setVisibility(View.VISIBLE);
-                sbtitleTV.setText(String.format("这里有%1$s位中文司导可为您服务", queryCityGuideBean.guideAmount));
+                subtitleTV.setText(getContext().getResources().getString(R.string.guidance_view_subtitle, "" + queryCityGuideBean.guideAmount));
 
                 if (queryCityGuideBean.guideAvatar != null) {
                     List<String> guideAvatars = queryCityGuideBean.guideAvatar;
@@ -98,7 +98,7 @@ public class OrderGuidanceView extends LinearLayout {
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                sbtitleTV.setVisibility(View.GONE);
+                subtitleTV.setVisibility(View.GONE);
                 avatarLayout.setVisibility(View.INVISIBLE);
             }
         }, false);

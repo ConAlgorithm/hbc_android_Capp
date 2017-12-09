@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">皇包车</string>
+    <string name="app_name">皇包车旅行</string>
     <string name="hbc_scheme">hbcc</string>
 
     <string name="custom_chartered">按天包车游</string>
@@ -457,7 +457,7 @@
     5. 如果用户对优惠券使用规则或在使用皇包车下单和／或在相关服务过程中有任何疑问或需要任何帮助，请及时与皇包车客服联系，联系电话：400-610-0009;\n\n
     6. 对于不符合领取及使用优惠券规则的领取账户，皇包车有权收回已领取的优惠券;\n\n
     7. 优惠券最终解释权归北京纯粹旅行有限公司（品牌名称：皇包车）所有。</string>
-    <string name = "gotomain"><u>去首页转转</u></string>
+    <string name="gotomain"><u>去首页转转</u></string>
 
     <string name="daily_people_count">出行人数</string>
     <string name="daily_adult">成人</string>
@@ -679,7 +679,7 @@
     <string name="service_question_dialog_go">去查看</string>
     <string name="service_question_dialog_cancel">忽略</string>
 
-    <string name="unicorn_service_title">皇包车客服</string>
+    <string name="unicorn_service_title">旅行小管家</string>
     <string name="luggage_info_title">行李说明</string>
     <string name="media_player_url_error">视频地址不存在</string>
     <string name="choose_guide_city_title">选择开始城市</string>
@@ -878,80 +878,107 @@
     <string name="guide_detail_contact_dialog_content">优秀司导都在服务用户的路上，预订后沟通更高效~</string>
 
 
-    <string name = "destiation_search">目的地搜索</string>
-    <string name = "destiation_all">全境</string>
-    <string name = "destiation_day_service">按天包车游</string>
-    <string name = "destiation_pick_send">接送机</string>
-    <string name = "destiation_single">单次接送</string>
+    <string name="destiation_search">目的地搜索</string>
+    <string name="destiation_all">全境</string>
+    <string name="destiation_day_service">按天包车游</string>
+    <string name="destiation_pick_send">接送机</string>
+    <string name="destiation_single">单次接送</string>
 
 
-    <string name = "home_hot_destination">热门目的地</string>
-    <string name = "home_more">查看更多</string>
-    <string name = "home_hot_destination_guide_num">位司导</string>
-    <string name = "home_guide_comment">游客说</string>
-    <string name = "home_guide_comment_img">图</string>
-    <string name = "home_guide_service">服务司导</string>
-    <string name = "home_hot_album_guide_orders">累计服务%s单</string>
-    <string name = "home_recomment_guide">%s推荐司导</string>
-    <string name = "home_album_purchse">起/人</string>
-    <string name = "home_guide_evaluate">评价 </string>
-    <string name = "home_album_experience">人已体验</string>
-    <string name = "home_recomment_guide_end">司导推荐</string>
-    <string name = "home_recomment_service_china">位中文司导可服务</string>
-    <string name = "home_search">搜索目的地、司导、线路</string>
-    <string name = "home_service_day">中文包车游</string>
-    <string name = "home_service_pick_send">接送机</string>
-    <string name = "home_service_single_pick_send">单次接送</string>
-    <string name = "home_service_day_experience">按天畅游</string>
-    <string name = "home_service_good_line">精品线路游</string>
-    <string name = "home_service_favorite_love">私人定制</string>
-    <string name = "home_favorite_guide">选择心仪的司导服务</string>
-    <string name = "home_favorite_guide_yuding">找Ta预订</string>
-    <string name = "home_h5_1">一价全包</string>
-    <string name = "home_h5_2">服务保障</string>
-    <string name = "home_h5_3">先行赔付</string>
-    <string name = "home_h5_4">免费保险</string>
-    <string name = "home_hot_album">热门专辑</string>
-    <string name = "home_search_more">搜索更多关于“%s”的结果</string>
-    <string name = "home_search_history">历史记录</string>
-    <string name = "home_search_hot">热门搜索</string>
-    <string name = "home_search_moree">展开更多</string>
-    <string name = "home_search_more_about">搜索更多关于</string>
-    <string name = "home_search_loading">加载中...</string>
-    <string name = "home_search_all_here">结果全都在这了</string>
-    <string name = "home_search_see_all">查看全部</string>
-    <string name = "home_service_past_album">往期专辑</string>
+    <string name="home_hot_destination">热门目的地</string>
+    <string name="home_more">查看更多</string>
+    <string name="home_hot_destination_guide_num">位司导</string>
+    <string name="home_guide_comment">游客说</string>
+    <string name="home_guide_comment_img">图</string>
+    <string name="home_guide_service">服务司导</string>
+    <string name="home_hot_album_guide_orders">累计服务%s单</string>
+    <string name="home_recomment_guide">%s推荐司导</string>
+    <string name="home_album_purchse">起/人</string>
+    <string name="home_guide_evaluate">评价 </string>
+    <string name="home_album_experience">人已体验</string>
+    <string name="home_recomment_guide_end">司导推荐</string>
+    <string name="home_recomment_service_china">位中文司导可服务</string>
+    <string name="home_search">搜索目的地、司导、线路</string>
+    <string name="home_service_day">中文包车游</string>
+    <string name="home_service_pick_send">接送机</string>
+    <string name="home_service_single_pick_send">单次接送</string>
+    <string name="home_service_day_experience">按天畅游</string>
+    <string name="home_service_good_line">精品线路游</string>
+    <string name="home_service_favorite_love">私人定制</string>
+    <string name="home_favorite_guide">选择心仪的司导服务</string>
+    <string name="home_favorite_guide_yuding">找Ta预订</string>
+    <string name="home_h5_1">一价全包</string>
+    <string name="home_h5_2">服务保障</string>
+    <string name="home_h5_3">先行赔付</string>
+    <string name="home_h5_4">免费保险</string>
+    <string name="home_hot_album">热门专辑</string>
+    <string name="home_search_more">搜索更多关于“%s”的结果</string>
+    <string name="home_search_history">历史记录</string>
+    <string name="home_search_hot">热门搜索</string>
+    <string name="home_search_moree">展开更多</string>
+    <string name="home_search_more_about">搜索更多关于</string>
+    <string name="home_search_loading">加载中...</string>
+    <string name="home_search_all_here">结果全都在这了</string>
+    <string name="home_search_see_all">查看全部</string>
+    <string name="home_service_past_album">往期专辑</string>
 
-    <string name = "servicer_center_item1">预订须知</string>
-    <string name = "servicer_center_item2">服务承诺</string>
-    <string name = "servicer_center_item3">订单取消规则</string>
-    <string name = "servicer_center_item4">费用说明</string>
-    <string name = "servicer_center_item5">常见问题</string>
-    <string name = "servicer_center_item6">保险说明</string>
+    <string name="home_goodes_title_transfer">境外中文接送机</string>
+    <string name="home_goodes_title_chartered">境外包车畅游</string>
+    <string name="home_goodes_favorite_num">%1$s人已收藏</string>
+    <string name="home_goodes_service_day">%1$s天 · %2$s</string>
+    <string name="home_goodes_type1">已认证</string>
+    <string name="home_goodes_type2">活动</string>
+    <string name="home_goodes_type3">广告</string>
+    <string name="home_goodes_price">¥%1$s起/人</string>
+    <string name="home_book">立即预订</string>
+    <string name="home_goodes_price_car">¥%1$s起/车</string>
+    <string name="home_goodes_item_subtitle">%1$s位司导 · 已服务%2$s用户</string>
+    <string name="home_ai_where_to_go">想去哪里?</string>
+    <string name="home_top_detail">松手，查看详情</string>
+    <string name="home_top_pull">继续下拉，秒懂包车游</string>
 
-    <string name = "facebook_app_id">645647955823312</string>
+    <string name="guidance_pickup">接机</string>
+    <string name="guidance_send">送机</string>
+    <string name="guidance_pickup_hint_title">您的航班号？</string>
+    <string name="guidance_pickup_hint_subtitle">请输入航班号，如CA167</string>
+    <string name="guidance_send_hint_title">送您到哪个机场?</string>
+    <string name="guidance_send_hint_subtitle">请选择送达机场</string>
+    <string name="guidance_charter_hint_title">想去哪个城市包车?</string>
+    <string name="guidance_charter_hint_subtitle">请选择送达机场</string>
+    <string name="guidance_single_hint_title">从哪个地点上车?</string>
+    <string name="guidance_single_hint_subtitle">请选择用车城市</string>
+    <string name="guidance_view_subtitle">这里有%1$s位中文司导可为您服务</string>
 
-    <string name = "add_insure_name">中文姓名</string>
-    <string name = "add_insure_name_hint">姓名需与证件姓名一致</string>
-    <string name = "add_insure_gender">性别</string>
-    <string name = "add_insure_gender_hint">请选择</string>
-    <string name = "add_insure_birthday">出生日期</string>
-    <string name = "add_insure_birthday_hint">请选择日期</string>
-    <string name = "add_insure_cardid">护照编号</string>
-    <string name = "add_insure_cardid_hint">G+8位数字或E+8位数字</string>
-    <string name = "add_insure_hint">请认真核对投保人信息，填写有误会影响保险公司理赔</string>
-    <string name = "add_insure_save">保存</string>
-    <string name = "add_insure_man">男</string>
-    <string name = "add_insure_woman">女</string>
-    <string name = "add_insure_choose_gender">选择性别</string>
+    <string name="servicer_center_item1">预订须知</string>
+    <string name="servicer_center_item2">服务承诺</string>
+    <string name="servicer_center_item3">订单取消规则</string>
+    <string name="servicer_center_item4">费用说明</string>
+    <string name="servicer_center_item5">常见问题</string>
+    <string name="servicer_center_item6">保险说明</string>
 
-    <string name = "voice_captcha_title">语音验证码登录</string>
-    <string name = "voice_captcha_get_hint">我们将给您拨打电话告知您验证码，如果您接下来收到一个陌生来电，请放心接听</string>
-    <string name = "voice_captcha_phone">手机号</string>
-    <string name = "voice_captcha_get">获取语音验证码</string>
-    <string name = "voice_captcha_send">验证码已发送到手机：</string>
-    <string name = "voice_captcha_count_down">%1$ss后重新获取</string>
-    <string name = "voice_captcha_retry">重新获取语音验证码</string>
+    <string name="facebook_app_id">645647955823312</string>
+
+    <string name="add_insure_name">中文姓名</string>
+    <string name="add_insure_name_hint">姓名需与证件姓名一致</string>
+    <string name="add_insure_gender">性别</string>
+    <string name="add_insure_gender_hint">请选择</string>
+    <string name="add_insure_birthday">出生日期</string>
+    <string name="add_insure_birthday_hint">请选择日期</string>
+    <string name="add_insure_cardid">护照编号</string>
+    <string name="add_insure_cardid_hint">G+8位数字或E+8位数字</string>
+    <string name="add_insure_hint">请认真核对投保人信息，填写有误会影响保险公司理赔</string>
+    <string name="add_insure_save">保存</string>
+    <string name="add_insure_man">男</string>
+    <string name="add_insure_woman">女</string>
+    <string name="add_insure_choose_gender">选择性别</string>
+
+    <string name="voice_captcha_title">语音验证码登录</string>
+    <string name="voice_captcha_get_hint">我们将给您拨打电话告知您验证码，如果您接下来收到一个陌生来电，请放心接听</string>
+    <string name="voice_captcha_phone">手机号</string>
+    <string name="voice_captcha_get">获取语音验证码</string>
+    <string name="voice_captcha_send">验证码已发送到手机：</string>
+    <string name="voice_captcha_count_down">%1$ss后重新获取</string>
+    <string name="voice_captcha_retry">重新获取语音验证码</string>
     <string name="voice_captcha_input_error">请输入手机号</string>
 
     <!--Domestic CreditCard-->
@@ -984,4 +1011,16 @@
     <string name="domestic_card_add_phone_label">手机号</string>
     <string name="domestic_card_add_phone_hint">办卡时预留手机号</string>
 
+    <!--City text-->
+    <string name="city_sku_title1">%1$s人已收藏 · %2$s天 · %3$s > %4$s…</string>
+    <string name="city_sku_title2">%s位当地人可带你体验</string>
+    <string name="city_sku_item_price">¥ %s起/人</string>
+
+    <!--AI text-->
+    <string name="ai_result_title">为您推荐</string>
+    <string name="ai_result_banner_title_fast">快速了解您的目的地</string>
+    <string name="ai_result_banner_title_sku">按照您的行程，旅行小管家建议</string>
+    <string name="ai_result_banner_title_do">您也可以自己包车畅游</string>
+    <string name="ai_result_banner_title_call">咨询旅行小管家确认行程</string>
+    <string name="ai_result_sku_more_title">查看%s全部玩法</string>
 </resources>

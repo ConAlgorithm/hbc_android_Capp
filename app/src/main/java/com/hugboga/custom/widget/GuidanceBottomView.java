@@ -62,8 +62,8 @@ public class GuidanceBottomView extends LinearLayout {
                 switchPickupTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
                 switchSendTV.setBackgroundColor(0x00000000);
                 switchSendTV.setTextColor(0xFF7f7f7f);
-                infoView.setTitle("您的航班号？");
-                infoView.setHintText("请输入航班号，如CA167");
+                infoView.setTitle(getContext().getResources().getString(R.string.guidance_pickup_hint_title));
+                infoView.setHintText(getContext().getResources().getString(R.string.guidance_pickup_hint_subtitle));
                 isPickup = true;
                 break;
             case R.id.guidance_bottom_switch_send_tv:
@@ -71,8 +71,8 @@ public class GuidanceBottomView extends LinearLayout {
                 switchPickupTV.setTextColor(0xFF7f7f7f);
                 switchSendTV.setBackgroundResource(R.drawable.bg_guidance_order_send);
                 switchSendTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
-                infoView.setTitle("送您到哪个机场?");
-                infoView.setHintText("请选择送达机场");
+                infoView.setTitle(getContext().getResources().getString(R.string.guidance_send_hint_title));
+                infoView.setHintText(getContext().getResources().getString(R.string.guidance_send_hint_subtitle));
                 isPickup = false;
                 break;
         }
@@ -92,13 +92,13 @@ public class GuidanceBottomView extends LinearLayout {
             case 3:
             case 888:
                 switchLayout.setVisibility(View.GONE);
-                infoView.setTitle("想去哪个城市包车?");
-                infoView.setHintText("请选择包车开始城市");
+                infoView.setTitle(getContext().getResources().getString(R.string.guidance_charter_hint_title));
+                infoView.setHintText(getContext().getResources().getString(R.string.guidance_charter_hint_subtitle));
                 break;
             case 4:
                 switchLayout.setVisibility(View.GONE);
-                infoView.setTitle("从哪个地点上车?");
-                infoView.setHintText("请选择用车城市");
+                infoView.setTitle(getContext().getResources().getString(R.string.guidance_single_hint_title));
+                infoView.setHintText(getContext().getResources().getString(R.string.guidance_single_hint_subtitle));
                 break;
         }
     }
