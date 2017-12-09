@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -40,6 +41,8 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ai.AiTagView;
+
+import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -79,7 +82,7 @@ public class FakeAIActivity extends BaseActivity {
     public static final int AIGETDATA_ACCOMPANY = 2;//伴随
     private FakeAIAdapter fakeAIAdapter;
     private int buttonType; //判断客服状态
-
+    private ArrayList<String> strings = new ArrayList<String>();//传递给客服的客户对话
 
     @Override
     public int getContentViewId() {
@@ -160,6 +163,8 @@ public class FakeAIActivity extends BaseActivity {
                 Intent intent = null;
                 switch (buttonType) {
                     case 1://跳转客服对话
+                        //ArrayList<String> strings   携带跳转客服的参数
+
                         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
                         params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHAT_LIST;
                         ServiceQuestionBean.QuestionItem questionItem = new ServiceQuestionBean.QuestionItem();
@@ -218,6 +223,10 @@ public class FakeAIActivity extends BaseActivity {
                 }
                 if (data.userSaidList != null) {
                     info.userSaidList = data.userSaidList;
+                    strings.clear();
+                    for (int i = 0; i < data.userSaidList.size(); i++) {
+                        strings.add(data.userSaidList.get(i).saidContent);
+                    }
                 }
                 if (data.chooseDestinationId != null) {
                     info.destinationId = data.chooseDestinationId;
