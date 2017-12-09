@@ -13,7 +13,7 @@
     <LinearLayout
         android:id="@+id/city_toolbar_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
@@ -36,7 +36,6 @@
                     android:drawableRight="@mipmap/destination_city_screening_icon"
                     android:fontFamily="@font/fzdysjw"
                     android:gravity="center"
-                    android:text="日本"
                     android:textAllCaps="false"
                     android:textColor="@android:color/background_dark"
                     android:textSize="24sp"

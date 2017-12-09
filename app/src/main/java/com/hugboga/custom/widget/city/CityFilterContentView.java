@@ -6,16 +6,19 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.utils.CityDataTools;
+import com.hugboga.custom.utils.UIUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelBean;
 import tk.hongbo.label.data.LabelItemData;
@@ -29,6 +32,8 @@ public class CityFilterContentView extends FrameLayout {
 
     @BindView(R.id.city_content_filter_view)
     public CityFilterView city_content_filter_view; //筛选头部标题选择
+    @BindView(R.id.city_content_filter_con)
+    FrameLayout city_content_filter_con; //过滤内容容器
     @BindView(R.id.content_city_filte_view1)
     FilterView content_city_filte_view1; //筛选条件内容，游玩线路
     @BindView(R.id.content_city_filte_view2)
@@ -63,6 +68,14 @@ public class CityFilterContentView extends FrameLayout {
         content_city_filte_view2.setData(labelCity, onSelectListener2);
         //游玩天数数据
         content_city_filte_view3.setData(labelDay, onSelectListener3);
+        //筛选项点击事件
+        city_content_filter_view.setFilterSeeListener(new CityFilterView.FilterSeeListener() {
+            @Override
+            public void onShowFilter(int position, boolean isSelect) {
+                city_content_filter_view.clear();
+                showFilterItem(position, isSelect);
+            }
+        });
     }
 
     public void setAdapter(CityAdapter adapter) {
@@ -82,7 +95,9 @@ public class CityFilterContentView extends FrameLayout {
             super.onParentSelect(filterView, labelBean);
             //关联重设，两个Tag布局内容
             if (filterView == content_city_filte_view1) {
-                adapter.setSelectIds(filterView.getSelectIds());
+                if (adapter != null && filterView != null) {
+                    adapter.setSelectIds(filterView.getSelectIds());
+                }
             } else {
                 content_city_filte_view1.setSelectIds(filterView.getSelectIds());
             }
@@ -93,6 +108,7 @@ public class CityFilterContentView extends FrameLayout {
         @Override
         public void onSelect(FilterView filterView, LabelBean labelBean) {
             content_city_filte_view1.hide();
+            checkFilterConSee();
             //关联重设，两个Tag布局内容
             if (filterView == content_city_filte_view1) {
                 adapter.setSelectIds(filterView.getSelectIds());
@@ -148,5 +164,43 @@ public class CityFilterContentView extends FrameLayout {
 
     public interface FilterConSelect {
         void onSelect(FilterView filterView, LabelBean labelBean);
+    }
+
+    /**
+     * 检查过滤器内容是否展示
+     */
+    private void checkFilterConSee() {
+        if (content_city_filte_view1.getVisibility() == View.VISIBLE
+                || content_city_filte_view2.getVisibility() == View.VISIBLE
+                || content_city_filte_view3.getVisibility() == View.VISIBLE) {
+            city_content_filter_con.setVisibility(View.VISIBLE);
+        } else {
+            city_content_filter_con.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Adapter中筛选项点击
+     *
+     * @param position
+     * @param isSelect
+     */
+    public void showFilterItem(int position, boolean isSelect) {
+        switch (position) {
+            case 0:
+                content_city_filte_view1.setVisibility(isSelect ? View.VISIBLE : View.GONE);
+                break;
+            case 1:
+                content_city_filte_view2.setVisibility(isSelect ? View.VISIBLE : View.GONE);
+                break;
+            case 2:
+                content_city_filte_view3.setVisibility(isSelect ? View.VISIBLE : View.GONE);
+                break;
+        }
+        checkFilterConSee();
+    }
+
+    @OnClick(R.id.city_content_filter_con)
+    public void unClick(View view) {
     }
 }

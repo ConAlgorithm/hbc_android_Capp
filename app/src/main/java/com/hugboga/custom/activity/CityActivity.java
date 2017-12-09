@@ -117,7 +117,6 @@ public class CityActivity extends BaseActivity {
                 }
             }
         });
-        filterContentView.setAdapter(adapter); //Filter需要数据设置
     }
 
     /**
@@ -134,7 +133,6 @@ public class CityActivity extends BaseActivity {
         if (adapter.cityFilterModel.cityFilterView != null) {
             if (dy < 0 && Math.abs(dy) > 3) {
                 //向下滑动
-//                toolbar.setVisibility(View.VISIBLE);
                 if (city_toolbar_root.getTop() != 0) {
                     translate(true);
                 }
@@ -149,7 +147,6 @@ public class CityActivity extends BaseActivity {
                     filterContentView.setVisibility(View.VISIBLE);
                 }
                 if (adapter.cityFilterModel.cityFilterView.getTop() < 0 && city_toolbar_root.getTop() == 0) {
-//                    toolbar.setVisibility(View.GONE);
                     translate(false);
                 }
             }
@@ -162,7 +159,7 @@ public class CityActivity extends BaseActivity {
         if (!isShow) {
             translateAnimation = new TranslateAnimation(0, 0, 0, -height);
         }
-        translateAnimation.setDuration(150);
+        translateAnimation.setDuration(120);
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -171,10 +168,7 @@ public class CityActivity extends BaseActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 city_toolbar_root.clearAnimation();
-                int top = 0;
-                if (!isShow) {
-                    top = 0 - toolbar.getHeight();
-                }
+                int top = isShow ? 0 : -toolbar.getHeight();
                 city_toolbar_root.layout(0, top, city_toolbar_root.getWidth(), top + city_toolbar_root.getHeight());
             }
 
@@ -436,7 +430,8 @@ public class CityActivity extends BaseActivity {
         } else {
             adapter.addMoreGoods(destinationGoodsList);
         }
-        //FIXME 依赖Adapter都放在这里=====================
+        // 依赖Adapter都放在这里
+        filterContentView.setAdapter(adapter); //Filter需要数据设置
         //构建筛选器
         resetFilterView();
     }
@@ -446,18 +441,13 @@ public class CityActivity extends BaseActivity {
      */
     CityFilterView.FilterSeeListener filterSeeListener = new CityFilterView.FilterSeeListener() {
         @Override
-        public void onShowFilter(int position, boolean isSelect) {
-            switch (position) {
-                case 0:
-
-                    break;
-                case 1:
-
-                    break;
-                case 2:
-
-                    break;
-            }
+        public void onShowFilter(final int position, final boolean isSelect) {
+            adapter.cityFilterModel.cityFilterView.clear();
+            //展示滑动效果，滑动到顶部筛选模式
+            recyclerView.scrollBy(0, adapter.cityFilterModel.cityFilterView.getBottom());
+            filterContentView.setVisibility(View.VISIBLE);
+            translate(false);
+            filterContentView.showFilterItem(position, isSelect);
         }
     };
 

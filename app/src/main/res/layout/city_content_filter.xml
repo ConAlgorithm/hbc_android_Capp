@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#66000000">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.hugboga.custom.widget.city.CityFilterView
+        android:id="@+id/city_content_filter_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content" />
 
-        <com.hugboga.custom.widget.city.CityFilterView
-            android:id="@+id/city_content_filter_view"
+    <FrameLayout
+        android:id="@+id/city_content_filter_con"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000">
+
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <tk.hongbo.label.FilterView
-                android:id="@+id/content_city_filte_view1"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+                android:layout_height="wrap_content">
 
-            <tk.hongbo.label.FilterView
-                android:id="@+id/content_city_filte_view2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+                <tk.hongbo.label.FilterView
+                    android:id="@+id/content_city_filte_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
 
-            <tk.hongbo.label.FilterView
-                android:id="@+id/content_city_filte_view3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
-        </FrameLayout>
-    </LinearLayout>
+                <tk.hongbo.label.FilterView
+                    android:id="@+id/content_city_filte_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
 
-</android.support.v4.widget.NestedScrollView>
+                <tk.hongbo.label.FilterView
+                    android:id="@+id/content_city_filte_view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+            </FrameLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </FrameLayout>
+</LinearLayout>
+
