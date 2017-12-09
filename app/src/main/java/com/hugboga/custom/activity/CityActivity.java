@@ -348,6 +348,8 @@ public class CityActivity extends BaseActivity {
             if (data != null) {
                 //修改标题
                 city_toolbar_title.setText(data.destinationName);
+                //设置过滤条件筛选中的数据
+                filterContentView.setData(data, filterConSelect1, filterConSelect2, filterConSelect3);
                 // 设置玩法列表初始化数据
                 if (data.destinationGoodsList != null && data.destinationGoodsList.size() > 0) {
                     flushSkuList(data.destinationGoodsList);
@@ -381,8 +383,6 @@ public class CityActivity extends BaseActivity {
         if (data.destinationGoodsCount > 0) {
             //有玩法数据则显示筛选器
             adapter.showFilterModel(true);
-            //设置过滤条件筛选中的数据
-            filterContentView.setData(data, filterConSelect1, filterConSelect2, filterConSelect3);
         } else {
             //无玩法数据隐藏筛选器
             adapter.showFilterModel(false);

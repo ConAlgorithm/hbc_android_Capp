@@ -12,14 +12,11 @@ import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.utils.CityDataTools;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelBean;
-import tk.hongbo.label.data.LabelItemData;
 
 /**
  * 筛选条件内容
@@ -67,18 +64,12 @@ public class CityFilterContentView extends FrameLayout {
         this.filterConSelect1 = filterConSelect1;
         this.filterConSelect2 = filterConSelect2;
         this.filterConSelect3 = filterConSelect3;
-        reset(cityDataTools.getTagData(data.destinationTagGroupList),
-                cityDataTools.getCityData(data.depCityList),
-                cityDataTools.getDayData(data.dayCountList));
-    }
-
-    private void reset(List<LabelItemData> labelTag, List<LabelItemData> labelCity, List<LabelItemData> labelDay) {
         //标签数据
-        content_city_filte_view1.setData(labelTag, onSelectListener1);
+        content_city_filte_view1.setData(cityDataTools.getTagData(data.destinationTagGroupList), onSelectListener1);
         //出发城市数据
-        content_city_filte_view2.setData(labelCity, onSelectListener2);
+        content_city_filte_view2.setData(cityDataTools.getCityData(data.depCityList), onSelectListener2);
         //游玩天数数据
-        content_city_filte_view3.setData(labelDay, onSelectListener3);
+        content_city_filte_view3.setData(cityDataTools.getDayData(data.dayCountList), onSelectListener3);
         //筛选项点击事件
         city_content_filter_view.setFilterSeeListener(new CityFilterView.FilterSeeListener() {
             @Override
@@ -197,6 +188,7 @@ public class CityFilterContentView extends FrameLayout {
      * @param isSelect
      */
     public void showFilterItem(int position, boolean isSelect) {
+        clearAllFilterCon();
         switch (position) {
             case 0:
                 content_city_filte_view1.setVisibility(isSelect ? View.VISIBLE : View.GONE);
@@ -209,6 +201,12 @@ public class CityFilterContentView extends FrameLayout {
                 break;
         }
         checkFilterConSee();
+    }
+
+    private void clearAllFilterCon() {
+        content_city_filte_view1.hide();
+        content_city_filte_view2.hide();
+        content_city_filte_view3.hide();
     }
 
     @OnClick(R.id.city_content_filter_con)
