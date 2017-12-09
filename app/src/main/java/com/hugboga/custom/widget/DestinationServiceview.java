@@ -14,6 +14,7 @@ import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.utils.IntentUtils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,26 +44,22 @@ public class DestinationServiceview extends LinearLayout implements HbcViewBehav
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.picksend_id:
-                intentActivity(getContext(), PickSendActivity.class, StatisticConstant.LAUNCH_J);
+                IntentUtils.intentPickupActivity(getContext(), getEventSource());
+                MobClickUtils.onEvent(StatisticConstant.LAUNCH_J);
 
                 break;
             case R.id.single_id:
-                intentActivity(getContext(), SingleActivity.class, StatisticConstant.LAUNCH_C);
+                IntentUtils.intentSingleActivity(getContext(), getEventSource());
+                MobClickUtils.onEvent(StatisticConstant.LAUNCH_C);
                 break;
             case R.id.day_service:
-                intentActivity(getContext(), CharterFirstStepActivity.class, StatisticConstant.LAUNCH_DETAIL_R);
+                IntentUtils.intentCharterActivity(getContext(), getEventSource());
+                MobClickUtils.onEvent(StatisticConstant.LAUNCH_DETAIL_R);
                 break;
         }
 
     }
-    private void intentActivity(Context context, Class<?> cls, String eventId) {
-        Intent intent = new Intent(context, cls);
-        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-        context.startActivity(intent);
-        if (!TextUtils.isEmpty(eventId)) {
-            MobClickUtils.onEvent(eventId);
-        }
-    }
+
     @Override
     public void update(Object _data) {
 

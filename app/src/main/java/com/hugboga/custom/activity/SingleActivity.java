@@ -38,6 +38,7 @@ import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.GuideCalendarUtils;
+import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.CsDialog;
@@ -210,9 +211,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         emptyLayout.setOnClickCharterListener(new SkuOrderEmptyView.OnClickCharterListener() {
             @Override
             public void onClickCharter() {
-                Intent intent = new Intent(SingleActivity.this, CharterFirstStepActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                SingleActivity.this.startActivity(intent);
+                IntentUtils.intentCharterActivity(SingleActivity.this, getEventSource());
             }
         });
         setSensorsEvent();

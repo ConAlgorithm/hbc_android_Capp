@@ -38,6 +38,7 @@ public class HomeBean implements Serializable {
         public String albumName;                        // 专辑名称
         public String albumLinkUrl;                     // 专辑跳转URL
         public int albumHotLevel;                       // 专辑热度
+        public String aliasName;                        // 专辑别名
         public ArrayList<AlbumBean> albumRelItemList;   // 专辑详细信息
     }
 

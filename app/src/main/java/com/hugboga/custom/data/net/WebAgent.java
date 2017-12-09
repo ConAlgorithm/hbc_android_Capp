@@ -52,6 +52,7 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SaveFileTask;
@@ -372,14 +373,8 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                    Intent intent = new Intent(mActivity,CharterFirstStepActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
-                    if (cityBean != null) {
-                        intent.putExtra(Constants.PARAMS_START_CITY_BEAN, cityBean);
-                    }
-                    mActivity.startActivity(intent);
-//                    mFragment.startFragment(fgOrderSelectCity,bundle);
+                IntentUtils.intentCharterActivity(mActivity,null,null, cityBean, getEventSource());
+
             }
         });
 
@@ -532,12 +527,7 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(mActivity,CharterFirstStepActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                if (cityBean != null) {
-                    intent.putExtra(Constants.PARAMS_START_CITY_BEAN, cityBean);
-                }
-                mActivity.startActivity(intent);
+                IntentUtils.intentCharterActivity(mActivity, null,null, cityBean, getEventSource());
             }
         });
     }
@@ -550,12 +540,7 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(mActivity,CharterFirstStepActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                if (cityBean != null) {
-                    intent.putExtra(Constants.PARAMS_START_CITY_BEAN, cityBean);
-                }
-                mActivity.startActivity(intent);
+                IntentUtils.intentCharterActivity(mActivity, null,null, cityBean, getEventSource());
             }
         });
     }
@@ -822,24 +807,20 @@ public class WebAgent implements HttpRequestListener {
                                 break;
                             case 202://用户未参与，有库存
                                 if (orderType == 1) {
-                                    Intent intent = new Intent(mActivity, PickSendActivity.class);
+                                    PickSendActivity.Params _params = null;
                                     if (!TextUtils.isEmpty(timeLimitedSaleNo) && !TextUtils.isEmpty(timeLimitedSaleScheduleNo)) {
-                                        PickSendActivity.Params params = new PickSendActivity.Params();
-                                        params.isSeckills = true;
-                                        params.timeLimitedSaleNo = timeLimitedSaleNo;
-                                        params.timeLimitedSaleScheduleNo = timeLimitedSaleScheduleNo;
-                                        intent.putExtra(Constants.PARAMS_DATA, params);
+                                        _params = new PickSendActivity.Params();
+                                        _params.isSeckills = true;
+                                        _params.timeLimitedSaleNo = timeLimitedSaleNo;
+                                        _params.timeLimitedSaleScheduleNo = timeLimitedSaleScheduleNo;
                                     }
-                                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                                    mActivity.startActivity(intent);
+                                    IntentUtils.intentPickupActivity(mActivity, _params, getEventSource());
                                 } else if (orderType == 3) {
-                                    Intent intent = new Intent(mActivity, CharterFirstStepActivity.class);
+                                    SeckillsBean seckillsBean = null;
                                     if (!TextUtils.isEmpty(timeLimitedSaleNo) && !TextUtils.isEmpty(timeLimitedSaleScheduleNo)) {
-                                        SeckillsBean seckillsBean = new SeckillsBean(timeLimitedSaleNo, timeLimitedSaleScheduleNo);
-                                        intent.putExtra(Constants.PARAMS_SECKILLS, seckillsBean);
+                                        seckillsBean = new SeckillsBean(timeLimitedSaleNo, timeLimitedSaleScheduleNo);
                                     }
-                                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                                    mActivity.startActivity(intent);
+                                    IntentUtils.intentCharterActivity(mActivity, seckillsBean,null, null, getEventSource());
                                 }
                                 break;
                             case 203://用户未参与，无库存，发券

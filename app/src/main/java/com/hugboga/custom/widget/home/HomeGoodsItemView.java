@@ -84,6 +84,7 @@ public class HomeGoodsItemView extends LinearLayout implements HbcViewBehavior, 
             params.cityId = transferBean.airportCityId;
             params.cityName = transferBean.airportCityName;
             Intent intent = new Intent(getContext(), PickSendActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, params);
             intent.putExtra(Constants.PARAMS_SOURCE, "首页");
             getContext().startActivity(intent);
         } else if (data instanceof HomeBean.CharteredBean) {
