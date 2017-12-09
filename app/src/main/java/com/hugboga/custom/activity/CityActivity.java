@@ -423,7 +423,7 @@ public class CityActivity extends BaseActivity {
             //展示滑动效果，滑动到顶部筛选模式
             filterContentView.setVisibility(View.VISIBLE);
             filterContentView.showFilterItem(position, isSelect);
-            recyclerView.scrollBy(0, adapter.cityFilterModel.cityFilterView.getTop());
+            recyclerView.scrollBy(0, adapter.cityFilterModel.cityFilterView.getTop() - toolbar.getHeight());
         }
     };
 
