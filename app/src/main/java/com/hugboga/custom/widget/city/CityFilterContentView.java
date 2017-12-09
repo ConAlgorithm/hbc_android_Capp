@@ -140,6 +140,7 @@ public class CityFilterContentView extends FrameLayout {
             checkFilterConSee();
             city_content_filter_view.clear();
             city_content_filter_view.setTextCity(labelBean.name);
+            content_city_filte_view2.setSelectIds(filterView.getSelectIds());
             linkTag(labelBean);
             if (filterConSelect2 != null) {
                 filterConSelect2.onSelect(filterView, labelBean);
@@ -157,6 +158,7 @@ public class CityFilterContentView extends FrameLayout {
             checkFilterConSee();
             city_content_filter_view.clear();
             city_content_filter_view.setTextDay(labelBean.name);
+            content_city_filte_view3.setSelectIds(filterView.getSelectIds());
             if (filterConSelect3 != null) {
                 filterConSelect3.onSelect(filterView, labelBean);
             }

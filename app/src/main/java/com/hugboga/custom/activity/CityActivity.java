@@ -420,11 +420,11 @@ public class CityActivity extends BaseActivity {
         @Override
         public void onShowFilter(final int position, final boolean isSelect) {
             adapter.cityFilterModel.cityFilterView.clear();
+//            translate(false);
             //展示滑动效果，滑动到顶部筛选模式
             filterContentView.setVisibility(View.VISIBLE);
-            translate(false);
             filterContentView.showFilterItem(position, isSelect);
-            recyclerView.scrollBy(0, adapter.cityFilterModel.cityFilterView.getBottom());
+//            recyclerView.scrollBy(0, adapter.cityFilterModel.cityFilterView.getBottom());
         }
     };
 

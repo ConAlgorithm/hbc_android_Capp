@@ -32,7 +32,7 @@ public class RequestQuerySkuList extends BaseRequest {
             map.put("dayCountTypeList", dayCountTypeList.id); //游玩天数类型列表,全部为空
         }
         if (destinationTagIdList != null && !"0".equals(destinationTagIdList.id)) {
-            map.put("destinationTagIdList", destinationTagIdList.id); //目的地标签列表,全部为空
+            map.put("destinationTagIdLists", destinationTagIdList.id); //目的地标签列表,全部为空
         }
         if (depCityIdList != null && !"0".equals(depCityIdList.id)) {
             map.put("depCityIdList", depCityIdList.id); //出发城市列表,全部为空
