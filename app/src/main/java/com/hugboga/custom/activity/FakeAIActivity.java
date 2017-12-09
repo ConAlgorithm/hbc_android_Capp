@@ -95,7 +95,7 @@ public class FakeAIActivity extends BaseActivity {
     }
 
     private void initView() {
-        headerTitleCenter.setText("旅行小管家");
+        headerTitleCenter.setText(R.string.fake_ai_head);
         fakeAIAdapter = new FakeAIAdapter();
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -161,13 +161,12 @@ public class FakeAIActivity extends BaseActivity {
                 switch (buttonType) {
                     case 1://跳转客服对话
                         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHAT_LIST;
                         ServiceQuestionBean.QuestionItem questionItem = new ServiceQuestionBean.QuestionItem();
                         questionItem.customRole = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_GROUP_ID, 0);
                         params.questionItem = questionItem;
                         intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                         intent.putExtra(Constants.PARAMS_DATA, params);
-
                         break;
                     case 2://跳转填单页
                         intent = new Intent(FakeAIActivity.this, TravelPurposeFormActivity.class);
@@ -210,9 +209,9 @@ public class FakeAIActivity extends BaseActivity {
                     skipDialogue(data.customServiceStatus);
                 } else if (data.durationReqList != null && data.durationReqList.size() != 0) {
                     fakeData(data.durationReqList);
-                    editText.setHint("我要玩.....");
+                    editText.setHint(R.string.fake_ai_hint_two);
                 } else if (data.accompanyReqList != null && data.accompanyReqList.size() != 0) {
-                    editText.setHint("我和.....");
+                    editText.setHint(R.string.fake_ai_hint_three);
                     fakeData(data.accompanyReqList);
                 } else if (data.hotDestinationReqList != null && data.hotDestinationReqList.size() != 0) {
                     fakeData(data.hotDestinationReqList);
@@ -320,7 +319,7 @@ public class FakeAIActivity extends BaseActivity {
                     scrollViewButtonClick(bean, type);
                 }
             });
-            scrollViewLinearLayout.addView(view);
+            scrollViewLinearLayout. addView(view);
         }
 
     }
@@ -374,9 +373,9 @@ public class FakeAIActivity extends BaseActivity {
     private void skipDialogue(String str) {
         String buttonContent;
         if (str.equals("1"))
-            buttonContent = "和旅行小管家继续沟通";
+            buttonContent = getResources().getString(R.string.fake_ai_buttoncontent_one);
         else
-            buttonContent = "留下意向，让小管家明天联系我";
+            buttonContent =  getResources().getString(R.string.fake_ai_buttoncontent_two);
         buttonType = Integer.parseInt(str);
         button.setText(buttonContent);
         editText.setVisibility(View.GONE);

@@ -952,6 +952,13 @@
     <string name = "voice_captcha_count_down">%1$ss後重新獲取</string>
     <string name = "voice_captcha_retry">重新獲取語音驗證碼</string>
     <string name="voice_captcha_input_error">請輸入手機號</string>
+    <!-- AI Service -->
+    <string name="fake_ai_head" >旅行小管家</string>
+    <string name="fake_ai_hint_one" >我想去....</string>
+    <string name="fake_ai_hint_two" >我要玩....</string>
+    <string name="fake_ai_hint_three" >我和....</string>
+    <string name="fake_ai_buttoncontent_one" >和旅行小管家繼續溝通</string>
+    <string name="fake_ai_buttoncontent_two" >留下意向，讓小管家明天聯繫我</string>
 
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">國內信用卡</string>
