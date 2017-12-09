@@ -28,7 +28,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCity;
 import com.hugboga.custom.data.request.RequestQuerySkuList;
-import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterContentView;
 import com.hugboga.custom.widget.city.CityFilterView;
 
@@ -64,7 +63,6 @@ public class CityActivity extends BaseActivity {
     boolean isFromDestination;
 
     DestinationHomeVo data; //目的地初始化数据
-    CityDataTools cityDataTools;
 
     LabelBean labelBeanTag; //筛选项游玩线路标签
     LabelBean labelBeanCity; //筛选项出发城市
@@ -93,7 +91,6 @@ public class CityActivity extends BaseActivity {
                 paramsData = (CityActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        cityDataTools = new CityDataTools();
         EventBus.getDefault().register(this);
         isFromHome = getIntent().getBooleanExtra("isFromHome", false);
         isFromDestination = getIntent().getBooleanExtra("isFromDestination", false);
@@ -193,25 +190,13 @@ public class CityActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    /**
-     * 设置筛选项数据
-     */
-    private void flushFilterData(DestinationHomeVo data) {
-        //游玩线路数据
-        labels = cityDataTools.getTagData(data.destinationTagGroupList);
-        filterContentView.reset(labels, cityDataTools.getCityData(data.depCityList), cityDataTools.getDayData(data.dayCountList),
-                filterConSelect1, filterConSelect2, filterConSelect3);
-    }
-
     CityFilterContentView.FilterConSelect filterConSelect1 = new CityFilterContentView.FilterConSelect() {
 
         @Override
         public void onSelect(FilterView filterView, LabelBean labelBean) {
-            filterContentView.city_content_filter_view.clear();
             labelBeanTag = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
-            filterContentView.city_content_filter_view.setTextTag(labelBean.name);
         }
     };
 
@@ -219,11 +204,9 @@ public class CityActivity extends BaseActivity {
 
         @Override
         public void onSelect(FilterView filterView, LabelBean labelBean) {
-            filterContentView.city_content_filter_view.clear();
             labelBeanCity = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
-            filterContentView.city_content_filter_view.setTextCity(labelBean.name);
         }
     };
 
@@ -231,11 +214,9 @@ public class CityActivity extends BaseActivity {
 
         @Override
         public void onSelect(FilterView filterView, LabelBean labelBean) {
-            filterContentView.city_content_filter_view.clear();
             labelBeanDay = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
-            filterContentView.city_content_filter_view.setTextDay(labelBean.name);
         }
     };
 
@@ -374,8 +355,6 @@ public class CityActivity extends BaseActivity {
                     page = 1; //无条件查询玩法
                     flushSkuList();
                 }
-                //设置过滤条件筛选中的数据
-                filterContentView.setData(data);
             }
             //初始化已收藏线路数据
             queryFavoriteLineList();
@@ -402,12 +381,11 @@ public class CityActivity extends BaseActivity {
         if (data.destinationGoodsCount > 0) {
             //有玩法数据则显示筛选器
             adapter.showFilterModel(true);
-            filterContentView.city_content_filter_view.setVisibility(View.VISIBLE);
-            flushFilterData(data);
+            //设置过滤条件筛选中的数据
+            filterContentView.setData(data, filterConSelect1, filterConSelect2, filterConSelect3);
         } else {
             //无玩法数据隐藏筛选器
             adapter.showFilterModel(false);
-            filterContentView.city_content_filter_view.setVisibility(View.GONE);
         }
     }
 
@@ -444,10 +422,10 @@ public class CityActivity extends BaseActivity {
         public void onShowFilter(final int position, final boolean isSelect) {
             adapter.cityFilterModel.cityFilterView.clear();
             //展示滑动效果，滑动到顶部筛选模式
-            recyclerView.scrollBy(0, adapter.cityFilterModel.cityFilterView.getBottom());
             filterContentView.setVisibility(View.VISIBLE);
             translate(false);
             filterContentView.showFilterItem(position, isSelect);
+            recyclerView.scrollBy(0, adapter.cityFilterModel.cityFilterView.getBottom());
         }
     };
 

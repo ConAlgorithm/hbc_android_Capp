@@ -13,7 +13,8 @@
         android:id="@+id/city_content_filter_con"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#66000000">
+        android:background="#66000000"
+        android:visibility="gone">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
