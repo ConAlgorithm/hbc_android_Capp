@@ -200,10 +200,10 @@ public class FakeAIActivity extends BaseActivity {
             //TODO 问答回复，稍后做处理
             if (data.recommendationDestinationHome != null) {
                 //有推荐结果
-                Intent intent = new Intent(this, AiResultActivity.class);
-                intent.putExtra(KEY_AI_RESULT, data.recommendationDestinationHome);
-                startActivity(intent);
-                finish();
+                initServiceMessage(data.duoDuoSaid);
+                Message message = handler.obtainMessage();
+                message.obj =data;
+                handler.sendMessageDelayed(message,1000);
             } else {
 
                 if (data.customServiceStatus != null) {
@@ -259,6 +259,12 @@ public class FakeAIActivity extends BaseActivity {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            if(msg.obj instanceof FakeAIQuestionsBean){
+                Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
+                intent.putExtra(KEY_AI_RESULT, ((FakeAIQuestionsBean)msg.obj).recommendationDestinationHome);
+                startActivity(intent);
+                finish();
+            }
             recyclerView.scrollToPosition(fakeAIAdapter.getItemCount() - 1);
         }
     };
@@ -329,7 +335,7 @@ public class FakeAIActivity extends BaseActivity {
             requestSelf(null, bean.destinationName);
         } else if (type == AIGETDATA_ACCOMPANY) {
             info.accompanyOptId = bean.destinationId;//此参数为伴随ID
-            requestSelf(null, bean.destinationName);
+            requestSelf(null, null);
         }
     }
 
@@ -361,7 +367,6 @@ public class FakeAIActivity extends BaseActivity {
         editText.setFocusableInTouchMode(true);
         editText.setFocusable(true);
         editText.requestFocus();
-
 
     }
 
