@@ -188,6 +188,7 @@ public class CityDataTools {
             beanL.id = vo.tagId;
             beanL.name = vo.tagName;
             beanL.fullTagId = vo.fullTagId;
+            beanL.depIdSet = vo.goodsDepCityIdSet;
             list.add(beanL);
         }
         return list;
@@ -199,11 +200,11 @@ public class CityDataTools {
      * @param depIdSet
      * @return
      */
-    public Map<String, Boolean> getDepCityIds(List<String> depIdSet) {
-        Map<String, Boolean> ids = new HashMap<>();
+    public List<String> getDepCityIds(List<String> depIdSet) {
+        List<String> ids = new ArrayList<>();
         if (depIdSet != null) {
             for (String dep : depIdSet) {
-                ids.put(dep, true);
+                ids.add(dep);
             }
         }
         return ids;
@@ -216,14 +217,14 @@ public class CityDataTools {
      * @param cityId
      * @return
      */
-    public Map<String, Boolean> getDepTagIds(List<DestinationTagGroupVo> destinationTagGroupList, String cityId) {
-        Map<String, Boolean> ids = new HashMap<>();
+    public List<String> getDepTagIds(List<DestinationTagGroupVo> destinationTagGroupList, String cityId) {
+        List<String> ids = new ArrayList<>();
         if (destinationTagGroupList != null && destinationTagGroupList.size() > 0) {
             for (DestinationTagGroupVo vo : destinationTagGroupList) {
                 if (vo.goodsDepCityIdSet.contains(cityId)) {
-                    ids.put(vo.tagId, true);
+                    ids.add(vo.tagId);
                 }
-                ids.putAll(getSubTagDep(vo.subTagList, cityId));
+                ids.addAll(getSubTagDep(vo.subTagList, cityId));
             }
         }
         return ids;
@@ -236,12 +237,12 @@ public class CityDataTools {
      * @param cityId
      * @return
      */
-    private Map<String, Boolean> getSubTagDep(List<DestinationTagVo> subTagList, String cityId) {
-        Map<String, Boolean> ids = new HashMap<>();
+    private List<String> getSubTagDep(List<DestinationTagVo> subTagList, String cityId) {
+        List<String> ids = new ArrayList<>();
         if (subTagList != null && subTagList.size() > 0) {
             for (DestinationTagVo vo1 : subTagList) {
                 if (vo1.goodsDepCityIdSet.contains(cityId)) {
-                    ids.put(vo1.tagId, true);
+                    ids.add(vo1.tagId);
                 }
             }
         }

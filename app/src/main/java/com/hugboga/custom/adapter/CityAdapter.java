@@ -15,9 +15,9 @@ import com.hugboga.custom.models.city.CityFilterModel;
 import com.hugboga.custom.models.city.CityHeaderModel;
 
 import java.util.List;
-import java.util.Map;
 
 import tk.hongbo.label.FilterView;
+import tk.hongbo.label.data.LabelBean;
 import tk.hongbo.label.data.LabelItemData;
 
 /**
@@ -114,9 +114,15 @@ public class CityAdapter extends SkuAdapter {
      *
      * @param ids
      */
-    public void setSelectIds(Map<String, Boolean> ids) {
+    public void setSelectIds(List<LabelBean> ids) {
         if (cityListLabelModel != null) {
             cityListLabelModel.setSelectIds(ids);
+        }
+    }
+
+    public void setEnableIds(List<String> ids) {
+        if (cityListLabelModel != null) {
+            cityListLabelModel.setEnableIds(ids);
         }
     }
 

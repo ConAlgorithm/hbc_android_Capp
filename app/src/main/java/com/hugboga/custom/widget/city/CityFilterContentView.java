@@ -13,6 +13,8 @@ import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.utils.CityDataTools;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -96,7 +98,7 @@ public class CityFilterContentView extends FrameLayout {
                 if (adapter != null && filterView != null) {
                     adapter.setSelectIds(filterView.getSelectIds());
                 }
-                if (isFinish){
+                if (isFinish) {
                     city_content_filter_view.clear();
                     content_city_filte_view1.hide();
                 }
@@ -104,11 +106,17 @@ public class CityFilterContentView extends FrameLayout {
                 content_city_filte_view1.setSelectIds(filterView.getSelectIds());
             }
             // 关联城市联动
-            linkCity(labelBean);
+            if (!isParent && "0".equals(labelBean.id)) {
+                if (bean != null && bean.parentLabel != null) {
+                    linkCity(bean.parentLabel);
+                }
+            } else {
+                linkCity(labelBean);
+            }
             if (filterConSelect1 != null && isFinish) {
                 // 子标签如果是全部，则取值父标签名称
                 tagTitle = labelBean.name;
-                if (!isParent && "0".equals(labelBean.id)) {
+                if (!isParent && "0".equals(labelBean.id) && bean != null && bean.parentLabel != null) {
                     tagTitle = bean.parentLabel.name;
                 }
                 city_content_filter_view.setTextTag(tagTitle);
@@ -151,7 +159,11 @@ public class CityFilterContentView extends FrameLayout {
      * @param labelBean
      */
     private void linkTag(LabelBean labelBean) {
-        content_city_filte_view1.setEnableClickIds(new CityDataTools().getDepTagIds(data.destinationTagGroupList, labelBean.id));
+        List<String> enableIds = new CityDataTools().getDepTagIds(data.destinationTagGroupList, labelBean.id);
+        content_city_filte_view1.setEnableClickIds(enableIds);
+        if (adapter != null) {
+            adapter.setEnableIds(enableIds);
+        }
     }
 
     /**
