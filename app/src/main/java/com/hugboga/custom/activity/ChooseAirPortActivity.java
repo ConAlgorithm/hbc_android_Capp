@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,6 +24,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.AirportAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.GPSBean;
@@ -100,6 +102,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     private DbManager mDbManager;
     private SharedPre sharedPer;
     private ArrayList<String> airportHistory;
+    private GuidanceOrderActivity.Params guidanceParams;
 
     private int groupId;
     private int cityId;
@@ -165,6 +168,9 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             });
         } else {
             cityHeaderLayout.setVisibility(View.GONE);
+        }
+        if (getIntent() != null) {
+            guidanceParams = (GuidanceOrderActivity.Params)getIntent().getSerializableExtra(GuidanceOrderActivity.PARAMS_GUIDANCE);
         }
     }
 
@@ -438,9 +444,18 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         }
         saveHistoryDate(airPort);
         hideInputMethod(headSearch);
-        finish();
-        EventBus.getDefault().post(new EventAction(EventType.AIR_PORT_BACK, sourceDateList.get(position)));
-
+        if (guidanceParams != null) {
+            Intent intent = new Intent(this, PickSendActivity.class);
+            PickSendActivity.Params params = new PickSendActivity.Params();
+            params.airPortBean = airPort;
+            params.type = 1;
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            intent.putExtra(Constants.PARAMS_SOURCE, guidanceParams.source);
+            startActivity(intent);
+        } else {
+            finish();
+            EventBus.getDefault().post(new EventAction(EventType.AIR_PORT_BACK, sourceDateList.get(position)));
+        }
     }
 
     /**

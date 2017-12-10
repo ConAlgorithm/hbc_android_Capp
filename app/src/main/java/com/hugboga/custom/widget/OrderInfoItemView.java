@@ -27,6 +27,8 @@ public class OrderInfoItemView extends RelativeLayout {
     TextView descTv2;
     @BindView(R.id.order_info_desc_tv3)
     TextView descTv3;
+    @BindView(R.id.order_info_bottom_line_view)
+    View bottomLineView;
 
     private String titleText;
     private String hintText;
@@ -40,6 +42,8 @@ public class OrderInfoItemView extends RelativeLayout {
         View view = inflate(context, R.layout.view_order_info_item, this);
         ButterKnife.bind(view);
         setBackgroundColor(0xFFFFFFFF);
+        setClipChildren(false);
+        setClipToPadding(false);
         int paddingLeft = context.getResources().getDimensionPixelOffset(R.dimen.order_padding_left);
         setPadding(paddingLeft, 0, paddingLeft, 0);
 
@@ -48,7 +52,19 @@ public class OrderInfoItemView extends RelativeLayout {
         titleTv.setText(titleText);
         hintText = typedArray.getString(R.styleable.OrderInfoItemView_hintText);
         descTv1.setHint(hintText);
+        boolean isShowBottomLine = typedArray.getBoolean(R.styleable.OrderInfoItemView_isShowBottomLine,false);
+        bottomLineView.setVisibility(isShowBottomLine ? View.VISIBLE : View.GONE);
         typedArray.recycle();
+    }
+
+    public void setTitle(String _titleText) {
+        titleText = _titleText;
+        titleTv.setText(titleText);
+    }
+
+    public void setHintText(String _hintText) {
+        hintText = _hintText;
+        descTv1.setHint(hintText);
     }
 
     public void setDesc(String desc) {

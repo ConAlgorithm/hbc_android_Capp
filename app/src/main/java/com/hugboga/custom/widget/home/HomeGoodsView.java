@@ -12,10 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.adapter.HomeGoodsAdapter;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.models.home.HomeGoodsModel;
+import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SpaceItemDecoration;
 
@@ -71,6 +70,7 @@ public class HomeGoodsView<T> extends LinearLayout {
     }
 
     public void setDate(List<T> _itemList, int _type) {
+        this.type = _type;
         int titleId = _type == HomeGoodsModel.TYPE_TRANSFER ? R.string.home_goodes_title_transfer : R.string.home_goodes_title_chartered;
         titleTV.setText(getContext().getResources().getString(titleId));
         if (adapter == null) {
@@ -87,15 +87,11 @@ public class HomeGoodsView<T> extends LinearLayout {
         switch (view.getId()) {
             case R.id.home_album_title_tv:
             case R.id.home_album_title_arrow_iv:
-                Class<?> cls;
-                if (type == HomeGoodsModel.TYPE_TRANSFER) {//接送机
-                    cls = CharterFirstStepActivity.class;
-                } else {//包车
-                    cls = CharterFirstStepActivity.class;
+                if (type == HomeGoodsModel.TYPE_TRANSFER) {
+                    IntentUtils.intentPickupActivity(getContext(), "首页");
+                } else {
+                    IntentUtils.intentCharterActivity(getContext(), "首页");
                 }
-                Intent intent = new Intent(getContext(), cls);
-                intent.putExtra(Constants.PARAMS_SOURCE, "首页");
-                getContext().startActivity(intent);
                 break;
         }
     }

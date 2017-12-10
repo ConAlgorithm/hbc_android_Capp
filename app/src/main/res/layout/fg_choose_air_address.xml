@@ -11,10 +11,15 @@
         android:background="#eeeeee">
 
         <LinearLayout
-            android:paddingTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <com.hugboga.custom.widget.OrderGuidanceView
+                android:id="@+id/air_address_guidance_layout"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,7 +36,7 @@
                     android:clickable="true"
                     android:gravity="center"
                     android:paddingLeft="15dp"
-                    android:minHeight="72dp"
+                    android:minHeight="82dp"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/from_city_tips"
@@ -46,7 +51,7 @@
                         android:id="@+id/from_city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="12dp"
                         android:ellipsize="end"
                         android:hint="选择起飞城市"
                         android:maxLines="1"
@@ -94,7 +99,7 @@
                         android:id="@+id/end_city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="12dp"
                         android:ellipsize="end"
                         android:gravity="right"
                         android:hint="选择降落城市"
@@ -109,13 +114,12 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#eeeeee" />
+                android:layout_height="@dimen/default_line_height"
+                android:background="@color/default_dividing_line" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
                 android:background="@color/basic_white"
                 android:clickable="true"
                 android:minHeight="40dp">

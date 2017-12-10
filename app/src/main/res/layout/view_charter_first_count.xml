@@ -14,7 +14,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:layout_height="@dimen/order_min_item_hight"
         android:paddingLeft="@dimen/sku_order_padding_left"
         android:background="#ffffff">
 
@@ -43,7 +43,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:layout_height="@dimen/order_min_item_hight"
         android:paddingLeft="@dimen/sku_order_padding_left"
         android:background="#ffffff">
 
@@ -83,7 +83,7 @@
     <RelativeLayout
         android:id="@+id/charter_first_count_child_seat_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:layout_height="@dimen/order_min_item_hight"
         android:paddingLeft="@dimen/sku_order_padding_left"
         android:layout_marginRight="4dp"
         android:background="#ffffff">

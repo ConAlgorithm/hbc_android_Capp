@@ -1,11 +1,14 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
@@ -32,6 +35,9 @@ public class ChooseAirActivity extends BaseActivity {
 
     private FlightBean flightBean;
     CsDialog csDialog;
+    private GuidanceOrderActivity.Params guidanceParams;
+    private String sourceTag;
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_choose_air;
@@ -43,7 +49,10 @@ public class ChooseAirActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         initHeader();
         getLastFlightBean();
-
+        if (getIntent() != null) {
+            guidanceParams = (GuidanceOrderActivity.Params) getIntent().getSerializableExtra(GuidanceOrderActivity.PARAMS_GUIDANCE);
+            sourceTag = getIntent().getStringExtra(Constants.PARAMS_TYPE);
+        }
     }
 
     public void initHeader() {
@@ -75,6 +84,10 @@ public class ChooseAirActivity extends BaseActivity {
         });
     }
 
+    public String getSourceTag() {
+        return sourceTag;
+    }
+
     private FlightBean getLastFlightBean(){
         Bundle bundle = getIntent().getBundleExtra("flightBean");
         if(bundle!= null){
@@ -94,7 +107,25 @@ public class ChooseAirActivity extends BaseActivity {
 
         switch (action.getType()) {
             case AIR_NO:
-                finish();
+                FlightBean flightBean = (FlightBean)action.getData();
+                if (guidanceParams != null) {
+                    if (!TextUtils.equals(flightBean.sourceTag, GuidanceOrderActivity.TAG)) {
+                        break;
+                    }
+                    Intent intent = new Intent(this, PickSendActivity.class);
+                    PickSendActivity.Params params = new PickSendActivity.Params();
+                    if (guidanceParams.seckillsBean != null) {
+                        params.timeLimitedSaleNo = guidanceParams.seckillsBean.timeLimitedSaleNo;
+                        params.timeLimitedSaleScheduleNo = guidanceParams.seckillsBean.timeLimitedSaleScheduleNo;
+                        params.isSeckills = guidanceParams.seckillsBean.isSeckills;
+                    }
+                    params.flightBean = flightBean;
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra(Constants.PARAMS_SOURCE, guidanceParams.source);
+                    startActivity(intent);
+                } else {
+                    finish();
+                }
                 break;
         }
     }

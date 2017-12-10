@@ -52,6 +52,7 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.OrderBottomView;
+import com.hugboga.custom.widget.OrderGuidanceView;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
@@ -96,6 +97,8 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     SkuOrderEmptyView emptyLayout;
     @BindView(R.id.pickup_conpons_tipview)
     ConponsTipView conponsTipView;
+    @BindView(R.id.pickup_guidance_layout)
+    OrderGuidanceView guidanceLayout;
 
     @BindView(R.id.pickup_scrollview)
     ScrollView scrollView;
@@ -170,6 +173,13 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             } else if (params.isSeckills) {
                 carTypeView.setIsSeckills(true);
                 seckillsLayout.setVisibility(View.VISIBLE);
+            }
+            if (params.flightBean != null) {
+                setFlightBean(params.flightBean);
+            } else if (params.airPortBean != null) {//航班信息为空，默认显示送机机场所在城市
+                setGuidanceLayout("" +  params.airPortBean.cityId, params.airPortBean.cityName);
+            } else if (!TextUtils.isEmpty(params.cityId) && !TextUtils.isEmpty(params.cityName)) {
+                setGuidanceLayout("" +  params.cityId, params.cityName);
             }
         }
         carTypeView.setOnSelectedCarListener(this);
@@ -275,6 +285,14 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         cityLayout.resetUI();
         poiBean = null;
         hintConponsTipView();
+        setGuidanceLayout("" + flightBean.arrCityId, flightBean.arrCityName);
+    }
+
+    public void setGuidanceLayout(String cityId, String cityName) {
+        if (params == null || params.guidesDetailData == null) {
+            guidanceLayout.setVisibility(View.VISIBLE);
+            guidanceLayout.setData("" + cityId, cityName);
+        }
     }
 
     @Subscribe

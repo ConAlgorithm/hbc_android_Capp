@@ -29,7 +29,7 @@
             android:id="@+id/order_info_desc_tv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:singleLine="true"
@@ -41,8 +41,8 @@
             android:id="@+id/order_info_desc_tv3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="3dp"
             android:gravity="center_vertical"
             android:textColor="#cccccc"
             android:textSize="12sp"
@@ -62,4 +62,15 @@
             android:layout_gravity="center_vertical"
             android:background="@mipmap/ente_icon" />
     </FrameLayout>
+
+    <View
+        android:id="@+id/order_info_bottom_line_view"
+        android:layout_below="@id/order_info_desc_layout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_marginLeft="-17dp"
+        android:layout_marginRight="-17dp"
+        android:layout_height="@dimen/default_line_height"
+        android:background="@color/default_dividing_line"
+        />
 </merge>

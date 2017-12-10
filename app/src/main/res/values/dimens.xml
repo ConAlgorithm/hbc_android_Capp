@@ -85,7 +85,7 @@
 
 
     <dimen name="order_padding_left">17dp</dimen>
-    <dimen name="order_min_item_hight">48dp</dimen>
+    <dimen name="order_min_item_hight">52dp</dimen>
     <dimen name="order_margin_vertical">10dp</dimen>
 
     <dimen name="charter_item_padding_left">15dp</dimen>
