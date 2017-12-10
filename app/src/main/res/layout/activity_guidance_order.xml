@@ -3,14 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     android:background="#ffffff"
     android:orientation="vertical">
-
-    <com.hugboga.custom.widget.title.TitleBar
-        android:id="@+id/guidance_titlebar"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize" />
-
 
     <com.hugboga.custom.widget.GuidanceBottomView
         android:id="@+id/guidance_bottom_view"
@@ -18,15 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <ScrollView
+    <com.hugboga.custom.widget.ScrollViewWrapper
+        android:id="@+id/guidance_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/guidance_bottom_view"
-        android:layout_below="@id/guidance_titlebar">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="?android:attr/actionBarSize"
             android:orientation="vertical">
 
             <ImageView
@@ -51,6 +48,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-    </ScrollView>
+    </com.hugboga.custom.widget.ScrollViewWrapper>
 
+    <com.hugboga.custom.widget.title.TitleBar
+        android:id="@+id/guidance_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize" />
 </RelativeLayout>
