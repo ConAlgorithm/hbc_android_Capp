@@ -28,6 +28,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCity;
 import com.hugboga.custom.data.request.RequestQuerySkuList;
+import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterContentView;
 import com.hugboga.custom.widget.city.CityFilterView;
 
@@ -41,7 +42,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelBean;
-import tk.hongbo.label.data.LabelItemData;
 
 import static com.hugboga.custom.activity.CityActivity.CityHomeType.COUNTRY;
 
@@ -68,9 +68,10 @@ public class CityActivity extends BaseActivity {
     LabelBean labelBeanCity; //筛选项出发城市
     LabelBean labelBeanDay; //筛选项游玩天数
 
-    List<LabelItemData> labels; //标签初始化数据
     CityAdapter adapter;
     private int page = 1; //sku页数
+
+    CityDataTools cityDataTools = new CityDataTools();
 
     @Override
     public int getContentViewId() {
@@ -398,7 +399,7 @@ public class CityActivity extends BaseActivity {
         if (adapter == null) {
             isInit = true; //初次加载数据
             adapter = new CityAdapter(this, data, destinationGoodsList, data.serviceConfigList,
-                    labels, filterContentView.onSelectListener1);
+                    cityDataTools.getTagData(data.destinationTagGroupList), filterContentView.onSelectListener1);
             recyclerView.setAdapter(adapter);
             adapter.cityFilterModel.filterSeeListener = filterSeeListener;
         }
