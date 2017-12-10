@@ -165,6 +165,7 @@ public class CityDataTools {
         LabelBean beanL = new LabelBean();
         beanL.id = vo1.tagId;
         beanL.name = vo1.tagName;
+        beanL.fullTagId = vo1.fullTagId;
         beanL.depIdSet = vo1.goodsDepCityIdSet;
         bean.parentLabel = beanL;
         bean.childs = getChildTags(vo1.subTagList);
@@ -186,6 +187,7 @@ public class CityDataTools {
             LabelBean beanL = new LabelBean();
             beanL.id = vo.tagId;
             beanL.name = vo.tagName;
+            beanL.fullTagId = vo.fullTagId;
             list.add(beanL);
         }
         return list;

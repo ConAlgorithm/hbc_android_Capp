@@ -90,13 +90,13 @@ public class CityFilterContentView extends FrameLayout {
      */
     public FilterView.OnSelectListener onSelectListener1 = new FilterView.OnSelectListener() {
         @Override
-        public void onSelect(FilterView filterView, LabelBean labelBean, LabelParentBean bean) {
-            boolean isFinish = bean == null || bean.childs == null || bean.childs.size() == 0;
+        public void onSelect(FilterView filterView, LabelParentBean bean, LabelBean labelBean, boolean isParent) {
+            boolean isFinish = !isParent || (isParent && (bean.childs == null || bean.childs.size() == 0));
             if (filterView == content_city_filte_view1) {
                 if (adapter != null && filterView != null) {
                     adapter.setSelectIds(filterView.getSelectIds());
                 }
-                if (isFinish) {
+                if (isFinish){
                     city_content_filter_view.clear();
                     content_city_filte_view1.hide();
                 }
@@ -106,8 +106,12 @@ public class CityFilterContentView extends FrameLayout {
             // 关联城市联动
             linkCity(labelBean);
             if (filterConSelect1 != null && isFinish) {
+                // 子标签如果是全部，则取值父标签名称
                 tagTitle = labelBean.name;
-                city_content_filter_view.setTextTag(labelBean.name);
+                if (!isParent && "0".equals(labelBean.id)) {
+                    tagTitle = bean.parentLabel.name;
+                }
+                city_content_filter_view.setTextTag(tagTitle);
                 resetModelName(); //刷新联动adapter中的筛选标题
                 filterConSelect1.onSelect(filterView, labelBean);
             }
@@ -155,7 +159,7 @@ public class CityFilterContentView extends FrameLayout {
      */
     FilterView.OnSelectListener onSelectListener2 = new FilterView.OnSelectListener() {
         @Override
-        public void onSelect(FilterView filterView, LabelBean labelBean, LabelParentBean bean) {
+        public void onSelect(FilterView filterView, LabelParentBean bean, LabelBean labelBean, boolean isParent) {
             content_city_filte_view2.hide();
             checkFilterConSee();
             city_content_filter_view.clear();
@@ -175,7 +179,7 @@ public class CityFilterContentView extends FrameLayout {
      */
     FilterView.OnSelectListener onSelectListener3 = new FilterView.OnSelectListener() {
         @Override
-        public void onSelect(FilterView filterView, LabelBean labelBean, LabelParentBean bean) {
+        public void onSelect(FilterView filterView, LabelParentBean bean, LabelBean labelBean, boolean isParent) {
             content_city_filte_view3.hide();
             checkFilterConSee();
             city_content_filter_view.clear();
