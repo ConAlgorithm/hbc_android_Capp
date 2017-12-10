@@ -3,6 +3,7 @@ package com.hugboga.custom.widget.city;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -17,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelBean;
+import tk.hongbo.label.data.LabelParentBean;
 
 /**
  * 筛选条件内容
@@ -42,6 +44,10 @@ public class CityFilterContentView extends FrameLayout {
     FilterConSelect filterConSelect1;
     FilterConSelect filterConSelect2;
     FilterConSelect filterConSelect3;
+
+    String tagTitle = ""; //Tag标题
+    String cityTitle = ""; //城市标题
+    String dayTitle = ""; //天数标题
 
     CityDataTools cityDataTools = new CityDataTools();
 
@@ -82,35 +88,49 @@ public class CityFilterContentView extends FrameLayout {
     /**
      * 游玩线路标签选中处理
      */
-    public FilterView.OnSelectListener onSelectListener1 = new FilterView.OnSelectResultListener() {
+    public FilterView.OnSelectListener onSelectListener1 = new FilterView.OnSelectListener() {
         @Override
-        public void onParentSelect(FilterView filterView, LabelBean labelBean) {
-            super.onParentSelect(filterView, labelBean);
-            //关联重设，两个Tag布局内容
-            if (adapter != null && filterView != null) {
-                adapter.setSelectIds(filterView.getSelectIds());
+        public void onSelect(FilterView filterView, LabelBean labelBean, LabelParentBean bean) {
+            boolean isFinish = bean == null || bean.childs == null || bean.childs.size() == 0;
+            if (filterView == content_city_filte_view1) {
+                if (adapter != null && filterView != null) {
+                    adapter.setSelectIds(filterView.getSelectIds());
+                }
+                if (isFinish) {
+                    city_content_filter_view.clear();
+                    content_city_filte_view1.hide();
+                }
+            } else {
+                content_city_filte_view1.setSelectIds(filterView.getSelectIds());
             }
-            content_city_filte_view1.setSelectIds(filterView.getSelectIds());
             // 关联城市联动
             linkCity(labelBean);
-        }
-
-        @Override
-        public void onSelect(FilterView filterView, LabelBean labelBean) {
-            content_city_filte_view1.hide();
-            checkFilterConSee();
-            city_content_filter_view.clear();
-            city_content_filter_view.setTextTag(labelBean.name);
-            //关联重设，两个Tag布局内容
-            adapter.setSelectIds(filterView.getSelectIds());
-            content_city_filte_view1.setSelectIds(filterView.getSelectIds());
-            // 关联城市联动
-            linkCity(labelBean);
-            if (filterConSelect1 != null) {
+            if (filterConSelect1 != null && isFinish) {
+                tagTitle = labelBean.name;
+                city_content_filter_view.setTextTag(labelBean.name);
+                resetModelName(); //刷新联动adapter中的筛选标题
                 filterConSelect1.onSelect(filterView, labelBean);
             }
+            checkFilterConSee();
         }
     };
+
+    /**
+     * 设置adapter中的筛选标题文字
+     */
+    private void resetModelName() {
+        if (adapter != null) {
+            if (!TextUtils.isEmpty(tagTitle)) {
+                adapter.cityFilterModel.cityFilterView.setTextTag(tagTitle);
+            }
+            if (!TextUtils.isEmpty(cityTitle)) {
+                adapter.cityFilterModel.cityFilterView.setTextCity(cityTitle);
+            }
+            if (!TextUtils.isEmpty(dayTitle)) {
+                adapter.cityFilterModel.cityFilterView.setTextDay(dayTitle);
+            }
+        }
+    }
 
     /**
      * 关联城市联动
@@ -133,13 +153,15 @@ public class CityFilterContentView extends FrameLayout {
     /**
      * 出发城市选中处理
      */
-    FilterView.OnSelectListener onSelectListener2 = new FilterView.OnSelectResultListener() {
+    FilterView.OnSelectListener onSelectListener2 = new FilterView.OnSelectListener() {
         @Override
-        public void onSelect(FilterView filterView, LabelBean labelBean) {
+        public void onSelect(FilterView filterView, LabelBean labelBean, LabelParentBean bean) {
             content_city_filte_view2.hide();
             checkFilterConSee();
             city_content_filter_view.clear();
+            cityTitle = labelBean.name;
             city_content_filter_view.setTextCity(labelBean.name);
+            resetModelName(); //刷新联动adapter中的筛选标题
             content_city_filte_view2.setSelectIds(filterView.getSelectIds());
             linkTag(labelBean);
             if (filterConSelect2 != null) {
@@ -151,13 +173,15 @@ public class CityFilterContentView extends FrameLayout {
     /**
      * 游玩天数选中处理
      */
-    FilterView.OnSelectListener onSelectListener3 = new FilterView.OnSelectResultListener() {
+    FilterView.OnSelectListener onSelectListener3 = new FilterView.OnSelectListener() {
         @Override
-        public void onSelect(FilterView filterView, LabelBean labelBean) {
+        public void onSelect(FilterView filterView, LabelBean labelBean, LabelParentBean bean) {
             content_city_filte_view3.hide();
             checkFilterConSee();
             city_content_filter_view.clear();
+            dayTitle = labelBean.name;
             city_content_filter_view.setTextDay(labelBean.name);
+            resetModelName(); //刷新联动adapter中的筛选标题
             content_city_filte_view3.setSelectIds(filterView.getSelectIds());
             if (filterConSelect3 != null) {
                 filterConSelect3.onSelect(filterView, labelBean);
