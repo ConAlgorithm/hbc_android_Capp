@@ -33,6 +33,7 @@ public class UnicornServiceActivity extends BaseActivity{
         public OrderBean orderBean;
         public SkuItemBean skuItemBean;
         public ServiceQuestionBean.QuestionItem questionItem;
+        public String aiChatRecords;
     }
 
     @Override
@@ -51,6 +52,9 @@ public class UnicornServiceActivity extends BaseActivity{
                 params = (UnicornServiceActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
+        if (params == null) {
+            throw new IllegalArgumentException("UnicornServiceActivity params = null");
+        }
 
         initDefaultTitleBar();
         fgTitle.setText(R.string.unicorn_service_title);
@@ -59,28 +63,39 @@ public class UnicornServiceActivity extends BaseActivity{
         switch (params.sourceType) {
             case SourceType.TYPE_CHARTERED:
             case SourceType.TYPE_LINE:
-                orderStateLayout.setVisibility(View.VISIBLE);
-                UnicornDetailView unicornDetailView = new UnicornDetailView(this, params.sourceType);
-                if (params.sourceType == SourceType.TYPE_LINE) {
-                    unicornDetailView.update(params.skuItemBean);
+                if (params.skuItemBean == null) {
+                    orderStateLayout.setVisibility(View.GONE);
+                } else {
+                    orderStateLayout.setVisibility(View.VISIBLE);
+                    UnicornDetailView unicornDetailView = new UnicornDetailView(this, params.sourceType);
+                    if (params.sourceType == SourceType.TYPE_LINE) {
+                        unicornDetailView.update(params.skuItemBean);
+                    }
+                    orderStateLayout.addView(unicornDetailView);
+                    productDetail = unicornDetailView.getProductDetail();
                 }
-                orderStateLayout.addView(unicornDetailView);
-                productDetail = unicornDetailView.getProductDetail();
                 break;
             case SourceType.TYPE_ORDER:
-                orderStateLayout.setVisibility(View.VISIBLE);
-                UnicornOrderView unicornOrderView = new UnicornOrderView(this);
-                unicornOrderView.update(params.orderBean);
-                orderStateLayout.addView(unicornOrderView);
-                productDetail = unicornOrderView.getProductDetail();
+                if (params.orderBean == null) {
+                    orderStateLayout.setVisibility(View.GONE);
+                } else {
+                    orderStateLayout.setVisibility(View.VISIBLE);
+                    UnicornOrderView unicornOrderView = new UnicornOrderView(this);
+                    unicornOrderView.update(params.orderBean);
+                    orderStateLayout.addView(unicornOrderView);
+                    productDetail = unicornOrderView.getProductDetail();
+                }
                 break;
             default:
                 orderStateLayout.setVisibility(View.GONE);
                 productDetail = null;
                 break;
         }
-
-        UnicornUtils.addServiceFragment(this, R.id.unicorn_service_container_layout, productDetail, params.questionItem != null ? params.questionItem.customRole : 0);
+        int roleId = params.questionItem != null ? params.questionItem.customRole : 0;
+        if (roleId == 0 && (params.sourceType == SourceType.TYPE_CHARTERED || params.sourceType == SourceType.TYPE_LINE)) {
+            roleId = UnicornUtils.UNICORN_ERP_GROUPID;//默认售前ID
+        }
+        UnicornUtils.addServiceFragment(this, R.id.unicorn_service_container_layout, productDetail, roleId, params.aiChatRecords);
     }
 
     @Override

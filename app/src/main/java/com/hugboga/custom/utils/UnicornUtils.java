@@ -52,6 +52,7 @@ public class UnicornUtils {
 
     private static final String UNICORN_APPKEY = "d1838897aaf0debe1da1f0443c6942ff";
     private static final String CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
+    public static final int UNICORN_ERP_GROUPID = 128411;//售前ID
 
     public static void initUnicorn() {
         try {
@@ -90,7 +91,6 @@ public class UnicornUtils {
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
-
     }
 
     public static void openServiceActivity(Context context, int sourceType) {
@@ -105,13 +105,13 @@ public class UnicornUtils {
         StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
     }
 
-    public static void addServiceFragment(BaseActivity activity, int containerId, ProductDetail productDetail, int staffId) {
+    public static void addServiceFragment(BaseActivity activity, int containerId, ProductDetail productDetail, int staffId, String aiChatRecords) {
         SharedPre.setInteger(UserEntity.getUser().getUserId(activity), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
         SharedPre.setInteger(UserEntity.getUser().getUserId(activity), SharedPre.QY_GROUP_ID, staffId);
 
         YSFUserInfo userInfo = new YSFUserInfo();
         userInfo.userId = UserEntity.getUser().getUserId(activity);
-        userInfo.data = getServiceUserInfo();
+        userInfo.data = getServiceUserInfo(aiChatRecords);
         Unicorn.setUserInfo(userInfo);
 
         UICustomization uiCustomization = new UICustomization();
@@ -148,7 +148,7 @@ public class UnicornUtils {
         }
     }
 
-    private static String getServiceUserInfo() {
+    private static String getServiceUserInfo(String aiChatRecords) {
         Context context = MyApplication.getAppContext();
         UserEntity userEntity = UserEntity.getUser();
         ArrayList<ServiceUserInfo> list = new ArrayList<ServiceUserInfo>();
@@ -158,6 +158,9 @@ public class UnicornUtils {
         list.add(new ServiceUserInfo("areaCode", "区域号码", userEntity.getAreaCode(context)));
         list.add(new ServiceUserInfo("userId", "用户ID", userEntity.getUserId(context)));
         list.add(new ServiceUserInfo("version", "应用版本", userEntity.getVersion(context)));
+        if (!TextUtils.isEmpty(aiChatRecords)) {
+            list.add(new ServiceUserInfo("chatRecords", "与AI对话记录",  aiChatRecords));
+        }
         return JsonUtils.toJson(list);
     }
 
