@@ -166,10 +166,7 @@ public class FakeAIActivity extends BaseActivity {
                         //ArrayList<String> strings   携带跳转客服的参数
 
                         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHAT_LIST;
-                        ServiceQuestionBean.QuestionItem questionItem = new ServiceQuestionBean.QuestionItem();
-                        questionItem.customRole = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_GROUP_ID, 0);
-                        params.questionItem = questionItem;
+                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_DEFAULT;
                         intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                         intent.putExtra(Constants.PARAMS_DATA, params);
                         break;
