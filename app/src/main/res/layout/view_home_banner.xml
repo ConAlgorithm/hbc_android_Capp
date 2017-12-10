@@ -13,7 +13,7 @@
             android:layout_height="wrap_content" />
     </FrameLayout>
 
-    <com.hugboga.custom.widget.recyclerviewpager.AutoLoopRecyclerViewPager
+    <com.hugboga.custom.widget.recyclerviewpager.LoopRecyclerViewPager
         android:id="@+id/home_view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
