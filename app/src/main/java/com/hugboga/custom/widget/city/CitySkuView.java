@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -81,12 +82,25 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
         city_item_price.setText(String.format(getContext().getString(R.string.city_sku_item_price),
                 String.valueOf(destinationGoodsVo.perPrice)));
         NetImg.showCircleImage(getContext(), city_item_guide, destinationGoodsVo.guideHeadImageUrl);
-        city_item_tip.setText(String.format(getContext().getString(R.string.city_sku_title1),
-                String.valueOf(destinationGoodsVo.userFavorCount), String.valueOf(destinationGoodsVo.dayCount),
-                destinationGoodsVo.depCityName, destinationGoodsVo.arrCityName));
+        city_item_tip.setText(getItemTitle(destinationGoodsVo));
         city_item_tip2.setText(String.format(getContext().getString(R.string.city_sku_title2),
                 String.valueOf(destinationGoodsVo.guideCount)));
         saveLineImg.setSelected(isFavious); //显示收藏线路信息
+    }
+
+    /**
+     * 组合显示玩法标题统计
+     *
+     * @return
+     */
+    private String getItemTitle(DestinationGoodsVo destinationGoodsVo) {
+        StringBuilder sb = new StringBuilder(String.format(getContext().getString(R.string.city_sku_title1),
+                String.valueOf(destinationGoodsVo.userFavorCount), String.valueOf(destinationGoodsVo.dayCount),
+                destinationGoodsVo.depCityName));
+        if (!TextUtils.isEmpty(destinationGoodsVo.arrCityName)) {
+            sb.append(String.format(getContext().getString(R.string.city_sku_title11), destinationGoodsVo.arrCityName));
+        }
+        return sb.toString();
     }
 
     @OnClick({R.id.city_item_hear, R.id.city_item_root_layout})
