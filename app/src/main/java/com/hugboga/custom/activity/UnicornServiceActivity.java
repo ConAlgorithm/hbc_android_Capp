@@ -21,7 +21,7 @@ import butterknife.BindView;
 /**
  * Created by qingcha on 16/11/9.
  */
-public class UnicornServiceActivity extends BaseActivity{
+public class UnicornServiceActivity extends BaseActivity {
 
     @BindView(R.id.unicorn_service_order_state_layout)
     FrameLayout orderStateLayout;
@@ -34,6 +34,7 @@ public class UnicornServiceActivity extends BaseActivity{
         public SkuItemBean skuItemBean;
         public ServiceQuestionBean.QuestionItem questionItem;
         public String aiChatRecords;
+        public int groupId;
     }
 
     @Override
@@ -92,7 +93,11 @@ public class UnicornServiceActivity extends BaseActivity{
         }
         int roleId = params.questionItem != null ? params.questionItem.customRole : 0;
         if (roleId == 0 && (params.sourceType == SourceType.TYPE_CHARTERED || params.sourceType == SourceType.TYPE_LINE)) {
-            roleId = UnicornUtils.UNICORN_ERP_GROUPID;//默认售前ID
+            if (params.groupId != 0) {
+                roleId = params.groupId;
+            } else {
+                roleId = UnicornUtils.UNICORN_ERP_GROUPID;//默认售前ID
+            }
         }
         UnicornUtils.addServiceFragment(this, R.id.unicorn_service_container_layout, productDetail, roleId, params.aiChatRecords);
     }

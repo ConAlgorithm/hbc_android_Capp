@@ -61,7 +61,6 @@ public class FakeAIAdapter extends EpoxyAdapter {
         model.setData(message);
         addModel(model);
 
-
     }
 
 }

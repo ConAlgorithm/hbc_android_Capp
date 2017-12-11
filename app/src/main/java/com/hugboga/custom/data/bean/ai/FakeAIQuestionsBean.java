@@ -12,9 +12,11 @@ import java.util.List;
 public class FakeAIQuestionsBean {
     public String customServiceStatus;
     public String chooseDurationId;
+    public String chooseAccompanyId;
     public String chooseDestinationId;
     public String chooseDestinationType;
     public List<UserSaid> userSaidList;
+    public String customServiceId;
     @SerializedName("DuoDuoSaid")
     public List<DuoDuoSaid> duoDuoSaid;
     public List<DurationReq> durationReqList;

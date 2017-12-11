@@ -11,6 +11,7 @@ import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
+import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
@@ -41,13 +42,13 @@ import com.hugboga.custom.data.bean.GuideOrderWebParamsBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.SeckillsBean;
 import com.hugboga.custom.data.bean.ShareBean;
+import com.hugboga.custom.data.bean.ShareInfoBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestActivityBuyNow;
 import com.hugboga.custom.data.request.RequestWebInfo;
-import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
@@ -230,7 +231,7 @@ public class WebAgent implements HttpRequestListener {
 
     /**
      * 线路详情empty
-     * */
+     */
     @JavascriptInterface
     public void showGoodsError() {
         mActivity.runOnUiThread(new Runnable() {
@@ -249,7 +250,7 @@ public class WebAgent implements HttpRequestListener {
      * areaType：1:city、2:country、3:group
      */
     @JavascriptInterface
-    public void pushToGoodList(final String areaID,final String areaName, final String areaType) {
+    public void pushToGoodList(final String areaID, final String areaName, final String areaType) {
         if (TextUtils.isEmpty(areaID)) {
             return;
         }
@@ -322,7 +323,7 @@ public class WebAgent implements HttpRequestListener {
     }
 
     @JavascriptInterface
-    public void getUserId(String callBack){
+    public void getUserId(String callBack) {
         //获取getUserInfo，并回调
         try {
             callBack(callBack, UserEntity.getUser().getUserId(mActivity));
@@ -367,13 +368,13 @@ public class WebAgent implements HttpRequestListener {
 
     /**
      * 自定义包车下单
-     * */
+     */
     @JavascriptInterface
-    public void pushToDailyOrder(){
+    public void pushToDailyOrder() {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                IntentUtils.intentCharterActivity(mActivity,null,null, cityBean, getEventSource());
+                IntentUtils.intentCharterActivity(mActivity, null, null, cityBean, getEventSource());
 
             }
         });
@@ -382,7 +383,7 @@ public class WebAgent implements HttpRequestListener {
 
     /**
      * 接送机下单
-     * */
+     */
     @JavascriptInterface
     public void pushToAirportOrder() {
         mActivity.runOnUiThread(new Runnable() {
@@ -397,7 +398,7 @@ public class WebAgent implements HttpRequestListener {
 
     /**
      * 单次接送下单
-     * */
+     */
     @JavascriptInterface
     public void pushToSingleOrder() {
         mActivity.runOnUiThread(new Runnable() {
@@ -412,7 +413,7 @@ public class WebAgent implements HttpRequestListener {
 
     /**
      * 城市列表
-     * */
+     */
     @JavascriptInterface
     public void pushToGoodsOrder(final String cityId) {
         mActivity.runOnUiThread(new Runnable() {
@@ -479,7 +480,7 @@ public class WebAgent implements HttpRequestListener {
     public void pushToServiceChatVC() {
         if (mActivity != null && !UserEntity.getUser().isLogin(mActivity)) {
             CommonUtils.showToast(R.string.login_hint);
-            Intent intent= new Intent(mActivity, LoginActivity.class);
+            Intent intent = new Intent(mActivity, LoginActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
             mActivity.startActivity(intent);
             return;
@@ -527,7 +528,7 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                IntentUtils.intentCharterActivity(mActivity, null,null, cityBean, getEventSource());
+                IntentUtils.intentCharterActivity(mActivity, null, null, cityBean, getEventSource());
             }
         });
     }
@@ -540,7 +541,7 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                IntentUtils.intentCharterActivity(mActivity, null,null, cityBean, getEventSource());
+                IntentUtils.intentCharterActivity(mActivity, null, null, cityBean, getEventSource());
             }
         });
     }
@@ -641,9 +642,9 @@ public class WebAgent implements HttpRequestListener {
      */
     @JavascriptInterface
     public void saveImageToNative(final String url) {
-        String [] str = {"查看大图", "保存图片"};
+        String[] str = {"查看大图", "保存图片"};
         AlertDialog dialog = new AlertDialog.Builder(mActivity)
-                .setItems(str,new DialogInterface.OnClickListener(){
+                .setItems(str, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
@@ -652,8 +653,9 @@ public class WebAgent implements HttpRequestListener {
                             SaveFileTask saveImageTask = new SaveFileTask(mActivity, new SaveFileTask.FileDownLoadCallBack() {
                                 @Override
                                 public void onDownLoadSuccess(File file) {
-                                     CommonUtils.showToast("图片保存成功");
+                                    CommonUtils.showToast("图片保存成功");
                                 }
+
                                 @Override
                                 public void onDownLoadFailed() {
 
@@ -685,7 +687,7 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!CommonUtils.isLogin(mActivity,getEventSource())) {
+                if (!CommonUtils.isLogin(mActivity, getEventSource())) {
                     return;
                 }
                 GuideOrderWebParamsBean data = JsonUtils.getObject(param, GuideOrderWebParamsBean.class);
@@ -764,10 +766,10 @@ public class WebAgent implements HttpRequestListener {
     }
 
     /**
-     *  接机秒杀入口
-     *  timeLimitedSaleNo 秒杀活动编号
-     *  timeLimitedSaleScheduleNo 秒杀活动场次编号
-     * */
+     * 接机秒杀入口
+     * timeLimitedSaleNo 秒杀活动编号
+     * timeLimitedSaleScheduleNo 秒杀活动场次编号
+     */
     @JavascriptInterface
     public void pushToActivityPickup(final String timeLimitedSaleNo, final String timeLimitedSaleScheduleNo) {
         pushToActivityOrder("1", timeLimitedSaleNo, timeLimitedSaleScheduleNo);
@@ -775,17 +777,17 @@ public class WebAgent implements HttpRequestListener {
 
 
     /**
-     *  活动下单入口
-     *  orderType 1-接机；2-送机；3-包车；4-次租；5-商品
-     *  timeLimitedSaleNo 秒杀活动编号
-     *  timeLimitedSaleScheduleNo 秒杀活动场次编号
-     * */
+     * 活动下单入口
+     * orderType 1-接机；2-送机；3-包车；4-次租；5-商品
+     * timeLimitedSaleNo 秒杀活动编号
+     * timeLimitedSaleScheduleNo 秒杀活动场次编号
+     */
     @JavascriptInterface
     public void pushToActivityOrder(final String _orderType, final String timeLimitedSaleNo, final String timeLimitedSaleScheduleNo) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!CommonUtils.isLogin(mActivity,getEventSource())) {
+                if (!CommonUtils.isLogin(mActivity, getEventSource())) {
                     return;
                 }
                 final int orderType = CommonUtils.getCountInteger(_orderType);
@@ -820,7 +822,7 @@ public class WebAgent implements HttpRequestListener {
                                     if (!TextUtils.isEmpty(timeLimitedSaleNo) && !TextUtils.isEmpty(timeLimitedSaleScheduleNo)) {
                                         seckillsBean = new SeckillsBean(timeLimitedSaleNo, timeLimitedSaleScheduleNo);
                                     }
-                                    IntentUtils.intentCharterActivity(mActivity, seckillsBean,null, null, getEventSource());
+                                    IntentUtils.intentCharterActivity(mActivity, seckillsBean, null, null, getEventSource());
                                 }
                                 break;
                             case 203://用户未参与，无库存，发券
@@ -863,6 +865,20 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void showShareWithParams(final String json) {
+        // H5页面发起分享设置
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if ((mActivity instanceof WebInfoActivity) && !TextUtils.isEmpty(json)) {
+                    ShareInfoBean bean = new Gson().fromJson(json, ShareInfoBean.class);
+                    ((WebInfoActivity) mActivity).flushShareBtn(bean);
+                }
             }
         });
     }

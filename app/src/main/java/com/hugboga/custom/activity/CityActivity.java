@@ -98,8 +98,10 @@ public class CityActivity extends BaseActivity {
         isFromDestination = getIntent().getBooleanExtra("isFromDestination", false);
 
         //初始化首页内容
-        RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
-        HttpRequestUtils.request(this, requestCity, this);
+        if (paramsData != null && paramsData.cityHomeType != null) {
+            RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
+            HttpRequestUtils.request(this, requestCity, this);
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //展示线路数据
         recyclerView.setHasFixedSize(true);

@@ -988,6 +988,13 @@
     <string name="fake_ai_hint_three" >我和....</string>
     <string name="fake_ai_buttoncontent_one" >和旅行小管家繼續溝通</string>
     <string name="fake_ai_buttoncontent_two" >留下意向，讓小管家明天聯繫我</string>
+    <string name="fake_ai_requestrrror">您的網絡好像有點兒問題哦~請檢查您的網絡設置~</string>
+    <!-- 推荐详情 -->
+    <string name="recommend_zhong">種</string>
+    <string name="recommend_wei">位</string>
+    <string name="recommend_playing_method">包車玩法</string>
+    <string name="recommend_exceed">超過</string>
+    <string name="recommend_chinese">中文司導</string>
 
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">國內信用卡</string>
