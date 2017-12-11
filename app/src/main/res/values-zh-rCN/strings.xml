@@ -858,11 +858,13 @@
     <string name="order_no_chinese_guide">该地区没有中文司导，不过还有更多选择</string>
     <string name="order_confirm_look">去看看</string>
 
-    <string name="sku_detail_goodsout">该商品已下架</string>
+    <string name="sku_detail_goodsout">已下架</string>
     <string name="sku_detail_price_unit">起/人</string>
     <string name="sku_detail_title">线路详情</string>
     <string name="sku_detail_empty">该线路不存在</string>
     <string name="sku_detail_gohome">去首页转转</string>
+    <string name="sku_detail_service">咨询行程</string>
+    <string name="sku_detail_book">直接预订</string>
     <string name="sku_date_check_select">请先选择日期</string>
     <string name="sku_date_select_title">请选择出行日期（当地时间）</string>
     <string name="sku_date_selected_guide">已选司导：</string>

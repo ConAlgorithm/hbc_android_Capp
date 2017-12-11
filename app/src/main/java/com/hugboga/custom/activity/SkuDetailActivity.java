@@ -58,7 +58,6 @@ import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UnicornUtils;
-import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.ShareDialog;
@@ -96,16 +95,23 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     TextView headerTitle;
     @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
-    @BindView(R.id.goto_order)
-    TextView gotoOrder;
     @BindView(R.id.webview)
     WebView webView;
     @BindView(R.id.sku_detail_empty_layout)
     LinearLayout emptyLayout;
     @BindView(R.id.sku_detail_content_layout)
     RelativeLayout contentLayout;
+
     @BindView(R.id.goto_order_lay)
     LinearLayout bottomLayout;
+    @BindView(R.id.goto_order)
+    LinearLayout gotoOrder;
+    @BindView(R.id.sku_detail_bottom_service_layout)
+    LinearLayout serviceLayout;
+    @BindView(R.id.sku_detail_bottom_state_tv)
+    TextView bottomStateTV;
+    @BindView(R.id.sku_detail_bottom_price_tv)
+    TextView bottomPriceTV;
 
     @BindView(R.id.header_right_2_btn)
     ImageView collectImg;
@@ -123,7 +129,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     private boolean isLoaded = false;
     boolean isFromHome;
-    CsDialog csDialog;
+
     public void initView() {
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DETAIL_SKU);
 
@@ -200,9 +206,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     public void setGoodsOut() {// 商品已下架
         headerRightBtn.setVisibility(View.GONE);
-        gotoOrder.setText(R.string.sku_detail_goodsout);
-        gotoOrder.setTextColor(0xFFFFFFFF);
-        gotoOrder.setBackgroundResource(R.drawable.bg_sku_detial_grey);
+        bottomStateTV.setText(R.string.sku_detail_goodsout);
+        bottomStateTV.setTextColor(0xFF898989);
+        bottomPriceTV.setTextColor(0xFF898989);
+        gotoOrder.setBackgroundResource(R.drawable.bg_sku_detial_goodsout_gray);
         gotoOrder.setOnClickListener(null);
     }
 
@@ -211,9 +218,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             bottomLayout.setVisibility(View.VISIBLE);
             String unitStr = CommonUtils.getString(R.string.sku_detail_price_unit);
             String priceStr = getString(R.string.sign_rmb) + CommonUtils.getCountInteger(skuItemBean.perPrice) + " " + unitStr;
-            SpannableString spannableString = new SpannableString(priceStr);
-            spannableString.setSpan(new RelativeSizeSpan(0.7f), priceStr.length() - unitStr.length(), priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            gotoOrder.setText(spannableString);
+            bottomPriceTV.setText(priceStr);
+            bottomPriceTV.setVisibility(View.VISIBLE);
         }
     }
 
@@ -272,7 +278,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
         }
     }
-    @OnClick({R.id.header_right_btn, R.id.header_right_2_btn,R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout,R.id.sku_detail_empty_tv})
+    @OnClick({R.id.header_right_btn, R.id.header_right_2_btn,R.id.goto_order,R.id.sku_detail_bottom_service_layout, R.id.sku_detail_empty_tv})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
@@ -322,18 +328,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 StatisticClickEvent.click(StatisticConstant.CLICK_SKUDATE);
                 break;
             case R.id.sku_detail_bottom_service_layout://联系客服
-                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "固定线路");
-                //DialogUtil.showCallDialogTitle(this,getEventSource(),UnicornServiceActivity.SourceType.TYPE_CHARTERED);
-                //CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource(),false);
-                csDialog = CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource(),false,new CsDialog.OnCsListener(){
-                    @Override
-                    public void onCs() {
-                        csDialog.dismiss();
-                    }
-                });
-                SensorsUtils.onAppClick(getEventSource(),"联系客服",getIntentSource());
-                break;
-            case R.id.sku_detail_bottom_online_layout://在线咨询
                 StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "固定线路");
                 UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_LINE, null, skuItemBean);
                 SensorsUtils.onAppClick(getEventSource(),"在线咨询",getIntentSource());
