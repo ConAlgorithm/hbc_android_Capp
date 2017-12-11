@@ -316,7 +316,7 @@ public class FakeAIActivity extends BaseActivity {
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        fakeAIAdapter.addServerMessage("您的网络好像有点儿问题哦~请检查您的网络设置~");
+        fakeAIAdapter.addServerMessage(getResources().getString(R.string.fake_ai_requestrrror));
     }
 
     @Override

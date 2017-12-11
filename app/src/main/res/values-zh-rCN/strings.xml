@@ -990,6 +990,7 @@
     <string name="fake_ai_hint_three" >我和....</string>
     <string name="fake_ai_buttoncontent_one" >和旅行小管家继续沟通</string>
     <string name="fake_ai_buttoncontent_two" >留下意向，让小管家明天联系我</string>
+    <string name="fake_ai_requestrrror">您的网络好像有点儿问题哦~请检查您的网络设置~</string>
     <!-- 推荐详情 -->
     <string name="recommend_zhong">种</string>
     <string name="recommend_wei">位</string>
