@@ -106,6 +106,12 @@ public class CityActivity extends BaseActivity {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                onScrollFloat(dy);
+            }
+
+            @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
@@ -138,13 +144,13 @@ public class CityActivity extends BaseActivity {
          */
         if (adapter.cityFilterModel.cityFilterView != null) {
             if (dy < 0) {
-                //向下滑动
-                if (city_toolbar_root.getTop() != 0) {
-                    translate(true);
-                }
                 if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
                     //filterView出来，toolbar退出
                     filterContentView.setVisibility(View.GONE);
+                }
+                //向下滑动
+                if (city_toolbar_root.getTop() != 0) {
+                    translate(true);
                 }
             } else if (dy > 0) {
                 //向上滑动
