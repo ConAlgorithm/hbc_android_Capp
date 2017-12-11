@@ -41,7 +41,7 @@ public class AutoLoopRecyclerViewPager extends LoopRecyclerViewPager{
         if ((action == MotionEvent.ACTION_DOWN) && isAutoScroll) {
             stopAutoScroll();
         } else if (ev.getAction() == MotionEvent.ACTION_UP
-                || ev.getAction() == MotionEvent.ACTION_CANCEL) {
+                || ev.getAction() == MotionEvent.ACTION_CANCEL || !isAutoScroll) {
             startAutoScroll();
         }
         return super.dispatchTouchEvent(ev);
