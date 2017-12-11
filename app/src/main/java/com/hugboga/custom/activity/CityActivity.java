@@ -69,6 +69,7 @@ public class CityActivity extends BaseActivity {
     LabelBean labelBeanDay; //筛选项游玩天数
 
     CityAdapter adapter;
+    private int destinationGoodsCount; //玩法总数量
     private int page = 1; //sku页数
 
     CityDataTools cityDataTools = new CityDataTools();
@@ -105,13 +106,20 @@ public class CityActivity extends BaseActivity {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                onScrollFloat(dy);
-                if (!recyclerView.canScrollVertically(1) && dy > 0) {
-                    // 滚动到底部加载更多
-                    page++;
-                    flushSkuList();
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    if (destinationGoodsCount == 0) {
+                        return;
+                    }
+                    int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                    int totalItemCount = layoutManager.getItemCount() - 2; //有隐藏model，加大判断力度
+                    int visibleItemCount = layoutManager.getChildCount();
+                    if (visibleItemCount > 0 && lastVisibleItem >= totalItemCount && adapter.getGoodModels().size() < destinationGoodsCount) {
+                        // 滚动到底部加载更多
+                        page++;
+                        flushSkuList();
+                    }
                 }
             }
         });
@@ -346,6 +354,7 @@ public class CityActivity extends BaseActivity {
             //首页初始化数据
             data = ((RequestCity) request).getData();
             if (data != null) {
+                destinationGoodsCount = data.destinationGoodsCount;
                 //修改标题
                 city_toolbar_title.setText(data.destinationName);
                 //设置过滤条件筛选中的数据
@@ -364,6 +373,7 @@ public class CityActivity extends BaseActivity {
             //条件筛选玩法
             PageQueryDestinationGoodsVo vo = (PageQueryDestinationGoodsVo) request.getData();
             if (vo != null) {
+                destinationGoodsCount = vo.goodsCount;
                 flushSkuList(vo.destinationGoodsList);
             }
         } else if (request instanceof FavoriteLinesaved) {

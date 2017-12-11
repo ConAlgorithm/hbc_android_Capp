@@ -138,12 +138,4 @@ public class CityAdapter extends SkuAdapter {
             cityFilterModel.hide();
         }
     }
-
-    public void showNoSkuModel(boolean isShow) {
-        if (isShow) {
-            citySkuNoModel.show();
-        } else {
-            citySkuNoModel.hide();
-        }
-    }
 }

@@ -37,7 +37,7 @@ public class RequestQuerySkuList extends BaseRequest {
         if (depCityIdList != null && !"0".equals(depCityIdList.fullTagId)) {
             map.put("depCityIdList", depCityIdList.fullTagId); //出发城市列表,全部为空
         }
-        map.put("offset", (page - 1) * 10 + 1); // 起始项 默认值：1
+        map.put("offset", (page - 1) * 10); // 起始项 默认值：0
         map.put("limit", 10); // 每页数量 默认值：10
     }
 
