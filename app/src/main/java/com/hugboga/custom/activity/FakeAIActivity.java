@@ -44,6 +44,7 @@ import com.hugboga.custom.widget.ai.AiTagView;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -83,6 +84,7 @@ public class FakeAIActivity extends BaseActivity {
     private FakeAIAdapter fakeAIAdapter;
     private int buttonType; //判断客服状态
     private ArrayList<String> strings = new ArrayList<String>();//传递给客服的客户对话
+    private String customServiceId;
 
     @Override
     public int getContentViewId() {
@@ -166,7 +168,8 @@ public class FakeAIActivity extends BaseActivity {
                         //ArrayList<String> strings   携带跳转客服的参数
                         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
                         params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
-                        params.aiChatRecords =strings.toArray().toString();
+                        params.groupId = Integer.parseInt(customServiceId);
+                        params.aiChatRecords = strings.toArray().toString();
                         intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                         intent.putExtra(Constants.PARAMS_DATA, params);
                         break;
@@ -203,8 +206,8 @@ public class FakeAIActivity extends BaseActivity {
                 //有推荐结果
                 initServiceMessage(data.duoDuoSaid);
                 Message message = handler.obtainMessage();
-                message.obj =data;
-                handler.sendMessageDelayed(message,1000);
+                message.obj = data;
+                handler.sendMessageDelayed(message, 1000);
             } else {
 
                 if (data.customServiceStatus != null) {
@@ -233,6 +236,12 @@ public class FakeAIActivity extends BaseActivity {
                 }
                 if (data.chooseDurationId != null) {
                     info.durationOptId = data.chooseDurationId;
+                }
+                if (data.chooseAccompanyId != null) {
+                    info.accompanyOptId = data.chooseAccompanyId;
+                }
+                if (data.customServiceId != null) {
+                    customServiceId = data.customServiceId;
                 }
 
                 initServiceMessage(data.duoDuoSaid);
@@ -264,9 +273,9 @@ public class FakeAIActivity extends BaseActivity {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if(msg.obj instanceof FakeAIQuestionsBean){
+            if (msg.obj instanceof FakeAIQuestionsBean) {
                 Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
-                intent.putExtra(KEY_AI_RESULT, ((FakeAIQuestionsBean)msg.obj).recommendationDestinationHome);
+                intent.putExtra(KEY_AI_RESULT, ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome);
                 startActivity(intent);
                 finish();
             }
@@ -297,7 +306,7 @@ public class FakeAIActivity extends BaseActivity {
         @Override
         protected void onPostExecute(DuoDuoSaid o) {
             super.onPostExecute(o);
-            if (o.questionId!=null){
+            if (o.questionId != null) {
                 info.questionId = o.questionId;
             }
             editTextExist();
@@ -325,7 +334,7 @@ public class FakeAIActivity extends BaseActivity {
                     scrollViewButtonClick(bean, type);
                 }
             });
-            scrollViewLinearLayout. addView(view);
+            scrollViewLinearLayout.addView(view);
         }
 
     }
@@ -381,7 +390,7 @@ public class FakeAIActivity extends BaseActivity {
         if (str.equals("1"))
             buttonContent = getResources().getString(R.string.fake_ai_buttoncontent_one);
         else
-            buttonContent =  getResources().getString(R.string.fake_ai_buttoncontent_two);
+            buttonContent = getResources().getString(R.string.fake_ai_buttoncontent_two);
         buttonType = Integer.parseInt(str);
         button.setText(buttonContent);
         editText.setVisibility(View.GONE);
@@ -414,11 +423,12 @@ public class FakeAIActivity extends BaseActivity {
         RequestFakeAIChange requsetFakeAIChange = new RequestFakeAIChange(this, info);
         HttpRequestUtils.request(this, requsetFakeAIChange, this, false);
     }
+
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {//点击的是返回键
             if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {//按键的按下事件
-            finish();
-               return false;
+                finish();
+                return false;
             }
         }
         return super.dispatchKeyEvent(event);
