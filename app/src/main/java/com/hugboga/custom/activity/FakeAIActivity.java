@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -40,6 +41,8 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ai.AiTagView;
+
+import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -79,7 +82,7 @@ public class FakeAIActivity extends BaseActivity {
     public static final int AIGETDATA_ACCOMPANY = 2;//伴随
     private FakeAIAdapter fakeAIAdapter;
     private int buttonType; //判断客服状态
-
+    private ArrayList<String> strings = new ArrayList<String>();//传递给客服的客户对话
 
     @Override
     public int getContentViewId() {
@@ -95,7 +98,7 @@ public class FakeAIActivity extends BaseActivity {
     }
 
     private void initView() {
-        headerTitleCenter.setText("旅行小管家");
+        headerTitleCenter.setText(R.string.fake_ai_head);
         fakeAIAdapter = new FakeAIAdapter();
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -160,14 +163,12 @@ public class FakeAIActivity extends BaseActivity {
                 Intent intent = null;
                 switch (buttonType) {
                     case 1://跳转客服对话
+                        //ArrayList<String> strings   携带跳转客服的参数
                         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
                         params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
-                        ServiceQuestionBean.QuestionItem questionItem = new ServiceQuestionBean.QuestionItem();
-                        questionItem.customRole = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_GROUP_ID, 0);
-                        params.questionItem = questionItem;
+                        params.aiChatRecords =strings.toArray().toString();
                         intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                         intent.putExtra(Constants.PARAMS_DATA, params);
-
                         break;
                     case 2://跳转填单页
                         intent = new Intent(FakeAIActivity.this, TravelPurposeFormActivity.class);
@@ -200,25 +201,29 @@ public class FakeAIActivity extends BaseActivity {
             //TODO 问答回复，稍后做处理
             if (data.recommendationDestinationHome != null) {
                 //有推荐结果
-                Intent intent = new Intent(this, AiResultActivity.class);
-                intent.putExtra(KEY_AI_RESULT, data.recommendationDestinationHome);
-                startActivity(intent);
-                finish();
+                initServiceMessage(data.duoDuoSaid);
+                Message message = handler.obtainMessage();
+                message.obj =data;
+                handler.sendMessageDelayed(message,1000);
             } else {
 
                 if (data.customServiceStatus != null) {
                     skipDialogue(data.customServiceStatus);
                 } else if (data.durationReqList != null && data.durationReqList.size() != 0) {
                     fakeData(data.durationReqList);
+                    editText.setHint(R.string.fake_ai_hint_two);
                 } else if (data.accompanyReqList != null && data.accompanyReqList.size() != 0) {
-                    editText.setHint("我和.....");
+                    editText.setHint(R.string.fake_ai_hint_three);
                     fakeData(data.accompanyReqList);
                 } else if (data.hotDestinationReqList != null && data.hotDestinationReqList.size() != 0) {
-                    editText.setHint("我和.....");
                     fakeData(data.hotDestinationReqList);
                 }
                 if (data.userSaidList != null) {
                     info.userSaidList = data.userSaidList;
+                    strings.clear();
+                    for (int i = 0; i < data.userSaidList.size(); i++) {
+                        strings.add(data.userSaidList.get(i).saidContent);
+                    }
                 }
                 if (data.chooseDestinationId != null) {
                     info.destinationId = data.chooseDestinationId;
@@ -259,6 +264,12 @@ public class FakeAIActivity extends BaseActivity {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            if(msg.obj instanceof FakeAIQuestionsBean){
+                Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
+                intent.putExtra(KEY_AI_RESULT, ((FakeAIQuestionsBean)msg.obj).recommendationDestinationHome);
+                startActivity(intent);
+                finish();
+            }
             recyclerView.scrollToPosition(fakeAIAdapter.getItemCount() - 1);
         }
     };
@@ -314,7 +325,7 @@ public class FakeAIActivity extends BaseActivity {
                     scrollViewButtonClick(bean, type);
                 }
             });
-            scrollViewLinearLayout.addView(view);
+            scrollViewLinearLayout. addView(view);
         }
 
     }
@@ -329,7 +340,7 @@ public class FakeAIActivity extends BaseActivity {
             requestSelf(null, bean.destinationName);
         } else if (type == AIGETDATA_ACCOMPANY) {
             info.accompanyOptId = bean.destinationId;//此参数为伴随ID
-            requestSelf(null, bean.destinationName);
+            requestSelf(null, null);
         }
     }
 
@@ -362,16 +373,15 @@ public class FakeAIActivity extends BaseActivity {
         editText.setFocusable(true);
         editText.requestFocus();
 
-
     }
 
 
     private void skipDialogue(String str) {
         String buttonContent;
         if (str.equals("1"))
-            buttonContent = "和旅行小管家继续沟通";
+            buttonContent = getResources().getString(R.string.fake_ai_buttoncontent_one);
         else
-            buttonContent = "留下意向，让小管家明天联系我";
+            buttonContent =  getResources().getString(R.string.fake_ai_buttoncontent_two);
         buttonType = Integer.parseInt(str);
         button.setText(buttonContent);
         editText.setVisibility(View.GONE);

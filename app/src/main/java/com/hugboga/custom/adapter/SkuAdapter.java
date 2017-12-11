@@ -107,4 +107,8 @@ public class SkuAdapter extends EpoxyAdapter {
             resetModelFavious();
         }
     };
+
+    public List<CityListModel> getGoodModels() {
+        return goodModels;
+    }
 }

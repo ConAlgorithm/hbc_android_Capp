@@ -9,7 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -40,14 +42,15 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelBean;
-import tk.hongbo.label.data.LabelItemData;
 
 import static com.hugboga.custom.activity.CityActivity.CityHomeType.COUNTRY;
 
 public class CityActivity extends BaseActivity {
 
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-
+    @BindView(R.id.city_toolbar_root)
+    LinearLayout city_toolbar_root; //toolbar和筛选层
     @BindView(R.id.city_toolbar_title)
     TextView city_toolbar_title; //Toolbar标题
     @BindView(R.id.city_filter_con_view)
@@ -60,15 +63,16 @@ public class CityActivity extends BaseActivity {
     boolean isFromDestination;
 
     DestinationHomeVo data; //目的地初始化数据
-    CityDataTools cityDataTools;
 
     LabelBean labelBeanTag; //筛选项游玩线路标签
     LabelBean labelBeanCity; //筛选项出发城市
     LabelBean labelBeanDay; //筛选项游玩天数
 
-    List<LabelItemData> labels; //标签初始化数据
     CityAdapter adapter;
+    private int destinationGoodsCount; //玩法总数量
     private int page = 1; //sku页数
+
+    CityDataTools cityDataTools = new CityDataTools();
 
     @Override
     public int getContentViewId() {
@@ -78,7 +82,6 @@ public class CityActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.mipmap.topbar_back);
@@ -90,7 +93,6 @@ public class CityActivity extends BaseActivity {
                 paramsData = (CityActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        cityDataTools = new CityDataTools();
         EventBus.getDefault().register(this);
         isFromHome = getIntent().getBooleanExtra("isFromHome", false);
         isFromDestination = getIntent().getBooleanExtra("isFromDestination", false);
@@ -107,81 +109,86 @@ public class CityActivity extends BaseActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 onScrollFloat(dy);
-                if (!recyclerView.canScrollVertically(1) && dy > 0) {
-                    // 滚动到底部加载更多
-                    page++;
-                    flushSkuList();
-                }
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition() ==
-                            recyclerView.getLayoutManager().getItemCount() - 1) {
-                        resetBannerUI(0 - toolbar.getHeight());
-                        resetFilterUI(0);
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    if (destinationGoodsCount == 0) {
+                        return;
+                    }
+                    int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                    int totalItemCount = layoutManager.getItemCount() - 2; //有隐藏model，加大判断力度
+                    int visibleItemCount = layoutManager.getChildCount();
+                    if (visibleItemCount > 0 && lastVisibleItem >= totalItemCount && adapter.getGoodModels().size() < destinationGoodsCount) {
+                        // 滚动到底部加载更多
+                        page++;
+                        flushSkuList();
                     }
                 }
             }
         });
-        filterContentView.setAdapter(adapter); //Filter需要数据设置
     }
 
-    private void resetBannerUI(int top) {
-        if (adapter != null && adapter.cityFilterModel != null && adapter.cityFilterModel.cityFilterView != null) {
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(toolbar.getLayoutParams());
-            layoutParams.setMargins(0, top, layoutParams.width, top + adapter.cityFilterModel.cityFilterView.getHeight());
-            toolbar.setLayoutParams(layoutParams);
-        }
-    }
-
-    private void resetFilterUI(int top) {
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(filterContentView.getLayoutParams());
-        layoutParams.setMargins(0, top, layoutParams.width, top + filterContentView.getHeight());
-        filterContentView.setLayoutParams(layoutParams);
-    }
-
+    /**
+     * 滚动效果修改
+     *
+     * @param dy
+     */
     private void onScrollFloat(int dy) {
-        if (dy < 0) {
-            if (toolbar.getTop() < 0) {
-                int newTop = toolbar.getTop() + Math.abs(dy);
-                if (newTop > 0) {
-                    newTop = 0;
+        /*
+        1. 默认，有toolbar，无filterview
+        2. adapterFilterView滑动toolbar底部，动画去除toolbar，filterview滑动顶部
+        3. 下滑toolbar动画出来，上滑toolbar去除
+         */
+        if (adapter.cityFilterModel.cityFilterView != null) {
+            if (dy < 0) {
+                if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
+                    //filterView出来，toolbar退出
+                    filterContentView.setVisibility(View.GONE);
                 }
-                resetBannerUI(newTop);
-                int newFilterTop = newTop + toolbar.getHeight();
-                if (filterContentView.getTop() < newFilterTop) {
-                    resetFilterUI(newFilterTop);
+                //向下滑动
+                if (city_toolbar_root.getTop() != 0) {
+                    translate(true);
                 }
-            } else {
-                if (adapter.cityFilterModel.cityFilterView != null) {
-                    int bannerTop = adapter.cityFilterModel.cityFilterView.getTop();
-                    if (bannerTop > filterContentView.getTop()) {
-                        resetFilterUI(0 - Math.abs(filterContentView.getTop()));
-                    }
+            } else if (dy > 0) {
+                //向上滑动
+                if (adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
+                    //filterView出来，toolbar退出
+                    filterContentView.setVisibility(View.VISIBLE);
                 }
-            }
-        } else if (dy > 0) {
-            //向上滑动
-            if (toolbar.getBottom() > 0) {
-                if (adapter.cityFilterModel.cityFilterView != null) {
-                    int bannerTop = adapter.cityFilterModel.cityFilterView.getTop();
-                    if (bannerTop < toolbar.getBottom()) {
-                        //滑动退出toolbar
-                        resetBannerUI(bannerTop - toolbar.getHeight());
-                        resetFilterUI(toolbar.getBottom());
-                    } else {
-//                                if (toolbar.getBottom() < 0) {
-//                                    resetFilterUI(0);
-//                                }
-                    }
+                if (adapter.cityFilterModel.cityFilterView.getTop() < 0 && city_toolbar_root.getTop() == 0) {
+                    translate(false);
                 }
-            } else {
-                resetFilterUI(0);
             }
         }
+    }
+
+    private void translate(final boolean isShow) {
+        int height = toolbar.getHeight();
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, height);
+        if (!isShow) {
+            translateAnimation = new TranslateAnimation(0, 0, 0, -height);
+        }
+        translateAnimation.setDuration(100);
+        translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                city_toolbar_root.clearAnimation();
+                int top = isShow ? 0 : -toolbar.getHeight();
+                city_toolbar_root.layout(0, top, city_toolbar_root.getWidth(), top + city_toolbar_root.getHeight());
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        city_toolbar_root.startAnimation(translateAnimation);
     }
 
     @Override
@@ -198,25 +205,13 @@ public class CityActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    /**
-     * 设置筛选项数据
-     */
-    private void flushFilterData(DestinationHomeVo data) {
-        //游玩线路数据
-        labels = cityDataTools.getTagData(data.destinationTagGroupList);
-        filterContentView.reset(labels, cityDataTools.getCityData(data.depCityList), cityDataTools.getDayData(data.dayCountList),
-                filterConSelect1, filterConSelect2, filterConSelect3);
-    }
-
     CityFilterContentView.FilterConSelect filterConSelect1 = new CityFilterContentView.FilterConSelect() {
 
         @Override
         public void onSelect(FilterView filterView, LabelBean labelBean) {
-            filterContentView.city_content_filter_view.clear();
             labelBeanTag = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
-            filterContentView.city_content_filter_view.setTextTag(labelBean.name);
         }
     };
 
@@ -224,11 +219,9 @@ public class CityActivity extends BaseActivity {
 
         @Override
         public void onSelect(FilterView filterView, LabelBean labelBean) {
-            filterContentView.city_content_filter_view.clear();
             labelBeanCity = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
-            filterContentView.city_content_filter_view.setTextCity(labelBean.name);
         }
     };
 
@@ -236,11 +229,9 @@ public class CityActivity extends BaseActivity {
 
         @Override
         public void onSelect(FilterView filterView, LabelBean labelBean) {
-            filterContentView.city_content_filter_view.clear();
             labelBeanDay = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
-            filterContentView.city_content_filter_view.setTextDay(labelBean.name);
         }
     };
 
@@ -249,8 +240,7 @@ public class CityActivity extends BaseActivity {
      */
     private void flushSkuList() {
         RequestQuerySkuList requestQuerySkuList = new RequestQuerySkuList(this, paramsData.id,
-                paramsData.cityHomeType.getType(), labelBeanDay != null ? labelBeanDay.id : "0",
-                labelBeanTag != null ? labelBeanTag.id : "0", labelBeanCity != null ? labelBeanCity.id : "0", page);
+                paramsData.cityHomeType.getType(), labelBeanDay, labelBeanTag, labelBeanCity, page);
         HttpRequestUtils.request(this, requestQuerySkuList, this, page == 1);
     }
 
@@ -370,8 +360,11 @@ public class CityActivity extends BaseActivity {
             //首页初始化数据
             data = ((RequestCity) request).getData();
             if (data != null) {
+                destinationGoodsCount = data.destinationGoodsCount;
                 //修改标题
                 city_toolbar_title.setText(data.destinationName);
+                //设置过滤条件筛选中的数据
+                filterContentView.setData(data, filterConSelect1, filterConSelect2, filterConSelect3);
                 // 设置玩法列表初始化数据
                 if (data.destinationGoodsList != null && data.destinationGoodsList.size() > 0) {
                     flushSkuList(data.destinationGoodsList);
@@ -379,8 +372,6 @@ public class CityActivity extends BaseActivity {
                     page = 1; //无条件查询玩法
                     flushSkuList();
                 }
-                //设置过滤条件筛选中的数据
-                filterContentView.setData(data);
             }
             //初始化已收藏线路数据
             queryFavoriteLineList();
@@ -388,6 +379,7 @@ public class CityActivity extends BaseActivity {
             //条件筛选玩法
             PageQueryDestinationGoodsVo vo = (PageQueryDestinationGoodsVo) request.getData();
             if (vo != null) {
+                destinationGoodsCount = vo.goodsCount;
                 flushSkuList(vo.destinationGoodsList);
             }
         } else if (request instanceof FavoriteLinesaved) {
@@ -407,12 +399,9 @@ public class CityActivity extends BaseActivity {
         if (data.destinationGoodsCount > 0) {
             //有玩法数据则显示筛选器
             adapter.showFilterModel(true);
-            filterContentView.city_content_filter_view.setVisibility(View.VISIBLE);
-            flushFilterData(data);
         } else {
             //无玩法数据隐藏筛选器
             adapter.showFilterModel(false);
-            filterContentView.city_content_filter_view.setVisibility(View.GONE);
         }
     }
 
@@ -426,7 +415,8 @@ public class CityActivity extends BaseActivity {
         if (adapter == null) {
             isInit = true; //初次加载数据
             adapter = new CityAdapter(this, data, destinationGoodsList, data.serviceConfigList,
-                    labels, filterContentView.onSelectListener1);
+                    cityDataTools.getTagData(data.destinationTagGroupList), filterContentView.onSelectListener1,
+                    paramsData);
             recyclerView.setAdapter(adapter);
             adapter.cityFilterModel.filterSeeListener = filterSeeListener;
         }
@@ -435,7 +425,8 @@ public class CityActivity extends BaseActivity {
         } else {
             adapter.addMoreGoods(destinationGoodsList);
         }
-        //FIXME 依赖Adapter都放在这里=====================
+        // 依赖Adapter都放在这里
+        filterContentView.setAdapter(adapter); //Filter需要数据设置
         //构建筛选器
         resetFilterView();
     }
@@ -445,18 +436,12 @@ public class CityActivity extends BaseActivity {
      */
     CityFilterView.FilterSeeListener filterSeeListener = new CityFilterView.FilterSeeListener() {
         @Override
-        public void onShowFilter(int position, boolean isSelect) {
-            switch (position) {
-                case 0:
-
-                    break;
-                case 1:
-
-                    break;
-                case 2:
-
-                    break;
-            }
+        public void onShowFilter(final int position, final boolean isSelect) {
+            adapter.cityFilterModel.cityFilterView.clear();
+            //展示滑动效果，滑动到顶部筛选模式
+            filterContentView.setVisibility(View.VISIBLE);
+            filterContentView.showFilterItem(position, isSelect);
+            recyclerView.scrollBy(0, adapter.cityFilterModel.cityFilterView.getTop() - toolbar.getHeight());
         }
     };
 

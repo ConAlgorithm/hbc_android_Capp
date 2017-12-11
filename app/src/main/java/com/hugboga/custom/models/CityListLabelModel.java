@@ -12,6 +12,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tk.hongbo.label.FilterView;
+import tk.hongbo.label.data.LabelBean;
 import tk.hongbo.label.data.LabelItemData;
 
 /**
@@ -66,9 +67,15 @@ public class CityListLabelModel extends EpoxyModelWithHolder<CityListLabelModel.
      *
      * @param ids
      */
-    public void setSelectIds(Map<String, Boolean> ids) {
+    public void setSelectIds(List<LabelBean> ids) {
         if (holder != null) {
             holder.filterView.setSelectIds(ids);
+        }
+    }
+
+    public void setEnableIds(List<String> ids){
+        if (holder != null) {
+            holder.filterView.setEnableClickIds(ids);
         }
     }
 }
