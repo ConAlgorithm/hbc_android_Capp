@@ -54,6 +54,10 @@ public class CityAdapter extends SkuAdapter {
         addModelConfig(citySkuNoModel);
     }
 
+    private void noticeWahtModel() {
+        cityWhatModel.noteicModel(goodModels.size() == 0);
+    }
+
     public void addGoods(List<DestinationGoodsVo> data) {
         if (data == null) {
             return;
@@ -64,6 +68,7 @@ public class CityAdapter extends SkuAdapter {
             addModelConfig(model);
             goodModels.add(model);
         }
+        noticeWahtModel(); //通知咨询入口是否显示
     }
 
     private void addModelConfig(EpoxyModel model) {

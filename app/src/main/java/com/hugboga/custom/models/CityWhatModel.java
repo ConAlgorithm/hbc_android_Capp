@@ -44,6 +44,18 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
         }
     }
 
+    /**
+     * 是否显示此model
+     * @param isShow
+     */
+    public void noteicModel(boolean isShow){
+        if(isShow){
+            show();
+        }else{
+            hide();
+        }
+    }
+
     public class CityWhatVH extends EpoxyHolder {
 
         @Override
@@ -56,7 +68,6 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
             // 这里开始咨询跳转到指定坐席的人工客服
             UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
             params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
-            params.aiChatRecords = "";
             Intent intent = new Intent(mContext, UnicornServiceActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
             mContext.startActivity(intent);
