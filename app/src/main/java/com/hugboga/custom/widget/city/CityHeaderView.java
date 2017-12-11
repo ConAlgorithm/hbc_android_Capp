@@ -11,11 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.utils.Tools;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.hugboga.custom.activity.CityActivity.CityHomeType.CITY;
 
 /**
  * 头部筛选部分
@@ -45,7 +48,7 @@ public class CityHeaderView extends FrameLayout {
         ButterKnife.bind(this, view);
     }
 
-    public void init(Activity activity, DestinationHomeVo vo) {
+    public void init(Activity activity, DestinationHomeVo vo, CityActivity.Params params) {
         this.mActivity = activity;
         Tools.showImageNotCenterCrop(city_header_img, vo.destinationImageUrl, R.mipmap.des_city_dafault);
         if (cityHeaderCountView != null) {
@@ -57,5 +60,7 @@ public class CityHeaderView extends FrameLayout {
         }
         //无推荐玩法显示
         textView5.setVisibility(vo.destinationGoodsCount > 0 ? View.VISIBLE : View.GONE);
+        //目的地类型
+        cityHeaderCountView.showMoreGuideTxt(!(params != null && params.cityHomeType == CITY));
     }
 }

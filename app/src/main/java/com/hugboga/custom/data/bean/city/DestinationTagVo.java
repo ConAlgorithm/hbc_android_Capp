@@ -14,12 +14,14 @@ public class DestinationTagVo implements Parcelable {
 
     public String tagId;  //标签ID
     public String tagName; //标签名称
+    public String fullTagId; //请求ID
     public int tagLevel; //签级别 1：一级 2：二级
     public List<String> goodsDepCityIdSet; //标签关联的商品出发城市集合
 
     protected DestinationTagVo(Parcel in) {
         tagId = in.readString();
         tagName = in.readString();
+        fullTagId = in.readString();
         tagLevel = in.readInt();
         goodsDepCityIdSet = in.createStringArrayList();
     }
@@ -45,6 +47,7 @@ public class DestinationTagVo implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(tagId);
         parcel.writeString(tagName);
+        parcel.writeString(fullTagId);
         parcel.writeInt(tagLevel);
         parcel.writeStringList(goodsDepCityIdSet);
     }

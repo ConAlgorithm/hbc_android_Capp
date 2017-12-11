@@ -14,6 +14,7 @@ public class DestinationTagGroupVo implements Parcelable{
 
     public String tagId;  //标签ID
     public String tagName; //标签名称
+    public String fullTagId; //请求ID
     public int tagLevel; //签级别 1：一级 2：二级
     public List<String> goodsDepCityIdSet; //标签关联的商品出发城市集合
     public List<DestinationTagVo> subTagList; //子标签类别
@@ -21,6 +22,7 @@ public class DestinationTagGroupVo implements Parcelable{
     protected DestinationTagGroupVo(Parcel in) {
         tagId = in.readString();
         tagName = in.readString();
+        fullTagId = in.readString();
         tagLevel = in.readInt();
         goodsDepCityIdSet = in.createStringArrayList();
         subTagList = in.createTypedArrayList(DestinationTagVo.CREATOR);
@@ -30,6 +32,7 @@ public class DestinationTagGroupVo implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(tagId);
         dest.writeString(tagName);
+        dest.writeString(fullTagId);
         dest.writeInt(tagLevel);
         dest.writeStringList(goodsDepCityIdSet);
         dest.writeTypedList(subTagList);

@@ -58,7 +58,6 @@ public class UnicornServiceActivity extends BaseActivity{
 
         initDefaultTitleBar();
         fgTitle.setText(R.string.unicorn_service_title);
-
         ProductDetail productDetail = null;
         switch (params.sourceType) {
             case SourceType.TYPE_CHARTERED:

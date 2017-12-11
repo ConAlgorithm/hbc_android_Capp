@@ -5,10 +5,13 @@ import android.content.Context;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
+import com.hugboga.custom.data.bean.city.ServiceConfigVo;
 import com.hugboga.custom.models.CityWhatModel;
 import com.hugboga.custom.models.ai.AiResultBannerModel;
 import com.hugboga.custom.models.ai.AiResultSkuMoreModel;
 import com.hugboga.custom.models.ai.AiResultTitleModel;
+
+import java.util.List;
 
 /**
  * Ai adapter
@@ -32,16 +35,32 @@ public class AiResultAdapter extends SkuAdapter {
             addModel(new AiResultTitleModel(mContext.getString(R.string.ai_result_banner_title_sku)));
             addGoods(vo.destinationGoodsList);
             // 添加查看全部玩法Banner
-            addModel(new AiResultSkuMoreModel(mContext,vo));
+            addModel(new AiResultSkuMoreModel(mContext, vo));
         }
         // 添加您也可以自己包车畅玩Banner,添加主动下单入口
         if (vo.serviceConfigList != null && vo.serviceConfigList.size() > 0) {
-            addModel(new AiResultTitleModel(mContext.getString(R.string.ai_result_banner_title_do)));
+            addModel(new AiResultTitleModel(mContext.getString(isHaveDaily(vo.serviceConfigList) ? R.string.ai_result_banner_title_do :
+                    R.string.ai_result_banner_title_do2)));
             addConfig(vo.serviceConfigList);
         }
         // 咨询旅行小管家确认行程
         addModel(new AiResultTitleModel(mContext.getString(R.string.ai_result_banner_title_call)));
         //添加旅行小管家入口
         addModel(new CityWhatModel(mContext));
+    }
+
+    /**
+     * 搜索是否结果中有包车
+     *
+     * @param configs
+     * @return
+     */
+    private boolean isHaveDaily(List<ServiceConfigVo> configs) {
+        for (ServiceConfigVo vo : configs) {
+            if (vo.serviceType == 3) {
+                return true;
+            }
+        }
+        return false;
     }
 }

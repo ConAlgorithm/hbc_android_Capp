@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyModel;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
@@ -15,9 +16,9 @@ import com.hugboga.custom.models.city.CityFilterModel;
 import com.hugboga.custom.models.city.CityHeaderModel;
 
 import java.util.List;
-import java.util.Map;
 
 import tk.hongbo.label.FilterView;
+import tk.hongbo.label.data.LabelBean;
 import tk.hongbo.label.data.LabelItemData;
 
 /**
@@ -34,12 +35,14 @@ public class CityAdapter extends SkuAdapter {
     CityWhatModel cityWhatModel; //我要咨询入口
 
     List<ServiceConfigVo> serviceConfigList;
+    CityActivity.Params params; //页面参数
 
     public CityAdapter(Context context, DestinationHomeVo vo, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList,
-                       List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1) {
+                       List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1, CityActivity.Params params) {
         super(context);
         this.serviceConfigList = serviceConfigList;
-        cityHeaderModel = new CityHeaderModel((Activity) context, vo);
+        this.params = params;
+        cityHeaderModel = new CityHeaderModel((Activity) context, vo, params);
         cityFilterModel = new CityFilterModel();
         cityListLabelModel = new CityListLabelModel(labels, onSelectListener1);
         citySkuNoModel = new CitySkuNoModel();
@@ -54,6 +57,10 @@ public class CityAdapter extends SkuAdapter {
         addModelConfig(citySkuNoModel);
     }
 
+    private void noticeWahtModel() {
+        cityWhatModel.noteicModel(goodModels.size() == 0);
+    }
+
     public void addGoods(List<DestinationGoodsVo> data) {
         if (data == null) {
             return;
@@ -64,6 +71,7 @@ public class CityAdapter extends SkuAdapter {
             addModelConfig(model);
             goodModels.add(model);
         }
+        noticeWahtModel(); //通知咨询入口是否显示
     }
 
     private void addModelConfig(EpoxyModel model) {
@@ -114,9 +122,15 @@ public class CityAdapter extends SkuAdapter {
      *
      * @param ids
      */
-    public void setSelectIds(Map<String, Boolean> ids) {
+    public void setSelectIds(List<LabelBean> ids) {
         if (cityListLabelModel != null) {
             cityListLabelModel.setSelectIds(ids);
+        }
+    }
+
+    public void setEnableIds(List<String> ids) {
+        if (cityListLabelModel != null) {
+            cityListLabelModel.setEnableIds(ids);
         }
     }
 
@@ -125,14 +139,6 @@ public class CityAdapter extends SkuAdapter {
             cityFilterModel.show();
         } else {
             cityFilterModel.hide();
-        }
-    }
-
-    public void showNoSkuModel(boolean isShow) {
-        if (isShow) {
-            citySkuNoModel.show();
-        } else {
-            citySkuNoModel.hide();
         }
     }
 }

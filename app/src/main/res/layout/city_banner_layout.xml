@@ -1,31 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/city_banner_layout_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:layout_editor_absoluteY="25dp">
-
-    <ImageView
-        android:id="@+id/city_banner_layout_bg"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:adjustViewBounds="false"
-        android:background="@drawable/ic_line_rect"
-        android:cropToPadding="false"
-        app:layout_constraintBottom_toBottomOf="@+id/city_banner_subtitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_margin="8dp"
+    android:background="@drawable/ic_line_rect">
 
     <ImageView
         android:id="@+id/city_banner_img"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
+        android:background="@color/default_pic_gray"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,6 +25,8 @@
         android:id="@+id/city_banner_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="首次来日本？这里有为您准备的贴心说明"
         android:textColor="#151515"
@@ -46,12 +39,16 @@
         android:id="@+id/city_banner_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginTop="8dp"
-        android:paddingBottom="16dp"
         android:text="30秒了解当地包车攻略"
         android:textColor="#151515"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city_banner_title" />
 
@@ -59,11 +56,14 @@
         android:id="@+id/imageView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="3dp"
-        android:paddingBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/city_banner_subtitle"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/city_banner_subtitle"
-        app:layout_constraintTop_toTopOf="@+id/city_banner_subtitle"
+        app:layout_constraintTop_toBottomOf="@+id/city_banner_title"
         app:srcCompat="@mipmap/destination_charter_more_icon" />
 
 </android.support.constraint.ConstraintLayout>
