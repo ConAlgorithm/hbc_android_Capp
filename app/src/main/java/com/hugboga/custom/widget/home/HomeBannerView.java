@@ -51,7 +51,7 @@ public class HomeBannerView extends LinearLayout implements HbcViewBehavior {
         final int marginLeft = context.getResources().getDimensionPixelOffset(R.dimen.home_margin_left);
         int bannerWidth = UIUtils.getScreenWidth() - marginLeft;
         int desplayHeight = (int)(HomeBannerItemView.DESPLAY_IMG_RATIO * bannerWidth);
-        bannerHeight = desplayHeight + + UIUtils.dip2px(50) + UIUtils.dip2px(80);
+        bannerHeight = desplayHeight + UIUtils.dip2px(50) + UIUtils.dip2px(80);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, bannerHeight);
         mViewPager.setLayoutParams(params);
         indicatorLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, desplayHeight));
