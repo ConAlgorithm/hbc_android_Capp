@@ -26,14 +26,18 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.ShareInfoBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.WebAgent;
+import com.hugboga.custom.data.request.RequestShareInfo;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -55,6 +59,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
     public static final String TAG = WebInfoActivity.class.getSimpleName();
     public static final String WEB_URL = "web_url";
+    public static final String WEB_SHARE_BTN = "web_share_btn"; //是否动态控制展示分享按钮
+    public static final String WEB_SHARE_NO = "web_share_no"; //动态控制分享的请求码
     public static final String CONTACT_SERVICE = "contact_service";
 
     public static final String WEB_DEV = "web_dev"; //是否开发者模式
@@ -98,6 +104,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         EventBus.getDefault().register(this);
         initView();
         setSensorsDefaultEvent();
+        //TODO 查询接口是否分享数据
+        getShareInfo();
     }
 
     protected boolean isDefaultEvent() {
@@ -452,4 +460,49 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         }
     }
 
+    /**
+     * 获取分享数据信息
+     */
+    private void getShareInfo() {
+        //获取分享需要参数WEB_SHARE_NO
+        boolean isShareInfo = getIntent().getBooleanExtra(WEB_SHARE_BTN, false);
+        String shareNo = getIntent().getStringExtra(WEB_SHARE_NO);
+        if (isShareInfo && !TextUtils.isEmpty(shareNo)) {
+            RequestShareInfo requestShareInfo = new RequestShareInfo(this, shareNo);
+            HttpRequestUtils.request(this, requestShareInfo, this);
+        }
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
+        if (request instanceof RequestShareInfo) {
+            ShareInfoBean bean = (ShareInfoBean) request.getData();
+            flushShareBtn(bean);
+        }
+    }
+
+    /**
+     * 动态设置分享方法处理
+     *
+     * @param bean
+     */
+    public void flushShareBtn(final ShareInfoBean bean) {
+        if (bean.showShare == 1) {
+            RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
+            headerRightImageParams.rightMargin = UIUtils.dip2px(18);
+            headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
+            headerRightBtn.setLayoutParams(headerRightImageParams);
+            headerRightBtn.setPadding(0, 0, 0, 0);
+            headerRightBtn.setImageResource(R.mipmap.guide_homepage_share);
+            headerRightBtn.setVisibility(View.VISIBLE);
+            headerRightBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommonUtils.shareDialog(activity, bean.shareImageURL, bean.shareTitle, bean.shareContent, bean.shareURL);
+                }
+            });
+        }
+    }
 }
