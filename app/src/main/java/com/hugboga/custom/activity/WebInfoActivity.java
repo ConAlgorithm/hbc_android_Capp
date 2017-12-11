@@ -489,12 +489,12 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
      */
     public void flushShareBtn(final ShareInfoBean bean) {
         if (bean.showShare == 1) {
-            RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
-            headerRightImageParams.rightMargin = UIUtils.dip2px(18);
+            RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(36), UIUtils.dip2px(36));
+            headerRightImageParams.rightMargin = UIUtils.dip2px(12);
             headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
             headerRightBtn.setLayoutParams(headerRightImageParams);
-            headerRightBtn.setPadding(0, 0, 0, 0);
+            headerRightBtn.setPadding(26, 26, 26, 26);
             headerRightBtn.setImageResource(R.mipmap.evaluate_share);
             headerRightBtn.setVisibility(View.VISIBLE);
             headerRightBtn.setOnClickListener(new View.OnClickListener() {
