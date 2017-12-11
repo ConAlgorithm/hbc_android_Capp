@@ -47,8 +47,12 @@ public class CityHeaderCountView extends FrameLayout {
         ButterKnife.bind(this, view);
     }
 
-    public void init(Activity activity, Integer payNum, Integer guideNum) {
+    public void init(Activity activity, Integer payNum, Integer guideNum, Integer servieGuideNum) {
         this.mActivity = activity;
+        if (servieGuideNum == null || servieGuideNum == 0) {
+            setVisibility(GONE);
+            return;
+        }
         if (payNum > 0) {
             city_header_count_pay.setText(payNum.toString());
             city_header_count_guide.setText(guideNum.toString());
@@ -85,6 +89,7 @@ public class CityHeaderCountView extends FrameLayout {
 
     /**
      * 超过xx司导是否显示超过
+     *
      * @param isShow
      */
     public void showMoreGuideTxt(boolean isShow) {

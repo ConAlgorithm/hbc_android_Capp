@@ -52,7 +52,7 @@ public class CityHeaderView extends FrameLayout {
         this.mActivity = activity;
         Tools.showImageNotCenterCrop(city_header_img, vo.destinationImageUrl, R.mipmap.des_city_dafault);
         if (cityHeaderCountView != null) {
-            cityHeaderCountView.init(mActivity, vo.destinationGoodsCount, vo.destinationAssociateGuideCount);
+            cityHeaderCountView.init(mActivity, vo.destinationGoodsCount, vo.destinationAssociateGuideCount, vo.destinationServiceGuideCount);
         }
         //广告部分
         if (city_header_banner_view != null) {
