@@ -164,12 +164,9 @@ public class FakeAIActivity extends BaseActivity {
                 switch (buttonType) {
                     case 1://跳转客服对话
                         //ArrayList<String> strings   携带跳转客服的参数
-
                         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHAT_LIST;
-                        ServiceQuestionBean.QuestionItem questionItem = new ServiceQuestionBean.QuestionItem();
-                        questionItem.customRole = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_GROUP_ID, 0);
-                        params.questionItem = questionItem;
+                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+                        params.aiChatRecords =strings.toArray().toString();
                         intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                         intent.putExtra(Constants.PARAMS_DATA, params);
                         break;
