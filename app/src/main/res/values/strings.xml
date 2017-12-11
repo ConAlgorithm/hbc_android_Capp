@@ -1019,9 +1019,5 @@
 
     <!--AI text-->
     <string name="ai_result_title">为您推荐</string>
-    <string name="ai_result_banner_title_fast">快速了解您的目的地</string>
-    <string name="ai_result_banner_title_sku">按照您的行程，旅行小管家建议</string>
-    <string name="ai_result_banner_title_do">您也可以自己包车畅游</string>
-    <string name="ai_result_banner_title_call">咨询旅行小管家确认行程</string>
     <string name="ai_result_sku_more_title">查看%s全部玩法</string>
 </resources>

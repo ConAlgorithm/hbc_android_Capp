@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="guidance_view_title">Hi\n欢迎您来%1$s!</string>
+
+    <!--AI txt fzdysjw.ttf-->
+    <string name="ai_result_banner_title_fast">快速了解您的目的地</string>
+    <string name="ai_result_banner_title_sku">按照您的行程，旅行小管家建议</string>
+    <string name="ai_result_banner_title_do">您也可以自己包车畅游</string>
+    <string name="ai_result_banner_title_do2">该城市的推荐玩法较少，您可以快速预订</string>
+    <string name="ai_result_banner_title_call">咨询旅行小管家确认行程</string>
 </resources>
