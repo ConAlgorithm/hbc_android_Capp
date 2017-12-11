@@ -36,8 +36,8 @@ public class FakeAIHeaderModel extends EpoxyModel<LinearLayout> {
         textView = (TextView) view.findViewById(R.id.fake_text_create1);
         textView2 = (TextView) view.findViewById(R.id.fake_text_create2);
 
-        animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 7200f);
-        animator.setDuration(20000);
+        animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 720f);
+        animator.setDuration(2000);
         imageAnimatorStart();
     }
 
@@ -46,7 +46,7 @@ public class FakeAIHeaderModel extends EpoxyModel<LinearLayout> {
             textView.setText(hiList.get(0));
             textView2.setText(getMessage2(hiList));
         }
-        imageAnimatorStop(); //初始值设置后停止动画
+       // imageAnimatorStop(); //初始值设置后停止动画
     }
 
     private String getMessage2(List<String> hiList) {
