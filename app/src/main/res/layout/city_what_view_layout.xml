@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_line_rect" />
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/ic_line_rect"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
     <ImageView
         android:id="@+id/city_what_view_img"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:adjustViewBounds="true"
+        android:layout_height="200dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/default_pic_gray"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/default_pic_gray" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/city_what_view_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="中文接送机"
         android:textColor="@color/basic_black"
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city_what_view_img" />
 
@@ -47,35 +46,28 @@
         android:id="@+id/city_what_view_subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="中文专车接送机"
         android:textColor="#100F0F"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/city_what_view_img"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/city_what_view_img"
-        app:layout_constraintTop_toBottomOf="@+id/city_what_view_title" />
-
-    <View
-        android:id="@+id/view3"
-        android:layout_width="wrap_content"
-        android:layout_height="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city_what_view_group" />
+        app:layout_constraintTop_toBottomOf="@+id/city_what_view_title" />
 
     <com.hugboga.custom.widget.TagGroup
         android:id="@+id/city_what_view_group"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/click_item_bg"
-        android:padding="4dp"
-        android:text="提前1天可定"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city_what_view_subtitle">
-
-    </com.hugboga.custom.widget.TagGroup>
+        app:layout_constraintTop_toBottomOf="@+id/city_what_view_subtitle" />
 
 </android.support.constraint.ConstraintLayout>

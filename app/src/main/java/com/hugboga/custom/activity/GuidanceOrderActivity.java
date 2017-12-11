@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SeckillsBean;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.GuidanceBottomView;
+import com.hugboga.custom.widget.ScrollViewWrapper;
+import com.hugboga.custom.widget.title.TitleBar;
 
 import java.io.Serializable;
 
@@ -20,13 +23,17 @@ import butterknife.BindView;
  * Created by qingcha on 17/12/6.
  */
 
-public class GuidanceOrderActivity extends BaseActivity {
+public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWrapper.OnScrollChangedListener {
 
     public static final String TAG = GuidanceOrderActivity.class.getSimpleName();
     public static final String PARAMS_GUIDANCE = "params_guidance";
 
+    @BindView(R.id.guidance_titlebar)
+    TitleBar titlebar;
     @BindView(R.id.guidance_bottom_view)
     GuidanceBottomView bottomView;
+    @BindView(R.id.guidance_scroll_view)
+    ScrollViewWrapper scrollView;
 
     @BindView(R.id.guidance_img_iv1)
     ImageView imgIV1;
@@ -77,6 +84,7 @@ public class GuidanceOrderActivity extends BaseActivity {
     }
 
     private void init() {
+        scrollView.setOnScrollChangedListener(this);
 
         bottomView.setOrderType(params.orderType);
         bottomView.setOnInfoViewClickListener(new GuidanceBottomView.OnInfoViewClickListener() {
@@ -189,6 +197,36 @@ public class GuidanceOrderActivity extends BaseActivity {
         imgIV4Params.bottomMargin = UIUtils.dip2px(50);
         imgIV4Params.leftMargin = UIUtils.dip2px(22);
         imgIV4.setLayoutParams(imgIV4Params);
+    }
+
+    @Override
+    public void onScrollChanged(int _scrollX, int _scrollY, int _oldScrollX, int _oldScrollY) {
+        if (_scrollY < 0) {
+            _scrollY = 0;
+        }
+        if (_oldScrollY < 0) {
+            _oldScrollY = 0;
+        }
+        int scrollViewHeight = scrollView.getMeasuredHeight();
+        if (scrollViewHeight > 0) {
+            if (_scrollY > scrollViewHeight) {
+                _scrollY = scrollViewHeight;
+            }
+            if (_oldScrollY > scrollViewHeight) {
+                _oldScrollY = scrollViewHeight;
+            }
+        }
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) titlebar.getLayoutParams();
+        int titlebarScrollY = -params.topMargin;
+        int border = UIUtils.dip2px(60);
+        int moveDistance = Math.max(titlebarScrollY + (_scrollY - _oldScrollY), 0);
+        if (_scrollY == scrollViewHeight) {
+            moveDistance = border;
+        }
+        if (Math.abs(moveDistance) <= border) {
+            params.topMargin = -moveDistance;
+            titlebar.requestLayout();
+        }
     }
 
 }

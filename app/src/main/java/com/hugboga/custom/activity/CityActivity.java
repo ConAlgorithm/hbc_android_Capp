@@ -69,6 +69,7 @@ public class CityActivity extends BaseActivity {
     LabelBean labelBeanDay; //筛选项游玩天数
 
     CityAdapter adapter;
+    private int destinationGoodsCount; //玩法总数量
     private int page = 1; //sku页数
 
     CityDataTools cityDataTools = new CityDataTools();
@@ -97,8 +98,10 @@ public class CityActivity extends BaseActivity {
         isFromDestination = getIntent().getBooleanExtra("isFromDestination", false);
 
         //初始化首页内容
-        RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
-        HttpRequestUtils.request(this, requestCity, this);
+        if (paramsData != null && paramsData.cityHomeType != null) {
+            RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
+            HttpRequestUtils.request(this, requestCity, this);
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //展示线路数据
         recyclerView.setHasFixedSize(true);
@@ -108,10 +111,23 @@ public class CityActivity extends BaseActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 onScrollFloat(dy);
-                if (!recyclerView.canScrollVertically(1) && dy > 0) {
-                    // 滚动到底部加载更多
-                    page++;
-                    flushSkuList();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    if (destinationGoodsCount == 0) {
+                        return;
+                    }
+                    int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                    int totalItemCount = layoutManager.getItemCount() - 2; //有隐藏model，加大判断力度
+                    int visibleItemCount = layoutManager.getChildCount();
+                    if (visibleItemCount > 0 && lastVisibleItem >= totalItemCount && adapter.getGoodModels().size() < destinationGoodsCount) {
+                        // 滚动到底部加载更多
+                        page++;
+                        flushSkuList();
+                    }
                 }
             }
         });
@@ -130,13 +146,13 @@ public class CityActivity extends BaseActivity {
          */
         if (adapter.cityFilterModel.cityFilterView != null) {
             if (dy < 0) {
-                //向下滑动
-                if (city_toolbar_root.getTop() != 0) {
-                    translate(true);
-                }
                 if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
                     //filterView出来，toolbar退出
                     filterContentView.setVisibility(View.GONE);
+                }
+                //向下滑动
+                if (city_toolbar_root.getTop() != 0) {
+                    translate(true);
                 }
             } else if (dy > 0) {
                 //向上滑动
@@ -346,6 +362,7 @@ public class CityActivity extends BaseActivity {
             //首页初始化数据
             data = ((RequestCity) request).getData();
             if (data != null) {
+                destinationGoodsCount = data.destinationGoodsCount;
                 //修改标题
                 city_toolbar_title.setText(data.destinationName);
                 //设置过滤条件筛选中的数据
@@ -364,6 +381,7 @@ public class CityActivity extends BaseActivity {
             //条件筛选玩法
             PageQueryDestinationGoodsVo vo = (PageQueryDestinationGoodsVo) request.getData();
             if (vo != null) {
+                destinationGoodsCount = vo.goodsCount;
                 flushSkuList(vo.destinationGoodsList);
             }
         } else if (request instanceof FavoriteLinesaved) {
@@ -399,7 +417,8 @@ public class CityActivity extends BaseActivity {
         if (adapter == null) {
             isInit = true; //初次加载数据
             adapter = new CityAdapter(this, data, destinationGoodsList, data.serviceConfigList,
-                    cityDataTools.getTagData(data.destinationTagGroupList), filterContentView.onSelectListener1);
+                    cityDataTools.getTagData(data.destinationTagGroupList), filterContentView.onSelectListener1,
+                    paramsData);
             recyclerView.setAdapter(adapter);
             adapter.cityFilterModel.filterSeeListener = filterSeeListener;
         }

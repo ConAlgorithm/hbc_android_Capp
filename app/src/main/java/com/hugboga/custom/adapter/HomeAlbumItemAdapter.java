@@ -75,6 +75,7 @@ public class HomeAlbumItemAdapter extends RecyclerView.Adapter<HomeAlbumItemAdap
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, WebInfoActivity.class);
                     intent.putExtra("web_url", hotAlbumBean.albumLinkUrl);
+                    intent.putExtra(WebInfoActivity.WEB_SHARE_BTN, true);
                     mContext.startActivity(intent);
                     SensorsUtils.onAppClick("首页","热门专辑","首页-热门专辑");
                 }

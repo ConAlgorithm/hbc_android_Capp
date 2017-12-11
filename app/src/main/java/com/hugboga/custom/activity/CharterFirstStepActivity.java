@@ -96,6 +96,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private GuidesDetailData guidesDetailData;
     private boolean isEnabled = false;
     public SeckillsBean seckillsBean;//秒杀活动参数
+    private boolean isExtraStartBean;
 
     private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
     CsDialog csDialog;
@@ -190,6 +191,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             } else {
                 getGuideCars();
             }
+            isExtraStartBean = true;
+        } else {
+            isExtraStartBean = false;
         }
         setSensorsEvent();
     }
@@ -311,6 +315,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 }
                 startBean = cityBean;
                 cityLayout.setDesc(cityBean.name);
+                isExtraStartBean = false;
                 requestCarMaxCapaCity();
                 if (guidesDetailData == null) {
                     guidanceLayout.setVisibility(View.VISIBLE);
@@ -322,6 +327,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 charterDataUtils.guideCropList = guideServiceCitys.guideCropList;
                 startBean = guideServiceCitys.getSelectedCityBean();
                 cityLayout.setDesc(startBean.name);
+                isExtraStartBean = false;
                 getGuideCars();
                 break;
             case CHOOSE_DATE:
@@ -339,6 +345,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 maxPassengers = charterDataUtils.maxPassengers;
                 isSupportChildSeat = charterDataUtils.isSupportChildSeat;
                 cityLayout.setDesc(startBean.name);
+                isExtraStartBean = false;
                 setDateViewText();
                 countLayout.setMaxPassengers(false, maxPassengers, isSupportChildSeat, guidesDetailData != null, charterDataUtils.isSeckills());
                 if (guidesDetailData == null) {
@@ -435,7 +442,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     }
 
     private boolean isShowSaveDialog() {
-        if (startBean != null || chooseDateBean != null) {
+        if ((startBean != null && !isExtraStartBean) || chooseDateBean != null) {
             AlertDialogUtils.showAlertDialog(CharterFirstStepActivity.this, getString(R.string.hint), getString(R.string.daily_first_purpose_desc),getString(R.string.daily_first_purpose_confirm)
                     , getString(R.string.dialog_btn_back), getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
                 @Override

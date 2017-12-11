@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.widget.city.CityHeaderView;
 
@@ -15,11 +16,13 @@ public class CityHeaderModel extends EpoxyModel<CityHeaderView> {
 
     Activity activity;
     DestinationHomeVo vo;
+    CityActivity.Params params;
 
-    public CityHeaderModel(Activity activity, DestinationHomeVo vo) {
+    public CityHeaderModel(Activity activity, DestinationHomeVo vo, CityActivity.Params params) {
         super();
         this.activity = activity;
         this.vo = vo;
+        this.params = params;
     }
 
     @Override
@@ -33,6 +36,6 @@ public class CityHeaderModel extends EpoxyModel<CityHeaderView> {
         if (view == null) {
             return;
         }
-        view.init(activity, vo);
+        view.init(activity, vo, params);
     }
 }

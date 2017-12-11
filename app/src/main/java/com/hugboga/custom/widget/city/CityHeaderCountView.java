@@ -34,6 +34,8 @@ public class CityHeaderCountView extends FrameLayout {
     ConstraintLayout city_header_count2_root;
     @BindView(R.id.city_header_count_guide2)
     TextView city_header_count_guide2; //司导数
+    @BindView(R.id.textView7)
+    TextView textView7; //超过xxx司导的“超过”
 
     public CityHeaderCountView(@NonNull Context context) {
         this(context, null);
@@ -79,5 +81,13 @@ public class CityHeaderCountView extends FrameLayout {
                 }
                 break;
         }
+    }
+
+    /**
+     * 超过xx司导是否显示超过
+     * @param isShow
+     */
+    public void showMoreGuideTxt(boolean isShow) {
+        textView7.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 }

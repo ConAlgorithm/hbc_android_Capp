@@ -67,6 +67,7 @@ public class CityBannerView extends FrameLayout {
                 if (beginnerDirectionVo != null && !TextUtils.isEmpty(beginnerDirectionVo.beginnerDirectionUrl)) {
                     Intent intent = new Intent(getContext(), WebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, beginnerDirectionVo.beginnerDirectionUrl);
+                    intent.putExtra(WebInfoActivity.WEB_SHARE_BTN, true);
                     getContext().startActivity(intent);
                 }
                 break;

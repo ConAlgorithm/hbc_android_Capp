@@ -17,6 +17,7 @@ import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SpaceItemDecoration;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,7 +38,7 @@ public class HomeAlbumView extends LinearLayout {
     private HomeBean.HotAlbumBean hotAlbumBean;
 
     public HomeAlbumView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public HomeAlbumView(Context context, @Nullable AttributeSet attrs) {
@@ -45,7 +46,7 @@ public class HomeAlbumView extends LinearLayout {
         inflate(context, R.layout.view_home_album, this);
         ButterKnife.bind(this);
 
-        displayImgWidth = (int)((560 / 750f) * UIUtils.getScreenWidth());
+        displayImgWidth = (int) ((560 / 750f) * UIUtils.getScreenWidth());
         displayImgHeight = displayImgWidth;
         int viewHeight = displayImgHeight + UIUtils.dip2px(70) + UIUtils.dip2px(90);
         recyclerView.getLayoutParams().height = viewHeight;
@@ -67,8 +68,9 @@ public class HomeAlbumView extends LinearLayout {
     public void intentWebInfoActivity() {
         Intent intent = new Intent(getContext(), WebInfoActivity.class);
         intent.putExtra("web_url", hotAlbumBean.albumLinkUrl);
+        intent.putExtra(WebInfoActivity.WEB_SHARE_BTN, true);
         getContext().startActivity(intent);
-        SensorsUtils.onAppClick("首页","热门专辑","首页-热门专辑");
+        SensorsUtils.onAppClick("首页", "热门专辑", "首页-热门专辑");
     }
 
     public void setDate(HomeBean.HotAlbumBean _hotAlbumBean) {

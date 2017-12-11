@@ -24,13 +24,12 @@ import net.grobas.view.PolygonImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by qingcha on 17/11/23.
  */
 
-public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
+public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
 
     public static final float DESPLAY_IMG_RATIO = 700 / 670.0f;
 
@@ -72,7 +71,7 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
             return;
         }
         Resources resources = getContext().getResources();
-        bannerBean = (HomeBean.BannerBean)_data;
+        bannerBean = (HomeBean.BannerBean) _data;
         Tools.showImage(desplayIV, bannerBean.bannerPicture);
         titleTV.setText(bannerBean.bannerName);
         if (bannerBean.bannerType == 1 || bannerBean.bannerType == 3) {//1活动、2广告
@@ -103,8 +102,8 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
             return;
         }
         if (bannerBean.needLogin == 1) {
-             boolean isLogin =  CommonUtils.isLogin(getContext(),getEventSource());
-             if (!isLogin) return;
+            boolean isLogin = CommonUtils.isLogin(getContext(), getEventSource());
+            if (!isLogin) return;
         }
         if (bannerBean.bannerType == 2) {
             Intent intent = new Intent(getContext(), SkuDetailActivity.class);
@@ -118,6 +117,8 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
                     Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(WebInfoActivity.WEB_URL, bannerBean.bannerAddress);
+                    intent.putExtra(WebInfoActivity.WEB_SHARE_BTN, true);
+                    intent.putExtra(WebInfoActivity.WEB_SHARE_NO, bannerBean.bannerSettingId);
                     v.getContext().startActivity(intent);
                 }
             } else {
