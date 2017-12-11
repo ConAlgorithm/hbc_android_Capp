@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.webkit.URLUtil;
 
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -120,6 +119,7 @@ public class WXShareUtils {
                 return;
             }
             if (!isTrueURL(picUrl)) {
+                //如果URL无效，则中断分享
                 return;
             }
             String picName = picUrl.substring(picUrl.lastIndexOf("/") + 1, picUrl.length());
