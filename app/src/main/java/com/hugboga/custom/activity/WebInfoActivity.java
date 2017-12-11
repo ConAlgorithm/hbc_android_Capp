@@ -63,12 +63,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     public static final String WEB_SHARE_NO = "web_share_no"; //动态控制分享的请求码
     public static final String CONTACT_SERVICE = "contact_service";
 
-    public static final String WEB_DEV = "web_dev"; //是否开发者模式
-    private final String WEB_DEV_NAME = "name=HbcAppAk";
-    private final String WEB_DEV_VALUE = "value=" + UserSession.getUser().getAccessKey(this);
-    private final String WEB_DEV_PATH = "path=/";
-    private final String WEB_DEV_DOMAIN = "domain=huangbaoche.com";
-
     public boolean isHttps = false;
     @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
@@ -90,7 +84,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     private String url;
     private WebAgent webAgent;
     private String title;
-    private boolean dev = false;
 
     @Override
     public int getContentViewId() {
@@ -104,7 +97,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         EventBus.getDefault().register(this);
         initView();
         setSensorsDefaultEvent();
-        //TODO 查询接口是否分享数据
+        // 查询接口是否分享数据
         getShareInfo();
     }
 
@@ -380,13 +373,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         initHeader();
         isLogin = UserEntity.getUser().isLogin(this);
         url = getIntent().getStringExtra(WEB_URL);
-        dev = getIntent().getBooleanExtra(WEB_DEV, false);
         setUrlUserId();
-
-        //开发者模式，设置特殊cookies
-        if (dev) {
-            synCookiesArray(url, WEB_DEV_NAME, WEB_DEV_VALUE, WEB_DEV_PATH, WEB_DEV_DOMAIN); //设置cookies
-        }
 
         if (isLogin) {
             try {
@@ -397,6 +384,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         } else {
             removeAllCookies();
         }
+
+        //开发者模式，设置特殊cookies
+        CommonUtils.synDebugCookies(url);
 
         if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
@@ -441,22 +431,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             } else {
                 url = CommonUtils.getBaseUrl(url) + "userId=" + userId;
             }
-        }
-    }
-
-    public void synCookiesArray(String url, String... value) {
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.setAcceptCookie(true);
-        if (value != null) {
-            for (String i : value) {
-                cookieManager.setCookie(url, i);
-            }
-        }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            cookieManager.flush();
-        } else {
-            CookieSyncManager.createInstance(MyApplication.getAppContext());
-            CookieSyncManager.getInstance().sync();
         }
     }
 

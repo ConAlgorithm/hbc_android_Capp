@@ -197,6 +197,9 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
         loadUrl();
 
+        //开发者模式，设置特殊cookies
+        CommonUtils.synDebugCookies(getLoadUrl());
+
         if (paramsData.isChooseGuide) {
             shareIV.setVisibility(View.GONE);
             collectIV.setVisibility(View.GONE);

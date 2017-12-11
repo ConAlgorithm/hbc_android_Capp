@@ -316,6 +316,7 @@ public class FakeAIActivity extends BaseActivity {
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        fakeAIAdapter.addServerMessage(getResources().getString(R.string.fake_ai_requestrrror));
     }
 
     @Override
@@ -433,4 +434,5 @@ public class FakeAIActivity extends BaseActivity {
         }
         return super.dispatchKeyEvent(event);
     }
+
 }

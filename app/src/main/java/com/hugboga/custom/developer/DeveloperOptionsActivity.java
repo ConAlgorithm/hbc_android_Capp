@@ -76,7 +76,6 @@ public class DeveloperOptionsActivity extends BaseActivity {
         Intent intent = new Intent(this, WebInfoActivity.class);
         final String url = "https://cdms2.huangbaoche.com/app/switchRoute.html?ak=" + UserSession.getUser().getAccessKey(this);
         intent.putExtra(WebInfoActivity.WEB_URL, url);
-        intent.putExtra(WebInfoActivity.WEB_DEV, true);
         startActivity(intent);
     }
 }

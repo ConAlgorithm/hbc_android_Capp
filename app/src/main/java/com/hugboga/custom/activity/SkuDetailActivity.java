@@ -57,6 +57,7 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
@@ -175,6 +176,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
         loadUrl();
         setSensorsDefaultEvent();
+        setGoodsOut();
+
+        //开发者模式，设置特殊cookies
+        CommonUtils.synDebugCookies(url);
     }
 
     protected boolean isDefaultEvent(){
@@ -205,7 +210,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     }
 
     public void setGoodsOut() {// 商品已下架
-        headerRightBtn.setVisibility(View.GONE);
+        headerRightBtn.setVisibility(View.INVISIBLE);
+        headerRightBtn.getLayoutParams().width = UIUtils.dip2px(10);
         bottomStateTV.setText(R.string.sku_detail_goodsout);
         bottomStateTV.setTextColor(0xFF898989);
         bottomPriceTV.setTextColor(0xFF898989);
