@@ -600,6 +600,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 if (index >= 0 && index < 4)
                     mViewPager.setCurrentItem(index);
                 break;
+            case CLICK_USER_LOOUT:
+                setIMCount(0, 0);
+                break;
             default:
                 break;
         }
@@ -792,23 +795,28 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     public void setIMCount(int count, int serviceMsgCount) {
-        if (count > 0) {
-            if (count > 99) {
-                bottomPoint2.setText("99+");
+        if (UserEntity.getUser().isLogin(this)) {
+            if (count > 0) {
+                if (count > 99) {
+                    bottomPoint2.setText("99+");
+                } else {
+                    bottomPoint2.setText("" + count);
+                }
+                bottomPoint2.setVisibility(View.VISIBLE);
+                qyServiceUnreadMsgCount.setVisibility(View.GONE);
+            } else if (serviceMsgCount > 0) {
+                bottomPoint2.setVisibility(View.GONE);
+                qyServiceUnreadMsgCount.setVisibility(View.VISIBLE);
             } else {
-                bottomPoint2.setText("" + count);
+                bottomPoint2.setVisibility(View.GONE);
+                bottomPoint2.setText("");
+                qyServiceUnreadMsgCount.setVisibility(View.GONE);
             }
-            bottomPoint2.setVisibility(View.VISIBLE);
-            qyServiceUnreadMsgCount.setVisibility(View.GONE);
-        } else if (serviceMsgCount > 0) {
-            bottomPoint2.setVisibility(View.GONE);
-            qyServiceUnreadMsgCount.setVisibility(View.VISIBLE);
         } else {
             bottomPoint2.setVisibility(View.GONE);
             bottomPoint2.setText("");
             qyServiceUnreadMsgCount.setVisibility(View.GONE);
         }
-
     }
 
     public void restartApp() {
