@@ -117,8 +117,11 @@ public class HttpRequestUtils {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+                boolean isReset = resetSSLSocketFactory(mContext, ex);
                 MLog.e(request.getClass().getSimpleName()+" onError",ex);
-                listener.onDataRequestError(handleException(ex), request);
+                if (!isReset) {
+                    listener.onDataRequestError(handleException(ex), request);
+                }
             }
 
             @Override
@@ -315,5 +318,13 @@ public class HttpRequestUtils {
         public Object parseObject(JSONObject obj) throws Throwable {
             return obj;
         }
+    }
+
+    public static boolean resetSSLSocketFactory(Context context, Throwable error) {
+        if (error instanceof HttpException && ((HttpException)error).getCode() == 400) {
+            DefaultSSLSocketFactory.resetSSLSocketFactory(context);
+            return true;
+        }
+        return false;
     }
 }

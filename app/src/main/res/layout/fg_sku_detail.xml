@@ -48,57 +48,61 @@
         <LinearLayout
             android:id="@+id/goto_order_lay"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="@dimen/order_bottom_height"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="@dimen/order_padding_left"
+            android:paddingRight="@dimen/order_padding_left"
             android:layout_alignParentBottom="true"
             android:background="#ffffff">
 
             <LinearLayout
-                android:id="@+id/sku_detail_bottom_online_layout"
-                android:layout_width="0dp"
-                android:layout_weight="1.4"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:background="@mipmap/line_chat" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/sku_detail_bottom_line"
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="12dp"
-                android:layout_toRightOf="@id/sku_detail_bottom_online_layout"
-                android:background="@color/default_dividing_line" />
-
-            <LinearLayout
                 android:id="@+id/sku_detail_bottom_service_layout"
                 android:layout_width="0dp"
-                android:layout_weight="1.4"
+                android:layout_weight="3"
                 android:layout_height="match_parent"
-                android:layout_toRightOf="@id/sku_detail_bottom_line"
+                android:background="@drawable/selector_black_btn"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:background="@mipmap/line_phone" />
-
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@mipmap/destination_consulting_button_icon" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/sku_detail_service"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
             </LinearLayout>
-
-            <TextView
+            <LinearLayout
                 android:id="@+id/goto_order"
                 android:layout_width="0dp"
-                android:layout_weight="3"
-                style="@style/OrderBottomConfirm"
-                android:textSize="18sp"
-                android:text="@string/order_confirm" />
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/shape_rounded_gray">
+                <TextView
+                    android:id="@+id/sku_detail_bottom_state_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/default_black"
+                    android:text="@string/sku_detail_book" />
+                <TextView
+                    android:id="@+id/sku_detail_bottom_price_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:textSize="10sp"
+                    android:textColor="#7f7f7f"
+                    android:layout_marginTop="-1dp"/>
+            </LinearLayout>
         </LinearLayout>
         <View
             android:id="@+id/goto_order_lay_line"
