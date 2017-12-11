@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyModel;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
@@ -34,12 +35,14 @@ public class CityAdapter extends SkuAdapter {
     CityWhatModel cityWhatModel; //我要咨询入口
 
     List<ServiceConfigVo> serviceConfigList;
+    CityActivity.Params params; //页面参数
 
     public CityAdapter(Context context, DestinationHomeVo vo, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList,
-                       List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1) {
+                       List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1, CityActivity.Params params) {
         super(context);
         this.serviceConfigList = serviceConfigList;
-        cityHeaderModel = new CityHeaderModel((Activity) context, vo);
+        this.params = params;
+        cityHeaderModel = new CityHeaderModel((Activity) context, vo, params);
         cityFilterModel = new CityFilterModel();
         cityListLabelModel = new CityListLabelModel(labels, onSelectListener1);
         citySkuNoModel = new CitySkuNoModel();

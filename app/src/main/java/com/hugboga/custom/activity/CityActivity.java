@@ -409,7 +409,8 @@ public class CityActivity extends BaseActivity {
         if (adapter == null) {
             isInit = true; //初次加载数据
             adapter = new CityAdapter(this, data, destinationGoodsList, data.serviceConfigList,
-                    cityDataTools.getTagData(data.destinationTagGroupList), filterContentView.onSelectListener1);
+                    cityDataTools.getTagData(data.destinationTagGroupList), filterContentView.onSelectListener1,
+                    paramsData);
             recyclerView.setAdapter(adapter);
             adapter.cityFilterModel.filterSeeListener = filterSeeListener;
         }
