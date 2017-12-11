@@ -20,6 +20,8 @@ import android.widget.EditText;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.huangbaoche.hbcframe.HbcConfig;
+import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -644,6 +646,29 @@ public final class CommonUtils {
             CookieManager.getInstance().removeAllCookies(null);
         } else {
             CookieManager.getInstance().removeAllCookie();
+        }
+    }
+
+
+    public static void synCookiesArray(String url, String... value) {
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        if (value != null) {
+            for (String i : value) {
+                cookieManager.setCookie(url, i);
+            }
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.flush();
+        } else {
+            CookieSyncManager.createInstance(MyApplication.getAppContext());
+            CookieSyncManager.getInstance().sync();
+        }
+    }
+
+    public static void synDebugCookies(String url) {
+        if (HbcConfig.IS_DEBUG && !TextUtils.isEmpty(url)) {
+            synCookiesArray(url, "HbcAppAk=" + UserSession.getUser().getAccessKey(MyApplication.getAppContext()));
         }
     }
 }
