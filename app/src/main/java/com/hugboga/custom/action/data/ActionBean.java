@@ -48,6 +48,11 @@ public class ActionBean implements Serializable {
     public String source;
 
     /**
+     * Action传递附属属性(本地定义)
+     */
+    public ActionExam exam;
+
+    /**
      * push ID (埋点)
      * */
     @SerializedName("i")

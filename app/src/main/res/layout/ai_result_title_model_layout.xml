@@ -6,12 +6,15 @@
 
     <TextView
         android:id="@+id/ai_result_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/fzdysjw"
-        android:text="您也可以自己包车畅游"
+        android:text="该城市的推荐玩法较少，您可以快速预定"
+        android:textAlignment="center"
         android:textColor="#151515"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

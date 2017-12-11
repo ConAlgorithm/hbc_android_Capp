@@ -86,6 +86,7 @@
     <string name="title_commend">线路包车</string>
     <string name="title_other">订单详情</string>
 
+
     <!-- tab-->
     <string name="tab_home">首页</string>
     <string name="tab_des">目的地</string>
@@ -989,7 +990,13 @@
     <string name="fake_ai_hint_three" >我和....</string>
     <string name="fake_ai_buttoncontent_one" >和旅行小管家继续沟通</string>
     <string name="fake_ai_buttoncontent_two" >留下意向，让小管家明天联系我</string>
-
+    <string name="fake_ai_requestrrror">您的网络好像有点儿问题哦~请检查您的网络设置~</string>
+    <!-- 推荐详情 -->
+    <string name="recommend_zhong">种</string>
+    <string name="recommend_wei">位</string>
+    <string name="recommend_playing_method">包车玩法</string>
+    <string name="recommend_exceed">超过</string>
+    <string name="recommend_chinese">中文司导</string>
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">国内信用卡</string>
     <string name="title_domestic_pay_validate">您还需要补充以下信息</string>
@@ -1021,7 +1028,8 @@
     <string name="domestic_card_add_phone_hint">办卡时预留手机号</string>
 
     <!--City text-->
-    <string name="city_sku_title1">%1$s人已收藏 · %2$s天 · %3$s > %4$s…</string>
+    <string name="city_sku_title1">%1$s人已收藏 · %2$s天 · %3$s</string>
+    <string name="city_sku_title11"> > %s…</string>
     <string name="city_sku_title2">%s位当地人可带你体验</string>
     <string name="city_sku_item_price">¥ %s起/人</string>
 

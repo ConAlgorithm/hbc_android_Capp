@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
+import com.hugboga.custom.action.data.ActionExam;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
@@ -24,13 +25,12 @@ import net.grobas.view.PolygonImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by qingcha on 17/11/23.
  */
 
-public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
+public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
 
     public static final float DESPLAY_IMG_RATIO = 700 / 670.0f;
 
@@ -72,11 +72,11 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
             return;
         }
         Resources resources = getContext().getResources();
-        bannerBean = (HomeBean.BannerBean)_data;
+        bannerBean = (HomeBean.BannerBean) _data;
         Tools.showImage(desplayIV, bannerBean.bannerPicture);
         titleTV.setText(bannerBean.bannerName);
-        if (bannerBean.bannerType == 1 || bannerBean.bannerType == 3) {//1活动、2广告
-            typeTV.setText(resources.getString(bannerBean.bannerType == 1 ? R.string.home_goodes_type2 : R.string.home_goodes_type2));
+        if (bannerBean.bannerType == 1 || bannerBean.bannerType == 3) {//1活动、3广告
+            typeTV.setText(resources.getString(bannerBean.bannerType == 1 ? R.string.home_goodes_type2 : R.string.home_goodes_type3));
             typeTV.setBackgroundColor(getContext().getResources().getColor(R.color.default_yellow));
             guideNameTV.setVisibility(GONE);
             descTV.setVisibility(View.GONE);
@@ -103,8 +103,8 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
             return;
         }
         if (bannerBean.needLogin == 1) {
-             boolean isLogin =  CommonUtils.isLogin(getContext(),getEventSource());
-             if (!isLogin) return;
+            boolean isLogin = CommonUtils.isLogin(getContext(), getEventSource());
+            if (!isLogin) return;
         }
         if (bannerBean.bannerType == 2) {
             Intent intent = new Intent(getContext(), SkuDetailActivity.class);
@@ -118,14 +118,30 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
                     Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(WebInfoActivity.WEB_URL, bannerBean.bannerAddress);
+                    if (bannerBean.bannerType == 1) {
+                        //活动需要增加分享查询参数
+                        intent.putExtra(WebInfoActivity.WEB_SHARE_BTN, true);
+                        intent.putExtra(WebInfoActivity.WEB_SHARE_NO, String.valueOf(bannerBean.bannerSettingId));
+                    }
                     v.getContext().startActivity(intent);
                 }
             } else {
                 ActionController actionFactory = ActionController.getInstance();
                 bannerBean.pushScheme.source = bannerBean.pushScheme.url;
+                if (bannerBean.bannerType == 1) {
+                    //活动需要增加分享查询参数
+                    bannerBean.pushScheme.exam = getActionExam(bannerBean);
+                }
                 actionFactory.doAction(getContext(), bannerBean.pushScheme);
             }
         }
+    }
+
+    private ActionExam getActionExam(HomeBean.BannerBean bannerBean) {
+        ActionExam exam = new ActionExam();
+        exam.isShareBtn = true;
+        exam.shareNo = String.valueOf(bannerBean.bannerSettingId);
+        return exam;
     }
 
     private String getEventSource() {

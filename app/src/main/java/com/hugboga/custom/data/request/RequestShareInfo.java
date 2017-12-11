@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.city.DestinationHomeVo;
+import com.hugboga.custom.data.bean.ShareInfoBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
@@ -15,26 +15,26 @@ import org.xutils.http.annotation.HttpRequest;
 import java.util.HashMap;
 
 /**
- * Created by HONGBO on 2017/11/28 10:49.
+ * Created by HONGBO on 2017/12/11 15:41.
  */
-@HttpRequest(path = UrlLibs.API_CITY_DESTINATION_HOME, builder = NewParamsBuilder.class)
-public class RequestCity extends BaseRequest<DestinationHomeVo> {
+@HttpRequest(path = UrlLibs.API_QUERY_SHARE_INFO, builder = NewParamsBuilder.class)
+public class RequestShareInfo extends BaseRequest {
 
-    public RequestCity(Context context, Integer destinationId, Integer destinationType) {
+    public RequestShareInfo(Context context, String shareNo) {
         super(context);
         map = new HashMap<String, Object>();
-        map.put("destinationId", destinationId);
-        map.put("destinationType", destinationType);
+        map.put("shareNo", shareNo);
+        map.put("shareType", "3"); //1专辑 2攻略 3活动，本期只有活动，定着穿3
     }
 
     @Override
     public String getUrlErrorCode() {
-        return "40194";
+        return "40200";
     }
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_CITY_DESTINATION_HOME, DestinationHomeVo.class);
+        return new HbcParser(UrlLibs.API_QUERY_SHARE_INFO, ShareInfoBean.class);
     }
 
     @Override

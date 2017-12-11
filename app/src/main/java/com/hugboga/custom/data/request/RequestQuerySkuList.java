@@ -28,14 +28,14 @@ public class RequestQuerySkuList extends BaseRequest {
         map = new HashMap<String, Object>();
         map.put("destinationId", destinationId); //目的地ID
         map.put("destinationType", destinationType); //目的地类型
-        if (dayCountTypeList != null && !"0".equals(dayCountTypeList.fullTagId)) {
-            map.put("dayCountTypeList", dayCountTypeList.fullTagId); //游玩天数类型列表,全部为空
+        if (dayCountTypeList != null && !"0".equals(dayCountTypeList.id)) {
+            map.put("dayCountTypeList", dayCountTypeList.id); //游玩天数类型列表,全部为空
         }
         if (destinationTagIdList != null && !"0".equals(destinationTagIdList.fullTagId)) {
-            map.put("destinationTagIdLists", destinationTagIdList.fullTagId); //目的地标签列表,全部为空
+            map.put("destinationTagIdList", destinationTagIdList.fullTagId); //目的地标签列表,全部为空
         }
-        if (depCityIdList != null && !"0".equals(depCityIdList.fullTagId)) {
-            map.put("depCityIdList", depCityIdList.fullTagId); //出发城市列表,全部为空
+        if (depCityIdList != null && !"0".equals(depCityIdList.id)) {
+            map.put("depCityIdList", depCityIdList.id); //出发城市列表,全部为空
         }
         map.put("offset", (page - 1) * 10); // 起始项 默认值：0
         map.put("limit", 10); // 每页数量 默认值：10
