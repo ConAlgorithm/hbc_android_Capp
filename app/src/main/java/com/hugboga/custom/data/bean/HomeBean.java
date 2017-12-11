@@ -16,7 +16,7 @@ public class HomeBean implements Serializable {
     public ArrayList<ExcitedActivityBean> excitingActivityList;      // 精彩活动列表
 
     public static class BannerBean implements Serializable {
-        public int bannerType;                          // 1.商品 2.活动
+        public int bannerType;                          // 1.活动 2.商品 3.广告
         public int bannerSettingId;                     // 商品ID 或者 活动ID
         public String bannerName;                       // banner名称
         public String bannerPicture;                    // bannner图片
