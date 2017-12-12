@@ -87,7 +87,7 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
             typeTV.setText(resources.getString(R.string.home_goodes_type1));
             typeTV.setBackgroundColor(0xFF4A4A4A);
             guideNameTV.setVisibility(VISIBLE);
-            guideNameTV.setText(bannerBean.guideName);
+            guideNameTV.setText(bannerBean.getGuideName());
             collectTV.setText(resources.getString(R.string.home_goodes_favorite_num, "" + bannerBean.goodsFavoriteNum));
             descTV.setText(resources.getString(R.string.home_goodes_service_day, "" + bannerBean.goodsServiceDay, bannerBean.routeCityDesc));
             descTV.setVisibility(View.VISIBLE);

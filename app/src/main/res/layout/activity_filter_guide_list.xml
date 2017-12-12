@@ -8,14 +8,27 @@
         android:id="@+id/guide_list_titlebar"
         layout="@layout/include_header" />
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/guide_list_recyclerview"
+    <in.srain.cube.views.ptr.PtrFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/guide_list_ptrframe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/guide_list_titlebar"
         android:layout_marginTop="44dp"
-        android:clipChildren="false"
-        android:clipToPadding="false" />
+
+        cube_ptr:ptr_duration_to_close="300"
+        cube_ptr:ptr_duration_to_close_header="2000"
+        cube_ptr:ptr_keep_header_when_refresh="true"
+        cube_ptr:ptr_pull_to_fresh="false"
+        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+        cube_ptr:ptr_resistance="1.7">
+
+        <com.hugboga.custom.widget.LoadMoreRecyclerView
+            android:id="@+id/guide_list_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false" />
+    </in.srain.cube.views.ptr.PtrFrameLayout>
 
     <com.hugboga.custom.widget.GuideFilterLayout
         android:id="@+id/guide_list_filter_layout"
@@ -28,10 +41,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/guide_list_filter_layout"
-        android:gravity="center_horizontal"
-        android:visibility="gone"
         android:background="@color/default_bg"
-        android:orientation="vertical">
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/guide_list_empty_iv"

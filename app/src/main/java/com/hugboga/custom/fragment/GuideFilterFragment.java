@@ -25,7 +25,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GuideFilterFragment extends BaseFragment implements SliderView.OnValueChangedListener{
