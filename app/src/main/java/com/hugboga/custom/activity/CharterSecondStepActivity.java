@@ -665,8 +665,12 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if (chooseDateBean == null || chooseDateBean.showStartDateStr == null || chooseDateBean.showEndDateStr == null) {
             finish();
         }
-        String title = String.format("%1$s-%2$s(%3$s天)", chooseDateBean.showStartDateStr, chooseDateBean.showEndDateStr, "" + chooseDateBean.dayNums);
-        titleBar.updateSubtitle(title);
+        try {
+            String title = String.format("%1$s-%2$s(%3$s天)", chooseDateBean.showStartDateStr, chooseDateBean.showEndDateStr, "" + chooseDateBean.dayNums);
+            titleBar.updateSubtitle(title);
+        } catch (Exception e) {//bugly反馈
+          e.printStackTrace();
+        }
     }
 
     public static class RefreshBean implements Serializable {
