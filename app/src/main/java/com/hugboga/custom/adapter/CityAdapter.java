@@ -96,6 +96,7 @@ public class CityAdapter extends SkuAdapter {
                 citySkuNoModel.show();
             }
         }
+        noticeWahtModel(); //通知咨询入口是否显示
     }
 
     public void addMoreGoods(List<DestinationGoodsVo> data) {
