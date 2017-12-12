@@ -207,7 +207,7 @@ public class FakeAIActivity extends BaseActivity {
                 initServiceMessage(data.duoDuoSaid);
                 Message message = handler.obtainMessage();
                 message.obj = data;
-                handler.sendMessageDelayed(message, 1000);
+                handler.sendMessageDelayed(message, 2000);
             } else {
 
                 if (data.customServiceStatus != null) {
