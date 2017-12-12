@@ -93,7 +93,7 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
             descTV.setVisibility(View.VISIBLE);
             avatarIV.setVisibility(VISIBLE);
             avatarIconIV.setVisibility(VISIBLE);
-            Tools.showImage(avatarIV, bannerBean.guideAvatar, R.mipmap.icon_avatar_guide);
+            Tools.showImage(avatarIV, bannerBean.guideAvatar, R.mipmap.home_guide_head);
         }
     }
 

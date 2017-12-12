@@ -108,7 +108,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior, 
         guideNameTV.setText(albumBean.getGuideName());
         collectTV.setText(getContext().getResources().getString(R.string.home_goodes_favorite_num, "" + albumBean.goodsFavoriteNum));
         descTV.setText(getContext().getResources().getString(R.string.home_goodes_service_day, "" + albumBean.goodsServiceDayNum, albumBean.routeCityDesc));
-        Tools.showImage(avatarIV, albumBean.guideAvatar, R.mipmap.icon_avatar_guide);
+        Tools.showImage(avatarIV, albumBean.guideAvatar, R.mipmap.home_guide_head);
 
         // 遗留代码
         if (!UserEntity.getUser().isLogin(getContext())){
