@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
+import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
 import com.hugboga.custom.models.CityConfigModel;
 import com.hugboga.custom.models.CityListModel;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class SkuAdapter extends EpoxyAdapter {
 
     Context mContext;
+    DestinationHomeVo data; //数据
     CityConfigModel configModel; //第一个配置model，sku数据加载到其上方
     List<CityListModel> goodModels = new ArrayList<>(); //列表加载的SKU Model数据集合
     Map<String, Boolean> goodsFavious; //收藏线路数据
@@ -80,7 +82,7 @@ public class SkuAdapter extends EpoxyAdapter {
     public void addConfig(List<ServiceConfigVo> serviceConfigList) {
         if (serviceConfigList != null) {
             for (ServiceConfigVo vo : serviceConfigList) {
-                CityConfigModel model = new CityConfigModel(mContext, vo);
+                CityConfigModel model = new CityConfigModel(mContext, vo, data);
                 if (configModel == null) {
                     configModel = model;
                 }

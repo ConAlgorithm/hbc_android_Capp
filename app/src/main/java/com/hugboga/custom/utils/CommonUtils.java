@@ -649,7 +649,6 @@ public final class CommonUtils {
         }
     }
 
-
     public static void synCookiesArray(String url, String... value) {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
@@ -667,8 +666,9 @@ public final class CommonUtils {
     }
 
     public static void synDebugCookies(String url) {
-        if (HbcConfig.IS_DEBUG && !TextUtils.isEmpty(url)) {
-            synCookiesArray(url, "HbcAppAk=" + UserSession.getUser().getAccessKey(MyApplication.getAppContext()));
+        if (HbcConfig.IS_DEBUG) {
+            String key1 = "HbcAppAk=" + UserSession.getUser().getAccessKey(MyApplication.getAppContext()) + ";Domain=huangbaoche.com;Path=/";
+            synCookiesArray(url, key1);
         }
     }
 }
