@@ -9,11 +9,12 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
+import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.TagGroup;
@@ -63,18 +64,27 @@ public class CityConfigModel extends EpoxyModelWithHolder<CityConfigModel.CityCo
         @Override
         public void onClick(View view) {
             //进入下单入口
+            CityBean cityBean = DatabaseManager.getCityBean(String.valueOf(vo.depCityId));
+            if (cityBean == null) {
+                return;
+            }
             switch (vo.serviceType) {
                 case 1:
                     //进入接送机
-                    IntentUtils.intentPickupActivity(mContext, "目的地首页");
+                    PickSendActivity.Params params = new PickSendActivity.Params();
+                    params.cityId = String.valueOf(cityBean.cityId);
+                    params.cityName = cityBean.name;
+                    IntentUtils.intentPickupActivity(mContext, params, "目的地首页");
                     break;
                 case 3:
                     //进入包车
-                    IntentUtils.intentCharterActivity(mContext, "目的地首页");
+                    IntentUtils.intentCharterActivity(mContext, null, null, cityBean, "目的地首页");
                     break;
                 case 4:
                     //进入次租
-                    IntentUtils.intentSingleActivity(mContext, "目的地首页");
+                    SingleActivity.Params params1 = new SingleActivity.Params();
+                    params1.cityId = String.valueOf(cityBean.cityId);
+                    IntentUtils.intentSingleActivity(mContext, params1, "目的地首页");
                     break;
             }
         }
