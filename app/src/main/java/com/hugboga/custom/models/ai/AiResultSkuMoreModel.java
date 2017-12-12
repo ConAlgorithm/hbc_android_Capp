@@ -71,8 +71,22 @@ public class AiResultSkuMoreModel extends EpoxyModelWithHolder<AiResultSkuMoreMo
         @OnClick(R.id.ai_result_more_root_layout)
         public void onClick(View view) {
             // 打开全部玩法
-            clickMoreSku();
+            clickMoreGo();
         }
+    }
+
+    /**
+     * 查看目的地
+     */
+    public void clickMoreGo() {
+        CityActivity.Params params = new CityActivity.Params();
+        params.id = vo.destinationId;
+        params.cityHomeType = CityActivity.CityHomeType.getNew(vo.destinationType);
+        params.titleName = vo.destinationName;
+        Intent intent = new Intent(mContext, CityActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra("source", getEventSource());
+        mContext.startActivity(intent);
     }
 
     /**

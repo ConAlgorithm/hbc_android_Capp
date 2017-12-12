@@ -51,7 +51,7 @@ public class CityBannerView extends FrameLayout {
         this.beginnerDirectionVo = beginnerDirectionVo;
         if (beginnerDirectionVo != null) {
             setVisibility(VISIBLE);
-            Tools.showImageNotCenterCrop(city_banner_img, beginnerDirectionVo.backgroundImageUrl, R.mipmap.des_city_dafault);
+            Tools.showImageNotCenterCrop(city_banner_img, beginnerDirectionVo.backgroundImageUrl, 0);
             city_banner_title.setText(beginnerDirectionVo.title);
             city_banner_subtitle.setText(beginnerDirectionVo.subTitle);
         } else {
