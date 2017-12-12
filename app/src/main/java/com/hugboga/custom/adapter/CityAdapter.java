@@ -40,6 +40,7 @@ public class CityAdapter extends SkuAdapter {
     public CityAdapter(Context context, DestinationHomeVo vo, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList,
                        List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1, CityActivity.Params params) {
         super(context);
+        this.data = vo;
         this.serviceConfigList = serviceConfigList;
         this.params = params;
         cityHeaderModel = new CityHeaderModel((Activity) context, vo, params);

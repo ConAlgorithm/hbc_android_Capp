@@ -9,10 +9,12 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.IntentUtils;
@@ -34,10 +36,12 @@ public class CityConfigModel extends EpoxyModelWithHolder<CityConfigModel.CityCo
 
     Context mContext;
     ServiceConfigVo vo;
+    DestinationHomeVo data; //城市ID
 
-    public CityConfigModel(Context mContext, ServiceConfigVo vo) {
+    public CityConfigModel(Context mContext, ServiceConfigVo vo, DestinationHomeVo data) {
         this.mContext = mContext;
         this.vo = vo;
+        this.data = data;
     }
 
     @Override
@@ -64,16 +68,18 @@ public class CityConfigModel extends EpoxyModelWithHolder<CityConfigModel.CityCo
         @Override
         public void onClick(View view) {
             //进入下单入口
-            CityBean cityBean = DatabaseManager.getCityBean(String.valueOf(vo.depCityId));
-            if (cityBean == null) {
-                return;
+            CityBean cityBean = null; //查询城市信息
+            if (CityActivity.CityHomeType.getNew(data.destinationType) == CityActivity.CityHomeType.CITY) {
+                cityBean = DatabaseManager.getCityBean(String.valueOf(data.destinationId));
             }
             switch (vo.serviceType) {
                 case 1:
                     //进入接送机
                     PickSendActivity.Params params = new PickSendActivity.Params();
-                    params.cityId = String.valueOf(cityBean.cityId);
-                    params.cityName = cityBean.name;
+                    if (cityBean != null) {
+                        params.cityId = String.valueOf(cityBean.cityId);
+                        params.cityName = cityBean.name;
+                    }
                     IntentUtils.intentPickupActivity(mContext, params, "目的地首页");
                     break;
                 case 3:
@@ -83,7 +89,9 @@ public class CityConfigModel extends EpoxyModelWithHolder<CityConfigModel.CityCo
                 case 4:
                     //进入次租
                     SingleActivity.Params params1 = new SingleActivity.Params();
-                    params1.cityId = String.valueOf(cityBean.cityId);
+                    if (cityBean != null) {
+                        params1.cityId = String.valueOf(cityBean.cityId);
+                    }
                     IntentUtils.intentSingleActivity(mContext, params1, "目的地首页");
                     break;
             }

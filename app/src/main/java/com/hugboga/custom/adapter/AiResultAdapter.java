@@ -25,6 +25,7 @@ public class AiResultAdapter extends SkuAdapter {
     }
 
     public void showAiResult(DestinationHomeVo vo) {
+        this.data = vo;
         //快速了解目的地,添加广告条，新手指引
         if (vo.beginnerDirection != null) {
             addModel(new AiResultTitleModel(mContext.getString(R.string.ai_result_banner_title_fast)));
