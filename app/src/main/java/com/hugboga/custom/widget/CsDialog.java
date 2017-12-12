@@ -55,7 +55,8 @@ public class CsDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.dialog_share_shadow_view).setOnClickListener(this);
         if(!hasOnline){
             findViewById(R.id.online_cs_layout).setVisibility(View.GONE);
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) findViewById(R.id.china_cs_layout).getLayoutParams();
+            LinearLayout csLayout = (LinearLayout)findViewById(R.id.china_cs_layout);
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) csLayout.getLayoutParams();
             lp.setMargins(0,0,0,0);
             findViewById(R.id.online_cs_layout).setLayoutParams(lp);
         }
