@@ -4,17 +4,15 @@
     android:id="@+id/city_banner_layout_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:background="@drawable/ic_line_rect">
 
     <ImageView
         android:id="@+id/city_banner_img"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="160dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:adjustViewBounds="true"
         android:background="@color/default_pic_gray"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
