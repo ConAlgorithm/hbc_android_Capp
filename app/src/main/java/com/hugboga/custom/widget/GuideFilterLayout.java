@@ -110,7 +110,7 @@ public class GuideFilterLayout extends LinearLayout {
                 break;
         }
 
-        pagerAdapter.resetScopeFilter();
+        pagerAdapter.resetGuideCacheFilter();
 
         if (pagerPosition == index && viewPager.isShown()) {
             updateSelectStatus(index, false);
@@ -184,6 +184,7 @@ public class GuideFilterLayout extends LinearLayout {
         TextView scopeCountTV = (TextView) scopeLayout.findViewById(R.id.filter_guide_type_scope_count_tv);
         if (guideFilterBean == null) {
             scopeCountTV.setVisibility(View.GONE);
+            pagerAdapter.resetGuideFilterBean();
         } else {
             int operateCount = guideFilterBean.getOperateCount();
             if (guideFilterBean.isInitial || operateCount <= 0) {
@@ -252,8 +253,14 @@ public class GuideFilterLayout extends LinearLayout {
             return 3;
         }
 
-        public boolean resetScopeFilter() {
+        public boolean resetGuideCacheFilter() {
             return guideFilterFragment == null ? false : guideFilterFragment.resetCacheFilter();
+        }
+
+        public void resetGuideFilterBean() {
+            if (guideFilterFragment != null) {
+                guideFilterFragment.resetALLFilterBean();
+            }
         }
 
         public void setFilterGuideOptionsBean(FilterGuideOptionsBean rilterGuideOptionsBean) {

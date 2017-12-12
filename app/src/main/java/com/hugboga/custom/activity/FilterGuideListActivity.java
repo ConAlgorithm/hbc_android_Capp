@@ -28,6 +28,7 @@ import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.GuideFilterLayout;
 import com.hugboga.custom.widget.GuideItemView;
 import com.hugboga.custom.widget.HbcLoadingMoreFooter;
+import com.hugboga.custom.widget.LoadMoreRecyclerView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,14 +38,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import in.srain.cube.views.ptr.PtrClassicDefaultHeader;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 
 public class FilterGuideListActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener, XRecyclerView.LoadingListener{
 
     @BindView(R.id.guide_list_filter_layout)
     GuideFilterLayout filterLayout;
     @BindView(R.id.guide_list_recyclerview)
-    XRecyclerView mRecyclerView;
-
+    LoadMoreRecyclerView mRecyclerView;
+    @BindView(R.id.guide_list_ptrframe_layout)
+    PtrFrameLayout ptrFrameLayout;
     @BindView(R.id.guide_list_empty_layout)
     LinearLayout emptyLayout;
     @BindView(R.id.guide_list_empty_iv)
@@ -121,6 +127,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, GuideItemView.class);
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
+        initHeader();
 
         if (paramsData != null) {
             CityActivity.Params params = new CityActivity.Params();
@@ -143,6 +150,23 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         fgRightTV.setVisibility(View.GONE);
     }
 
+    public void initHeader() {
+        PtrClassicDefaultHeader header = new PtrClassicDefaultHeader(this);
+        ptrFrameLayout.setHeaderView(header);
+        ptrFrameLayout.addPtrUIHandler(header);
+        ptrFrameLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                requestGuideList(0, false);
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
+        });
+    }
+
     private boolean isGoods() {
         if (paramsData != null && !TextUtils.isEmpty(paramsData.goodsNo)) {
             return true;
@@ -163,7 +187,6 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
     @Override
     public void onRefresh() {
-        requestGuideList(0, false);
     }
 
     @Override
@@ -235,6 +258,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
                     paramsData = null;
                     cityParams = (CityActivity.Params) action.getData();
                     filterLayout.setCityParams(cityParams);
+                    guideFilterBean = null;
                     requestGuideFilterOptions();
                     requestGuideList();
                 }
@@ -308,7 +332,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             if (offset == 0) {
                 mRecyclerView.smoothScrollToPosition(0);
             }
-            mRecyclerView.refreshComplete();
+            ptrFrameLayout.refreshComplete();
             mRecyclerView.setNoMore(mAdapter.getListCount() >= filterGuideListBean.listCount);
         } else if (_request instanceof RequestGuideFilterOptions) {
             FilterGuideOptionsBean filterGuideOptionsBean = ((RequestGuideFilterOptions) _request).getData();
