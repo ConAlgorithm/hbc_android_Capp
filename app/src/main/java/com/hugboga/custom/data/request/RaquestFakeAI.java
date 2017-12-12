@@ -12,19 +12,23 @@ import com.hugboga.custom.data.parser.HbcParser;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
+import java.util.HashMap;
+
 /**
  * Created by Administrator on 2017/12/1.
  */
 @HttpRequest(path = UrlLibs.API_IP_FAKE_AI_GET, builder = NewParamsBuilder.class)
 public class RaquestFakeAI extends BaseRequest<FakeAIBean> {
 
-    public RaquestFakeAI(Context context) {
+    public RaquestFakeAI(Context context,String distinctId) {
         super(context);
+        map = new HashMap<String, Object>();
+        map.put("distinctId",distinctId);
     }
 
     @Override
     public HttpMethod getHttpMethod() {
-        return HttpMethod.GET;
+        return HttpMethod.POST;
     }
 
     @Override

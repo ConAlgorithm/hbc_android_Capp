@@ -37,10 +37,12 @@ import com.hugboga.custom.data.bean.ai.FakeAIBean;
 import com.hugboga.custom.data.bean.ai.FakeAIQuestionsBean;
 import com.hugboga.custom.data.request.RaquestFakeAI;
 import com.hugboga.custom.data.request.RequestFakeAIChange;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ai.AiTagView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,8 +97,10 @@ public class FakeAIActivity extends BaseActivity {
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         info = new AiRequestInfo();
+        info.distinctId = SensorsDataAPI.sharedInstance(FakeAIActivity.this).getAnonymousId();
         initView();
         requestHotSearch();
+
     }
 
     private void initView() {
@@ -274,10 +278,15 @@ public class FakeAIActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.obj instanceof FakeAIQuestionsBean) {
-                Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
-                intent.putExtra(KEY_AI_RESULT, ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome);
-                startActivity(intent);
-                finish();
+                if (CommonUtils.isLogin(FakeAIActivity.this, "AI界面")) {
+                    Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
+                    intent.putExtra(KEY_AI_RESULT, ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    finish();
+                }
+
             }
             recyclerView.scrollToPosition(fakeAIAdapter.getItemCount() - 1);
         }
@@ -402,7 +411,7 @@ public class FakeAIActivity extends BaseActivity {
      * 初始化界面信息
      */
     private void requestHotSearch() {
-        RaquestFakeAI requestHotSearch = new RaquestFakeAI(this);
+        RaquestFakeAI requestHotSearch = new RaquestFakeAI(this, info.distinctId);
         HttpRequestUtils.request(this, requestHotSearch, this, false);
     }
 
