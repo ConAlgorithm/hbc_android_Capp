@@ -14,12 +14,12 @@
         <ImageView
             android:id="@+id/city_header_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="420dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="?attr/actionBarSize"
-            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             app:srcCompat="@drawable/city_banner_default" />
 
         <com.hugboga.custom.widget.city.CityHeaderCountView
