@@ -982,6 +982,20 @@
     <string name="voice_captcha_count_down">%1$ss后重新获取</string>
     <string name="voice_captcha_retry">重新获取语音验证码</string>
     <string name="voice_captcha_input_error">请输入手机号</string>
+    <!-- AI Service -->
+    <string name="fake_ai_head" >旅行小管家</string>
+    <string name="fake_ai_hint_one" >我想去....</string>
+    <string name="fake_ai_hint_two" >我要玩....</string>
+    <string name="fake_ai_hint_three" >我和....</string>
+    <string name="fake_ai_buttoncontent_one" >和旅行小管家继续沟通</string>
+    <string name="fake_ai_buttoncontent_two" >留下意向，让小管家明天联系我</string>
+    <string name="fake_ai_requestrrror">您的网络好像有点儿问题哦~请检查您的网络设置~</string>
+    <!-- 玩法详情 -->
+    <string name="recommend_zhong">种</string>
+    <string name="recommend_wei">位</string>
+    <string name="recommend_playing_method">包车玩法</string>
+    <string name="recommend_exceed">超过</string>
+    <string name="recommend_chinese">中文司导</string>
 
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">国内信用卡</string>

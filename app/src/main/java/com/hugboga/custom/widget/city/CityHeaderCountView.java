@@ -36,6 +36,8 @@ public class CityHeaderCountView extends FrameLayout {
     TextView city_header_count_guide2; //司导数
     @BindView(R.id.textView7)
     TextView textView7; //超过xxx司导的“超过”
+    @BindView(R.id.textView777)
+    TextView textView777; //超过xxx司导的“超过”，没有玩法的时候
 
     public CityHeaderCountView(@NonNull Context context) {
         this(context, null);
@@ -94,5 +96,6 @@ public class CityHeaderCountView extends FrameLayout {
      */
     public void showMoreGuideTxt(boolean isShow) {
         textView7.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        textView777.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 }
