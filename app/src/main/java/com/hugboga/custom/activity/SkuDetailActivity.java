@@ -176,7 +176,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
         loadUrl();
         setSensorsDefaultEvent();
-        setGoodsOut();
 
         //开发者模式，设置特殊cookies
         CommonUtils.synDebugCookies(url);

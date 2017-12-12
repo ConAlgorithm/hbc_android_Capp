@@ -31,4 +31,13 @@ public class WrapContentLinearLayoutManager extends LinearLayoutManager {
 //            e.printStackTrace();
         }
     }
+
+    @Override
+    public void collectAdjacentPrefetchPositions(int dx, int dy, RecyclerView.State state, LayoutPrefetchRegistry layoutPrefetchRegistry) {
+        try {
+            super.collectAdjacentPrefetchPositions(dx, dy, state, layoutPrefetchRegistry);
+        } catch (IllegalArgumentException e) {
+            //            e.printStackTrace();
+        }
+    }
 }
