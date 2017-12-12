@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.bean;
 
+import android.text.TextUtils;
+
 import com.hugboga.custom.action.data.ActionBean;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,6 +33,16 @@ public class HomeBean implements Serializable {
         public int goodsServiceDay;                     // 商品天数
         public int needLogin;                           // 是否需要登录 1：需要登录，0：不需要登录
         public ActionBean pushScheme;
+        public String starCityName;
+
+        public String getGuideName() {
+            if (!TextUtils.isEmpty(guideName)) {
+                return guideName;
+            } else if (!TextUtils.isEmpty(starCityName)) {
+                return starCityName + "司导";
+            }
+            return "";
+        }
     }
 
     public static class HotAlbumBean implements Serializable {
@@ -57,6 +69,16 @@ public class HomeBean implements Serializable {
         public int goodsServiceDayNum;                  // 服务天数
         public String routeCityDesc;
         public String goodsCountryName;
+        public String starCityName;
+
+        public String getGuideName() {
+            if (!TextUtils.isEmpty(guideName)) {
+                return guideName;
+            } else if (!TextUtils.isEmpty(starCityName)) {
+                return starCityName + "司导";
+            }
+            return "";
+        }
     }
 
     public static class TransferBean implements Serializable {
