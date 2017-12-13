@@ -1031,6 +1031,9 @@
     <string name="city_sku_title11"> > %s…</string>
     <string name="city_sku_title2">%s位當地人可帶你體驗</string>
     <string name="city_sku_item_price">¥ %s起/人</string>
+    <string name="city_filter_tab1">遊玩線路</string>
+    <string name="city_filter_tab2">出發城市</string>
+    <string name="city_filter_tab3">遊玩天數</string>
 
     <!--AI text-->
     <string name="ai_result_title">為您推薦</string>

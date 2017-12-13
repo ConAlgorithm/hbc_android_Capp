@@ -90,10 +90,11 @@ public class CityAdapter extends SkuAdapter {
             citySkuNoModel.hide();
             addGoods(data);
         } else {
-            cityListLabelModel.hide();
             if (isInit) {
+                cityListLabelModel.hide();
                 citySkuNoModel.hide();
             } else {
+                cityListLabelModel.show();
                 citySkuNoModel.show();
             }
         }
@@ -132,6 +133,7 @@ public class CityAdapter extends SkuAdapter {
 
     /**
      * 设置已启用标签
+     *
      * @param ids
      */
     public void setEnableIds(List<String> ids) {
