@@ -81,7 +81,6 @@
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@id/order_guidance_avatar_layout"
         android:paddingLeft="@dimen/order_padding_left"
-        android:paddingRight="@dimen/order_padding_left"
         android:fontFamily="@font/fzdysjw"
         android:text="Hi\n欢迎您来东京"
         android:textColor="@color/default_black"
@@ -95,8 +94,8 @@
         android:layout_toLeftOf="@id/order_guidance_avatar_layout"
         android:layout_below="@id/order_guidance_title_tv"
         android:layout_marginTop="6dp"
+        android:paddingBottom="15dp"
         android:paddingLeft="@dimen/order_padding_left"
-        android:paddingRight="@dimen/order_padding_left"
         android:text="欢迎您来东京23123123位中文司导"
         android:textColor="@color/default_black"
         android:textSize="14sp" />
