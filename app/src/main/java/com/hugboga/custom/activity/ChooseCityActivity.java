@@ -615,6 +615,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                         if (guidanceParams.seckillsBean != null) {
                             intent.putExtra(Constants.PARAMS_SECKILLS, guidanceParams.seckillsBean);
                         }
+                        intent.putExtra(Constants.PARAMS_TAG, fromTag);
                         intent.putExtra(Constants.PARAMS_START_CITY_BEAN, cityBean);
                         startActivity(intent);
                         break;
