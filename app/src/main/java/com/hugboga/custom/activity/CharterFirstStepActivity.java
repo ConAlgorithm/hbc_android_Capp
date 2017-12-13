@@ -97,6 +97,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private boolean isEnabled = false;
     public SeckillsBean seckillsBean;//秒杀活动参数
     private boolean isExtraStartBean;
+    private String sourceTag;
 
     private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
     CsDialog csDialog;
@@ -112,12 +113,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             seckillsBean = (SeckillsBean) savedInstanceState.getSerializable(Constants.PARAMS_SECKILLS);
             guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(Constants.PARAMS_GUIDE);
             startBean = (CityBean) savedInstanceState.getSerializable(Constants.PARAMS_START_CITY_BEAN);
+            sourceTag = savedInstanceState.getString(Constants.PARAMS_TAG);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 seckillsBean = (SeckillsBean) bundle.getSerializable(Constants.PARAMS_SECKILLS);
                 guidesDetailData = (GuidesDetailData) bundle.getSerializable(Constants.PARAMS_GUIDE);
                 startBean = (CityBean) bundle.getSerializable(Constants.PARAMS_START_CITY_BEAN);
+                sourceTag = bundle.getString(Constants.PARAMS_TAG);
             }
         }
         EventBus.getDefault().register(this);
@@ -191,7 +194,11 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             } else {
                 getGuideCars();
             }
-            isExtraStartBean = true;
+            if (TextUtils.equals(sourceTag, GuidanceOrderActivity.TAG)) {
+                isExtraStartBean = false;
+            } else {
+                isExtraStartBean = true;
+            }
         } else {
             isExtraStartBean = false;
         }
