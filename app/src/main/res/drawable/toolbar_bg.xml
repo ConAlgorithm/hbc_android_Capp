@@ -7,7 +7,7 @@
         </shape>
     </item>
     <item
-        android:height="1dp"
+        android:height="0.5dp"
         android:gravity="bottom">
         <shape>
             <solid android:color="@color/default_dividing_line" />

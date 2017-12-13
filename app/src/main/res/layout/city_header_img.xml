@@ -4,7 +4,7 @@
     android:id="@+id/city_header_img_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
+    android:layout_margin="16dp"
     android:orientation="vertical">
 
     <ImageView
@@ -12,8 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="420dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="?attr/actionBarSize"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/city_banner_default" />
@@ -22,7 +20,7 @@
         android:id="@+id/cityHeaderCountView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="16dp" />
 
     <com.hugboga.custom.widget.city.CityBannerView
         android:id="@+id/city_header_banner_view"

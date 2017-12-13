@@ -459,7 +459,7 @@ public class CityActivity extends BaseActivity {
         if (adapter != null && adapter.getGoodModels() != null && adapter.getGoodModels().size() > 0 &&
                 adapter.getGoodModels().get(0).getView() != null) {
             int top = adapter.getGoodModels().get(0).getView().getTop() + adapter.getGoodModels().get(0).getView().getHeight();
-            recyclerView.scrollTo(0, top);
+            recyclerView.scrollBy(0, top);
         }
     }
 

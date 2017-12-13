@@ -37,8 +37,6 @@ public class CityAdapter extends SkuAdapter {
     List<ServiceConfigVo> serviceConfigList;
     CityActivity.Params params; //页面参数
 
-    CityListModel model; //记录第一个model对象
-
     public CityAdapter(Context context, DestinationHomeVo vo, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList,
                        List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1, CityActivity.Params params) {
         super(context);
