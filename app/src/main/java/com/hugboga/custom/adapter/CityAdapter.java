@@ -130,6 +130,10 @@ public class CityAdapter extends SkuAdapter {
         }
     }
 
+    /**
+     * 设置已启用标签
+     * @param ids
+     */
     public void setEnableIds(List<String> ids) {
         if (cityListLabelModel != null) {
             cityListLabelModel.setEnableIds(ids);

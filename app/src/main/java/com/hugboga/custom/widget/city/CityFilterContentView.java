@@ -94,17 +94,17 @@ public class CityFilterContentView extends FrameLayout {
         @Override
         public void onSelect(FilterView filterView, LabelParentBean bean, LabelBean labelBean, boolean isParent) {
             boolean isFinish = !isParent || (isParent && (bean.childs == null || bean.childs.size() == 0));
-            if (filterView == content_city_filte_view1) {
-                if (adapter != null && filterView != null) {
-                    adapter.setSelectIds(filterView.getSelectIds());
-                }
-                if (isFinish) {
-                    city_content_filter_view.clear();
-                    content_city_filte_view1.hide();
-                }
-            } else {
-                content_city_filte_view1.setSelectIds(filterView.getSelectIds());
+//            if (filterView == content_city_filte_view1) {
+            if (adapter != null && filterView != null) {
+                adapter.setSelectIds(filterView.getSelectIds());
             }
+            if (isFinish) {
+                city_content_filter_view.clear();
+                content_city_filte_view1.hide();
+            }
+//            } else {
+            content_city_filte_view1.setSelectIds(filterView.getSelectIds());
+//            }
             // 关联城市联动
             if (!isParent && "0".equals(labelBean.id)) {
                 if (bean != null && bean.parentLabel != null) {
