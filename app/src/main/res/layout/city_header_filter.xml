@@ -12,20 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:text="游玩线路" />
+        app:text="@string/city_filter_tab1" />
 
     <com.hugboga.custom.widget.city.TabView
         android:id="@+id/city_header_filter_tab2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:text="出发城市" />
+        app:text="@string/city_filter_tab2" />
 
     <com.hugboga.custom.widget.city.TabView
         android:id="@+id/city_header_filter_tab3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:text="游玩天数" />
+        app:text="@string/city_filter_tab3" />
 
 </LinearLayout>
