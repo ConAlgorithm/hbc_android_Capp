@@ -96,10 +96,9 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
      */
     private String getItemTitle(DestinationGoodsVo destinationGoodsVo) {
         StringBuilder sb = new StringBuilder(String.format(getContext().getString(R.string.city_sku_title1),
-                String.valueOf(destinationGoodsVo.userFavorCount), String.valueOf(destinationGoodsVo.dayCount),
-                destinationGoodsVo.depCityName));
-        if (!TextUtils.isEmpty(destinationGoodsVo.arrCityName)) {
-            sb.append(String.format(getContext().getString(R.string.city_sku_title11), destinationGoodsVo.arrCityName));
+                String.valueOf(destinationGoodsVo.userFavorCount), String.valueOf(destinationGoodsVo.dayCount)));
+        if (!TextUtils.isEmpty(destinationGoodsVo.placeList)) {
+            sb.append(String.format(getContext().getString(R.string.city_sku_title11), destinationGoodsVo.placeList));
         }
         return sb.toString();
     }

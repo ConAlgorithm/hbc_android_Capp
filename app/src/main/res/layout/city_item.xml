@@ -58,11 +58,16 @@
 
     <TextView
         android:id="@+id/city_item_tip"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="18dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="285人已收藏 · 7天 · 东京 > 镰仓…"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="285人已收藏 · 7天 · 东京 > 镰仓..."
         app:layout_constraintBottom_toTopOf="@+id/city_item_tip2"
+        app:layout_constraintEnd_toStartOf="@+id/imageView3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/city_item_guide"
         app:layout_constraintVertical_chainStyle="packed" />
