@@ -170,21 +170,25 @@ public class FakeAIActivity extends BaseActivity {
                 switch (buttonType) {
                     case 1://跳转客服对话
                         //ArrayList<String> strings   携带跳转客服的参数
-                        UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
-                        params.groupId = Integer.parseInt(customServiceId);
-                        params.aiChatRecords = strings.toArray().toString();
-                        intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
-                        intent.putExtra(Constants.PARAMS_DATA, params);
+                        if (CommonUtils.isLogin(FakeAIActivity.this, "AI界面")) {//判断是否登陆
+                            UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+                            params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+                            params.groupId = Integer.parseInt(customServiceId);
+                            params.aiChatRecords = strings.toString();
+                            intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
+                            intent.putExtra(Constants.PARAMS_DATA, params);
+                            startActivity(intent);
+                        }
                         break;
                     case 2://跳转填单页
                         intent = new Intent(FakeAIActivity.this, TravelPurposeFormActivity.class);
                         if (info.userSaidList != null && info.userSaidList.size() >= 2) {
                             intent.putExtra("cityName", info.userSaidList.get(0).saidContent);
                         }
+                        startActivity(intent);
                         break;
                 }
-                startActivity(intent);
+
                 finish();
                 break;
         }
@@ -278,14 +282,12 @@ public class FakeAIActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.obj instanceof FakeAIQuestionsBean) {
-                if (CommonUtils.isLogin(FakeAIActivity.this, "AI界面")) {
-                    Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
-                    intent.putExtra(KEY_AI_RESULT, ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    finish();
-                }
+
+                Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
+                intent.putExtra(KEY_AI_RESULT, ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome);
+                startActivity(intent);
+                finish();
+
 
             }
             recyclerView.scrollToPosition(fakeAIAdapter.getItemCount() - 1);

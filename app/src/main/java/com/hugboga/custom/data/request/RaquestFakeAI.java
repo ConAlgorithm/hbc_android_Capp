@@ -28,7 +28,7 @@ public class RaquestFakeAI extends BaseRequest<FakeAIBean> {
 
     @Override
     public HttpMethod getHttpMethod() {
-        return HttpMethod.POST;
+        return HttpMethod.GET;
     }
 
     @Override
