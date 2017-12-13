@@ -282,9 +282,6 @@ public class CityActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**************** Old codes *****************************/
-    public static final int GUIDE_LIST_COUNT = 8;//精选司导显示的条数
-
     public enum CityHomeType {
         CITY(202), ROUTE(101), COUNTRY(201), ALL(0);
 
