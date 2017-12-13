@@ -62,6 +62,7 @@ public class CityListLabelModel extends EpoxyModelWithHolder<CityListLabelModel.
     public class LabelHolder extends EpoxyHolder {
 
         @BindView(R.id.city_list_label_model_view)
+        public
         FilterView filterView;
 
         @Override

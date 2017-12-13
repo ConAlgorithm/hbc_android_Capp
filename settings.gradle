@@ -1,2 +1,2 @@
-include ':app', ':hbcframe', ':imageselector', /*':IMKit',*/ ':polygonimageview', /*':nimlib',*/ ':unicorn'
+include ':app', ':hbcframe', ':imageselector', /*':IMKit',*/ ':polygonimageview', /*':nimlib',*/ ':unicorn', ':label'
 include ':viewpagerindicator', ':datepicker', ':timepicker', ':countdown', ':ultraviewpager'

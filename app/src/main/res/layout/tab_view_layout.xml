@@ -16,7 +16,7 @@
         android:maxLength="5"
         android:maxLines="1"
         android:textColor="@drawable/tab_text_color"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tab_view_arrow"
         app:layout_constraintHorizontal_chainStyle="packed"

@@ -149,21 +149,21 @@ public class CityActivity extends BaseActivity {
             HLog.d("============>dy:" + dy);
             if (dy < 0) {
                 //向下滑动
+                if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
+                    //filterView出来，toolbar退出
+                    filterContentView.setVisibility(View.GONE);
+                }
                 if (city_toolbar_root.getTop() != 0) {
                     translate(true);
-                    if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
-                        //filterView出来，toolbar退出
-                        filterContentView.setVisibility(View.GONE);
-                    }
                 }
             } else if (dy > 0) {
                 //向上滑动
+                if (adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
+                    //filterView出来，toolbar退出
+                    filterContentView.setVisibility(View.VISIBLE);
+                }
                 if (adapter.cityFilterModel.cityFilterView.getTop() < 0 && city_toolbar_root.getTop() == 0) {
                     translate(false);
-                    if (adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
-                        //filterView出来，toolbar退出
-                        filterContentView.setVisibility(View.VISIBLE);
-                    }
                 }
             }
         }
@@ -219,6 +219,8 @@ public class CityActivity extends BaseActivity {
             labelBeanTag = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
+            //TODO 滑动锚点
+            scrollTop();
         }
     };
 
@@ -448,6 +450,18 @@ public class CityActivity extends BaseActivity {
             recyclerView.scrollBy(0, adapter.cityFilterModel.cityFilterView.getTop() - toolbar.getHeight());
         }
     };
+
+    /**
+     * 滑动到头部
+     */
+    private void scrollTop() {
+        filterContentView.setVisibility(View.VISIBLE);
+        if (adapter != null && adapter.getGoodModels() != null && adapter.getGoodModels().size() > 0 &&
+                adapter.getGoodModels().get(0).getView() != null) {
+            int top = adapter.getGoodModels().get(0).getView().getTop() + adapter.getGoodModels().get(0).getView().getHeight();
+            recyclerView.scrollTo(0, top);
+        }
+    }
 
     @Override
     public String getEventSource() {
