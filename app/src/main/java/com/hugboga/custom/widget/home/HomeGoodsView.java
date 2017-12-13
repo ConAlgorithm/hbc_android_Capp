@@ -51,6 +51,7 @@ public class HomeGoodsView<T> extends LinearLayout {
         ButterKnife.bind(this);
 
         setPadding(0, 0, 0, UIUtils.dip2px(44));
+        titleTV.setMaxWidth(UIUtils.getScreenWidth() - UIUtils.dip2px(70));
         displayImgWidth = (int) ((376 / 750.0f) * UIUtils.getScreenWidth() - UIUtils.dip2px(9) * 2);
         displayImgHeight = displayImgWidth;
         int viewHeight = displayImgHeight + UIUtils.dip2px(9 + 35 + 20 + 32 + 15);

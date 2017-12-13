@@ -19,6 +19,7 @@
         android:layout_height="50dp"
         android:ellipsize="end"
         android:paddingTop="15dp"
+        android:paddingRight="10dp"
         android:singleLine="true"
         android:textColor="@color/basic_black"
         android:textSize="16sp" />
