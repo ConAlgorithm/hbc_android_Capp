@@ -134,12 +134,17 @@ public class CityActivity extends BaseActivity {
         });
     }
 
+    private int scrollFlag = 0; //滚动标识
+
     /**
      * 滚动效果修改
      *
      * @param dy
      */
     private void onScrollFloat(int dy) {
+        if (scrollFlag != 0) {
+            return;
+        }
         if (adapter.cityFilterModel.cityFilterView != null) {
             HLog.d("============>dy:" + dy);
             if (dy < 0) {
@@ -174,6 +179,7 @@ public class CityActivity extends BaseActivity {
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
+                scrollFlag = 1;
             }
 
             @Override
@@ -181,10 +187,12 @@ public class CityActivity extends BaseActivity {
                 city_toolbar_root.clearAnimation();
                 int top = isShow ? 0 : -toolbar.getHeight();
                 city_toolbar_root.layout(0, top, city_toolbar_root.getWidth(), top + city_toolbar_root.getHeight());
+                scrollFlag = 0;
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
+                HLog.d("============>重复播放==========");
             }
         });
         city_toolbar_root.startAnimation(translateAnimation);
