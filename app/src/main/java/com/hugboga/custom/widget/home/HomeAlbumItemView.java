@@ -103,7 +103,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior, 
         }
         albumBean = (HomeBean.AlbumBean) _data;
         Tools.showImage(desplayIV, albumBean.goodsPic);
-        titleTV.setText(albumBean.goodsName);
+        titleTV.setText(albumBean.getGoodsName());
         priceTV.setText(getContext().getResources().getString(R.string.home_goodes_price, "" + albumBean.perPrice));
         guideNameTV.setText(albumBean.getGuideName());
         collectTV.setText(getContext().getResources().getString(R.string.home_goodes_favorite_num, "" + albumBean.goodsFavoriteNum));

@@ -86,6 +86,6 @@ public class HomeAlbumView extends LinearLayout {
         } else {
             adapter.setData(hotAlbumBean.albumRelItemList);
         }
-        titleTV.setText(TextUtils.isEmpty(hotAlbumBean.albumName) ? hotAlbumBean.aliasName : hotAlbumBean.albumName);
+        titleTV.setText(hotAlbumBean.albumName);
     }
 }

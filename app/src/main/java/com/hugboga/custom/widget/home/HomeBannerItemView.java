@@ -74,8 +74,8 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
         Resources resources = getContext().getResources();
         bannerBean = (HomeBean.BannerBean) _data;
         Tools.showImage(desplayIV, bannerBean.bannerPicture);
-        titleTV.setText(bannerBean.bannerName);
         if (bannerBean.bannerType == 1 || bannerBean.bannerType == 3) {//1活动、3广告
+            titleTV.setText(bannerBean.bannerName);
             typeTV.setText(resources.getString(bannerBean.bannerType == 1 ? R.string.home_goodes_type2 : R.string.home_goodes_type3));
             typeTV.setBackgroundColor(getContext().getResources().getColor(R.color.default_yellow));
             guideNameTV.setVisibility(GONE);
@@ -84,6 +84,7 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
             avatarIV.setVisibility(GONE);
             avatarIconIV.setVisibility(GONE);
         } else if (bannerBean.bannerType == 2) {//商品
+            titleTV.setText(bannerBean.getGoodsName());
             typeTV.setText(resources.getString(R.string.home_goodes_type1));
             typeTV.setBackgroundColor(0xFF4A4A4A);
             guideNameTV.setVisibility(VISIBLE);

@@ -34,12 +34,22 @@ public class HomeBean implements Serializable {
         public int needLogin;                           // 是否需要登录 1：需要登录，0：不需要登录
         public ActionBean pushScheme;
         public String starCityName;
+        public String aliasName;
 
         public String getGuideName() {
             if (!TextUtils.isEmpty(guideName)) {
                 return guideName;
             } else if (!TextUtils.isEmpty(starCityName)) {
                 return starCityName + "司导";
+            }
+            return "";
+        }
+
+        public String getGoodsName() {
+            if (!TextUtils.isEmpty(bannerName)) {
+                return bannerName;
+            } else if (!TextUtils.isEmpty(aliasName)) {
+                return aliasName;
             }
             return "";
         }
@@ -50,7 +60,6 @@ public class HomeBean implements Serializable {
         public String albumName;                        // 专辑名称
         public String albumLinkUrl;                     // 专辑跳转URL
         public int albumHotLevel;                       // 专辑热度
-        public String aliasName;                        // 专辑别名
         public ArrayList<AlbumBean> albumRelItemList;   // 专辑详细信息
     }
 
@@ -70,12 +79,22 @@ public class HomeBean implements Serializable {
         public String routeCityDesc;
         public String goodsCountryName;
         public String starCityName;
+        public String aliasName;                        // 别名
 
         public String getGuideName() {
             if (!TextUtils.isEmpty(guideName)) {
                 return guideName;
             } else if (!TextUtils.isEmpty(starCityName)) {
                 return starCityName + "司导";
+            }
+            return "";
+        }
+
+        public String getGoodsName() {
+            if (!TextUtils.isEmpty(goodsName)) {
+                return goodsName;
+            } else if (!TextUtils.isEmpty(aliasName)) {
+                return aliasName;
             }
             return "";
         }
