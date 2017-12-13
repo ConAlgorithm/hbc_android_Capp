@@ -756,7 +756,7 @@ public class WebAgent implements HttpRequestListener {
      * show 1-隐藏；0-显示
      */
     @JavascriptInterface
-    public void hideNavigationBar(final int show) {
+    public void hideNavigationBar(final String show) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

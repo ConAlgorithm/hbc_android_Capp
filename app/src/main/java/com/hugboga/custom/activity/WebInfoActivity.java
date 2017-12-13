@@ -297,8 +297,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
                 }
                 break;
             case SHOW_WEB_TITLE_BAR:
-                int isShow = (int) action.getData();
-                if (isShow == 0) {
+                String isShow = (String) action.getData();
+                if (TextUtils.equals("0", isShow)) {
                     titlebar.setVisibility(View.VISIBLE);
                 } else {
                     titlebar.setVisibility(View.GONE);
