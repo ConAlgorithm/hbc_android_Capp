@@ -456,9 +456,8 @@ public class CityActivity extends BaseActivity {
      */
     private void scrollTop() {
         filterContentView.setVisibility(View.VISIBLE);
-        if (adapter != null && adapter.getGoodModels() != null && adapter.getGoodModels().size() > 0 &&
-                adapter.getGoodModels().get(0).getView() != null) {
-            int top = adapter.getGoodModels().get(0).getView().getTop() + adapter.getGoodModels().get(0).getView().getHeight();
+        if (adapter != null && adapter.cityLineModel != null && adapter.cityLineModel.getLineHolder() != null) {
+            int top = adapter.cityLineModel.getLineHolder().getItemView().getTop() - toolbar.getHeight() * 2;
             recyclerView.scrollBy(0, top);
         }
     }
