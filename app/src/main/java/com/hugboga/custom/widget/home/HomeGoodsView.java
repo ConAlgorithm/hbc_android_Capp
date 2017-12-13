@@ -32,8 +32,6 @@ public class HomeGoodsView<T> extends LinearLayout {
 
     @BindView(R.id.home_album_title_tv)
     TextView titleTV;
-    @BindView(R.id.home_album_title_arrow_iv)
-    ImageView titleArrowIV;
     @BindView(R.id.home_album_recyclerview)
     RecyclerView recyclerView;
 
@@ -83,11 +81,10 @@ public class HomeGoodsView<T> extends LinearLayout {
     }
 
 
-    @OnClick({R.id.home_album_title_tv, R.id.home_album_title_arrow_iv})
+    @OnClick({R.id.home_album_title_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.home_album_title_tv:
-            case R.id.home_album_title_arrow_iv:
+            case R.id.home_album_title_layout:
                 if (type == HomeGoodsModel.TYPE_TRANSFER) {
                     IntentUtils.intentPickupActivity(getContext(), "首页");
                 } else {
