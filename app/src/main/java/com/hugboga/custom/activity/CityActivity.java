@@ -31,6 +31,7 @@ import com.hugboga.custom.data.request.RequestQuerySkuList;
 import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterContentView;
 import com.hugboga.custom.widget.city.CityFilterView;
+import com.hugboga.tools.HLog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -139,29 +140,25 @@ public class CityActivity extends BaseActivity {
      * @param dy
      */
     private void onScrollFloat(int dy) {
-        /*
-        1. 默认，有toolbar，无filterview
-        2. adapterFilterView滑动toolbar底部，动画去除toolbar，filterview滑动顶部
-        3. 下滑toolbar动画出来，上滑toolbar去除
-         */
         if (adapter.cityFilterModel.cityFilterView != null) {
+            HLog.d("============>dy:" + dy);
             if (dy < 0) {
                 //向下滑动
                 if (city_toolbar_root.getTop() != 0) {
                     translate(true);
-                }
-                if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
-                    //filterView出来，toolbar退出
-                    filterContentView.setVisibility(View.GONE);
+                    if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
+                        //filterView出来，toolbar退出
+                        filterContentView.setVisibility(View.GONE);
+                    }
                 }
             } else if (dy > 0) {
                 //向上滑动
                 if (adapter.cityFilterModel.cityFilterView.getTop() < 0 && city_toolbar_root.getTop() == 0) {
                     translate(false);
-                }
-                if (adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
-                    //filterView出来，toolbar退出
-                    filterContentView.setVisibility(View.VISIBLE);
+                    if (adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
+                        //filterView出来，toolbar退出
+                        filterContentView.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         }
