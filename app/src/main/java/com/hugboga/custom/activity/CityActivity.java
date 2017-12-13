@@ -31,6 +31,7 @@ import com.hugboga.custom.data.request.RequestQuerySkuList;
 import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterContentView;
 import com.hugboga.custom.widget.city.CityFilterView;
+import com.hugboga.tools.HLog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -133,35 +134,36 @@ public class CityActivity extends BaseActivity {
         });
     }
 
+    private int scrollFlag = 0; //滚动标识
+
     /**
      * 滚动效果修改
      *
      * @param dy
      */
     private void onScrollFloat(int dy) {
-        /*
-        1. 默认，有toolbar，无filterview
-        2. adapterFilterView滑动toolbar底部，动画去除toolbar，filterview滑动顶部
-        3. 下滑toolbar动画出来，上滑toolbar去除
-         */
+        if (scrollFlag != 0) {
+            return;
+        }
         if (adapter.cityFilterModel.cityFilterView != null) {
+            HLog.d("============>dy:" + dy);
             if (dy < 0) {
-                if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
-                    //filterView出来，toolbar退出
-                    filterContentView.setVisibility(View.GONE);
-                }
                 //向下滑动
                 if (city_toolbar_root.getTop() != 0) {
                     translate(true);
+                    if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
+                        //filterView出来，toolbar退出
+                        filterContentView.setVisibility(View.GONE);
+                    }
                 }
             } else if (dy > 0) {
                 //向上滑动
-                if (adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
-                    //filterView出来，toolbar退出
-                    filterContentView.setVisibility(View.VISIBLE);
-                }
                 if (adapter.cityFilterModel.cityFilterView.getTop() < 0 && city_toolbar_root.getTop() == 0) {
                     translate(false);
+                    if (adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
+                        //filterView出来，toolbar退出
+                        filterContentView.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         }
@@ -177,6 +179,7 @@ public class CityActivity extends BaseActivity {
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
+                scrollFlag = 1;
             }
 
             @Override
@@ -184,10 +187,12 @@ public class CityActivity extends BaseActivity {
                 city_toolbar_root.clearAnimation();
                 int top = isShow ? 0 : -toolbar.getHeight();
                 city_toolbar_root.layout(0, top, city_toolbar_root.getWidth(), top + city_toolbar_root.getHeight());
+                scrollFlag = 0;
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
+                HLog.d("============>重复播放==========");
             }
         });
         city_toolbar_root.startAnimation(translateAnimation);
@@ -281,9 +286,6 @@ public class CityActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /**************** Old codes *****************************/
-    public static final int GUIDE_LIST_COUNT = 8;//精选司导显示的条数
 
     public enum CityHomeType {
         CITY(202), ROUTE(101), COUNTRY(201), ALL(0);
