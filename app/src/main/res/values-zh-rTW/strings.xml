@@ -440,7 +440,7 @@
     <string name="travel_purpose_connect1">聯繫定製師</string>
     <string name="travel_purpose_title">行程規劃心愿單</string>
     <string name="phone_format_incorrect">手機格式不正確，請重新輸入</string>
-    <string name="alert_submit_success">司導小助手將主動聯繫您</string>
+    <string name="alert_submit_success">旅行小管家將主動聯繫您</string>
     <string name="travel_purpose_form_detail">行程規劃心愿單</string>
 
     <string name="bargain_hint">支付後還可以挑選司導哦~</string>
@@ -481,7 +481,7 @@
     <string name="daily_first_date_hint">選擇包車起止日期</string>
     <string name="daily_first_date">包車日期</string>
     <string name="daily_first_date_picker_title">請選擇包車日期</string>
-    <string name="daily_first_purpose_desc">下單太麻煩?\n留下意向，旅游顧問幫您規劃合理行程。</string>
+    <string name="daily_first_purpose_desc">下單太麻煩?\n留下意向，旅行小管家幫您規劃合理行程。</string>
     <string name="daily_first_purpose_confirm">幫我規劃</string>
     <string name="daily_first_purpose_service">旅游顧問會通過您的手機號%1$s聯繫您</string>
     <string name="daily_seckill_hint">您已進入秒殺通道\n請儘快提交訂單完成支付</string>

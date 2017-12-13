@@ -66,7 +66,7 @@ public class HomeAlbumView extends LinearLayout {
         recyclerView.addItemDecoration(itemDecoration);
     }
 
-    @OnClick(R.id.home_album_title_tv)
+    @OnClick(R.id.home_album_title_layout)
     public void intentWebInfoActivity() {
         Intent intent = new Intent(getContext(), WebInfoActivity.class);
         intent.putExtra("web_url", hotAlbumBean.albumLinkUrl);
@@ -86,6 +86,6 @@ public class HomeAlbumView extends LinearLayout {
         } else {
             adapter.setData(hotAlbumBean.albumRelItemList);
         }
-        titleTV.setText(TextUtils.isEmpty(hotAlbumBean.albumName) ? hotAlbumBean.aliasName : hotAlbumBean.albumName);
+        titleTV.setText(hotAlbumBean.albumName);
     }
 }

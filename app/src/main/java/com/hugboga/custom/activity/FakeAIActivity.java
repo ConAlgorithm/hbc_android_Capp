@@ -174,7 +174,9 @@ public class FakeAIActivity extends BaseActivity {
                             UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
                             params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
                             params.groupId = Integer.parseInt(customServiceId);
-                            params.aiChatRecords = strings.toString();
+                            if (strings != null && strings.size() > 0) {
+                                params.aiChatRecords = strings.toString();
+                            }
                             intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                             intent.putExtra(Constants.PARAMS_DATA, params);
                             startActivity(intent);
@@ -282,13 +284,10 @@ public class FakeAIActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.obj instanceof FakeAIQuestionsBean) {
-
                 Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
                 intent.putExtra(KEY_AI_RESULT, ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome);
                 startActivity(intent);
                 finish();
-
-
             }
             recyclerView.scrollToPosition(fakeAIAdapter.getItemCount() - 1);
         }
