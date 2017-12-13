@@ -46,6 +46,8 @@ public class HomeAlbumView extends LinearLayout {
         inflate(context, R.layout.view_home_album, this);
         ButterKnife.bind(this);
 
+        titleTV.setMaxWidth(UIUtils.getScreenWidth() - UIUtils.dip2px(70));
+
         displayImgWidth = (int) ((560 / 750f) * UIUtils.getScreenWidth());
         displayImgHeight = displayImgWidth;
         int viewHeight = displayImgHeight + UIUtils.dip2px(70) + UIUtils.dip2px(90);
