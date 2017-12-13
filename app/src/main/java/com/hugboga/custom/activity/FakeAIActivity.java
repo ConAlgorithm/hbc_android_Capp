@@ -37,10 +37,12 @@ import com.hugboga.custom.data.bean.ai.FakeAIBean;
 import com.hugboga.custom.data.bean.ai.FakeAIQuestionsBean;
 import com.hugboga.custom.data.request.RaquestFakeAI;
 import com.hugboga.custom.data.request.RequestFakeAIChange;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ai.AiTagView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,8 +97,10 @@ public class FakeAIActivity extends BaseActivity {
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         info = new AiRequestInfo();
+        info.distinctId = SensorsDataAPI.sharedInstance(FakeAIActivity.this).getAnonymousId();
         initView();
         requestHotSearch();
+
     }
 
     private void initView() {
@@ -166,23 +170,27 @@ public class FakeAIActivity extends BaseActivity {
                 switch (buttonType) {
                     case 1://跳转客服对话
                         //ArrayList<String> strings   携带跳转客服的参数
-                        UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
-                        params.groupId = Integer.parseInt(customServiceId);
-                        if (strings != null && strings.size() > 0) {
-                            params.aiChatRecords = strings.toString();
+                        if (CommonUtils.isLogin(FakeAIActivity.this, "AI界面")) {//判断是否登陆
+                            UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+                            params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+                            params.groupId = Integer.parseInt(customServiceId);
+                            if (strings != null && strings.size() > 0) {
+                                params.aiChatRecords = strings.toString();
+                            }
+                            intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
+                            intent.putExtra(Constants.PARAMS_DATA, params);
+                            startActivity(intent);
                         }
-                        intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
-                        intent.putExtra(Constants.PARAMS_DATA, params);
                         break;
                     case 2://跳转填单页
                         intent = new Intent(FakeAIActivity.this, TravelPurposeFormActivity.class);
                         if (info.userSaidList != null && info.userSaidList.size() >= 2) {
                             intent.putExtra("cityName", info.userSaidList.get(0).saidContent);
                         }
+                        startActivity(intent);
                         break;
                 }
-                startActivity(intent);
+
                 finish();
                 break;
         }
@@ -404,7 +412,7 @@ public class FakeAIActivity extends BaseActivity {
      * 初始化界面信息
      */
     private void requestHotSearch() {
-        RaquestFakeAI requestHotSearch = new RaquestFakeAI(this);
+        RaquestFakeAI requestHotSearch = new RaquestFakeAI(this, info.distinctId);
         HttpRequestUtils.request(this, requestHotSearch, this, false);
     }
 

@@ -1028,10 +1028,13 @@
     <string name="domestic_card_add_phone_hint">办卡时预留手机号</string>
 
     <!--City text-->
-    <string name="city_sku_title1">%1$s人已收藏 · %2$s天 · %3$s</string>
-    <string name="city_sku_title11"> > %s…</string>
+    <string name="city_sku_title1">%1$s人已收藏 · %2$s天</string>
+    <string name="city_sku_title11"> · %s</string>
     <string name="city_sku_title2">%s位当地人可带你体验</string>
     <string name="city_sku_item_price">¥ %s起/人</string>
+    <string name="city_filter_tab1">游玩线路</string>
+    <string name="city_filter_tab2">出发城市</string>
+    <string name="city_filter_tab3">游玩天数</string>
 
     <!--AI text-->
     <string name="ai_result_title">为您推荐</string>

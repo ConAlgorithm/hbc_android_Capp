@@ -16,6 +16,7 @@ public class AiRequestInfo {
     public String durationOptId;
     public String accompanyOptId;
     public String userWant;
+    public String distinctId;
     public List<UserSaid> regardsList;
     public List<UserSaid> userSaidList;
     public String questionId;

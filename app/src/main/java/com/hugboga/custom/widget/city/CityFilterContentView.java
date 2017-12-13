@@ -94,17 +94,14 @@ public class CityFilterContentView extends FrameLayout {
         @Override
         public void onSelect(FilterView filterView, LabelParentBean bean, LabelBean labelBean, boolean isParent) {
             boolean isFinish = !isParent || (isParent && (bean.childs == null || bean.childs.size() == 0));
-            if (filterView == content_city_filte_view1) {
-                if (adapter != null && filterView != null) {
-                    adapter.setSelectIds(filterView.getSelectIds());
-                }
-                if (isFinish) {
-                    city_content_filter_view.clear();
-                    content_city_filte_view1.hide();
-                }
-            } else {
-                content_city_filte_view1.setSelectIds(filterView.getSelectIds());
+            if (adapter != null && filterView != null) {
+                adapter.setSelectIds(filterView.getSelectIds());
             }
+            if (isFinish) {
+                city_content_filter_view.clear();
+                content_city_filte_view1.hide();
+            }
+            content_city_filte_view1.setSelectIds(filterView.getSelectIds());
             // 关联城市联动
             if (!isParent && "0".equals(labelBean.id)) {
                 if (bean != null && bean.parentLabel != null) {
@@ -118,6 +115,10 @@ public class CityFilterContentView extends FrameLayout {
                 tagTitle = labelBean.name;
                 if (!isParent && "0".equals(labelBean.id) && bean != null && bean.parentLabel != null) {
                     tagTitle = bean.parentLabel.name;
+                }
+                if (isParent && "0".equals(labelBean.id)) {
+                    //如果是父标签选择的全部
+                    tagTitle = getContext().getString(R.string.city_filter_tab1);
                 }
                 city_content_filter_view.setTextTag(tagTitle);
                 resetModelName(); //刷新联动adapter中的筛选标题
@@ -176,7 +177,12 @@ public class CityFilterContentView extends FrameLayout {
             checkFilterConSee();
             city_content_filter_view.clear();
             cityTitle = labelBean.name;
-            city_content_filter_view.setTextCity(labelBean.name);
+            String tagTitle = labelBean.name;
+            if (isParent && "0".equals(labelBean.id)) {
+                //如果是父标签选择的全部
+                tagTitle = getContext().getString(R.string.city_filter_tab2);
+            }
+            city_content_filter_view.setTextCity(tagTitle);
             resetModelName(); //刷新联动adapter中的筛选标题
             content_city_filte_view2.setSelectIds(filterView.getSelectIds());
             linkTag(labelBean);
@@ -196,7 +202,12 @@ public class CityFilterContentView extends FrameLayout {
             checkFilterConSee();
             city_content_filter_view.clear();
             dayTitle = labelBean.name;
-            city_content_filter_view.setTextDay(labelBean.name);
+            String tagTitle = labelBean.name;
+            if (isParent && "0".equals(labelBean.id)) {
+                //如果是父标签选择的全部
+                tagTitle = getContext().getString(R.string.city_filter_tab3);
+            }
+            city_content_filter_view.setTextDay(tagTitle);
             resetModelName(); //刷新联动adapter中的筛选标题
             content_city_filte_view3.setSelectIds(filterView.getSelectIds());
             if (filterConSelect3 != null) {

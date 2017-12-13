@@ -26,6 +26,7 @@ import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.request.RequestCollectLineNo;
 import com.hugboga.custom.data.request.RequestUncollectLinesNo;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.PriceFormat;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.tools.NetImg;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -80,7 +81,7 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
         Tools.showImageNotCenterCrop(city_item_img, destinationGoodsVo.goodsImageUrl, R.mipmap.home_default_route_item);
         city_item_title.setText(destinationGoodsVo.goodsName);
         city_item_price.setText(String.format(getContext().getString(R.string.city_sku_item_price),
-                String.valueOf(destinationGoodsVo.perPrice)));
+                String.valueOf(PriceFormat.priceNoPoint(destinationGoodsVo.perPrice))));
         NetImg.showCircleImage(getContext(), city_item_guide, destinationGoodsVo.guideHeadImageUrl);
         city_item_tip.setText(getItemTitle(destinationGoodsVo));
         city_item_tip2.setText(String.format(getContext().getString(R.string.city_sku_title2),
@@ -95,10 +96,9 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
      */
     private String getItemTitle(DestinationGoodsVo destinationGoodsVo) {
         StringBuilder sb = new StringBuilder(String.format(getContext().getString(R.string.city_sku_title1),
-                String.valueOf(destinationGoodsVo.userFavorCount), String.valueOf(destinationGoodsVo.dayCount),
-                destinationGoodsVo.depCityName));
-        if (!TextUtils.isEmpty(destinationGoodsVo.arrCityName)) {
-            sb.append(String.format(getContext().getString(R.string.city_sku_title11), destinationGoodsVo.arrCityName));
+                String.valueOf(destinationGoodsVo.userFavorCount), String.valueOf(destinationGoodsVo.dayCount)));
+        if (!TextUtils.isEmpty(destinationGoodsVo.placeList)) {
+            sb.append(String.format(getContext().getString(R.string.city_sku_title11), destinationGoodsVo.placeList));
         }
         return sb.toString();
     }

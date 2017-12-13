@@ -45,4 +45,8 @@ public class CityListModel extends EpoxyModel<CitySkuView> {
     public DestinationGoodsVo getDestinationGoodsVo() {
         return destinationGoodsVo;
     }
+
+    public CitySkuView getView() {
+        return view;
+    }
 }
