@@ -146,22 +146,22 @@ public class CityActivity extends BaseActivity {
          */
         if (adapter.cityFilterModel.cityFilterView != null) {
             if (dy < 0) {
-                if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
-                    //filterView出来，toolbar退出
-                    filterContentView.setVisibility(View.GONE);
-                }
                 //向下滑动
                 if (city_toolbar_root.getTop() != 0) {
                     translate(true);
                 }
+                if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
+                    //filterView出来，toolbar退出
+                    filterContentView.setVisibility(View.GONE);
+                }
             } else if (dy > 0) {
                 //向上滑动
+                if (adapter.cityFilterModel.cityFilterView.getTop() < 0 && city_toolbar_root.getTop() == 0) {
+                    translate(false);
+                }
                 if (adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
                     //filterView出来，toolbar退出
                     filterContentView.setVisibility(View.VISIBLE);
-                }
-                if (adapter.cityFilterModel.cityFilterView.getTop() < 0 && city_toolbar_root.getTop() == 0) {
-                    translate(false);
                 }
             }
         }

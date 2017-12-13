@@ -13,6 +13,11 @@ public class PriceFormat {
         return new DecimalFormat("¥###,###.00").format(price);
     }
 
+    public static String priceNoPoint(String price){
+        Double priceD = CommonUtils.getCountDouble(price);
+        return new DecimalFormat("###").format(priceD);
+    }
+
     public static String month2(int month) {
         return new DecimalFormat("00").format(month);
     }
