@@ -169,7 +169,9 @@ public class FakeAIActivity extends BaseActivity {
                         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
                         params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
                         params.groupId = Integer.parseInt(customServiceId);
-                        params.aiChatRecords = strings.toArray().toString();
+                        if (strings != null && strings.size() > 0) {
+                            params.aiChatRecords = strings.toString();
+                        }
                         intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                         intent.putExtra(Constants.PARAMS_DATA, params);
                         break;
