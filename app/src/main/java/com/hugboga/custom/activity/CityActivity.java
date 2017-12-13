@@ -146,11 +146,11 @@ public class CityActivity extends BaseActivity {
             return;
         }
         if (adapter.cityFilterModel.cityFilterView != null) {
-            HLog.d("============>dy:" + dy);
+            int targetTop = adapter.cityFilterModel.cityFilterView.getTop();
+            HLog.d("============>dy:" + dy + ",targetTop:" + targetTop);
             if (dy < 0) {
                 //向下滑动
-                if (adapter.cityFilterModel.cityFilterView.getTop() >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
-                    //filterView出来，toolbar退出
+                if (targetTop >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
                     filterContentView.setVisibility(View.GONE);
                 }
                 if (city_toolbar_root.getTop() != 0) {
@@ -158,11 +158,10 @@ public class CityActivity extends BaseActivity {
                 }
             } else if (dy > 0) {
                 //向上滑动
-                if (adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
-                    //filterView出来，toolbar退出
+                if (targetTop != 0 && adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
                     filterContentView.setVisibility(View.VISIBLE);
                 }
-                if (adapter.cityFilterModel.cityFilterView.getTop() < 0 && city_toolbar_root.getTop() == 0) {
+                if (targetTop != 0 && targetTop < toolbar.getHeight() && city_toolbar_root.getTop() <= toolbar.getBottom() && city_toolbar_root.getTop() != -toolbar.getHeight()) {
                     translate(false);
                 }
             }
@@ -175,7 +174,7 @@ public class CityActivity extends BaseActivity {
         if (!isShow) {
             translateAnimation = new TranslateAnimation(0, 0, 0, -height);
         }
-        translateAnimation.setDuration(100);
+        translateAnimation.setDuration(200);
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -219,8 +218,7 @@ public class CityActivity extends BaseActivity {
             labelBeanTag = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
-            //TODO 滑动锚点
-            scrollTop();
+            scrollTop(); // 滑动锚点
         }
     };
 
@@ -231,6 +229,7 @@ public class CityActivity extends BaseActivity {
             labelBeanCity = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
+            scrollTop(); // 滑动锚点
         }
     };
 
@@ -241,6 +240,7 @@ public class CityActivity extends BaseActivity {
             labelBeanDay = labelBean;
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
+            scrollTop(); // 滑动锚点
         }
     };
 
@@ -455,11 +455,12 @@ public class CityActivity extends BaseActivity {
      * 滑动到头部
      */
     private void scrollTop() {
-        filterContentView.setVisibility(View.VISIBLE);
         if (adapter != null && adapter.cityLineModel != null && adapter.cityLineModel.getLineHolder() != null) {
             int top = adapter.cityLineModel.getLineHolder().getItemView().getTop() - toolbar.getHeight() * 2;
             recyclerView.scrollBy(0, top);
         }
+        filterContentView.setVisibility(View.VISIBLE);
+        city_toolbar_root.layout(0, 0, city_toolbar_root.getWidth(), city_toolbar_root.getHeight());
     }
 
     @Override
