@@ -180,6 +180,7 @@ public class FakeAIActivity extends BaseActivity {
                             intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                             intent.putExtra(Constants.PARAMS_DATA, params);
                             startActivity(intent);
+                            finish();
                         }
                         break;
                     case 2://跳转填单页
@@ -188,10 +189,11 @@ public class FakeAIActivity extends BaseActivity {
                             intent.putExtra("cityName", info.userSaidList.get(0).saidContent);
                         }
                         startActivity(intent);
+                        finish();
                         break;
                 }
 
-                finish();
+
                 break;
         }
     }

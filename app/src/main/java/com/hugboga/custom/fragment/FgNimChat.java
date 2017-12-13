@@ -38,6 +38,7 @@ import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ImListBean;
+import com.hugboga.custom.data.bean.ServiceQuestionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestChatOrderDetail;
@@ -54,7 +55,6 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.ChatLogoutView;
 import com.hugboga.custom.widget.CsDialog;
-import com.hugboga.custom.widget.FgchatHeaderView;
 import com.hugboga.custom.widget.ImItemView;
 import com.hugboga.im.ImDataSyncUtils;
 import com.hugboga.im.ImHelper;
@@ -99,8 +99,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     @BindView(R.id.im_login_hint_tv)
     TextView loginHintTV;
 
-    @BindView(R.id.header_view)
-    FgchatHeaderView headerView;
     @BindView(R.id.im_chat_logout_view)
     ChatLogoutView chatLogoutView;
 
@@ -274,14 +272,10 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             emptyLayout.setVisibility(View.VISIBLE);
             chatLogoutView.setLooper(true);
             chatLayout.setVisibility(View.GONE);
-            headerView.setVisibility(View.GONE);
-            fgRightBtn.setVisibility(View.VISIBLE);
         } else {
-            fgRightBtn.setVisibility(View.GONE);
             emptyLayout.setVisibility(View.GONE);
             chatLogoutView.setLooper(false);
             chatLayout.setVisibility(View.VISIBLE);
-            headerView.setVisibility(View.VISIBLE);
             sendRequest(0, true);
         }
     }
@@ -304,7 +298,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
     private void updateUI() {
         emptyLayout.setVisibility(View.GONE);
-        fgRightBtn.setVisibility(View.GONE);
         chatLogoutView.setLooper(false);
     }
 
@@ -384,7 +377,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                 adapter.notifyDataSetChanged();
                 emptyLayout.setVisibility(View.VISIBLE);
                 chatLogoutView.setLooper(true);
-                fgRightBtn.setVisibility(View.VISIBLE);
                 emptyTV.setVisibility(View.GONE);
                 ((MainActivity) getActivity()).setIMCount(0, 0);
                 break;
@@ -403,7 +395,17 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     public void onItemClick(View view, int position, Object itemData) {
         ChatBean chatBean = (ChatBean) itemData;
         if (chatBean.getTargetType() == 3) {
-            UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST);
+            UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+            ServiceQuestionBean.QuestionItem questionItem = new ServiceQuestionBean.QuestionItem();
+            int unreadCount = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
+            if (unreadCount > 0) {
+                questionItem.customRole = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_GROUP_ID, 0);
+            }
+            params.questionItem = questionItem;
+            params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+            Intent intent = new Intent(getContext(), UnicornServiceActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            startActivity(intent);
         } else if (chatBean.getTargetType() == 1) {
             if (!IMUtil.getInstance().isLogined()) {
                 return;
@@ -495,9 +497,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
             }
-            if (headerView != null) {
-                headerView.flushPoint();
-            }
         }
     }
 
@@ -506,9 +505,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         super.onResume();
         if (adapter != null) {
             adapter.notifyDataSetChanged();
-        }
-        if (headerView != null) {
-            headerView.flushPoint();
         }
     }
 

@@ -63,7 +63,7 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
         if (chatBean != null) {
             mUsername.setText(chatBean.targetName);
             if (chatBean.getTargetType() == 3) {
-                mMessage.setText("您有任何问题，欢迎咨询客服小包子");
+                mMessage.setText("您有任何问题，都可以来问我");
                 serviceIconTV.setVisibility(View.VISIBLE);
                 countryNameIV.setVisibility(View.GONE);
                 countryNameTV.setVisibility(View.GONE);

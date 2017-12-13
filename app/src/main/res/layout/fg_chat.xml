@@ -7,17 +7,12 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/include_header" />
-    <com.hugboga.custom.widget.FgchatHeaderView
-        android:id="@+id/header_view"
-        android:layout_below="@id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+
     <RelativeLayout
         android:id="@+id/chat_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/header_view">
+        android:layout_below="@id/toolbar">
 
         <com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout
             android:id="@+id/swipe"
@@ -34,7 +29,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_below="@id/header_view"
+        android:layout_below="@id/toolbar"
         android:gravity="center"
         android:visibility="gone"
         android:background="#FF0000"
@@ -47,7 +42,7 @@
         layout="@layout/include_chat_logout" />
     <TextView
         android:id="@+id/chat_list_empty_tv"
-        android:layout_below="@id/header_view"
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="50dp"

@@ -14,16 +14,27 @@ public class ImListBean implements Serializable {
 
     public ArrayList<ChatBean> resultBean;
 
+    public ArrayList<ServiceBean> serviceBean;
+
     public void filterService() {
-        if (resultBean == null || resultBean.size() <= 0) {
-            return;
-        }
-        ChatBean chatBean = resultBean.get(0);
-        if (chatBean.getTargetType() == 3) {
-            resultBean.remove(0);
-            --totalSize;
+        if (serviceBean != null && serviceBean.size() > 0) {
+            ServiceBean serviceItemBean = serviceBean.get(0);
+            ChatBean chatBean = new ChatBean();
+            chatBean.targetAvatar = serviceItemBean.targetAvatar;
+            chatBean.targetName = serviceItemBean.targetName;
+            chatBean.setTargetType(serviceItemBean.targetType);
+            if (resultBean == null) {
+                resultBean = new ArrayList<ChatBean>();
+            }
+            resultBean.add(0, chatBean);
+            ++totalSize;
         }
     }
 
+    public static class ServiceBean implements Serializable {
+        public String targetAvatar;
+        public String targetName;
+        public int targetType;
+    }
 
 }
