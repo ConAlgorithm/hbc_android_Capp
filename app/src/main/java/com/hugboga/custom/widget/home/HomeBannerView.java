@@ -13,6 +13,7 @@ import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HbcViewBehavior;
+import com.hugboga.custom.widget.recyclerviewpager.AutoLoopRecyclerViewPager;
 import com.hugboga.custom.widget.recyclerviewpager.LoopRecyclerViewPager;
 import com.hugboga.custom.widget.recyclerviewpager.RVViewUtils;
 import com.hugboga.custom.widget.recyclerviewpager.RecyclerViewPager;
@@ -32,7 +33,7 @@ public class HomeBannerView extends LinearLayout implements HbcViewBehavior {
     @BindView(R.id.home_indicator_view)
     HomeIndicatorView indicatorView;
     @BindView(R.id.home_view_pager)
-    LoopRecyclerViewPager mViewPager;
+    AutoLoopRecyclerViewPager mViewPager;
 
     private ArrayList<HomeBean.BannerBean> itemList;
     private HbcRecyclerSingleTypeAdpater<HomeBean.BannerBean> mAdapter;
@@ -84,6 +85,7 @@ public class HomeBannerView extends LinearLayout implements HbcViewBehavior {
             mViewPager.scrollToPosition(mViewPager.getMiddlePosition());
         }
         indicatorView.setItemCount(itemList.size());
+        mViewPager.startAutoScroll();
     }
 
     public int getBannerLayoutHeight() {
