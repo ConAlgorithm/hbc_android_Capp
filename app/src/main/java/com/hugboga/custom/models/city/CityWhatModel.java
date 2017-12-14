@@ -1,4 +1,4 @@
-package com.hugboga.custom.models;
+package com.hugboga.custom.models.city;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.view.View;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.utils.CommonUtils;

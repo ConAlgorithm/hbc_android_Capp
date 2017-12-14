@@ -2,6 +2,7 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,10 +49,10 @@ import static com.hugboga.custom.activity.CityActivity.CityHomeType.COUNTRY;
 
 public class CityActivity extends BaseActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.city_toolbar_root)
     LinearLayout city_toolbar_root; //toolbar和筛选层
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.city_toolbar_title)
     TextView city_toolbar_title; //Toolbar标题
     @BindView(R.id.city_filter_con_view)
@@ -174,7 +175,7 @@ public class CityActivity extends BaseActivity {
         if (!isShow) {
             translateAnimation = new TranslateAnimation(0, 0, 0, -height);
         }
-        translateAnimation.setDuration(200);
+        translateAnimation.setDuration(100);
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -455,12 +456,23 @@ public class CityActivity extends BaseActivity {
      * 滑动到头部
      */
     private void scrollTop() {
-        if (adapter != null && adapter.cityLineModel != null && adapter.cityLineModel.getLineHolder() != null) {
-            int top = adapter.cityLineModel.getLineHolder().getItemView().getTop() - toolbar.getHeight() * 2;
-            recyclerView.scrollBy(0, top);
+        collShowToolbar();
+        if (adapter != null) {
+            recyclerView.scrollBy(0, adapter.getTop(toolbar.getHeight()));
         }
+        translate(true);
+        collShowToolbar();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                collShowToolbar();
+            }
+        }, 1000);
+    }
+
+    private void collShowToolbar() {
+        toolbar.setVisibility(View.VISIBLE);
         filterContentView.setVisibility(View.VISIBLE);
-        city_toolbar_root.layout(0, 0, city_toolbar_root.getWidth(), city_toolbar_root.getHeight());
     }
 
     @Override

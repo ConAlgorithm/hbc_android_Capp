@@ -6,8 +6,8 @@ import com.airbnb.epoxy.EpoxyAdapter;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
-import com.hugboga.custom.models.CityConfigModel;
-import com.hugboga.custom.models.CityListModel;
+import com.hugboga.custom.models.city.CityConfigModel;
+import com.hugboga.custom.models.city.CityListModel;
 import com.hugboga.custom.widget.city.CitySkuView;
 
 import java.util.ArrayList;

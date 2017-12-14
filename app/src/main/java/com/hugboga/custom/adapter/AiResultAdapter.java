@@ -6,7 +6,7 @@ import android.content.Context;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
-import com.hugboga.custom.models.CityWhatModel;
+import com.hugboga.custom.models.city.CityWhatModel;
 import com.hugboga.custom.models.ai.AiResultBannerModel;
 import com.hugboga.custom.models.ai.AiResultSkuMoreModel;
 import com.hugboga.custom.models.ai.AiResultTitleModel;

@@ -1,4 +1,4 @@
-package com.hugboga.custom.models;
+package com.hugboga.custom.models.city;
 
 import android.content.Context;
 import android.content.Intent;
