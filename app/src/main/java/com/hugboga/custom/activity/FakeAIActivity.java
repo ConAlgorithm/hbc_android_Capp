@@ -35,6 +35,8 @@ import com.hugboga.custom.data.bean.ai.DuoDuoSaid;
 import com.hugboga.custom.data.bean.ai.FakeAIArrayBean;
 import com.hugboga.custom.data.bean.ai.FakeAIBean;
 import com.hugboga.custom.data.bean.ai.FakeAIQuestionsBean;
+import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
+import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.request.RaquestFakeAI;
 import com.hugboga.custom.data.request.RequestFakeAIChange;
 import com.hugboga.custom.utils.CommonUtils;
@@ -49,6 +51,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import tk.hongbo.label.adapter.FilterAdapter;
 
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT;
 
@@ -114,7 +117,6 @@ public class FakeAIActivity extends BaseActivity {
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                handler.sendEmptyMessageDelayed(0, 1000);
             }
         });
         //点击了退出软件盘调用。。。没效果
@@ -163,7 +165,7 @@ public class FakeAIActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.edit_text:
-                handler.sendEmptyMessage(0);
+                handler.sendEmptyMessageDelayed(0, 1000);
                 break;
             case R.id.button:
                 Intent intent = null;
@@ -287,7 +289,22 @@ public class FakeAIActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             if (msg.obj instanceof FakeAIQuestionsBean) {
                 Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
-                intent.putExtra(KEY_AI_RESULT, ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome);
+                DestinationHomeVo destinationHomeVo = (DestinationHomeVo) ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome;
+                if (destinationHomeVo.destinationGoodsList != null && destinationHomeVo.destinationGoodsList.size() > 3) {
+                    List<DestinationGoodsVo> destinationGoodsList = new ArrayList<DestinationGoodsVo>();
+
+                    for (int i = 0; i < destinationHomeVo.destinationGoodsList.size(); i++) {
+                        if (i >= 3) {
+                            break;
+                        } else {
+                            destinationGoodsList.add(destinationHomeVo.destinationGoodsList.get(i));
+                        }
+                    }
+                    destinationHomeVo.destinationGoodsList = null;
+                    destinationHomeVo.destinationGoodsList = destinationGoodsList;
+                }
+
+                intent.putExtra(KEY_AI_RESULT, destinationHomeVo);
                 startActivity(intent);
                 finish();
             }
