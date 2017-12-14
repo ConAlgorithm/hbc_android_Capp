@@ -185,6 +185,7 @@ public class CityActivity extends BaseActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 city_toolbar_root.clearAnimation();
+//                toolbar.setVisibility(isShow ? View.VISIBLE : View.GONE);
                 int top = isShow ? 0 : -toolbar.getHeight();
                 city_toolbar_root.layout(0, top, city_toolbar_root.getWidth(), top + city_toolbar_root.getHeight());
                 scrollFlag = 0;
