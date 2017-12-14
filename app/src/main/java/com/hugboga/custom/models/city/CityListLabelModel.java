@@ -1,4 +1,4 @@
-package com.hugboga.custom.models;
+package com.hugboga.custom.models.city;
 
 import android.view.View;
 
@@ -23,7 +23,7 @@ public class CityListLabelModel extends EpoxyModelWithHolder<CityListLabelModel.
 
     List<LabelItemData> labels;
     FilterView.OnSelectListener onSelectListener1;
-    LabelHolder holder;
+    public LabelHolder holder;
 
     List<LabelBean> selectIds; //快速选择已选中数据
     List<String> enableIds; //快速选择启用数据

@@ -8,13 +8,12 @@ import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
-import com.hugboga.custom.models.CityListLabelModel;
-import com.hugboga.custom.models.CityListModel;
-import com.hugboga.custom.models.CitySkuNoModel;
-import com.hugboga.custom.models.CityWhatModel;
+import com.hugboga.custom.models.city.CityListLabelModel;
+import com.hugboga.custom.models.city.CityListModel;
+import com.hugboga.custom.models.city.CitySkuNoModel;
+import com.hugboga.custom.models.city.CityWhatModel;
 import com.hugboga.custom.models.city.CityFilterModel;
 import com.hugboga.custom.models.city.CityHeaderModel;
-import com.hugboga.custom.models.city.CityLineModel;
 
 import java.util.List;
 
@@ -34,7 +33,6 @@ public class CityAdapter extends SkuAdapter {
     CityListLabelModel cityListLabelModel; //快速选择标签区
     CitySkuNoModel citySkuNoModel; //筛选没有玩法显示
     CityWhatModel cityWhatModel; //我要咨询入口
-    public CityLineModel cityLineModel; //标记位置
 
     List<ServiceConfigVo> serviceConfigList;
     CityActivity.Params params; //页面参数
@@ -50,12 +48,10 @@ public class CityAdapter extends SkuAdapter {
         cityListLabelModel = new CityListLabelModel(labels, onSelectListener1);
         citySkuNoModel = new CitySkuNoModel();
         cityWhatModel = new CityWhatModel(mContext);
-        cityLineModel = new CityLineModel();
         //业务添加Model
         addModel(cityHeaderModel);
         addModel(cityFilterModel);
         addModel(cityListLabelModel);
-        addModel(cityLineModel);  //增加标记位置
         addConfig(serviceConfigList);
         addModel(cityWhatModel);
         //添加筛选为空sku展示位，默认隐藏
@@ -152,5 +148,9 @@ public class CityAdapter extends SkuAdapter {
         } else {
             cityFilterModel.hide();
         }
+    }
+
+    public int getTop(int padding) {
+        return cityHeaderModel.getView().getBottom() + cityListLabelModel.holder.filterView.getHeight() - padding;
     }
 }

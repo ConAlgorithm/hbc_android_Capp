@@ -17,6 +17,7 @@ public class CityHeaderModel extends EpoxyModel<CityHeaderView> {
     Activity activity;
     DestinationHomeVo vo;
     CityActivity.Params params;
+    CityHeaderView view;
 
     public CityHeaderModel(Activity activity, DestinationHomeVo vo, CityActivity.Params params) {
         super();
@@ -36,6 +37,11 @@ public class CityHeaderModel extends EpoxyModel<CityHeaderView> {
         if (view == null) {
             return;
         }
+        this.view = view;
         view.init(activity, vo, params);
+    }
+
+    public CityHeaderView getView() {
+        return view;
     }
 }
