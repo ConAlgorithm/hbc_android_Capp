@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
@@ -52,6 +53,8 @@ import butterknife.OnClick;
 
 public class FgHome extends BaseFragment {
 
+    @BindView(R.id.home_titlebar_app_icon)
+    ImageView appIconIV;
     @BindView(R.id.home_refresh_layout)
     PullRefreshLayout refreshLayout;
     @BindView(R.id.home_list_view)
@@ -103,6 +106,11 @@ public class FgHome extends BaseFragment {
 
     @Override
     protected void initView() {
+        if (BuildConfig.FLAVOR == Constants.CHANNEL_GOOGLE_PLAY) {
+            appIconIV.setBackgroundResource(R.drawable.home_hbc_logo_icon2);
+            appIconIV.getLayoutParams().height = UIUtils.dip2px(27);
+        }
+
         homeAdapter = new HomeAdapter();
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this.getActivity());
         homeRecyclerView.setLayoutManager(layoutManager);
