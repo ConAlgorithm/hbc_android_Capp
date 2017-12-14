@@ -11,7 +11,7 @@
         android:layout_centerInParent="true"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:background="@android:color/darker_gray" />
+        android:background="@color/default_dividing_line" />
 
     <include
         layout="@layout/city_header_count1"
