@@ -22,7 +22,10 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp">
 
                 <tk.hongbo.label.FilterView
                     android:id="@+id/content_city_filte_view1"
