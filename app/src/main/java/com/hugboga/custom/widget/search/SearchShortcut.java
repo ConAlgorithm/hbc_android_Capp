@@ -13,6 +13,7 @@ import com.hugboga.custom.utils.IntentUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 搜索区域的快速下单快捷键
@@ -50,6 +51,8 @@ public class SearchShortcut extends FrameLayout {
         }
     }
 
+    @OnClick({R.id.search_shortcut_daily1, R.id.search_shortcut_daily2, R.id.search_shortcut_send1,
+            R.id.search_shortcut_send2, R.id.search_shortcut_rent1, R.id.search_shortcut_rent2})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search_shortcut_daily1: //按天包车游
