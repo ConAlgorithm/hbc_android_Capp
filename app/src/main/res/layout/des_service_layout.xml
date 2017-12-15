@@ -1,102 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/allbg_white"
-    android:orientation="vertical">
-
-    <!--<View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#dbdbdb" />-->
-
+    android:layout_height="117dp"
+    android:background="#ffffff"
+    android:orientation="horizontal">
     <LinearLayout
+        android:id="@+id/day_service"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/picksend_id"
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@mipmap/search_carcase_icon" />
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/destination_plane"
-                android:layout_marginTop="5dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/picksend"
-                android:textColor="#7f7f7f"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="#e5e5e5" />
-
-        <LinearLayout
-            android:id="@+id/single_id"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/destination_point"
-                android:layout_marginTop="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/custom_single"
-                android:textColor="#7f7f7f"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="#e5e5e5" />
-
-
-        <LinearLayout
-            android:id="@+id/day_service"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/destination_charter"
-                android:layout_marginTop="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/custom_chartered"
-                android:textColor="#7f7f7f"
-                android:textSize="12sp" />
-
-        </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:text="@string/custom_chartered"
+            android:textColor="#444444"
+            android:textSize="12sp" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/picksend_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@mipmap/search_aeroplane_icon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="@string/picksend"
+            android:textColor="#444444"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/single_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@mipmap/search_transport_icon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="@string/custom_single"
+            android:textColor="#444444"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

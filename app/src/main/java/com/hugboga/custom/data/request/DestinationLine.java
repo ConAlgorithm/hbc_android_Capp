@@ -1,54 +1,36 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
-
-import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.HomeBeanV2;
+import com.hugboga.custom.data.bean.DestinationTabItemBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.parser.HbcParser;
 
-import org.json.JSONObject;
 import org.xutils.http.annotation.HttpRequest;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 /**
  * Created by zhangqiang on 17/7/12.
  */
 @HttpRequest(path = UrlLibs.API_DESTINATIONS_LINE, builder = NewParamsBuilder.class)
-public class DestinationLine extends BaseRequest<HomeBeanV2.LineGroupAgg> {
-    int groupId;
-    public DestinationLine(Context context,int groupId) {
-        super(context);
-        this.groupId = groupId;
-    }
+public class DestinationLine extends BaseRequest<DestinationTabItemBean> {
 
-    @Override
-    public Map<String, Object> getDataMap() {
-        TreeMap map = new TreeMap<String, Object>();
-        map.put("groupId", groupId);
-        return map;
+    public DestinationLine(Context context, int destinationId) {
+        super(context);
+        map = new HashMap<String, Object>();
+        map.put("destinationId", destinationId);
     }
 
     @Override
     public ImplParser getParser() {
-        return new ParseDesLine();
+        return new HbcParser(UrlLibs.API_DESTINATIONS_LINE, DestinationTabItemBean.class);
     }
 
     @Override
     public String getUrlErrorCode() {
         return "430168";
-    }
-
-    public class ParseDesLine extends ImplParser {
-        @Override
-        public HomeBeanV2.LineGroupAgg parseObject(JSONObject obj) throws Throwable {
-            Gson gson = new Gson();
-            HomeBeanV2.LineGroupAgg lineGroupAggregationVo = gson.fromJson(obj.toString(),HomeBeanV2.LineGroupAgg.class);
-            return lineGroupAggregationVo;
-        }
     }
 }
