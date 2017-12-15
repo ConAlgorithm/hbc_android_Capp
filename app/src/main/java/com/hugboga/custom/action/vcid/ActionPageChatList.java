@@ -7,6 +7,11 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.ActionUtils;
 import com.hugboga.custom.action.data.ActionBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.CommonUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by qingcha on 16/9/27.
@@ -21,5 +26,6 @@ public class ActionPageChatList extends ActionPageBase {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 2);
         context.startActivity(intent);
+        EventBus.getDefault().post(new EventAction(EventType.SHOW_JUMP_SERVICE, actionBean));
     }
 }
