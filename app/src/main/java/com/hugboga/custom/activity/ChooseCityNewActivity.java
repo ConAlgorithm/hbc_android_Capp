@@ -7,10 +7,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
@@ -42,6 +44,7 @@ import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.FlowLayout;
 import com.hugboga.custom.widget.SearchHotCity;
 import com.hugboga.custom.widget.search.SearchShortcut;
+import com.hugboga.tools.UUID;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,6 +63,8 @@ import static android.view.View.VISIBLE;
 
 public class ChooseCityNewActivity extends BaseActivity {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.head_search)
     EditText headSearch;
     @BindView(R.id.head_search_clean)
@@ -196,6 +201,10 @@ public class ChooseCityNewActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.top_back_black);
+        getSupportActionBar().setTitle("");
         getHotInfo(); //获取热门城市信息
         initHeader();
         initView();
@@ -204,6 +213,9 @@ public class ChooseCityNewActivity extends BaseActivity {
             public void onFocusChange(View view, boolean b) {
                 searchCityNewLabelLayout.setVisibility(b ? View.VISIBLE : View.GONE);
                 headSearchClean.setVisibility(b ? View.VISIBLE : View.GONE);
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) headSearch.getLayoutParams();
+                layoutParams.rightMargin = UIUtils.dip2px(b ? 4 : 12);
+                headSearch.setLayoutParams(layoutParams);
             }
         });
 
@@ -224,17 +236,11 @@ public class ChooseCityNewActivity extends BaseActivity {
         expandableListView.setVisibility(VISIBLE);
     }
 
-    @OnClick({R.id.head_search, R.id.header_left_btn, R.id.head_search_clean, R.id.searchCityNewLabelLayout})
+    @OnClick({R.id.head_search, R.id.head_search_clean, R.id.searchCityNewLabelLayout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.head_search:
                 showSoftInputMethod(headSearch);
-                break;
-            case R.id.header_left_btn:
-                expandableListView.setVisibility(GONE);
-                hideSoftInput();
-                finish();
-                StatisticClickEvent.click(StatisticConstant.SEARCH_CLOSE, getIntentSource());
                 break;
             case R.id.head_search_clean:
             case R.id.searchCityNewLabelLayout:  //点击隐藏搜索模块
@@ -245,6 +251,19 @@ public class ChooseCityNewActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                expandableListView.setVisibility(GONE);
+                hideSoftInput();
+                finish();
+                StatisticClickEvent.click(StatisticConstant.SEARCH_CLOSE, getIntentSource());
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void initView() {
