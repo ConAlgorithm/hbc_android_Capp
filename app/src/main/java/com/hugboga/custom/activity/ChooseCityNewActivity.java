@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -14,18 +15,20 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.LevelCityAdapter;
+import com.hugboga.custom.adapter.SearchCityAdapter;
 import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.DestinationHot;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -34,6 +37,7 @@ import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.FlowLayout;
 import com.hugboga.custom.widget.SearchHotCity;
 import com.hugboga.custom.widget.search.SearchShortcut;
@@ -63,16 +67,18 @@ public class ChooseCityNewActivity extends BaseActivity {
     FlowLayout historyCityLayout;
     @BindView(R.id.history_layout)
     LinearLayout historyLayout;
+
     @BindView(R.id.left_list)
-    ListView leftList;
+    RecyclerView leftList; //左侧list
     @BindView(R.id.middle_list)
-    ListView middleList;
+    RecyclerView middleList; //中间list
+    @BindView(R.id.right_list)
+    RecyclerView rightList; //右侧list
+
     @BindView(R.id.middle_layout)
     RelativeLayout middleLayout;
     @BindView(R.id.search_hot)
     SearchHotCity searchHotCity;
-    @BindView(R.id.right_list)
-    ListView rightList;
     @BindView(R.id.search_list)
     ExpandableListView expandableListView;
     @BindView(R.id.empty_layout_text)
@@ -82,6 +88,14 @@ public class ChooseCityNewActivity extends BaseActivity {
 
     @BindView(R.id.search_shortcut)
     SearchShortcut searchShortcut; //快捷下单区域
+
+    //    LevelCityAdapter levelCityAdapterLeft, levelCityAdapterMiddle, levelCityAdapterRight;
+    SearchCityAdapter levelCityAdapterLeft, levelCityAdapterMiddle, levelCityAdapterRight;
+    List<SearchGroupBean> groupList;
+    List<SearchGroupBean> groupList2;
+    List<SearchGroupBean> groupList3;
+
+    List<SearchGroupBean> list;
 
     //======快捷选择区=====================
     @BindView(R.id.searchCityNewLabelLayout)
@@ -191,6 +205,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                 headSearchClean.setVisibility(b ? View.VISIBLE : View.GONE);
             }
         });
+        getHotInfo(); //获取热门城市信息
     }
 
     private void showSearchPop(List<SearchGroupBean> list) {
@@ -208,7 +223,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         expandableListView.setVisibility(VISIBLE);
     }
 
-    @OnClick({R.id.head_search, R.id.header_left_btn, R.id.head_search_clean})
+    @OnClick({R.id.head_search, R.id.header_left_btn, R.id.head_search_clean, R.id.searchCityNewLabelLayout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.head_search:
@@ -221,6 +236,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                 StatisticClickEvent.click(StatisticConstant.SEARCH_CLOSE, getIntentSource());
                 break;
             case R.id.head_search_clean:
+            case R.id.searchCityNewLabelLayout:  //点击隐藏搜索模块
                 hideSoftInput();
                 headSearch.setText("");
                 headSearch.clearFocus();
@@ -229,14 +245,6 @@ public class ChooseCityNewActivity extends BaseActivity {
                 break;
         }
     }
-
-
-    LevelCityAdapter levelCityAdapterLeft, levelCityAdapterMiddle, levelCityAdapterRight;
-    List<SearchGroupBean> groupList;
-    List<SearchGroupBean> groupList2;
-    List<SearchGroupBean> groupList3;
-
-    List<SearchGroupBean> list;
 
     public void initView() {
         rightList.setVisibility(GONE);
@@ -284,7 +292,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             }
         });
 
-        leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        levelCityAdapterLeft.setOnItemClickListener(new SearchCityAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 rightList.setVisibility(GONE);
@@ -298,7 +306,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             }
         });
 
-        middleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        levelCityAdapterMiddle.setOnItemClickListener(new SearchCityAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 rightList.setVisibility(GONE);
@@ -344,7 +352,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             }
         });
 
-        rightList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        levelCityAdapterRight.setOnItemClickListener(new SearchCityAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 for (SearchGroupBean lineGroupBean : groupList3) {
@@ -374,7 +382,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         });
 
 
-        levelCityAdapterLeft = new LevelCityAdapter(activity, 1);
+        levelCityAdapterLeft = new SearchCityAdapter(activity, 1);
         SearchGroupBean lineGroupBean = new SearchGroupBean();
         lineGroupBean.group_id = 0;
         lineGroupBean.flag = 1;
@@ -386,7 +394,8 @@ public class ChooseCityNewActivity extends BaseActivity {
             groupList = new ArrayList<>();
             groupList.add(0, lineGroupBean);
             groupList.addAll(CityUtils.getLevel1City(activity));
-            levelCityAdapterLeft.setList(groupList);
+            levelCityAdapterLeft.setData(groupList);
+            leftList.setLayoutManager(new WrapContentLinearLayoutManager(this));
             leftList.setAdapter(levelCityAdapterLeft);
             levelCityAdapterLeft.notifyDataSetChanged();
 
@@ -401,7 +410,7 @@ public class ChooseCityNewActivity extends BaseActivity {
 
 
     private void showRightData(int position) {
-        levelCityAdapterRight = new LevelCityAdapter(activity, 3);
+        levelCityAdapterRight = new SearchCityAdapter(activity, 3);
         List<SearchGroupBean> list3 = CityUtils.getCountrySearch(activity, groupList2.get(position).sub_place_id);
         list3.addAll(CityUtils.getLevel3City(activity, groupList2.get(position).sub_place_id));
 
@@ -430,7 +439,8 @@ public class ChooseCityNewActivity extends BaseActivity {
             groupList3.add(0, lineGroupBean);
             rightList.setVisibility(VISIBLE);
             groupList3.addAll(list3);
-            levelCityAdapterRight.setList(groupList3);
+            levelCityAdapterRight.setData(groupList3);
+            rightList.setLayoutManager(new WrapContentLinearLayoutManager(this));
             rightList.setAdapter(levelCityAdapterRight);
             levelCityAdapterRight.notifyDataSetChanged();
             levelCityAdapterMiddle.setMiddleLineShow(false);
@@ -438,7 +448,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     }
 
     private void showMiddleData(int position) {
-        levelCityAdapterMiddle = new LevelCityAdapter(activity, 2);
+        levelCityAdapterMiddle = new SearchCityAdapter(activity, 2);
         if (position == 0) {
             searchHotCity.setVisibility(VISIBLE);
             middleLayout.setVisibility(GONE);
@@ -450,9 +460,10 @@ public class ChooseCityNewActivity extends BaseActivity {
             middleLayout.setVisibility(VISIBLE);
             groupList2 = new ArrayList<>();
             groupList2.addAll(CityUtils.getLevel2City(activity, groupList.get(position).group_id));
-            levelCityAdapterMiddle.setList(groupList2);
+            levelCityAdapterMiddle.setData(groupList2);
             levelCityAdapterMiddle.setMiddleLineShow(true);
             levelCityAdapterMiddle.notifyDataSetChanged();
+            middleList.setLayoutManager(new WrapContentLinearLayoutManager(this));
             middleList.setAdapter(levelCityAdapterMiddle);
         }
 
@@ -598,6 +609,19 @@ public class ChooseCityNewActivity extends BaseActivity {
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("searchResult", properties);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void getHotInfo() {
+        DestinationHot destinationHot = new DestinationHot(this);
+        HttpRequestUtils.request(this, destinationHot, this, false);
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
+        if(request instanceof DestinationHot){
+
         }
     }
 }

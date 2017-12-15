@@ -135,13 +135,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="2">
 
-                        <ListView
+                        <android.support.v7.widget.RecyclerView
                             android:id="@+id/left_list"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:divider="@null"
-                            android:dividerHeight="0dp"
-                            android:scrollbars="none" />
+                            android:layout_height="match_parent" />
 
                         <TextView
                             android:layout_width="0.5dp"
@@ -176,20 +173,18 @@
                                 android:layout_alignParentRight="true"
                                 android:background="#e8e9ea" />
 
-                            <ListView
+                            <android.support.v7.widget.RecyclerView
                                 android:id="@+id/middle_list"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:divider="@null" />
+                                android:layout_height="match_parent" />
 
                         </RelativeLayout>
 
-                        <ListView
+                        <android.support.v7.widget.RecyclerView
                             android:id="@+id/right_list"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:divider="@null"
                             android:visibility="gone" />
                     </LinearLayout>
 
