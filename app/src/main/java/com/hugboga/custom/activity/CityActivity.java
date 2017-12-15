@@ -136,6 +136,7 @@ public class CityActivity extends BaseActivity {
     }
 
     private int scrollFlag = 0; //滚动标识
+    private int toolbarFlag = 1; //Toolbar是否展示
 
     /**
      * 滚动效果修改
@@ -170,6 +171,9 @@ public class CityActivity extends BaseActivity {
     }
 
     private void translate(final boolean isShow) {
+        if ((isShow && toolbarFlag == 1) || (!isShow && toolbarFlag == 0)) {
+            return;
+        }
         int height = toolbar.getHeight();
         TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, height);
         if (!isShow) {
@@ -185,9 +189,9 @@ public class CityActivity extends BaseActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 city_toolbar_root.clearAnimation();
-//                toolbar.setVisibility(isShow ? View.VISIBLE : View.GONE);
                 int top = isShow ? 0 : -toolbar.getHeight();
                 city_toolbar_root.layout(0, top, city_toolbar_root.getWidth(), top + city_toolbar_root.getHeight());
+                toolbarFlag = isShow ? 1 : 0;
                 scrollFlag = 0;
             }
 
