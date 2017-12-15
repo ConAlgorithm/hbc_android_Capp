@@ -31,22 +31,14 @@ import butterknife.ButterKnife;
  */
 
 public class SearchHotCity extends LinearLayout{
-    List<SearchGroupBean> cityList;
-    boolean isFromTravelPurposeForm;
+
     @BindView(R.id.hot_city_layout)
     LinearLayout hotCityLayout;
-    @BindView(R.id.hot_city_service)
-    LinearLayout hotCityService;
-    @BindView(R.id.day_service_layout)
-    LinearLayout dayServiceLayout;
-    @BindView(R.id.pickup_service_layout)
-    LinearLayout pickupServiceLayout;
-    @BindView(R.id.single_service_layout)
-    LinearLayout singleServiceLayout;
 
-
+    List<SearchGroupBean> cityList;
     private int column = 2;
     private LayoutInflater inflater;
+
     public SearchHotCity(Context context) {
         this(context,null);
     }
@@ -65,31 +57,7 @@ public class SearchHotCity extends LinearLayout{
         initView();
     }
 
-    public void setIsFromTravelPurposeForm(boolean isFromTravelPurposeForm){
-        this.isFromTravelPurposeForm = isFromTravelPurposeForm;
-    }
     public void initView(){
-        if(isFromTravelPurposeForm){
-            hotCityService.setVisibility(GONE);
-        }
-        dayServiceLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                IntentUtils.intentCharterActivity(getContext(), getEventSource());
-            }
-        });
-        pickupServiceLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                IntentUtils.intentPickupActivity(getContext(), getEventSource());
-            }
-        });
-        singleServiceLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                IntentUtils.intentSingleActivity(getContext(), getEventSource());
-            }
-        });
         displayColumns(cityList.size());
     }
 
