@@ -1,6 +1,8 @@
 package com.hugboga.custom.adapter;
 
 import com.airbnb.epoxy.EpoxyAdapter;
+import com.hugboga.custom.data.bean.DestinationHotItemBean;
+import com.hugboga.custom.data.bean.DestinationTabItemBean;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 
 public class DesPageItemAdapter extends EpoxyAdapter {
 
-    public void addHotCitys(ArrayList<HomeBeanV2.HotCity> homeHotCityVos, int position) {
+    public void addHotCitys(ArrayList<DestinationHotItemBean> homeHotCityVos, int position) {
         if(getItemCount()==0){
             if (homeHotCityVos != null && homeHotCityVos.size() > 0) {
                 addModel(new DestinationAggModel(homeHotCityVos, position));
@@ -29,7 +31,7 @@ public class DesPageItemAdapter extends EpoxyAdapter {
         }*/
     }
 
-    public void addDestionLineGroups(HomeBeanV2.LineGroupAgg groupAggs, int position) {
+    public void addDestionLineGroups(DestinationTabItemBean groupAggs, int position) {
         if(getItemCount() == 0){
             if (groupAggs != null) {
                 addModel(new DestinationAggModel(groupAggs, position));

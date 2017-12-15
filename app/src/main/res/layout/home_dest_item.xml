@@ -17,10 +17,11 @@
     <View
         android:id="@+id/view_below_id"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="#F8F8F8"
+        android:layout_height="@dimen/default_line_height"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#eeeeee"
+        android:layout_marginBottom="14dp"
         android:visibility="gone"></View>
 
     <TextView
@@ -39,9 +40,9 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
-        android:horizontalSpacing="10dp"
+        android:horizontalSpacing="6dp"
         android:numColumns="3"
-        android:verticalSpacing="10dp"></com.hugboga.custom.widget.ChildGridView>
+        android:verticalSpacing="8dp"></com.hugboga.custom.widget.ChildGridView>
 
     <!--  <LinearLayout
       android:id="@+id/home_dest_city_gridview"
@@ -80,10 +81,10 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
-        android:horizontalSpacing="10dp"
+        android:horizontalSpacing="6dp"
         android:numColumns="3"
         android:scrollbars="none"
-        android:verticalSpacing="15dp"
+        android:verticalSpacing="14dp"
         android:visibility="gone"></com.hugboga.custom.widget.ChildGridView>
 
     <TextView
