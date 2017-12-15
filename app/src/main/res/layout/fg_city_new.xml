@@ -157,8 +157,9 @@
                             android:id="@+id/search_hot"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/default_margin_medium"
                             android:layout_weight="1"
-                            android:visibility="visible" />
+                            android:visibility="gone" />
 
                         <RelativeLayout
                             android:id="@+id/middle_layout"

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityActivity;
@@ -27,7 +26,6 @@ public class SearchCityAdapter extends RecyclerView.Adapter<SearchCityVH> {
     List<SearchGroupBean> data; //数据
 
     boolean middleLineShow;
-    boolean isFilter;
     CityActivity.Params cityParams;
 
     OnItemClickListener onItemClickListener;
@@ -46,18 +44,23 @@ public class SearchCityAdapter extends RecyclerView.Adapter<SearchCityVH> {
         this.middleLineShow = middleLineShow;
     }
 
-    public void isFilter(boolean isFilter) {
-        this.isFilter = isFilter;
-    }
-
     @Override
     public SearchCityVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SearchCityVH(LayoutInflater.from(mContext).inflate(R.layout.search_city_item, parent, false));
+        View view = LayoutInflater.from(mContext).inflate(R.layout.search_city_item, parent, false);
+        return new SearchCityVH(view);
     }
 
     @Override
-    public void onBindViewHolder(SearchCityVH holder, int position) {
-        holder.init(flag, data.get(position), position, middleLineShow, isFilter, cityParams);
+    public void onBindViewHolder(final SearchCityVH holder, final int position) {
+        holder.init(flag, data.get(position), position, middleLineShow, cityParams);
+        holder.setOnItemClickListener(new SearchCityVH.OnItemClickListener() {
+            @Override
+            public void onItemClick(SearchGroupBean bean) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(bean, position);
+                }
+            }
+        });
     }
 
     @Override
@@ -70,7 +73,7 @@ public class SearchCityAdapter extends RecyclerView.Adapter<SearchCityVH> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(AdapterView<?> parent, View view, int position, long id);
+        void onItemClick(SearchGroupBean bean, int position);
     }
 
     public void setData(List<SearchGroupBean> data) {
