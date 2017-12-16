@@ -131,21 +131,27 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/searchHistoryFirstList"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:descendantFocusability="blocksDescendants"
-        android:visibility="gone" />
+        android:layout_height="wrap_content"
+        android:background="@color/default_bg">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/searchHistoryAfterList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:descendantFocusability="blocksDescendants"
-        android:visibility="gone" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searchHistoryFirstList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:descendantFocusability="blocksDescendants"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searchHistoryAfterList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:descendantFocusability="blocksDescendants"
+            android:visibility="gone" />
+    </FrameLayout>
 </LinearLayout>
