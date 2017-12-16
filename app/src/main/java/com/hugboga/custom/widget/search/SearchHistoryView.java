@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -42,7 +43,8 @@ public class SearchHistoryView extends LinearLayout {
     MultipleTextViewGroup searchHistoryOld; //历史搜索记录标签部分
     @BindView(R.id.searchHistoryHotitem)
     MultipleTextViewGroup searchHistoryHotitem; //热门搜索标签部分
-
+    @BindView(R.id.searchListLayout)
+    FrameLayout searchListLayout; //列表容器
     @BindView(R.id.searchHistoryFirstList)
     RecyclerView searchHistoryFirstList;
     @BindView(R.id.searchHistoryAfterList)
@@ -123,6 +125,7 @@ public class SearchHistoryView extends LinearLayout {
      */
     private void initResetUI() {
         searchHistoryTagLayout.setVisibility(VISIBLE);
+        searchListLayout.setVisibility(View.GONE);
         searchHistoryFirstList.setVisibility(GONE);
         searchHistoryAfterList.setVisibility(GONE);
         changHistory(); //重新展示历史标签
@@ -133,6 +136,7 @@ public class SearchHistoryView extends LinearLayout {
      */
     private void showUI() {
         searchHistoryTagLayout.setVisibility(GONE);
+        searchListLayout.setVisibility(View.VISIBLE);
         searchHistoryFirstList.setVisibility(VISIBLE);
         searchHistoryAfterList.setVisibility(GONE);
     }
@@ -140,6 +144,7 @@ public class SearchHistoryView extends LinearLayout {
     private void showAfterUI2(String searchStr) {
         mActivity.hideSoft(searchStr);
         searchHistoryTagLayout.setVisibility(GONE);
+        searchListLayout.setVisibility(View.VISIBLE);
         searchHistoryFirstList.setVisibility(GONE);
         searchHistoryAfterList.setVisibility(VISIBLE);
         searchAdapter.removeModels();
