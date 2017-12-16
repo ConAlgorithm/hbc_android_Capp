@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -25,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 搜索历史内容
@@ -33,26 +34,28 @@ import butterknife.ButterKnife;
 
 public class SearchHistoryView extends LinearLayout {
 
-    @BindView(R.id.history)
-    MultipleTextViewGroup history;
+    @BindView(R.id.searchHistoryTagLayout)
+    RelativeLayout searchHistoryTagLayout; //历史快速选择标签区域
     @BindView(R.id.history_layout)
-    LinearLayout historyLayout;
-    @BindView(R.id.hotitem)
-    MultipleTextViewGroup hotitem;
-    @BindView(R.id.firstEnter)
-    RelativeLayout firstEnter;
-    @BindView(R.id.search_first_list)
-    public RecyclerView search_first_list;
-    @BindView(R.id.search_after_list)
-    public RecyclerView search_after_list;
-    @BindView(R.id.search_remove)
-    ImageView search_remove; //删除历史搜索记录
+    LinearLayout historyLayout; //历史记录容器
+    @BindView(R.id.searchHistoryOld)
+    MultipleTextViewGroup searchHistoryOld; //历史搜索记录标签部分
+    @BindView(R.id.searchHistoryHotitem)
+    MultipleTextViewGroup searchHistoryHotitem; //热门搜索标签部分
+
+    @BindView(R.id.searchHistoryFirstList)
+    RecyclerView searchHistoryFirstList;
+    @BindView(R.id.searchHistoryAfterList)
+    RecyclerView searchHistoryAfterList;
 
     List<SearchGroupBean> listAll;
     List<SearchGroupBean> listfirst;
     List<SearchGroupBean> listAfter;
-    public SearchAfterAdapter searchAfterAdapter;
-    public SearchAdapter searchAdapter;
+
+    SearchAdapter searchAdapter;
+    SearchAfterAdapter searchAfterAdapter;
+
+    ChooseCityNewActivity mActivity;
 
     public SearchHistoryView(Context context) {
         this(context, null);
@@ -73,13 +76,62 @@ public class SearchHistoryView extends LinearLayout {
         }
     }
 
-    public void showUI() {
-        firstEnter.setVisibility(GONE);
-        search_first_list.setVisibility(VISIBLE);
-        search_after_list.setVisibility(GONE);
+    public void init(ChooseCityNewActivity activity) {
+        this.mActivity = activity;
+        initSearchAdapter();
+        initSearchAfterAdapter();
+        initResetUI(); //默认展示历史标签部分，隐藏结果
+
+        if (searchAdapter != null) {
+            searchAdapter.removeModels();
+        }
+        if (searchAfterAdapter != null) {
+            searchAfterAdapter.removeModels();
+        }
     }
 
-    public void showResult(List<SearchGroupBean> listAll, String searchStr) {
+    public void searchText(String searchStr) {
+        clearAdapter();
+        if (!TextUtils.isEmpty(searchStr)) {
+            showUI();
+            List<SearchGroupBean> list = CityUtils.search(mActivity, searchStr);
+            showLocalResult(list, searchStr); //展示关联词结果
+            if (list != null && list.size() <= 0) {
+                mActivity.addPoint(); //添加埋点
+            }
+        } else {
+            initResetUI();
+        }
+    }
+
+    /**
+     * 重置为初始化搜索状态
+     */
+    private void initResetUI() {
+        searchHistoryTagLayout.setVisibility(VISIBLE);
+        searchHistoryFirstList.setVisibility(GONE);
+        searchHistoryAfterList.setVisibility(GONE);
+        changHistory(); //重新展示历史标签
+    }
+
+    /**
+     * 展示本地关联词结果
+     */
+    private void showUI() {
+        searchHistoryTagLayout.setVisibility(GONE);
+        searchHistoryFirstList.setVisibility(VISIBLE);
+        searchHistoryAfterList.setVisibility(GONE);
+    }
+
+    public void showAfterUI(String msg) {
+        searchAdapter.removeModels();
+        searchAfterAdapter.removeModels();
+        searchHistoryAfterList.setVisibility(VISIBLE);
+        searchHistoryFirstList.setVisibility(GONE);
+        addAfterSearchDestinationModel(listAll, msg);
+    }
+
+    private void showLocalResult(List<SearchGroupBean> listAll, String searchStr) {
         this.listAll = listAll;
         if (listAll.size() >= 5) {
             listfirst = listAll.subList(0, 5);
@@ -94,121 +146,103 @@ public class SearchHistoryView extends LinearLayout {
         addSearchDestinationModel(listAll, searchStr);
     }
 
-    public void showEmptyResult() {
-        firstEnter.setVisibility(VISIBLE);
-        search_first_list.setVisibility(GONE);
-        search_after_list.setVisibility(GONE);
-        //每次关键字发生变化,都要重新展示历史记录
-        changHistory();
-    }
-
-    public void showAfterUI(String msg) {
-        searchAdapter.removeModels();
-        searchAfterAdapter.removeModels();
-        search_after_list.setVisibility(VISIBLE);
-        search_first_list.setVisibility(GONE);
-        addAfterSearchDestinationModel(listAll, msg);
-    }
-
-    public void init() {
-        changHistory(); //展示历史标签
-
-        firstEnter.setVisibility(VISIBLE);
-        search_first_list.setVisibility(GONE);
-        search_after_list.setVisibility(GONE);
-        if (searchAdapter != null) {
-            searchAdapter.removeModels();
-        }
-        if (searchAfterAdapter != null) {
-            searchAfterAdapter.removeModels();
-        }
-        initSearchAdapter();
-        initSearchAfterAdapter();
-
-        search_remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SearchUtils.clearHistorySearch();
-                changHistory();
-            }
-        });
-    }
-
-    public void showResultService(final ArrayList<String> dataList) {
-        if (dataList != null && dataList.size() > 0) {
-            //通过接口
-            firstEnter.setVisibility(VISIBLE);
-            hotitem.setVisibility(VISIBLE);
-            hotitem.setTextViews(dataList);
-            hotitem.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
-                @Override
-                public void onMultipleTVItemClick(View view, int position) {
-                    if (getContext() != null && (getContext() instanceof ChooseCityNewActivity)) {
-                        List<SearchGroupBean> list = ((ChooseCityNewActivity) getContext()).getResulthideSoft(dataList.get(position));
-                        addAfterSearchDestinationModel(list, dataList.get(position));
-                        SearchUtils.addCityHistorySearch(dataList.get(position));
-                    }
-                    searchAdapter.removeModels();
-                    searchAfterAdapter.removeModels();
-                    firstEnter.setVisibility(GONE);
-                    search_after_list.setVisibility(VISIBLE);
-                    search_first_list.setVisibility(GONE);
-                    SearchUtils.isRecommend = true;
-                    SearchUtils.isHistory = false;
-                }
-            });
-        } else {
-            hotitem.setVisibility(GONE);
-        }
-    }
-
+    /**
+     * 重新添加搜索内容搜索结果
+     *
+     * @param list
+     * @param searchStr
+     */
     public void addSearchDestinationModel(List<SearchGroupBean> list, String searchStr) {
-        if (search_first_list.getChildCount() > 0) {
-            search_first_list.removeAllViews();
+        if (searchHistoryFirstList.getChildCount() > 0) {
+            searchHistoryFirstList.removeAllViews();
         }
         searchAdapter.addSearchDestinationModel(getContext(), list, searchStr);
     }
 
+    /**
+     * 重新添加搜索词搜索结果
+     *
+     * @param list
+     * @param keyword
+     */
     public void addAfterSearchDestinationModel(List<SearchGroupBean> list, String keyword) {
-        if (search_after_list.getChildCount() > 0) {
-            search_after_list.removeAllViews();
+        if (searchHistoryAfterList.getChildCount() > 0) {
+            searchHistoryAfterList.removeAllViews();
         }
         searchAfterAdapter.addAfterSearchDestinationModel(getContext(), list, keyword);
 
     }
 
-    //倒序展示
-    private List<String> showHistory(List<String> history) {
-        List<String> showHistory = new ArrayList<>();
-        if (history != null && history.size() > 0) {
-            for (int i = history.size() - 1; i >= 0; i--) {
-                showHistory.add(history.get(i));
-            }
-        }
-        return showHistory;
+    public void initSearchAdapter() {
+        searchAdapter = new SearchAdapter();
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
+        layoutManager.setOrientation(WrapContentLinearLayoutManager.VERTICAL);
+        layoutManager.setAutoMeasureEnabled(true);
+        searchHistoryFirstList.setLayoutManager(layoutManager);
+        searchHistoryFirstList.setHasFixedSize(true);
+        searchHistoryFirstList.setAdapter(searchAdapter);
+    }
+
+    public void initSearchAfterAdapter() {
+        searchAfterAdapter = new SearchAfterAdapter();
+        WrapContentLinearLayoutManager layoutManager1 = new WrapContentLinearLayoutManager(getContext());
+        layoutManager1.setOrientation(WrapContentLinearLayoutManager.VERTICAL);
+        layoutManager1.setAutoMeasureEnabled(true);
+        searchHistoryAfterList.setLayoutManager(layoutManager1);
+        searchHistoryAfterList.setHasFixedSize(true);
+        searchHistoryAfterList.setAdapter(searchAfterAdapter);
     }
 
     /**
-     * 展示历史搜索标签
+     * 展示热门搜索标签部分结果展示
+     *
+     * @param dataList
+     */
+    public void showHistorySearchResult(final ArrayList<String> dataList) {
+        if (dataList != null && dataList.size() > 0) {
+            //通过接口
+            searchHistoryTagLayout.setVisibility(VISIBLE);
+            searchHistoryHotitem.setVisibility(VISIBLE);
+            searchHistoryHotitem.setTextViews(dataList);
+            searchHistoryHotitem.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
+                @Override
+                public void onMultipleTVItemClick(View view, int position) {
+                    List<SearchGroupBean> list = mActivity.getResulthideSoft(dataList.get(position));
+                    addAfterSearchDestinationModel(list, dataList.get(position));
+                    SearchUtils.addCityHistorySearch(dataList.get(position));
+                    searchAdapter.removeModels();
+                    searchAfterAdapter.removeModels();
+                    searchHistoryTagLayout.setVisibility(GONE);
+                    searchHistoryAfterList.setVisibility(VISIBLE);
+                    searchHistoryFirstList.setVisibility(GONE);
+                    SearchUtils.isRecommend = true;
+                    SearchUtils.isHistory = false;
+                }
+            });
+        } else {
+            searchHistoryHotitem.setVisibility(GONE);
+        }
+    }
+
+    /**
+     * 本地查询并展示历史搜索标签
      */
     private void changHistory() {
         //倒序展示
         final List<String> dataList = showHistory(SearchUtils.getSaveHistorySearch());
         if (dataList != null && dataList.size() > 0) {
             historyLayout.setVisibility(VISIBLE);
-            history.setTextViews(dataList);
-            history.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
+            searchHistoryOld.setTextViews(dataList);
+            searchHistoryOld.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
                 @Override
                 public void onMultipleTVItemClick(View view, int position) {
                     //点击事件
-                    if (getContext() != null && (getContext() instanceof ChooseCityNewActivity)) {
-                        ((ChooseCityNewActivity) getContext()).hideSoft(dataList.get(position));
-                    }
+                    mActivity.hideSoft(dataList.get(position));
                     searchAdapter.removeModels();
                     searchAfterAdapter.removeModels();
-                    firstEnter.setVisibility(GONE);
-                    search_after_list.setVisibility(VISIBLE);
-                    search_first_list.setVisibility(GONE);
+                    searchHistoryTagLayout.setVisibility(GONE);
+                    searchHistoryAfterList.setVisibility(VISIBLE);
+                    searchHistoryFirstList.setVisibility(GONE);
                     List<SearchGroupBean> list = CityUtils.search((Activity) getContext(), dataList.get(position));
                     addAfterSearchDestinationModel(list, dataList.get(position));
                     SearchUtils.isHistory = true;
@@ -220,23 +254,26 @@ public class SearchHistoryView extends LinearLayout {
         }
     }
 
-    public void initSearchAdapter() {
-        searchAdapter = new SearchAdapter();
-        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
-        layoutManager.setOrientation(WrapContentLinearLayoutManager.VERTICAL);
-        layoutManager.setAutoMeasureEnabled(true);
-        search_first_list.setLayoutManager(layoutManager);
-        search_first_list.setHasFixedSize(true);
-        search_first_list.setAdapter(searchAdapter);
+    /**
+     * 对历史搜索变迁进行倒序排序
+     */
+    private List<String> showHistory(List<String> history) {
+        List<String> showHistory = new ArrayList<>();
+        if (history != null && history.size() > 0) {
+            for (int i = history.size() - 1; i >= 0; i--) {
+                showHistory.add(history.get(i));
+            }
+        }
+        return showHistory;
     }
 
-    public void initSearchAfterAdapter() {
-        searchAfterAdapter = new SearchAfterAdapter();
-        WrapContentLinearLayoutManager layoutManager1 = new WrapContentLinearLayoutManager(getContext());
-        layoutManager1.setOrientation(WrapContentLinearLayoutManager.VERTICAL);
-        layoutManager1.setAutoMeasureEnabled(true);
-        search_after_list.setLayoutManager(layoutManager1);
-        search_after_list.setHasFixedSize(true);
-        search_after_list.setAdapter(searchAfterAdapter);
+    @OnClick({R.id.searchHistoryRemove})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.searchHistoryRemove:
+                SearchUtils.clearHistorySearch();
+                changHistory(); //删除历史标签后重新查询展示历史标签
+                break;
+        }
     }
 }

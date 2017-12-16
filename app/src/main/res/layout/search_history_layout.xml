@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/firstEnter"
+        android:id="@+id/searchHistoryTagLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/basic_white"
-        android:paddingBottom="22dp">
+        android:paddingBottom="36dp">
 
         <LinearLayout
             android:id="@+id/history_layout"
@@ -32,8 +32,8 @@
                     android:drawableLeft="@drawable/search_history_title_arrow"
                     android:drawablePadding="15dp"
                     android:text="@string/home_search_history"
-                    android:textColor="#747474"
-                    android:textSize="14sp" />
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/text_size_large" />
 
                 <LinearLayout
                     android:layout_width="40dp"
@@ -45,7 +45,7 @@
                     android:gravity="right">
 
                     <ImageView
-                        android:id="@+id/search_remove"
+                        android:id="@+id/searchHistoryRemove"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:scaleType="centerCrop"
@@ -61,7 +61,7 @@
                 android:orientation="horizontal">
 
                 <com.hugboga.custom.widget.MultipleTextViewGroup
-                    android:id="@+id/history"
+                    android:id="@+id/searchHistoryOld"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -101,8 +101,8 @@
                     android:drawableLeft="@drawable/search_history_title_arrow"
                     android:drawablePadding="15dp"
                     android:text="@string/home_search_hot"
-                    android:textColor="#747474"
-                    android:textSize="14sp" />
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/text_size_large" />
             </RelativeLayout>
 
             <LinearLayout
@@ -111,7 +111,7 @@
                 android:orientation="horizontal">
 
                 <com.hugboga.custom.widget.MultipleTextViewGroup
-                    android:id="@+id/hotitem"
+                    android:id="@+id/searchHistoryHotitem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -132,23 +132,18 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/search_first_list"
+        android:id="@+id/searchHistoryFirstList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/allbg_white"
+        android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:descendantFocusability="blocksDescendants"
-        android:visibility="gone">
-
-    </android.support.v7.widget.RecyclerView>
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/search_after_list"
+        android:id="@+id/searchHistoryAfterList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:descendantFocusability="blocksDescendants"
-        android:visibility="gone">
-
-    </android.support.v7.widget.RecyclerView>
-</LinearLayout>
+        android:visibility="gone" />
+</FrameLayout>

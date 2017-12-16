@@ -11,7 +11,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -98,13 +97,6 @@ public class ChooseCityNewActivity extends BaseActivity {
 
     boolean isFromTravelPurposeForm = false;
 
-    public void initHeader() {
-        headSearch.setHint(R.string.choose_city_new_hint);
-        setSensorsPageViewEvent("搜索目的地页", SensorsConstant.SEARCH);
-        isFromTravelPurposeForm = this.getIntent().getBooleanExtra("isFromTravelPurposeForm", false);
-        searchShortcut.init(isFromTravelPurposeForm);
-    }
-
     @Override
     public String getEventId() {
         return StatisticConstant.SEARCH_LAUNCH;
@@ -124,8 +116,17 @@ public class ChooseCityNewActivity extends BaseActivity {
         getSupportActionBar().setTitle("");
         getHotInfo(); //获取热门城市信息
         requestHotSearch(); //热词搜索
-        initHeader();
-        initSearchInput();
+        setSensorsPageViewEvent("搜索目的地页", SensorsConstant.SEARCH);
+
+        //根据参数是否显示快速下单区域
+        isFromTravelPurposeForm = this.getIntent().getBooleanExtra("isFromTravelPurposeForm", false);
+        searchShortcut.init(isFromTravelPurposeForm);
+
+        //初始化搜索初始内容
+        if (searchHistoryView != null) {
+            searchHistoryView.init(this);
+        }
+        initSearchInput(); //初始化搜索事件
         initView();
     }
 
@@ -159,6 +160,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     }
 
     private void initSearchInput() {
+        //根据参数默认不显示搜索区域
         if (isFromTravelPurposeForm) {
             searchCityNewLabelLayout.setVisibility(GONE);
         }
@@ -185,23 +187,11 @@ public class ChooseCityNewActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                String searchStr = headSearch.getText().toString();
                 if (searchHistoryView != null) {
-                    searchHistoryView.clearAdapter();
+                    searchHistoryView.searchText(searchStr);
                 }
-                if (!TextUtils.isEmpty(headSearch.getText())) {
-                    searchHistoryView.showUI();
-                    headSearchClean.setVisibility(VISIBLE);
-                    list = CityUtils.search(activity, headSearch.getText().toString());
-                    searchHistoryView.showResult(list, headSearch.getText().toString());
-                    if (list != null && list.size() <= 0) {
-                        if (getIntentSource().equals("首页")) {
-                            setSensorsShareEvent(headSearch.getText().toString(), false, false, false);
-                        }
-                    }
-                } else {
-                    searchHistoryView.showEmptyResult();
-                    headSearchClean.setVisibility(GONE);
-                }
+                headSearchClean.setVisibility(TextUtils.isEmpty(searchStr) ? View.GONE : View.VISIBLE);
             }
         });
 
@@ -232,10 +222,6 @@ public class ChooseCityNewActivity extends BaseActivity {
                 return false;
             }
         });
-        //初始化搜索初始内容
-        if (searchHistoryView != null) {
-            searchHistoryView.init();
-        }
     }
 
     public void initView() {
@@ -463,16 +449,6 @@ public class ChooseCityNewActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         hideInputMethod(headSearch);
@@ -514,12 +490,6 @@ public class ChooseCityNewActivity extends BaseActivity {
         HttpRequestUtils.request(this, destinationHot, this, false);
     }
 
-    private View getGuideLineHeaderView(RecyclerView recyclerView) {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        RelativeLayout headerView = (RelativeLayout) inflater.inflate(R.layout.search_guide_line_header, recyclerView, false);
-        return headerView;
-    }
-
     /**
      * 热词搜索
      */
@@ -536,7 +506,18 @@ public class ChooseCityNewActivity extends BaseActivity {
             searchHotCity.setHotCitys(hotCityData);
         } else if (request instanceof RequestHotSearch) {
             ArrayList<String> dataList = (ArrayList<String>) request.getData();
-            searchHistoryView.showResultService(dataList);
+            if (searchHistoryView != null) {
+                searchHistoryView.showHistorySearchResult(dataList);
+            }
+        }
+    }
+
+    /**
+     * 关联结果埋点
+     */
+    public void addPoint(){
+        if (getIntentSource().equals("首页")) {
+            setSensorsShareEvent(headSearch.getText().toString(), false, false, false);
         }
     }
 }
