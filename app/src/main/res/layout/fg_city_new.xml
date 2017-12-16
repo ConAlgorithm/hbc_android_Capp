@@ -55,35 +55,6 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
-    <!--没有找到想去的城市-->
-    <LinearLayout
-        android:id="@+id/empty_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/basic_white"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="50dip"
-            android:background="@drawable/empty_city" />
-
-        <TextView
-            android:id="@+id/empty_layout_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="@string/out_of_range_city_text"
-            android:textColor="#a8a8a8"
-            android:textSize="13sp" />
-    </LinearLayout>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -193,40 +164,13 @@
             android:background="#66000000"
             android:visibility="gone">
 
-            <LinearLayout
-                android:id="@+id/history_layout"
+            <com.hugboga.custom.widget.search.SearchHistoryView
+                android:id="@+id/search_view"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/basic_white"
-                android:gravity="center_vertical">
+                android:layout_height="wrap_content" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="21dp"
-                    android:background="@mipmap/search_icon_history" />
-
-                <com.hugboga.custom.widget.FlowLayout
-                    android:id="@+id/history_city_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingRight="10dp"
-                    app:fhorizontalSpacing="20dp"
-                    app:singleLine="true" />
-            </LinearLayout>
         </RelativeLayout>
 
-        <!--搜索结果-->
-        <ExpandableListView
-            android:id="@+id/search_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@color/basic_white"
-            android:visibility="gone" />
     </FrameLayout>
 
 </LinearLayout>
