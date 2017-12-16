@@ -462,13 +462,6 @@ public class ChooseCityNewActivity extends BaseActivity {
         }
     }
 
-    public List<SearchGroupBean> getResulthideSoft(String str) {
-        headSearch.setText(str);
-        List<SearchGroupBean> list = CityUtils.search(this, str);
-        hideInputMethod(headSearch);
-        return list;
-    }
-
     public void hideSoft(String searchStr) {
         headSearch.setText(searchStr);
         hideInputMethod(headSearch);

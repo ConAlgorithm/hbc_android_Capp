@@ -1,6 +1,5 @@
 package com.hugboga.custom.widget.search;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -138,6 +137,19 @@ public class SearchHistoryView extends LinearLayout {
         searchHistoryAfterList.setVisibility(GONE);
     }
 
+    private void showAfterUI2(String searchStr) {
+        mActivity.hideSoft(searchStr);
+        searchHistoryTagLayout.setVisibility(GONE);
+        searchHistoryFirstList.setVisibility(GONE);
+        searchHistoryAfterList.setVisibility(VISIBLE);
+        searchAdapter.removeModels();
+        searchAfterAdapter.removeModels();
+        List<SearchGroupBean> list = CityUtils.search(mActivity, searchStr);
+        addAfterSearchDestinationModel(list, searchStr);
+        SearchUtils.isHistory = true;
+        SearchUtils.isRecommend = false;
+    }
+
     private void showAfterUI(String msg) {
         searchAdapter.removeModels();
         searchAfterAdapter.removeModels();
@@ -171,7 +183,7 @@ public class SearchHistoryView extends LinearLayout {
         if (searchHistoryFirstList.getChildCount() > 0) {
             searchHistoryFirstList.removeAllViews();
         }
-        searchAdapter.addSearchDestinationModel(getContext(), list, searchStr);
+        searchAdapter.addSearchDestinationModel(mActivity, list, searchStr);
     }
 
     /**
@@ -184,12 +196,12 @@ public class SearchHistoryView extends LinearLayout {
         if (searchHistoryAfterList.getChildCount() > 0) {
             searchHistoryAfterList.removeAllViews();
         }
-        searchAfterAdapter.addAfterSearchDestinationModel(getContext(), list, keyword);
+        searchAfterAdapter.addAfterSearchDestinationModel(mActivity, list, keyword);
     }
 
     public void initSearchAdapter() {
         searchAdapter = new SearchAdapter();
-        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(mActivity);
         layoutManager.setOrientation(WrapContentLinearLayoutManager.VERTICAL);
         layoutManager.setAutoMeasureEnabled(true);
         searchHistoryFirstList.setLayoutManager(layoutManager);
@@ -199,7 +211,7 @@ public class SearchHistoryView extends LinearLayout {
 
     public void initSearchAfterAdapter() {
         searchAfterAdapter = new SearchAfterAdapter();
-        WrapContentLinearLayoutManager layoutManager1 = new WrapContentLinearLayoutManager(getContext());
+        WrapContentLinearLayoutManager layoutManager1 = new WrapContentLinearLayoutManager(mActivity);
         layoutManager1.setOrientation(WrapContentLinearLayoutManager.VERTICAL);
         layoutManager1.setAutoMeasureEnabled(true);
         searchHistoryAfterList.setLayoutManager(layoutManager1);
@@ -221,16 +233,10 @@ public class SearchHistoryView extends LinearLayout {
             searchHistoryHotitem.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
                 @Override
                 public void onMultipleTVItemClick(View view, int position) {
-                    List<SearchGroupBean> list = mActivity.getResulthideSoft(dataList.get(position));
-                    addAfterSearchDestinationModel(list, dataList.get(position));
-                    SearchUtils.addCityHistorySearch(dataList.get(position));
-                    searchAdapter.removeModels();
-                    searchAfterAdapter.removeModels();
-                    searchHistoryTagLayout.setVisibility(GONE);
-                    searchHistoryAfterList.setVisibility(VISIBLE);
-                    searchHistoryFirstList.setVisibility(GONE);
-                    SearchUtils.isRecommend = true;
-                    SearchUtils.isHistory = false;
+                    String searchStr = dataList.get(position);
+                    //热门搜索过的标签需要添加到历史记录
+                    SearchUtils.addCityHistorySearch(searchStr);
+                    showAfterUI2(searchStr); //展示After列表
                 }
             });
         } else {
@@ -250,17 +256,8 @@ public class SearchHistoryView extends LinearLayout {
             searchHistoryOld.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
                 @Override
                 public void onMultipleTVItemClick(View view, int position) {
-                    //点击事件
-                    mActivity.hideSoft(dataList.get(position));
-                    searchAdapter.removeModels();
-                    searchAfterAdapter.removeModels();
-                    searchHistoryTagLayout.setVisibility(GONE);
-                    searchHistoryAfterList.setVisibility(VISIBLE);
-                    searchHistoryFirstList.setVisibility(GONE);
-                    List<SearchGroupBean> list = CityUtils.search((Activity) getContext(), dataList.get(position));
-                    addAfterSearchDestinationModel(list, dataList.get(position));
-                    SearchUtils.isHistory = true;
-                    SearchUtils.isRecommend = false;
+                    //历史标签点击事件
+                    showAfterUI2(dataList.get(position)); //展示After列表
                 }
             });
         } else {
