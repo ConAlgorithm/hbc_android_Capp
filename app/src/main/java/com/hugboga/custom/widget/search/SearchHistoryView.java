@@ -2,6 +2,7 @@ package com.hugboga.custom.widget.search;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -104,6 +105,20 @@ public class SearchHistoryView extends LinearLayout {
         }
     }
 
+    public void showResultQuery(final String searchStr) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!TextUtils.isEmpty(searchStr)) {
+                    showAfterUI(searchStr);
+                    SearchUtils.addCityHistorySearch(searchStr);
+                    SearchUtils.isHistory = false;
+                    SearchUtils.isRecommend = false;
+                }
+            }
+        }, 300);
+    }
+
     /**
      * 重置为初始化搜索状态
      */
@@ -123,7 +138,7 @@ public class SearchHistoryView extends LinearLayout {
         searchHistoryAfterList.setVisibility(GONE);
     }
 
-    public void showAfterUI(String msg) {
+    private void showAfterUI(String msg) {
         searchAdapter.removeModels();
         searchAfterAdapter.removeModels();
         searchHistoryAfterList.setVisibility(VISIBLE);
@@ -170,7 +185,6 @@ public class SearchHistoryView extends LinearLayout {
             searchHistoryAfterList.removeAllViews();
         }
         searchAfterAdapter.addAfterSearchDestinationModel(getContext(), list, keyword);
-
     }
 
     public void initSearchAdapter() {

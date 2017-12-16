@@ -3,7 +3,6 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -35,7 +34,6 @@ import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.IntentUtils;
-import com.hugboga.custom.utils.SearchUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.SearchHotCity;
@@ -201,20 +199,11 @@ public class ChooseCityNewActivity extends BaseActivity {
                 if (i == keyEvent.KEYCODE_ENTER) {
                     switch (keyEvent.getAction()) {
                         case KeyEvent.ACTION_DOWN:
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (headSearch.getText().toString().length() > 0) {
-                                        searchHistoryView.showAfterUI(headSearch.getText().toString().trim());
-                                        if (!TextUtils.isEmpty(headSearch.getText().toString().trim())) {
-                                            SearchUtils.addCityHistorySearch(headSearch.getText().toString());
-                                        }
-                                        hideInputMethod(headSearch);
-                                        SearchUtils.isHistory = false;
-                                        SearchUtils.isRecommend = false;
-                                    }
-                                }
-                            }, 300);
+                            hideInputMethod(headSearch);
+                            if (searchHistoryView != null) {
+                                String searchStr = headSearch.getText().toString().trim();
+                                searchHistoryView.showResultQuery(searchStr);
+                            }
                             break;
                     }
                     return true;
@@ -515,7 +504,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     /**
      * 关联结果埋点
      */
-    public void addPoint(){
+    public void addPoint() {
         if (getIntentSource().equals("首页")) {
             setSensorsShareEvent(headSearch.getText().toString(), false, false, false);
         }
