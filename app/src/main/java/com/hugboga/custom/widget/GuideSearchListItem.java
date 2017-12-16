@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.constants.Constants;
@@ -111,7 +112,8 @@ public class GuideSearchListItem extends LinearLayout implements HbcViewBehavior
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(activity instanceof SearchDestinationGuideLineActivity){
+                if((activity instanceof SearchDestinationGuideLineActivity)
+                        || (activity instanceof ChooseCityNewActivity)){
                     GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
                     params.guideId = guideSearchItemBean.guideId;
                     Intent intent = new Intent(activity, GuideWebDetailActivity.class);

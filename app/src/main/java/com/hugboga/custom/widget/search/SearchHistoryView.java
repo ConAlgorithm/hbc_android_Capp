@@ -110,14 +110,18 @@ public class SearchHistoryView extends LinearLayout {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!TextUtils.isEmpty(searchStr)) {
-                    showAfterUI(searchStr);
-                    SearchUtils.addCityHistorySearch(searchStr);
-                    SearchUtils.isHistory = false;
-                    SearchUtils.isRecommend = false;
-                }
+                showMoreQuery(searchStr);
             }
         }, 300);
+    }
+
+    public void showMoreQuery(String searchStr) {
+        showAfterUI(searchStr);
+        if (!TextUtils.isEmpty(searchStr)) {
+            SearchUtils.addCityHistorySearch(searchStr);
+        }
+        SearchUtils.isHistory = false;
+        SearchUtils.isRecommend = false;
     }
 
     /**
@@ -176,6 +180,18 @@ public class SearchHistoryView extends LinearLayout {
             listAfter = listAll;
         }
         addSearchDestinationModel(listAll, searchStr);
+    }
+
+    /**
+     * 展示所有关于搜索词的结果
+     */
+    public void showAfterAllData() {
+        searchHistoryAfterList.setVisibility(VISIBLE);
+        searchHistoryFirstList.setVisibility(GONE);
+        if (searchHistoryAfterList.getChildCount() > 0) {
+            searchHistoryAfterList.removeAllViews();
+        }
+        searchAfterAdapter.showAllData();
     }
 
     /**

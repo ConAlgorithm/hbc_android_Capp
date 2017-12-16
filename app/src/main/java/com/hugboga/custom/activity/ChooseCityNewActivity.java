@@ -502,4 +502,24 @@ public class ChooseCityNewActivity extends BaseActivity {
             setSensorsShareEvent(headSearch.getText().toString(), false, false, false);
         }
     }
+
+    /**
+     * 展开更多结果
+     */
+    public void showMoreSearchDestination() {
+        if (searchHistoryView != null) {
+            searchHistoryView.showAfterAllData();
+        }
+    }
+
+    /**
+     * 显示所有地点关联数据
+     *
+     * @param searchStr
+     */
+    public void searchAllResult(String searchStr) {
+        if (searchHistoryView != null) {
+            searchHistoryView.showMoreQuery(searchStr);
+        }
+    }
 }
