@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -35,6 +36,8 @@ public class SearchShortcut extends FrameLayout {
     @BindView(R.id.search_shortcut_rent2)
     TextView search_shortcut_rent2;
 
+    private boolean isHasChange = false; //是否变化成小图标
+
     public SearchShortcut(@NonNull Context context) {
         this(context, null);
     }
@@ -49,6 +52,31 @@ public class SearchShortcut extends FrameLayout {
         if (isFromTravelPurposeForm) {
             setVisibility(GONE);
         }
+    }
+
+    /**
+     * 下单入口动效变化
+     */
+    public void scrollChange() {
+        if (!isHasChange) {
+            isHasChange = true;
+            startAnim(search_shortcut_daily1, search_shortcut_daily2);
+            startAnim(search_shortcut_send1, search_shortcut_send2);
+            startAnim(search_shortcut_rent1, search_shortcut_rent2);
+        }
+    }
+
+    /**
+     * 动画变化
+     *
+     * @param view1
+     * @param view2
+     */
+    private void startAnim(View view1, View view2) {
+        view1.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_out));
+        view1.setVisibility(View.GONE);
+        view2.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
+        view2.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.search_shortcut_daily1, R.id.search_shortcut_daily2, R.id.search_shortcut_send1,

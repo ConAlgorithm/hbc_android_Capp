@@ -223,6 +223,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         levelCityAdapterLeft.setOnItemClickListener(new SearchCityAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(SearchGroupBean bean, int position) {
+                scrollQuickChange(); //触发下单入口变化
                 rightList.setVisibility(GONE);
                 for (SearchGroupBean lineGroupBean : groupList) {
                     lineGroupBean.isSelected = false;
@@ -232,6 +233,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                 showMiddleData(position);
             }
         });
+        leftList.addOnScrollListener(onScrollListenerLeft); //滑动监听
     }
 
     private List<SearchGroupBean> getLevel1Data() {
@@ -522,4 +524,21 @@ public class ChooseCityNewActivity extends BaseActivity {
             searchHistoryView.showMoreQuery(searchStr);
         }
     }
+
+    /**
+     * 列表滚动或者点击触发下单入口变化
+     */
+    public void scrollQuickChange() {
+        searchShortcut.scrollChange();
+    }
+
+    RecyclerView.OnScrollListener onScrollListenerLeft = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            if (dy > 0) {
+                scrollQuickChange(); //触发下单入口变化
+            }
+        }
+    };
 }
