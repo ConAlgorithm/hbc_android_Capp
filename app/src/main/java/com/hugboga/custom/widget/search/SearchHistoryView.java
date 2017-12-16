@@ -278,12 +278,15 @@ public class SearchHistoryView extends LinearLayout {
         return showHistory;
     }
 
-    @OnClick({R.id.searchHistoryRemove})
+    @OnClick({R.id.searchHistoryRemove, R.id.searchHistoryTagLayout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.searchHistoryRemove:
                 SearchUtils.clearHistorySearch();
                 changHistory(); //删除历史标签后重新查询展示历史标签
+                break;
+            case R.id.searchHistoryTagLayout:
+                //屏蔽点击项
                 break;
         }
     }
