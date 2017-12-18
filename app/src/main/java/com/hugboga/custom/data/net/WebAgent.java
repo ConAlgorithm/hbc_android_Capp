@@ -22,6 +22,7 @@ import com.huangbaoche.hbcframe.data.parser.ServerParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
@@ -38,6 +39,7 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ActivityBuyNowBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.DeliveryCardBean;
 import com.hugboga.custom.data.bean.GuideOrderWebParamsBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.SeckillsBean;
@@ -882,4 +884,22 @@ public class WebAgent implements HttpRequestListener {
             }
         });
     }
+
+    @JavascriptInterface
+    public void pushToServiceIMWithParams(final String params){
+
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Gson gson = new Gson();
+                DeliveryCardBean deliveryCardBean = gson.fromJson(params, DeliveryCardBean.class);
+                Intent intent = new Intent(mActivity, MainActivity.class);
+                intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 2);
+                mActivity.startActivity(intent);
+                EventBus.getDefault().post(new EventAction(EventType.SHOW_JUMP_SERVICE, deliveryCardBean));
+
+            }
+        });
+    }
+
 }

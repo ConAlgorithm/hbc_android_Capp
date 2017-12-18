@@ -35,6 +35,7 @@ public class UnicornServiceActivity extends BaseActivity {
         public ServiceQuestionBean.QuestionItem questionItem;
         public String aiChatRecords;
         public int groupId;
+        public ProductDetail productDetail;
     }
 
     @Override
@@ -86,6 +87,11 @@ public class UnicornServiceActivity extends BaseActivity {
                     productDetail = unicornOrderView.getProductDetail();
                 }
                 break;
+            case SourceType.TYPE_AI_RESULT:
+                if (params.productDetail != null) {
+                    productDetail = params.productDetail;
+                }
+                break;
             default:
                 orderStateLayout.setVisibility(View.GONE);
                 productDetail = null;
@@ -127,6 +133,7 @@ public class UnicornServiceActivity extends BaseActivity {
         public static final int TYPE_LINE = 0x002;      // 固定线路、推荐线路
         public static final int TYPE_ORDER = 0x003;     // 订单信息
         public static final int TYPE_CHAT_LIST = 0x004; // im_list
+        public static final int TYPE_AI_RESULT = 0x005; // AI结果
 
         /*
         * 返回请求所需的type(API_SERVICE_QUESTION_LIST)
@@ -141,6 +148,7 @@ public class UnicornServiceActivity extends BaseActivity {
                     break;
                 case TYPE_LINE:
                 case TYPE_CHARTERED:
+                case TYPE_AI_RESULT:
                     result = 2;
                     break;
                 case TYPE_ORDER:
@@ -163,6 +171,7 @@ public class UnicornServiceActivity extends BaseActivity {
                     break;
                 case TYPE_LINE:
                 case TYPE_CHARTERED:
+                case TYPE_AI_RESULT:
                     result = "售前";
                     break;
                 case TYPE_ORDER:

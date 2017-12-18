@@ -46,6 +46,7 @@ import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
+import com.hugboga.custom.data.bean.DeliveryCardBean;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -79,6 +80,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.NoScrollViewPager;
 import com.networkbench.agent.impl.NBSAppAgent;
+import com.qiyukf.unicorn.api.ProductDetail;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.zhy.m.permission.MPermissions;
@@ -158,7 +160,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             if (bundle != null) {
                 actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
                 currentPosition = bundle.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
-           }
+            }
         }
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
         checkVersion();
@@ -205,7 +207,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         requesetBattery();
     }
 
-    protected boolean isDefaultEvent(){
+    protected boolean isDefaultEvent() {
         return false;
     }
 
@@ -216,7 +218,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         if (currentPosition == 0) {
 //            final String versionName = SharedPre.getString(HomeCustomLayout.PARAMS_LAST_GUIDE_VERSION_NAME, "");
 //            if (BuildConfig.VERSION_NAME.equals(versionName)) {
-                GiftController.getInstance(this).showGiftDialog();
+            GiftController.getInstance(this).showGiftDialog();
 //            }
             EventBus.getDefault().post(new EventAction(EventType.REQUEST_HOME_DATA));
         }
@@ -271,19 +273,19 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void testPush() {
 //        String teset  = "{\"action\":\"{\\\"t\\\":\\\"2\\\",\\\"v\\\":\\\"16\\\"}\",\"orderNo\":\"Z191195516914\",\"type\":\"G1\",\"orderType\":\"888\",\"sound\":\"newOrder.mp3\"}";
-        String teset  = "{\"orderNo\":\"Z191195516914\",\"subOrderNo\":\"R1Z191195516914\",\"type\":\"G1\",\"orderType\":\"888\",\"sound\":\"newOrder.mp3\"}";
+        String teset = "{\"orderNo\":\"Z191195516914\",\"subOrderNo\":\"R1Z191195516914\",\"type\":\"G1\",\"orderType\":\"888\",\"sound\":\"newOrder.mp3\"}";
         PushMessage pushMessage = (PushMessage) JsonUtils.fromJson(teset, PushMessage.class);
         pushMessage.title = "";
         pushMessage.message = "您有1个新订单，能收到声音吗,请赶快登录皇包车-司导端APP去接单吧";
         PushUtils.showNotification(pushMessage);
     }
 
-    private void showAdWebView(String url){
-        if(null != url) {
+    private void showAdWebView(String url) {
+        if (null != url) {
             if (UserEntity.getUser().isLogin(activity)) {
                 url = CommonUtils.getBaseUrl(url) + "userId=" + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000);
             }
-            Intent intent = new Intent(activity,WebInfoActivity.class);
+            Intent intent = new Intent(activity, WebInfoActivity.class);
             intent.putExtra(WebInfoActivity.WEB_URL, url);
             startActivity(intent);
 
@@ -355,7 +357,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     });
         } else {
             AlertDialogUtils.showAlertDialog(MainActivity.this, false, getString(R.string.grant_fail_title), getString(R.string.grant_fail_phone)
-                    ,getString(R.string.grant_fail_btn), getString(R.string.grant_fail_btn_exit)
+                    , getString(R.string.grant_fail_btn), getString(R.string.grant_fail_btn_exit)
                     , new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -557,11 +559,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //                    if (mViewPager != null) {
 //                        mViewPager.setCurrentItem(2);
 //                    }
-                } else if(message.orderNo != null){//其中之一 type = C13 提醒用户选司导
+                } else if (message.orderNo != null) {//其中之一 type = C13 提醒用户选司导
                     gotoOrder(message);
                 } else {
                     //老协议action{"i","push133455"},切换到首页第一项
-                    if(actionBean != null && actionBean.type == null){
+                    if (actionBean != null && actionBean.type == null) {
                         mViewPager.setCurrentItem(0);
                         SensorsUtils.setPageEvent(getEventSource(), getPageTitle(), actionBean.pushId);
                     }
@@ -609,14 +611,16 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 setIMCount(0, 0);
                 break;
             case SHOW_JUMP_SERVICE:
-                if (action.getData()!=null&&action.getData() instanceof ActionBean){
-                    if (CommonUtils.isLogin(this, "AI界面")) {//判断是否登陆
+                if (action.getData() != null && action.getData() instanceof DeliveryCardBean) {
+                    if (CommonUtils.isLogin(this, "主界面")) {//判断是否登陆
+                        DeliveryCardBean data = (DeliveryCardBean) action.getData();
                         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
-//                        params.groupId = Integer.parseInt(customServiceId);
-//                        if (strings != null && strings.size() > 0) {
-//                            params.aiChatRecords = strings.toString();
-//                        }
+                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_AI_RESULT;
+                        ProductDetail.Builder builder = new ProductDetail.Builder();
+                        builder.setUrl(data.urlString);
+                        builder.setTitle(data.title);
+                        builder.setPicture(data.goodsPic);
+                        builder.setShow(1);
                         Intent intent = new Intent(MainActivity.this, UnicornServiceActivity.class);
                         intent.putExtra(Constants.PARAMS_DATA, params);
                         startActivity(intent);
@@ -866,30 +870,30 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
 
-    @OnClick({R.id.tab_text_1, R.id.tab_text_2, R.id.tab_text_3, R.id.tab_text_4,R.id.tab_text_5})
+    @OnClick({R.id.tab_text_1, R.id.tab_text_2, R.id.tab_text_3, R.id.tab_text_4, R.id.tab_text_5})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.tab_text_1:
                 mViewPager.setCurrentItem(0);
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
                 EventBus.getDefault().post(new EventAction(EventType.REQUEST_HOME_DATA));
-                SensorsUtils.setPageEvent("首页","首页","");
+                SensorsUtils.setPageEvent("首页", "首页", "");
                 break;
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
-                SensorsUtils.setPageEvent("目的地","目的地","");
+                SensorsUtils.setPageEvent("目的地", "目的地", "");
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);
-                SensorsUtils.setPageEvent("私聊","私聊","");
+                SensorsUtils.setPageEvent("私聊", "私聊", "");
                 break;
             case R.id.tab_text_4:
                 mViewPager.setCurrentItem(3);
-                SensorsUtils.setPageEvent("行程","行程","");
+                SensorsUtils.setPageEvent("行程", "行程", "");
                 break;
             case R.id.tab_text_5:
                 mViewPager.setCurrentItem(4);
-                SensorsUtils.setPageEvent("我的","我的","");
+                SensorsUtils.setPageEvent("我的", "我的", "");
         }
     }
 
@@ -1111,13 +1115,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
                 return;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 100, locationListener);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -1125,8 +1129,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     LocationManager locationManager;
     LocationListener locationListener;
-    public void initLocation(){
-        if(!LocationUtils.gpsIsOpen(this)){
+
+    public void initLocation() {
+        if (!LocationUtils.gpsIsOpen(this)) {
             AlertDialog dialog = AlertDialogUtils.showAlertDialog(this, "没有开启GPS定位,请到设置里开启", "设置", "取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -1144,10 +1149,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                String locStr =String.format("%s\n lat=%f \n lng=%f \n(%f meters)", location.getProvider(),
-                                location.getLatitude(), location.getLongitude(), location.getAccuracy());
+                String locStr = String.format("%s\n lat=%f \n lng=%f \n(%f meters)", location.getProvider(),
+                        location.getLatitude(), location.getLongitude(), location.getAccuracy());
 
-                LocationUtils.saveLocationInfo(MainActivity.this,location.getLatitude()+"",location.getLongitude()+"");
+                LocationUtils.saveLocationInfo(MainActivity.this, location.getLatitude() + "", location.getLongitude() + "");
 
                 UserEntity.getUser().setLongitude(location.getLongitude());
                 UserEntity.getUser().setLatitude(location.getLatitude());
@@ -1163,7 +1168,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if(timer == null) {
+                if (timer == null) {
                     uploadLocation();
                 }
 //                MLog.e(locStr);
@@ -1186,7 +1191,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         };
 
     }
-
 
 
     @SuppressLint("NewApi")
@@ -1251,7 +1255,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
     }
 
-    private void initNetworkbench(){
+    private void initNetworkbench() {
         NBSAppAgent.setLicenseKey("34ac28c049574c4095b57fc0a591cd4b").withLocationServiceEnabled(true).start(this.getApplicationContext());
     }
 

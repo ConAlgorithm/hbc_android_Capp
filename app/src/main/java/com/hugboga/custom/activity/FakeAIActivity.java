@@ -27,6 +27,9 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FakeAIAdapter;
+import com.hugboga.custom.data.net.UrlLibs;
+import com.qiyukf.unicorn.api.ProductDetail;
+import com.qiyukf.unicorn.api.ProductDetail.Builder;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ServiceQuestionBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -165,7 +168,7 @@ public class FakeAIActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.edit_text:
-                handler.sendEmptyMessageDelayed(0, 1000);
+                handler.sendEmptyMessageDelayed(0, 500);
                 break;
             case R.id.button:
                 Intent intent = null;
@@ -179,6 +182,12 @@ public class FakeAIActivity extends BaseActivity {
                             if (strings != null && strings.size() > 0) {
                                 params.aiChatRecords = strings.toString();
                             }
+//                            ProductDetail.Builder  builder = new ProductDetail.Builder();
+//                            builder.setUrl(UrlLibs.TEST_SHARE_BASE_URL_4+"/app/jiaAIpop.html?id="+iaskDuoDuoSessionID);
+//                            builder.setTitle(data.title);
+//                            builder.setPicture(data.goodsPic);
+//
+//                            params.productDetail = productDetail;
                             intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                             intent.putExtra(Constants.PARAMS_DATA, params);
                             startActivity(intent);
