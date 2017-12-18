@@ -98,7 +98,7 @@ public class UnicornServiceActivity extends BaseActivity {
                 break;
         }
         int roleId = params.questionItem != null ? params.questionItem.customRole : 0;
-        if (roleId == 0 && (params.sourceType == SourceType.TYPE_CHARTERED || params.sourceType == SourceType.TYPE_LINE)) {
+        if (roleId == 0 && (params.sourceType == SourceType.TYPE_CHARTERED || params.sourceType == SourceType.TYPE_LINE || params.sourceType == SourceType.TYPE_AI_RESULT)) {
             if (params.groupId != 0) {
                 roleId = params.groupId;
             } else {

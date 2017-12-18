@@ -177,17 +177,18 @@ public class FakeAIActivity extends BaseActivity {
                         //ArrayList<String> strings   携带跳转客服的参数
                         if (CommonUtils.isLogin(FakeAIActivity.this, "AI界面")) {//判断是否登陆
                             UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                            params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+                            params.sourceType = UnicornServiceActivity.SourceType.TYPE_AI_RESULT;
                             params.groupId = Integer.parseInt(customServiceId);
                             if (strings != null && strings.size() > 0) {
                                 params.aiChatRecords = strings.toString();
                             }
-//                            ProductDetail.Builder  builder = new ProductDetail.Builder();
-//                            builder.setUrl(UrlLibs.TEST_SHARE_BASE_URL_4+"/app/jiaAIpop.html?id="+iaskDuoDuoSessionID);
-//                            builder.setTitle(data.title);
-//                            builder.setPicture(data.goodsPic);
-//
-//                            params.productDetail = productDetail;
+                            ProductDetail.Builder builder = new ProductDetail.Builder();
+                            builder.setUrl(UrlLibs.TEST_SHARE_BASE_URL_4 + "/app/jiaAIpop.html?id=" + info.askDuoDuoSessionID);
+                            builder.setTitle("我的出去行需求");
+                            builder.setDesc("点击查看详情");
+                            builder.setPicture("https://hbcdn.huangbaoche.com/im/im_default.png");
+                            builder.setShow(1);
+                            params.productDetail = builder.build();
                             intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                             intent.putExtra(Constants.PARAMS_DATA, params);
                             startActivity(intent);

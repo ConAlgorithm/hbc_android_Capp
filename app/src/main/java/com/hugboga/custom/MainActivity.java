@@ -621,6 +621,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                         builder.setTitle(data.title);
                         builder.setPicture(data.goodsPic);
                         builder.setShow(1);
+                        params.groupId =Integer.parseInt(data.serviceId);
+                        params.productDetail = builder.build();
                         Intent intent = new Intent(MainActivity.this, UnicornServiceActivity.class);
                         intent.putExtra(Constants.PARAMS_DATA, params);
                         startActivity(intent);
