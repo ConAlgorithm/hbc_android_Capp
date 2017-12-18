@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class HomeExcitedActivityModel extends EpoxyModel<HomeExcitedActivityView> {
 
     ArrayList<HomeBean.ExcitedActivityBean> excitingActivityList;
+    public HomeExcitedActivityView itemView;
 
     public void setData(ArrayList<HomeBean.ExcitedActivityBean> _List) {
         this.excitingActivityList = _List;
@@ -28,6 +29,7 @@ public class HomeExcitedActivityModel extends EpoxyModel<HomeExcitedActivityView
     public void bind(HomeExcitedActivityView view) {
         super.bind(view);
         view.update(excitingActivityList);
+        this.itemView = view;
     }
 
 }

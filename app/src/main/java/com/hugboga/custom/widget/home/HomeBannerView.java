@@ -91,4 +91,16 @@ public class HomeBannerView extends LinearLayout implements HbcViewBehavior {
     public int getBannerLayoutHeight() {
         return bannerHeight;
     }
+
+    public void stopAutoScroll() {
+        if (mViewPager != null && mAdapter != null) {
+            mViewPager.stopAutoScroll();
+        }
+    }
+
+    public void startAutoScroll() {
+        if (mViewPager != null && mAdapter != null) {
+            mViewPager.startAutoScroll();
+        }
+    }
 }
