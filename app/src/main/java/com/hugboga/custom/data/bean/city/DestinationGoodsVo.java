@@ -3,11 +3,13 @@ package com.hugboga.custom.data.bean.city;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created by HONGBO on 2017/11/28 10:34.
  */
 
-public class DestinationGoodsVo implements Parcelable{
+public class DestinationGoodsVo implements Parcelable, Serializable{
 
     public String goodsNo; //商品编号
     public int goodsVersion; //商品版本号
@@ -25,6 +27,9 @@ public class DestinationGoodsVo implements Parcelable{
     public String shareUrl; //分享地址
     public String placeList; //商品途径点
     public String guideHeadImageUrl; //司导头像
+    public String guideId; //司导ID
+
+    public int isCollected; //本地字段 1:收藏 0:未收藏
 
     protected DestinationGoodsVo(Parcel in) {
         goodsNo = in.readString();
@@ -43,6 +48,8 @@ public class DestinationGoodsVo implements Parcelable{
         shareUrl = in.readString();
         placeList = in.readString();
         guideHeadImageUrl = in.readString();
+        isCollected = in.readInt();
+        guideId = in.readString();
     }
 
     public static final Creator<DestinationGoodsVo> CREATOR = new Creator<DestinationGoodsVo>() {
@@ -80,5 +87,7 @@ public class DestinationGoodsVo implements Parcelable{
         parcel.writeString(shareUrl);
         parcel.writeString(placeList);
         parcel.writeString(guideHeadImageUrl);
+        parcel.writeInt(isCollected);
+        parcel.writeString(guideId);
     }
 }

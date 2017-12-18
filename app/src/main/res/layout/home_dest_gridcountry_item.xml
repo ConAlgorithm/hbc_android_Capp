@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="#E1E5EB"
-            android:padding="1dp"
+            android:padding="@dimen/default_line_height"
             android:scaleType="centerCrop"
             android:src="@mipmap/home_country_dafault" />
 
@@ -33,9 +33,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="5dp"
+        android:paddingBottom="1.2dp"
+        android:layout_marginLeft="4dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="#7f7f7f"
-        android:textSize="15sp" />
+        android:textSize="13sp" />
 </LinearLayout>

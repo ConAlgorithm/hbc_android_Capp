@@ -333,8 +333,18 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 StatisticClickEvent.click(StatisticConstant.CLICK_SKUDATE);
                 break;
             case R.id.sku_detail_bottom_service_layout://联系客服
+                if (skuItemBean == null) {
+                    CommonUtils.showToast("加载中，请稍后重试");
+                    break;
+                }
                 StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "固定线路");
-                UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_LINE, null, skuItemBean);
+                UnicornServiceActivity.Params unicornServiceparams = new UnicornServiceActivity.Params();
+                unicornServiceparams.sourceType = UnicornServiceActivity.SourceType.TYPE_LINE;
+                unicornServiceparams.skuItemBean = skuItemBean;
+                Intent intent1 = new Intent(this, UnicornServiceActivity.class);
+                intent1.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                intent1.putExtra(Constants.PARAMS_DATA, unicornServiceparams);
+                startActivity(intent1);
                 SensorsUtils.onAppClick(getEventSource(),"在线咨询",getIntentSource());
                 break;
             case R.id.sku_detail_empty_tv:

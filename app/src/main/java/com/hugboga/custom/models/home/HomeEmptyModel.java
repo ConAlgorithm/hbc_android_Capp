@@ -1,6 +1,5 @@
 package com.hugboga.custom.models.home;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -31,7 +30,6 @@ public class HomeEmptyModel extends EpoxyModel<LinearLayout> {
             @Override
             public void onClick(View view) {
                 EventBus.getDefault().post(new EventAction(EventType.REQUEST_HOME_DATA));
-                Log.i("aa", "测试一下");
             }
         });
     }

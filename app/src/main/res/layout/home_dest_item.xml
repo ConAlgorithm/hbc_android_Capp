@@ -4,33 +4,52 @@
     android:layout_height="wrap_content"
     android:background="@color/allbg_white"
     android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="15dp">
 
     <com.hugboga.custom.widget.DestinationServiceview
         android:id="@+id/des_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone">
-
     </com.hugboga.custom.widget.DestinationServiceview>
 
     <View
         android:id="@+id/view_below_id"
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_line_height"
+        android:layout_marginBottom="14dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="#eeeeee"
-        android:layout_marginBottom="14dp"
         android:visibility="gone"></View>
 
-    <TextView
-        android:id="@+id/home_dest_title_name"
+    <LinearLayout
+        android:id="@+id/home_dest_title_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:textColor="@color/color_7f7f7f"
-        android:textSize="12sp" />
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="26dp">
+
+        <View
+            android:layout_width="2.2dp"
+            android:layout_height="15dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="3.2dp"
+            android:background="@color/default_black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="3dp"
+            android:fontFamily="@font/fzdysjw"
+            android:text="热门目的地"
+            android:textColor="@color/default_black"
+            android:textSize="18sp" />
+    </LinearLayout>
 
     <com.hugboga.custom.widget.ChildGridView
         android:id="@+id/home_dest_city_gridview"
@@ -44,34 +63,115 @@
         android:numColumns="3"
         android:verticalSpacing="8dp"></com.hugboga.custom.widget.ChildGridView>
 
-    <!--  <LinearLayout
-      android:id="@+id/home_dest_city_gridview"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="5dp"
-      android:layout_marginLeft="15dp"
-      android:layout_marginRight="15dp"
-      android:layout_marginTop="5dp"
-          android:orientation="vertical">
-      </LinearLayout>-->
-
-
-    <View
-        android:id="@+id/home_dest_spe_line"
+    <RelativeLayout
+        android:id="@+id/home_dest_city_more_layout"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="8dp"
-        android:background="@drawable/dash_line_h"
-        android:visibility="gone"></View>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="#ededed"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:id="@+id/home_dest_city_more_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="展开更多"
+            android:textSize="12sp"
+            android:paddingLeft="16dp"
+            android:paddingRight="27dp"
+            android:background="#ffffff"
+            android:layout_centerInParent="true"
+            android:textColor="@color/default_black"
+            />
+        <ImageView
+            android:id="@+id/home_dest_city_more_iv"
+            android:layout_alignRight="@+id/home_dest_city_more_tv"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="6dp"
+            android:layout_width="11dp"
+            android:layout_height="6dp"
+            android:background="@mipmap/share_unfold"
+            />
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/home_dest_country_text_label"
+    <LinearLayout
+        android:id="@+id/home_dest_city_containe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
+    <RelativeLayout
+        android:id="@+id/view_destination_tag_more_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_centerVertical="true"
+            android:background="#ededed" />
+
+        <TextView
+            android:id="@+id/view_destination_tag_more_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#ffffff"
+            android:paddingLeft="16dp"
+            android:paddingRight="27dp"
+            android:text="展开更多"
+            android:textColor="@color/default_black"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/view_destination_tag_more_iv"
+            android:layout_width="11dp"
+            android:layout_height="6dp"
+            android:layout_alignRight="@+id/view_destination_tag_more_tv"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="6dp"
+            android:background="@mipmap/share_unfold" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/home_dest_country_text_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textColor="@color/color_7f7f7f"
-        android:textSize="12sp"
-        android:visibility="gone" />
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:paddingBottom="10dp"
+        android:paddingTop="26dp">
+        <View
+            android:layout_width="2.2dp"
+            android:layout_height="13dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="2.2dp"
+            android:background="@color/default_black" />
+
+        <TextView
+            android:id="@+id/home_dest_country_text_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/fzdysjw"
+            android:layout_marginLeft="3dp"
+            android:visibility="gone"
+            android:textColor="@color/default_black"
+            android:textSize="13sp"
+   />
+    </LinearLayout>
 
     <com.hugboga.custom.widget.ChildGridView
         android:id="@+id/home_dest_country_gridview"
@@ -84,26 +184,7 @@
         android:horizontalSpacing="6dp"
         android:numColumns="3"
         android:scrollbars="none"
-        android:verticalSpacing="14dp"
+        android:verticalSpacing="20dp"
         android:visibility="gone"></com.hugboga.custom.widget.ChildGridView>
-
-    <TextView
-        android:id="@+id/home_dest_country_open_switcher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:drawableLeft="@mipmap/more_arrow_down"
-        android:drawablePadding="5dp"
-        android:padding="15dp"
-        android:text="展开全部"
-        android:textColor="#A8A8A8"
-        android:textSize="12sp"
-        android:visibility="gone" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:layout_marginTop="10dp"
-        android:background="#F8F8F8"></View>
 
 </LinearLayout>
