@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -9,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DestinationListActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.DestinationTabItemBean;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -47,6 +50,16 @@ public class DestinationTagView extends LinearLayout {
         for (int i = 0; i < size; i++) {
             tagGroupView.addTag(getNewTagView(tagList.get(i).tagName));
         }
+        tagGroupView.setOnTagItemClickListener(new TagGroup.OnTagItemClickListener() {
+            @Override
+            public void onTagClick(View view, int position) {
+                DestinationTabItemBean.TagItemBean tagItemBean = tagList.get(position);
+                Intent intent = new Intent(getContext(), DestinationListActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, tagItemBean);
+                intent.putExtra(Constants.PARAMS_SOURCE,"目的地");
+                getContext().startActivity(intent);
+            }
+        });
     }
 
     private TextView getNewTagView(String label) {
@@ -54,7 +67,6 @@ public class DestinationTagView extends LinearLayout {
         tagTV.setPadding(UIUtils.dip2px(10), UIUtils.dip2px(6), UIUtils.dip2px(10), UIUtils.dip2px(6));
         tagTV.setTextSize(12);
         tagTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
-        tagTV.setEnabled(false);
         tagTV.setText(!TextUtils.isEmpty(label) ? label.trim() : "");
         tagTV.setBackgroundResource(R.drawable.shape_rounded_gray);
         return tagTV;
