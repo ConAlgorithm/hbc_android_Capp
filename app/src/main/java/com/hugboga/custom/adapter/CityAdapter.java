@@ -28,7 +28,7 @@ import tk.hongbo.label.data.LabelItemData;
 
 public class CityAdapter extends SkuAdapter {
 
-    CityHeaderModel cityHeaderModel; //头部广告部分
+    public CityHeaderModel cityHeaderModel; //头部广告部分
     public CityFilterModel cityFilterModel; //过滤器部分
     CityListLabelModel cityListLabelModel; //快速选择标签区
     CitySkuNoModel citySkuNoModel; //筛选没有玩法显示
