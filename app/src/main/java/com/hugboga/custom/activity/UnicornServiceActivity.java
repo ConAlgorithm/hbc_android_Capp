@@ -1,6 +1,7 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -15,6 +16,7 @@ import com.hugboga.custom.widget.UnicornOrderView;
 import com.qiyukf.unicorn.api.ProductDetail;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -59,6 +61,12 @@ public class UnicornServiceActivity extends BaseActivity {
 
         initDefaultTitleBar();
         fgTitle.setText(R.string.unicorn_service_title);
+
+        ArrayList<UnicornUtils.ServiceUserInfo> extraList = new ArrayList<>();
+        if (!TextUtils.isEmpty(params.aiChatRecords)) {
+            extraList.add(new UnicornUtils.ServiceUserInfo("chatRecords", "与AI对话记录",  params.aiChatRecords));
+        }
+
         ProductDetail productDetail = null;
         switch (params.sourceType) {
             case SourceType.TYPE_CHARTERED:
@@ -73,6 +81,8 @@ public class UnicornServiceActivity extends BaseActivity {
                     }
                     orderStateLayout.addView(unicornDetailView);
                     productDetail = unicornDetailView.getProductDetail();
+                    extraList.add(new UnicornUtils.ServiceUserInfo("goodsNo", "goodsNo", params.skuItemBean.goodsNo));
+                    extraList.add(new UnicornUtils.ServiceUserInfo("goodsName", "goodsName",  params.skuItemBean.getGoodsName()));
                 }
                 break;
             case SourceType.TYPE_ORDER:
@@ -99,7 +109,7 @@ public class UnicornServiceActivity extends BaseActivity {
                 roleId = UnicornUtils.UNICORN_ERP_GROUPID;//默认售前ID
             }
         }
-        UnicornUtils.addServiceFragment(this, R.id.unicorn_service_container_layout, productDetail, roleId, params.aiChatRecords);
+        UnicornUtils.addServiceFragment(this, R.id.unicorn_service_container_layout, productDetail, roleId, extraList);
     }
 
     @Override

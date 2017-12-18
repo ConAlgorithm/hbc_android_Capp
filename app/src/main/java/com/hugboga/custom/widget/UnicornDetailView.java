@@ -74,7 +74,7 @@ public class UnicornDetailView extends LinearLayout implements HbcViewBehavior{
 
         ProductDetail.Builder builder = new ProductDetail.Builder();
         builder.setTitle("线路包车游");
-        builder.setDesc(skuItemBean.goodsName);
+        builder.setDesc(skuItemBean.getGoodsName());
         builder.setPicture(skuItemBean.goodsPicture);
         builder.setShow(1);
 

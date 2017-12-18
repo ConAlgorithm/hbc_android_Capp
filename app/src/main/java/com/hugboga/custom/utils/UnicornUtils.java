@@ -105,13 +105,14 @@ public class UnicornUtils {
         StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
     }
 
-    public static void addServiceFragment(BaseActivity activity, int containerId, ProductDetail productDetail, int staffId, String aiChatRecords) {
+    public static void addServiceFragment(BaseActivity activity, int containerId
+            , ProductDetail productDetail, int staffId, ArrayList<ServiceUserInfo> extraList) {
         SharedPre.setInteger(UserEntity.getUser().getUserId(activity), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
         SharedPre.setInteger(UserEntity.getUser().getUserId(activity), SharedPre.QY_GROUP_ID, staffId);
 
         YSFUserInfo userInfo = new YSFUserInfo();
         userInfo.userId = UserEntity.getUser().getUserId(activity);
-        userInfo.data = getServiceUserInfo(aiChatRecords);
+        userInfo.data = getServiceUserInfo(extraList);
         Unicorn.setUserInfo(userInfo);
 
         UICustomization uiCustomization = new UICustomization();
@@ -148,7 +149,7 @@ public class UnicornUtils {
         }
     }
 
-    private static String getServiceUserInfo(String aiChatRecords) {
+    private static String getServiceUserInfo(ArrayList<ServiceUserInfo> extraList) {
         Context context = MyApplication.getAppContext();
         UserEntity userEntity = UserEntity.getUser();
         ArrayList<ServiceUserInfo> list = new ArrayList<ServiceUserInfo>();
@@ -158,13 +159,13 @@ public class UnicornUtils {
         list.add(new ServiceUserInfo("areaCode", "区域号码", userEntity.getAreaCode(context)));
         list.add(new ServiceUserInfo("userId", "用户ID", userEntity.getUserId(context)));
         list.add(new ServiceUserInfo("version", "应用版本", userEntity.getVersion(context)));
-        if (!TextUtils.isEmpty(aiChatRecords)) {
-            list.add(new ServiceUserInfo("chatRecords", "与AI对话记录",  aiChatRecords));
+        if (extraList != null && extraList.size() > 0) {
+            list.addAll(extraList);
         }
         return JsonUtils.toJson(list);
     }
 
-    private static class ServiceUserInfo implements Serializable {
+    public static class ServiceUserInfo implements Serializable {
 
         public String key;
         public String label;
