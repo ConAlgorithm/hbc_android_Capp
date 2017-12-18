@@ -46,10 +46,10 @@ public class HomeBean implements Serializable {
         }
 
         public String getGoodsName() {
-            if (!TextUtils.isEmpty(bannerName)) {
-                return bannerName;
-            } else if (!TextUtils.isEmpty(aliasName)) {
+            if (!TextUtils.isEmpty(aliasName)) {
                 return aliasName;
+            } else if (!TextUtils.isEmpty(bannerName)) {
+                return bannerName;
             }
             return "";
         }
@@ -91,10 +91,10 @@ public class HomeBean implements Serializable {
         }
 
         public String getGoodsName() {
-            if (!TextUtils.isEmpty(goodsName)) {
-                return goodsName;
-            } else if (!TextUtils.isEmpty(aliasName)) {
+            if (!TextUtils.isEmpty(aliasName)) {
                 return aliasName;
+            } else if (!TextUtils.isEmpty(goodsName)) {
+                return goodsName;
             }
             return "";
         }
