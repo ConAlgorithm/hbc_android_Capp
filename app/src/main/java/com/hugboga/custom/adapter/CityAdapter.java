@@ -8,12 +8,12 @@ import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
+import com.hugboga.custom.models.city.CityFilterModel;
+import com.hugboga.custom.models.city.CityHeaderModel;
 import com.hugboga.custom.models.city.CityListLabelModel;
 import com.hugboga.custom.models.city.CityListModel;
 import com.hugboga.custom.models.city.CitySkuNoModel;
 import com.hugboga.custom.models.city.CityWhatModel;
-import com.hugboga.custom.models.city.CityFilterModel;
-import com.hugboga.custom.models.city.CityHeaderModel;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ import tk.hongbo.label.data.LabelItemData;
 
 public class CityAdapter extends SkuAdapter {
 
-    CityHeaderModel cityHeaderModel; //头部广告部分
+    public CityHeaderModel cityHeaderModel; //头部广告部分
     public CityFilterModel cityFilterModel; //过滤器部分
     CityListLabelModel cityListLabelModel; //快速选择标签区
     CitySkuNoModel citySkuNoModel; //筛选没有玩法显示
@@ -150,7 +150,12 @@ public class CityAdapter extends SkuAdapter {
         }
     }
 
-    public int getTop(int padding) {
-        return cityHeaderModel.getView().getBottom() + cityListLabelModel.holder.filterView.getHeight() - padding;
+    public int getTop(boolean toolbarShow, int padding) {
+        if (toolbarShow) {
+            //toolbar不显示
+            return cityHeaderModel.getView().getHeight() + cityListLabelModel.holder.filterView.getHeight() - padding;
+        } else {
+            return cityHeaderModel.getView().getHeight() + cityListLabelModel.holder.filterView.getHeight();
+        }
     }
 }
