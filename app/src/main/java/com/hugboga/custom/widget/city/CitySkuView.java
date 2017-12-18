@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
@@ -28,6 +30,8 @@ import com.hugboga.custom.data.request.RequestUncollectLinesNo;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PriceFormat;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.tools.NetImg;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
@@ -42,8 +46,10 @@ import butterknife.OnClick;
  * Created by HONGBO on 2017/12/6 12:18.
  */
 
-public class CitySkuView extends FrameLayout implements HttpRequestListener {
+public class CitySkuView extends FrameLayout implements HttpRequestListener, HbcViewBehavior{
 
+    @BindView(R.id.city_item_root_layout)
+    ConstraintLayout city_item_root_layout;
     @BindView(R.id.city_item_img)
     ImageView city_item_img;
     @BindView(R.id.city_item_img_price)
@@ -77,6 +83,7 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
      * 显示数据
      */
     public void init(DestinationGoodsVo destinationGoodsVo, boolean isFavious) {
+        city_item_img.getLayoutParams().height = UIUtils.getScreenWidth() - UIUtils.dip2px(20);
         this.destinationGoodsVo = destinationGoodsVo;
         Tools.showImageNotCenterCrop(city_item_img, destinationGoodsVo.goodsImageUrl, R.mipmap.home_default_route_item);
         city_item_title.setText(destinationGoodsVo.goodsName);
@@ -103,7 +110,7 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
         return sb.toString();
     }
 
-    @OnClick({R.id.city_item_hear, R.id.city_item_root_layout})
+    @OnClick({R.id.city_item_hear, R.id.city_item_root_layout, R.id.city_item_guide})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.city_item_hear:
@@ -122,6 +129,17 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
                 intent.putExtra(Constants.PARAMS_ID, destinationGoodsVo.goodsNo);
                 intent.putExtra(Constants.PARAMS_SOURCE, "目的地首页-玩法");
                 getContext().startActivity(intent);
+                break;
+            case R.id.city_item_guide:
+                if (TextUtils.isEmpty(destinationGoodsVo.guideId)) {
+                    return;
+                }
+                GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
+                params.guideId = destinationGoodsVo.guideId;
+                Intent intent2 = new Intent(getContext(), GuideWebDetailActivity.class);
+                intent2.putExtra(Constants.PARAMS_DATA, params);
+                intent2.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                getContext().startActivity(intent2);
                 break;
         }
     }
@@ -186,5 +204,15 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener {
 
     public interface OnChangeFaviousListener {
         void onChange(DestinationGoodsVo destinationGoodsVo, boolean isFavious);
+    }
+
+    @Override
+    public void update(Object _data) {
+        if (_data instanceof DestinationGoodsVo) {
+            city_item_root_layout.getLayoutParams().width = UIUtils.getScreenWidth();
+            city_item_img.getLayoutParams().height = UIUtils.getScreenWidth() - UIUtils.dip2px(20);
+            DestinationGoodsVo bean = (DestinationGoodsVo) _data;
+            init(bean, bean.isCollected == 1);
+        }
     }
 }

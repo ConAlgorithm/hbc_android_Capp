@@ -1,4 +1,6 @@
 package com.hugboga.custom.data.bean;
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class SkuItemBean implements Serializable {
     public int goodsClass = -1;//商品类别（1，固定线路；2，推荐线路）-1为按天报价goodsClass不反回
     public ArrayList<CharacteristicLables> characteristicLables;
     public int goodsVersion;//商品版本号
+    public String aliasName;//线路别名
 
     public String cityId;//非接口字段
 
@@ -54,5 +57,14 @@ public class SkuItemBean implements Serializable {
     public static class CharacteristicLables implements Serializable {
         public String lableName;
         public int lableType;
+    }
+
+    public String getGoodsName() {
+        if (!TextUtils.isEmpty(aliasName)) {
+            return aliasName;
+        } else if (!TextUtils.isEmpty(goodsName)) {
+            return goodsName;
+        }
+        return "";
     }
 }

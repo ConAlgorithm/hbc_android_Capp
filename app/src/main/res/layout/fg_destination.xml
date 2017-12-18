@@ -43,6 +43,7 @@
         android:layout_marginTop="@dimen/default_line_height"
         android:layout_marginBottom="@dimen/default_line_height"
         android:layout_below="@+id/search"
+        app:xTabMinWidth="56dp"
         app:xTabBackgroundColor="#ffffff"
         app:xTabSelectedBackgroundColor="#ffffff"
         app:xTabIndicatorColor="#ffffaf00"
