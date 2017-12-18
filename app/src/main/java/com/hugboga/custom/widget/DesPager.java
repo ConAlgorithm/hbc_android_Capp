@@ -14,6 +14,8 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.NetWork;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.DesPageItemAdapter;
+import com.hugboga.custom.data.bean.DestinationHotItemBean;
+import com.hugboga.custom.data.bean.DestinationTabItemBean;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.SimpleLineGroupVo;
 import com.hugboga.custom.data.event.EventAction;
@@ -35,8 +37,8 @@ public class DesPager extends LinearLayout implements HttpRequestListener {
 
     private DesPageItemAdapter recyclerAdapter;
     RecyclerView desItemView;
-    public ArrayList<HomeBeanV2.HotCity> homeHotCityVos;
-    public HomeBeanV2.LineGroupAgg lineGroupAgg;
+    public ArrayList<DestinationHotItemBean> homeHotCityVos;
+    public DestinationTabItemBean lineGroupAgg;
 
     int currentPosition = 0;
     public SimpleLineGroupVo simpleLineGroupVo;
@@ -67,11 +69,11 @@ public class DesPager extends LinearLayout implements HttpRequestListener {
         desItemView.setAdapter(recyclerAdapter);
     }
 
-    public void setHotData(ArrayList<HomeBeanV2.HotCity> homeHotCityVos) {
+    public void setHotData(ArrayList<DestinationHotItemBean> homeHotCityVos) {
         this.homeHotCityVos = homeHotCityVos;
     }
 
-    public void setLineData(HomeBeanV2.LineGroupAgg lineGroupAgg) {
+    public void setLineData(DestinationTabItemBean lineGroupAgg) {
         this.lineGroupAgg = lineGroupAgg;
     }
 
@@ -98,7 +100,7 @@ public class DesPager extends LinearLayout implements HttpRequestListener {
 
         if(request instanceof DestinationHot){
 
-            ArrayList<HomeBeanV2.HotCity> homeHotCityVos = (ArrayList<HomeBeanV2.HotCity>) request.getData();
+            ArrayList<DestinationHotItemBean> homeHotCityVos = (ArrayList<DestinationHotItemBean>) request.getData();
             if(homeHotCityVos != null){
                 setHotData(homeHotCityVos);
                 //需要将请求的数据添加到DesPager中
@@ -106,7 +108,7 @@ public class DesPager extends LinearLayout implements HttpRequestListener {
             }
         }else if(request instanceof DestinationLine){
 
-            HomeBeanV2.LineGroupAgg lineGroupAgg = (HomeBeanV2.LineGroupAgg) request.getData();
+            DestinationTabItemBean lineGroupAgg = (DestinationTabItemBean) request.getData();
             if(lineGroupAgg != null){
                 setLineData(lineGroupAgg);
                 if(simpleLineGroupVo != null){
