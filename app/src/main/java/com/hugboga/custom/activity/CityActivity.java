@@ -135,7 +135,9 @@ public class CityActivity extends BaseActivity {
         });
     }
 
-    private int scrollFlag = 0; //滚动标识
+    private int scrolledDistance = 0; //滚动距离
+    private boolean toolbarVisible = true;
+    private boolean fitlerViewVisible = true;
 
     /**
      * 滚动效果修改
@@ -143,28 +145,27 @@ public class CityActivity extends BaseActivity {
      * @param dy
      */
     private void onScrollFloat(int dy) {
-        if (scrollFlag != 0) {
-            return;
-        }
-        if (adapter.cityFilterModel.cityFilterView != null) {
-            int targetTop = adapter.cityFilterModel.cityFilterView.getTop();
-            HLog.d("============>dy:" + dy + ",targetTop:" + targetTop);
-            if (dy < 0) {
-                //向下滑动
-                if (targetTop >= toolbar.getBottom() && filterContentView.getVisibility() == View.VISIBLE) {
-                    filterContentView.setVisibility(View.GONE);
-                }
-                if (city_toolbar_root.getTop() != 0) {
-                    translate(true);
-                }
-            } else if (dy > 0) {
-                //向上滑动
-                if (targetTop != 0 && adapter.cityFilterModel.cityFilterView.getTop() <= toolbar.getBottom() && filterContentView.getVisibility() == View.GONE) {
-                    filterContentView.setVisibility(View.VISIBLE);
-                }
-                if (targetTop != 0 && targetTop < toolbar.getHeight() && city_toolbar_root.getTop() <= toolbar.getBottom() && city_toolbar_root.getTop() != -toolbar.getHeight()) {
-                    translate(false);
-                }
+        scrolledDistance += dy;
+        int view1Height = adapter.cityHeaderModel.getView().getHeight();
+        int toolbarHeight = toolbar.getHeight();
+//        HLog.d("=======> scrolledDistance：" + scrolledDistance + "，View1：" + view1Height + "，toolbar：" + toolbarHeight);
+        if (dy > 0) { //向上滑动
+            if (scrolledDistance >= (view1Height - toolbarHeight) && filterContentView.getVisibility() == View.GONE && fitlerViewVisible) {
+                fitlerViewVisible = false;
+                filterContentView.setVisibility(View.VISIBLE);
+                fitlerViewVisible = true;
+            } else if (scrolledDistance >= view1Height && toolbar.getVisibility() == View.VISIBLE && toolbarVisible) {
+                toolbarVisible = false;
+                translate(false);
+            }
+        } else {
+            if (scrolledDistance < (view1Height + toolbarHeight) && filterContentView.getVisibility() == View.VISIBLE && fitlerViewVisible) {
+                fitlerViewVisible = false;
+                filterContentView.setVisibility(View.GONE);
+                fitlerViewVisible = true;
+            } else if (toolbar.getVisibility() == View.GONE && toolbarVisible) {
+                toolbarVisible = false;
+                translate(true);
             }
         }
     }
@@ -179,21 +180,17 @@ public class CityActivity extends BaseActivity {
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                scrollFlag = 1;
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
                 city_toolbar_root.clearAnimation();
-//                toolbar.setVisibility(isShow ? View.VISIBLE : View.GONE);
-                int top = isShow ? 0 : -toolbar.getHeight();
-                city_toolbar_root.layout(0, top, city_toolbar_root.getWidth(), top + city_toolbar_root.getHeight());
-                scrollFlag = 0;
+                toolbar.setVisibility(isShow ? View.VISIBLE : View.GONE);
+                toolbarVisible = true;
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-                HLog.d("============>重复播放==========");
             }
         });
         city_toolbar_root.startAnimation(translateAnimation);
@@ -459,7 +456,7 @@ public class CityActivity extends BaseActivity {
     private void scrollTop() {
         collShowToolbar();
         if (adapter != null) {
-            recyclerView.scrollBy(0, adapter.getTop(toolbar.getHeight()));
+            recyclerView.scrollBy(0, adapter.getTop(toolbar.getVisibility() == View.GONE, toolbar.getHeight()));
         }
         translate(true);
         collShowToolbar();
