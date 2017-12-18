@@ -153,19 +153,19 @@ public class CityActivity extends BaseActivity {
         int view1Height = adapter.cityHeaderModel.getView().getHeight();
         int toolbarHeight = toolbar.getHeight();
         HLog.d("=======> scrolledDistance：" + scrolledDistance + "，View1：" + view1Height + "，toolbar：" + toolbarHeight);
-        if(dy>0){
-            if (dy > 0 && scrolledDistance >= (view1Height - toolbarHeight) && filterContentView.getVisibility() == View.GONE) {
+        if (dy > 0) {
+            if (scrolledDistance >= (view1Height - toolbarHeight) && filterContentView.getVisibility() == View.GONE) {
                 filterContentView.setVisibility(View.VISIBLE);
             }
-            if (dy > 0 && scrolledDistance >= view1Height) {
+            if (scrolledDistance >= view1Height) {
                 toolbar.setVisibility(View.GONE); //隐藏toolbar
             }
-        }else{
-            if (dy < 0 && scrolledDistance < (view1Height - toolbarHeight) && filterContentView.getVisibility() == View.VISIBLE) {
+        } else {
+            if (scrolledDistance < (view1Height - toolbarHeight) && filterContentView.getVisibility() == View.VISIBLE) {
                 filterContentView.setVisibility(View.GONE);
             }
-            if (dy < 0 && scrolledDistance < view1Height) {
-                toolbar.setVisibility(View.VISIBLE); //显示toolbar
+            if (dy < 0 && Math.abs(dy)>5 && filterContentView.getVisibility() == View.VISIBLE && toolbar.getVisibility() == View.GONE) {
+                toolbar.setVisibility(View.VISIBLE);
             }
         }
 
