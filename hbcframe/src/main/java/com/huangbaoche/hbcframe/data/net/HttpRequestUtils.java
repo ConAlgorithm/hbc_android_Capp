@@ -119,9 +119,9 @@ public class HttpRequestUtils {
             public void onError(Throwable ex, boolean isOnCallback) {
                 boolean isReset = resetSSLSocketFactory(mContext, ex);
                 MLog.e(request.getClass().getSimpleName()+" onError",ex);
-                if (!isReset) {
+//                if (!isReset) {
                     listener.onDataRequestError(handleException(ex), request);
-                }
+//                }
             }
 
             @Override
