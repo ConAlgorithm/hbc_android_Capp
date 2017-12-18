@@ -23,11 +23,7 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestCollectLineNo;
-import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.data.request.RequestUncollectLinesNo;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -130,6 +126,9 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior, 
 
     @OnClick(R.id.home_banner_avatar_iv)
     public void intentGuideWebDetailActivity() {
+        if (albumBean.guideId == null) {
+            return;
+        }
         GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
         params.guideId = albumBean.guideId;
         Intent intent = new Intent(getContext(), GuideWebDetailActivity.class);

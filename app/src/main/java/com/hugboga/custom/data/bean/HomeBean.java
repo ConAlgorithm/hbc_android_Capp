@@ -46,10 +46,10 @@ public class HomeBean implements Serializable {
         }
 
         public String getGoodsName() {
-            if (!TextUtils.isEmpty(bannerName)) {
-                return bannerName;
-            } else if (!TextUtils.isEmpty(aliasName)) {
+            if (!TextUtils.isEmpty(aliasName)) {
                 return aliasName;
+            } else if (!TextUtils.isEmpty(bannerName)) {
+                return bannerName;
             }
             return "";
         }
@@ -73,7 +73,7 @@ public class HomeBean implements Serializable {
         public String guideName;                        // 司导姓名（专辑为2，司导时使用）
         public String guideAvatar;                      // 司导头像（专辑为2，司导时使用）
         public String guideHomeDesc;                    // 司导个人简介（专辑为2，司导时使用）
-        public int isCollected;                         // TODO 1:收藏 0:未收藏
+        public int isCollected;                         // 1:收藏 0:未收藏
         public int goodsFavoriteNum;                    // 商品收藏数
         public int goodsServiceDayNum;                  // 服务天数
         public String routeCityDesc;
@@ -91,10 +91,10 @@ public class HomeBean implements Serializable {
         }
 
         public String getGoodsName() {
-            if (!TextUtils.isEmpty(goodsName)) {
-                return goodsName;
-            } else if (!TextUtils.isEmpty(aliasName)) {
+            if (!TextUtils.isEmpty(aliasName)) {
                 return aliasName;
+            } else if (!TextUtils.isEmpty(goodsName)) {
+                return goodsName;
             }
             return "";
         }
