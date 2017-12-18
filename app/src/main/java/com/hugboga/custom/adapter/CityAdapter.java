@@ -8,12 +8,12 @@ import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
+import com.hugboga.custom.models.city.CityFilterModel;
+import com.hugboga.custom.models.city.CityHeaderModel;
 import com.hugboga.custom.models.city.CityListLabelModel;
 import com.hugboga.custom.models.city.CityListModel;
 import com.hugboga.custom.models.city.CitySkuNoModel;
 import com.hugboga.custom.models.city.CityWhatModel;
-import com.hugboga.custom.models.city.CityFilterModel;
-import com.hugboga.custom.models.city.CityHeaderModel;
 
 import java.util.List;
 
@@ -150,7 +150,12 @@ public class CityAdapter extends SkuAdapter {
         }
     }
 
-    public int getTop(int padding) {
-        return cityHeaderModel.getView().getBottom() + cityListLabelModel.holder.filterView.getHeight() - padding;
+    public int getTop(boolean toolbarShow, int padding) {
+        if (toolbarShow) {
+            //toolbar不显示
+            return cityHeaderModel.getView().getHeight() + cityListLabelModel.holder.filterView.getHeight() - padding;
+        } else {
+            return cityHeaderModel.getView().getHeight() + cityListLabelModel.holder.filterView.getHeight();
+        }
     }
 }
