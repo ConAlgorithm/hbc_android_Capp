@@ -124,10 +124,6 @@ public class CityActivity extends BaseActivity {
                         //最后的移动
                         recyclerView.scrollBy(0, top);
                     } else if (n < 0) {
-                        //获取要置顶的项顶部离RecyclerView顶部的距离
-//                        int top = recyclerView.getChildAt(mIndex - n).getTop() - toolbar.getHeight() * 2;
-                        //最后的移动
-//                        recyclerView.scrollBy(0, top);
                         linearLayoutManager.scrollToPositionWithOffset(mIndex, toolbar.getHeight() * 2);
                     }
                 }
