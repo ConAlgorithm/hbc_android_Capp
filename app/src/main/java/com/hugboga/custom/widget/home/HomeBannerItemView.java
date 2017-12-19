@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionExam;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
@@ -25,6 +26,7 @@ import net.grobas.view.PolygonImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by qingcha on 17/11/23.
@@ -144,6 +146,20 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
         exam.shareNo = String.valueOf(bannerBean.bannerSettingId);
         return exam;
     }
+
+    @OnClick(R.id.home_banner_avatar_iv)
+    public void intentGuideWebDetailActivity() {
+        if (bannerBean == null || TextUtils.isEmpty(bannerBean.guideId)) {
+            return;
+        }
+        GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
+        params.guideId = bannerBean.guideId;
+        Intent intent = new Intent(getContext(), GuideWebDetailActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        getContext().startActivity(intent);
+    }
+
 
     private String getEventSource() {
         return "首页";
