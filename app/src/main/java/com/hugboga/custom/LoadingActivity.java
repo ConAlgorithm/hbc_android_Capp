@@ -250,7 +250,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         }
         initView();
         try {
-            requestKey(UserEntity.getUser().getAccessKey(this).isEmpty());
+            requestKey(TextUtils.isEmpty(UserEntity.getUser().getAccessKey(this)));
         } catch (Exception e) {
         }
     }
