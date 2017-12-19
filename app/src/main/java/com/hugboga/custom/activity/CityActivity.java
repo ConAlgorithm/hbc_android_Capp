@@ -112,6 +112,25 @@ public class CityActivity extends BaseActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 onScrollFloat(dy);
+                //在这里进行第二次滚动（最后的距离）
+                if (move) {
+                    move = false;
+                    //获取要置顶的项在当前屏幕的位置，mIndex是记录的要置顶项在RecyclerView中的位置
+                    LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    int n = mIndex - linearLayoutManager.findFirstVisibleItemPosition();
+                    if (0 <= n && n < recyclerView.getChildCount()) {
+                        //获取要置顶的项顶部离RecyclerView顶部的距离
+                        int top = recyclerView.getChildAt(n).getTop() - toolbar.getHeight() * 2;
+                        //最后的移动
+                        recyclerView.scrollBy(0, top);
+                    } else if (n < 0) {
+                        //获取要置顶的项顶部离RecyclerView顶部的距离
+//                        int top = recyclerView.getChildAt(mIndex - n).getTop() - toolbar.getHeight() * 2;
+                        //最后的移动
+//                        recyclerView.scrollBy(0, top);
+                        linearLayoutManager.scrollToPositionWithOffset(mIndex, toolbar.getHeight() * 2);
+                    }
+                }
             }
 
             @Override
@@ -453,12 +472,7 @@ public class CityActivity extends BaseActivity {
      * 滑动到头部
      */
     private void scrollTop() {
-        int top = adapter.cityHeaderModel.getView().getBottom() + adapter.cityFilterModel.cityFilterView.getHeight() +
-                adapter.cityListLabelModel.holder.filterView.getHeight() - toolbar.getHeight() * 2;
-        if (recyclerView.getChildAt(2) != null) {
-            top = recyclerView.getChildAt(2).getBottom() - toolbar.getHeight() * 2;
-        }
-        recyclerView.scrollBy(0, top);
+        moveToPosition(3);
 //        if (adapter != null) {
 //            int top = adapter.getTop(toolbar.getVisibility() == View.GONE, toolbar.getHeight());
 //            recyclerView.scrollBy(0, top);
@@ -470,10 +484,14 @@ public class CityActivity extends BaseActivity {
                 toolbar.setVisibility(View.VISIBLE);
                 filterContentView.setVisibility(View.VISIBLE);
             }
-        }, 1000);
+        }, 500);
     }
 
+    private boolean move = false;
+    private int mIndex = 3;
+
     private void moveToPosition(int index) {
+        this.mIndex = index;
         //获取当前recycleView屏幕可见的第一项和最后一项的Position
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         int firstItem = linearLayoutManager.findFirstVisibleItemPosition();
@@ -482,15 +500,16 @@ public class CityActivity extends BaseActivity {
         if (index <= firstItem) {
             //当要置顶的项在当前显示的第一个项的前面时
             recyclerView.scrollToPosition(index);
+            move = true;
         } else if (index <= lastItem) {
             //当要置顶的项已经在屏幕上显示时，计算它离屏幕原点的距离
-            int top = recyclerView.getChildAt(index - firstItem).getTop();
+            int top = recyclerView.getChildAt(index - firstItem).getTop() - toolbar.getHeight() * 2;
             recyclerView.scrollBy(0, top);
         } else {
             //当要置顶的项在当前显示的最后一项的后面时
             recyclerView.scrollToPosition(index);
             //记录当前需要在RecyclerView滚动监听里面继续第二次滚动
-            moveToPosition(index);
+            move = true;
         }
     }
 
