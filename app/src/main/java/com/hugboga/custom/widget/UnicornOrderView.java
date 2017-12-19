@@ -118,6 +118,7 @@ public class UnicornOrderView extends LinearLayout implements HbcViewBehavior{
         builder.setDesc(timeTV.getText().toString());
         builder.setNote(orderNoTV.getText().toString());
         builder.setShow(1);
+        builder.setAlwaysSend(true);
         productDetail = builder.create();
     }
 

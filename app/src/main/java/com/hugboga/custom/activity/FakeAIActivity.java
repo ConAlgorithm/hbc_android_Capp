@@ -188,6 +188,7 @@ public class FakeAIActivity extends BaseActivity {
                             builder.setDesc("点击查看详情");
                             builder.setPicture("https://hbcdn.huangbaoche.com/im/im_default.png");
                             builder.setShow(1);
+                            builder.setAlwaysSend(true);
                             params.productDetail = builder.build();
                             intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                             intent.putExtra(Constants.PARAMS_DATA, params);
