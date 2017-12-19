@@ -3,6 +3,7 @@ package com.hugboga.custom.models;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.hugboga.custom.data.bean.DestinationHotItemBean;
 import com.hugboga.custom.data.bean.DestinationTabItemBean;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DestinationServiceview;
@@ -333,6 +335,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
                 cityViewHolder = (CityViewHolder) convertView.getTag();
             }
             final DestinationHotItemBean hotCity = hotCityList.get(position);
+            cityViewHolder.cityGuideCount.setVisibility(CommonUtils.getCountInteger(hotCity.guideCount) == 0 ? View.INVISIBLE : View.VISIBLE);
             cityViewHolder.cityGuideCount.setText(hotCity.guideCount + "位司导");
             cityViewHolder.cityName.setText(hotCity.destinationName);
             int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(6 * 2 + 15 * 2)) / 3;
