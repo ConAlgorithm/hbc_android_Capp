@@ -35,6 +35,7 @@ public class HomeBean implements Serializable {
         public ActionBean pushScheme;
         public String starCityName;
         public String aliasName;
+        public String guideId;
 
         public String getGuideName() {
             if (!TextUtils.isEmpty(guideName)) {

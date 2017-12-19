@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -126,7 +127,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior, 
 
     @OnClick(R.id.home_banner_avatar_iv)
     public void intentGuideWebDetailActivity() {
-        if (albumBean.guideId == null) {
+        if (TextUtils.isEmpty(albumBean.guideId)) {
             return;
         }
         GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();

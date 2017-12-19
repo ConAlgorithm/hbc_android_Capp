@@ -925,7 +925,7 @@
     <string name="home_service_past_album">往期专辑</string>
 
     <string name="home_goodes_title_transfer">境外中文接送机</string>
-    <string name="home_goodes_title_chartered">境外包车畅游</string>
+    <string name="home_goodes_title_chartered">按天包车畅游</string>
     <string name="home_goodes_favorite_num">%1$s人已收藏</string>
     <string name="home_goodes_service_day">%1$s天 · %2$s</string>
     <string name="home_goodes_type1">已认证</string>

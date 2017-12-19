@@ -337,6 +337,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     CommonUtils.showToast("加载中，请稍后重试");
                     break;
                 }
+                if (!CommonUtils.isLogin(this, getEventSource())) {
+                    break;
+                }
                 StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "固定线路");
                 UnicornServiceActivity.Params unicornServiceparams = new UnicornServiceActivity.Params();
                 unicornServiceparams.sourceType = UnicornServiceActivity.SourceType.TYPE_LINE;
