@@ -469,11 +469,6 @@ public class CityActivity extends BaseActivity {
      */
     private void scrollTop() {
         moveToPosition(3);
-//        if (adapter != null) {
-//            int top = adapter.getTop(toolbar.getVisibility() == View.GONE, toolbar.getHeight());
-//            recyclerView.scrollBy(0, top);
-//        }
-//        translate(true);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
