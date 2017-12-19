@@ -72,7 +72,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
         initMonthView();
 
         Tools.showImage(displayIV, params.skuItemBean.goodsPicture, R.mipmap.line_goods_dafault);
-        descriptionTV.setText(params.skuItemBean.goodsName);
+        descriptionTV.setText(params.skuItemBean.getGoodsName());
 
         if (params.guidesDetailData != null) {
             RelativeLayout.LayoutParams infoLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, UIUtils.dip2px(120));
@@ -137,7 +137,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
         startActivity(intent);
 
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put("routename", params.skuItemBean.goodsName);
+        map.put("routename", params.skuItemBean.getGoodsName());
         MobclickAgent.onEventValue(this, "chose_route", map, CommonUtils.getCountInteger(params.skuItemBean.goodsMinPrice));
         setSensorsOnClickEvent();
     }
@@ -188,7 +188,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_sku_id", params.skuItemBean.goodsNo);
-            properties.put("hbc_sku_name", params.skuItemBean.goodsName);
+            properties.put("hbc_sku_name", params.skuItemBean.getGoodsName());
             properties.put("hbc_sku_type", params.skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
             SensorsDataAPI.sharedInstance(this).track("sku_buy", properties);
         } catch (Exception e) {

@@ -52,7 +52,7 @@ public class UnicornUtils {
 
     private static final String UNICORN_APPKEY = "d1838897aaf0debe1da1f0443c6942ff";
     private static final String CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
-    public static final int UNICORN_ERP_GROUPID = 128411;//售前ID
+    public static final int UNICORN_ERP_GROUPID = 196067;//售前ID
 
     public static void initUnicorn() {
         try {

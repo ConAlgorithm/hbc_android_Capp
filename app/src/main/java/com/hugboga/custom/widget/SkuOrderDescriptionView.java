@@ -48,7 +48,7 @@ public class SkuOrderDescriptionView extends LinearLayout{
 
         Tools.showImage(itineraryIV, skuItemBean.goodsPicture);
 
-        titleTV.setText(skuItemBean.goodsName);
+        titleTV.setText(skuItemBean.getGoodsName());
 
         startDateTV.setText(CommonUtils.getString(R.string.order_sku_desc_start_date, serverDate));
         endDateTV.setText(CommonUtils.getString(R.string.order_sku_desc_end_date, serverDate, DateUtils.getDay(serverDate, skuItemBean.daysCount - 1)));

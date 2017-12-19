@@ -83,7 +83,7 @@ public class CityHotPagerAdapter extends PagerAdapter {
             SkuItemBean skuItemBean = hotExplorations.get(position);
             Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
             customCount.setText(skuItemBean.guideAmount + "位中文导游可服务");
-            bottomTitle.setText(skuItemBean.goodsName);
+            bottomTitle.setText(skuItemBean.getGoodsName());
             guideCountView.setText(skuItemBean.saleAmount + "人已体验");
 
             String price = "￥" + skuItemBean.perPrice;
