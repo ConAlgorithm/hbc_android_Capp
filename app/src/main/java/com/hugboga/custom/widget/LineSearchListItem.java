@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +33,8 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
     TextView title;
     @BindView(R.id.poi_des)
     TextView poiDes;
+    @BindView(R.id.tagNameDes)
+    TextView tagNameDes; //标签描述语
     @BindView(R.id.search_line_location)
     TextView location;
     @BindView(R.id.pic_line)
@@ -42,8 +45,9 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
     Activity activity;
     SearchLineBean.GoodsPublishStatusVo goodsPublishStatusVo;
     String keyword;
+
     public LineSearchListItem(Context context) {
-        this(context,null);
+        this(context, null);
         this.context = context;
     }
 
@@ -56,62 +60,90 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
     @Override
     public void update(Object _data) {
 
-        if(_data!= null && _data instanceof SearchLineBean.GoodsPublishStatusVo){
+        if (_data != null && _data instanceof SearchLineBean.GoodsPublishStatusVo) {
             goodsPublishStatusVo = (SearchLineBean.GoodsPublishStatusVo) _data;
-            if(keyword!= null){
+            if (keyword != null) {
                 goodsPublishStatusVo.keyword = keyword;
             }
         }
         final String allLocation = goodsPublishStatusVo.depCityName + "-" + goodsPublishStatusVo.depPlaceName;
-        if(goodsPublishStatusVo.keyword != null && goodsPublishStatusVo.keyword.toString().length() >0){
-            SpannableString temptitle = SearchUtils.matcherSearchText(context,getResources().getColor(R.color.all_bg_yellow),goodsPublishStatusVo.name,goodsPublishStatusVo.keyword);
-            SpannableString templocation = SearchUtils.matcherSearchText(context,getResources().getColor(R.color.all_bg_yellow),allLocation,goodsPublishStatusVo.keyword);
+        if (goodsPublishStatusVo.keyword != null && goodsPublishStatusVo.keyword.toString().length() > 0) {
+            SpannableString temptitle = SearchUtils.matcherSearchText(context, getResources().getColor(R.color.all_bg_yellow), goodsPublishStatusVo.name, goodsPublishStatusVo.keyword);
+            SpannableString templocation = SearchUtils.matcherSearchText(context, getResources().getColor(R.color.all_bg_yellow), allLocation, goodsPublishStatusVo.keyword);
 
             title.setText(temptitle);
             location.setText(templocation);
-        }else{
+        } else {
             title.setText(goodsPublishStatusVo.name);
             location.setText(allLocation);
         }
-        pricePer.setText("¥" + (int)goodsPublishStatusVo.prePrice + "起/人");
-        Tools.showImage(picLine,goodsPublishStatusVo.pics,R.mipmap.line_search_default);
+        resetTagName(); //标签描述语
+        pricePer.setText("¥" + (int) goodsPublishStatusVo.prePrice + "起/人");
+        Tools.showImage(picLine, goodsPublishStatusVo.pics, R.mipmap.line_search_default);
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if((activity instanceof SearchDestinationGuideLineActivity)
+                if ((activity instanceof SearchDestinationGuideLineActivity)
                         || (activity instanceof ChooseCityNewActivity)) {
                     Intent intent = new Intent(activity, SkuDetailActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, goodsPublishStatusVo.goodsDetailUrl);
                     intent.putExtra(Constants.PARAMS_ID, goodsPublishStatusVo.no);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    intent.putExtra("isFromHome",true);
+                    intent.putExtra("isFromHome", true);
                     activity.startActivity(intent);
                 }
             }
         });
-        if(goodsPublishStatusVo.poiNames!= null && goodsPublishStatusVo.poiNames.size() >0){
+        if (goodsPublishStatusVo.poiNames != null && goodsPublishStatusVo.poiNames.size() > 0) {
             poiDes.setVisibility(VISIBLE);
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("包含“");
-            for (int i=0;i<goodsPublishStatusVo.poiNames.size();i++){
+            for (int i = 0; i < goodsPublishStatusVo.poiNames.size(); i++) {
                 stringBuilder.append(goodsPublishStatusVo.poiNames.get(i)).append("”地点、“");
             }
-            CharSequence charSequence = stringBuilder.subSequence(0,stringBuilder.length()-2);
-            SpannableString displayPoi = SearchUtils.matcherSearchText(context,getResources().getColor(R.color.all_bg_yellow),charSequence.toString(),goodsPublishStatusVo.keyword);
+            CharSequence charSequence = stringBuilder.subSequence(0, stringBuilder.length() - 2);
+            SpannableString displayPoi = SearchUtils.matcherSearchText(context, getResources().getColor(R.color.all_bg_yellow), charSequence.toString(), goodsPublishStatusVo.keyword);
             poiDes.setText(displayPoi);
-        }else{
+        } else {
             poiDes.setVisibility(GONE);
         }
     }
 
-    public void setkeyWord(String keyword){
+    public void setkeyWord(String keyword) {
         this.keyword = keyword;
     }
 
-    public void setActivity(Activity activity){
+    public void setActivity(Activity activity) {
         this.activity = activity;
     }
-    public String getEventSource(){
+
+    public String getEventSource() {
         return "全局搜索";
+    }
+
+    /**
+     * 显示标签提示语
+     */
+    private void resetTagName() {
+        if (!TextUtils.isEmpty(goodsPublishStatusVo.tagNames)) {
+            tagNameDes.setVisibility(View.VISIBLE);
+            tagNameDes.setText(getStrOfKeyword(goodsPublishStatusVo.tagNames));
+        } else {
+            tagNameDes.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 对关键字进行加工处理
+     *
+     * @param str
+     * @return
+     */
+    private SpannableString getStrOfKeyword(String str) {
+        SpannableString ss = new SpannableString(str);
+        if (goodsPublishStatusVo.keyword != null && goodsPublishStatusVo.keyword.toString().length() > 0) {
+            ss = SearchUtils.matcherSearchText(context, getResources().getColor(R.color.all_bg_yellow), str, goodsPublishStatusVo.keyword);
+        }
+        return ss;
     }
 }
