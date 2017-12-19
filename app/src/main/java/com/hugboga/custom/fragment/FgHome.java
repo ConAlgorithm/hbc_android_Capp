@@ -16,8 +16,8 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.FakeAIActivity;
-import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
@@ -197,7 +197,7 @@ public class FgHome extends BaseFragment {
                     boolean scope = firstVisibleItemPosition == 0 && scrollY <= bannerHeight && scrollY >= bannerHeight - region;
                     boolean scope2 = firstVisibleItemPosition == 1 && scrollY <= aiViewHeight;
                     if (scope) {
-                        setHeaderAnimator((int)(bannerHeight + aiViewHeight + UIUtils.dip2px(15)) - scrollY);
+                        setHeaderAnimator((int) (bannerHeight + aiViewHeight + UIUtils.dip2px(15)) - scrollY);
                     } else if (scope2) {
                         setHeaderAnimator(aiViewHeight - scrollY);
                     }
@@ -258,11 +258,11 @@ public class FgHome extends BaseFragment {
 
     @OnClick({R.id.homed_titlebar_search_iv})
     public void intentSearchActivity() {
-        Intent intent = new Intent(this.getContext(), SearchDestinationGuideLineActivity.class);
+        Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
         intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
         intent.putExtra("isHomeIn", true);
-        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-        this.getContext().startActivity(intent);
+        intent.putExtra("source", getEventSource());
+        startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, getEventSource());
     }
 

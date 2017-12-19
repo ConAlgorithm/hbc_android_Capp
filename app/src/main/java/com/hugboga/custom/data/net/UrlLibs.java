@@ -230,7 +230,7 @@ public class UrlLibs {
     public static final String API_QUERY_GOODS_STOCK        = "goods/v1.0/c/queryGoodsStock";                           // 商品库存171
     public static final String API_QUERY_GUIDE_STOCK        = "goods/v1.0/c/queryGuideGoodsStock";                      // 商品司导库存172
     public static final String API_GOODS_GUIDE_FILTER_OPTIONS= "goods/v1.0/c/goodsguidecondition";                      // 关联商品的可服务司导过滤条件 175
-    public static final String API_GOODS_LINE_SEARCH        = "goods/v1.0/c/goodsSearch";                               // 线路搜索 177
+    public static final String API_GOODS_LINE_SEARCH        = "goods/v1.1/c/goodsSearch";                               // 线路搜索 177
     public static final String API_RECOMMENDED_GOODS        = "goods/v1.0/c/crossRecommendedGoods";                     // 根据订单城市交叉推荐商品列表v1.0 185
     public static final String API_CITY_DESTINATION_HOME    = "goods/v1.0/c/queryDestinationHome";                      // 查询目的地首页 194
     public static final String API_CITY_QUERY_SKU_LIST      = "goods/v1.0/c/pageQueryDestinationGoodsList?";            // 查询目的地玩法列表 195
