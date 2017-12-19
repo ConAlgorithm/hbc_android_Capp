@@ -153,9 +153,9 @@ public class CityAdapter extends SkuAdapter {
     public int getTop(boolean toolbarShow, int padding) {
         if (toolbarShow) {
             //toolbar不显示
-            return cityHeaderModel.getView().getHeight() + cityListLabelModel.holder.filterView.getHeight() - padding;
+            return cityHeaderModel.getView().getBottom() + cityListLabelModel.holder.filterView.getHeight() - padding;
         } else {
-            return cityHeaderModel.getView().getHeight() + cityListLabelModel.holder.filterView.getHeight();
+            return cityHeaderModel.getView().getBottom() + cityListLabelModel.holder.filterView.getHeight();
         }
     }
 }

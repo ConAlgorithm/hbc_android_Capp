@@ -32,7 +32,6 @@ import com.hugboga.custom.data.request.RequestQuerySkuList;
 import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterContentView;
 import com.hugboga.custom.widget.city.CityFilterView;
-import com.hugboga.tools.HLog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -454,23 +453,42 @@ public class CityActivity extends BaseActivity {
      * 滑动到头部
      */
     private void scrollTop() {
-        collShowToolbar();
-        if (adapter != null) {
-            recyclerView.scrollBy(0, adapter.getTop(toolbar.getVisibility() == View.GONE, toolbar.getHeight()));
-        }
-        translate(true);
-        collShowToolbar();
+
+        int top = recyclerView.getChildAt(2).getBottom() - toolbar.getHeight() * 2;
+        recyclerView.scrollBy(0, top);
+//        if (adapter != null) {
+//            int top = adapter.getTop(toolbar.getVisibility() == View.GONE, toolbar.getHeight());
+//            recyclerView.scrollBy(0, top);
+//        }
+//        translate(true);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                collShowToolbar();
+                toolbar.setVisibility(View.VISIBLE);
+                filterContentView.setVisibility(View.VISIBLE);
             }
         }, 1000);
     }
 
-    private void collShowToolbar() {
-        toolbar.setVisibility(View.VISIBLE);
-        filterContentView.setVisibility(View.VISIBLE);
+    private void moveToPosition(int index) {
+        //获取当前recycleView屏幕可见的第一项和最后一项的Position
+        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        int firstItem = linearLayoutManager.findFirstVisibleItemPosition();
+        int lastItem = linearLayoutManager.findLastVisibleItemPosition();
+        //然后区分情况
+        if (index <= firstItem) {
+            //当要置顶的项在当前显示的第一个项的前面时
+            recyclerView.scrollToPosition(index);
+        } else if (index <= lastItem) {
+            //当要置顶的项已经在屏幕上显示时，计算它离屏幕原点的距离
+            int top = recyclerView.getChildAt(index - firstItem).getTop();
+            recyclerView.scrollBy(0, top);
+        } else {
+            //当要置顶的项在当前显示的最后一项的后面时
+            recyclerView.scrollToPosition(index);
+            //记录当前需要在RecyclerView滚动监听里面继续第二次滚动
+            moveToPosition(index);
+        }
     }
 
     @Override
