@@ -30,7 +30,7 @@ public class CityAdapter extends SkuAdapter {
 
     public CityHeaderModel cityHeaderModel; //头部广告部分
     public CityFilterModel cityFilterModel; //过滤器部分
-    CityListLabelModel cityListLabelModel; //快速选择标签区
+    public CityListLabelModel cityListLabelModel; //快速选择标签区
     CitySkuNoModel citySkuNoModel; //筛选没有玩法显示
     CityWhatModel cityWhatModel; //我要咨询入口
 

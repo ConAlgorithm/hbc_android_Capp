@@ -453,8 +453,11 @@ public class CityActivity extends BaseActivity {
      * 滑动到头部
      */
     private void scrollTop() {
-
-        int top = recyclerView.getChildAt(2).getBottom() - toolbar.getHeight() * 2;
+        int top = adapter.cityHeaderModel.getView().getBottom() + adapter.cityFilterModel.cityFilterView.getHeight() +
+                adapter.cityListLabelModel.holder.filterView.getHeight() - toolbar.getHeight() * 2;
+        if (recyclerView.getChildAt(2) != null) {
+            top = recyclerView.getChildAt(2).getBottom() - toolbar.getHeight() * 2;
+        }
         recyclerView.scrollBy(0, top);
 //        if (adapter != null) {
 //            int top = adapter.getTop(toolbar.getVisibility() == View.GONE, toolbar.getHeight());
