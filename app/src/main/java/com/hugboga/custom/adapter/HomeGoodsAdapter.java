@@ -55,7 +55,7 @@ public class HomeGoodsAdapter<T> extends RecyclerView.Adapter<HomeGoodsAdapter.M
                 break;
             case TYPE_MORE:
                 HomeMoreView moreView = new HomeMoreView(mContext);
-                moreView.setDescTest(mContext.getResources().getString(R.string.home_more));
+                moreView.setDescTest(mContext.getResources().getString(R.string.home_book));
                 ViewGroup.LayoutParams params= new ViewGroup.LayoutParams(displayImgWidth, ViewGroup.LayoutParams.MATCH_PARENT);
                 moreView.setLayoutParams(params);
                 itemView = moreView;
