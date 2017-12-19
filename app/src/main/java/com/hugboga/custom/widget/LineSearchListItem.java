@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +18,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchLineBean;
 import com.hugboga.custom.utils.SearchUtils;
 import com.hugboga.custom.utils.Tools;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -123,12 +124,33 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
      * 显示标签提示语
      */
     private void resetTagName() {
-        if (!TextUtils.isEmpty(goodsPublishStatusVo.tagNames)) {
+        if (goodsPublishStatusVo.tagNames != null && goodsPublishStatusVo.tagNames.size() > 0) {
             tagNameDes.setVisibility(View.VISIBLE);
-            tagNameDes.setText(getStrOfKeyword(goodsPublishStatusVo.tagNames));
+            tagNameDes.setText(getStrOfKeyword(getStrTagName(goodsPublishStatusVo.tagNames)));
         } else {
             tagNameDes.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * 组织标签显示文字
+     *
+     * @param tagNames
+     * @return
+     */
+    private String getStrTagName(List<String> tagNames) {
+        StringBuilder sb = new StringBuilder();
+        for (String tagName : tagNames) {
+            if(sb.length()>0){
+                sb.append("、");
+            }
+            sb.append("");
+            sb.append("\"");
+            sb.append(tagName);
+            sb.append("\"");
+            sb.append("游玩线路");
+        }
+        return "属于" + sb.toString();
     }
 
     /**
