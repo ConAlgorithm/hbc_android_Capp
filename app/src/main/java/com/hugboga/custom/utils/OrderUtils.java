@@ -691,7 +691,7 @@ public class OrderUtils {
 
         orderBean.orderType = orderType;
         orderBean.goodsNo = skuBean.goodsNo;
-        orderBean.lineSubject = skuBean.goodsName;
+        orderBean.lineSubject = skuBean.getGoodsName();
         orderBean.lineDescription = skuBean.salePoints;
         orderBean.orderGoodsType = skuBean.goodsType;
         orderBean.serviceTime = startDate;//日期

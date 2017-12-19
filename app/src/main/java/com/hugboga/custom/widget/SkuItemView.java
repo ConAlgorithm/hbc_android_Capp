@@ -86,7 +86,7 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpReq
         if(skuItemBean!= null) {
             Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
             customCount.setText(skuItemBean.transactionVolumes + "人已体验");
-            bottomTitle.setText(skuItemBean.goodsName);
+            bottomTitle.setText(skuItemBean.getGoodsName());
             guideCountView.setText(skuItemBean.guideAmount + "位中文司导可服务");
 
             String price = "￥" + skuItemBean.perPrice;

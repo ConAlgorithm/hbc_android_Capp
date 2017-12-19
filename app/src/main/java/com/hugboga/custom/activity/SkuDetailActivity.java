@@ -289,7 +289,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         switch (view.getId()) {
             case R.id.header_right_btn:
                 if (skuItemBean != null) {
-                    String title = skuItemBean.goodsName;
+                    String title = skuItemBean.getGoodsName();
                     String content = skuItemBean.salePoints;
                     String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
                     shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
@@ -558,7 +558,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             JSONObject properties = new JSONObject();
             properties.put("hbc_refer", getIntentSource());
             properties.put("hbc_sku_id", skuItemBean.goodsNo);
-            properties.put("hbc_sku_name", skuItemBean.goodsName);
+            properties.put("hbc_sku_name", skuItemBean.getGoodsName());
             properties.put("hbc_sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
             properties.put("hbc_city_name", skuItemBean.depCityName);
             properties.put("hbc_price_average", CommonUtils.getCountInteger(skuItemBean.perPrice));
@@ -576,7 +576,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             JSONObject properties2 = new JSONObject();
             properties2.put("refer", getIntentSource());
             properties2.put("goodsNo", skuItemBean.goodsNo);
-            properties2.put("goodsName", skuItemBean.goodsName);
+            properties2.put("goodsName", skuItemBean.getGoodsName());
             properties2.put("depCityId", skuItemBean.depCityId);
             properties2.put("depCityName", skuItemBean.depCityName);
             properties2.put("goodsType", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");

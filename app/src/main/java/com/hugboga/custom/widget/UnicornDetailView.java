@@ -64,7 +64,7 @@ public class UnicornDetailView extends LinearLayout implements HbcViewBehavior{
         if (skuItemBean == null) {
             return;
         }
-        titleTV.setText(skuItemBean.goodsName);
+        titleTV.setText(skuItemBean.getGoodsName());
         priceTV.setText(skuItemBean.perPrice);
         String otherStr = String.format("起/人 · %1$s日", skuItemBean.daysCount);
         if (skuItemBean.hotelStatus == 1) {// 是否含酒店
