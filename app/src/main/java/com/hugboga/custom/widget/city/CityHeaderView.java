@@ -6,14 +6,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,8 +51,17 @@ public class CityHeaderView extends FrameLayout {
         ButterKnife.bind(this, view);
     }
 
+    private void resetImageLayout() {
+        int width = UIUtils.getScreenWidth() - UIUtils.dip2px(16 * 2);
+        ViewGroup.LayoutParams layoutParams = city_header_img.getLayoutParams();
+        layoutParams.width = width;
+        layoutParams.height = width;
+        city_header_img.setLayoutParams(layoutParams);
+    }
+
     public void init(Activity activity, DestinationHomeVo vo, CityActivity.Params params) {
         this.mActivity = activity;
+        resetImageLayout(); //重置图片大小
         Tools.showImageNotCenterCrop(city_header_img, vo.destinationImageUrl, R.mipmap.des_city_dafault);
         if (cityHeaderCountView != null) {
             cityHeaderCountView.init(mActivity, vo.destinationGoodsCount, vo.destinationAssociateGuideCount, vo.destinationServiceGuideCount);
