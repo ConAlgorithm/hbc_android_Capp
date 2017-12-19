@@ -90,6 +90,17 @@ public class FgHome extends BaseFragment {
     public void onStart() {
         super.onStart();
         setSensorsViewScreenBeginEvent();
+        if (homeAdapter != null) {
+            homeAdapter.startAutoScroll();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (homeAdapter != null) {
+            homeAdapter.stopAutoScroll();
+        }
     }
 
     @Override
@@ -163,7 +174,7 @@ public class FgHome extends BaseFragment {
                 } else {
                     titlebarAiIV.setVisibility(View.GONE);
                 }
-                if (firstVisibleItemPosition == 0 && scrollY < bannerHeight - UIUtils.dip2px(130) - UIUtils.dip2px(20)) {
+                if (firstVisibleItemPosition == 0 && scrollY < bannerHeight - region - UIUtils.dip2px(20)) {
                     homeAdapter.homeAiModel.homeAIView.setProgress(0);
                 }
             }
@@ -181,13 +192,14 @@ public class FgHome extends BaseFragment {
                     int scrollY = Math.abs(homeRecyclerView.getChildAt(0).getTop());
                     float bannerHeight = homeAdapter.homeBannerModel.itemView.getBannerLayoutHeight();
                     float region = UIUtils.dip2px(130);
+                    int aiViewHeight = UIUtils.dip2px(46);
 
                     boolean scope = firstVisibleItemPosition == 0 && scrollY <= bannerHeight && scrollY >= bannerHeight - region;
-                    boolean scope2 = firstVisibleItemPosition == 1 && scrollY <= UIUtils.dip2px(46);
+                    boolean scope2 = firstVisibleItemPosition == 1 && scrollY <= aiViewHeight;
                     if (scope) {
-                        setHeaderAnimator((int)(bannerHeight + UIUtils.dip2px(46) + UIUtils.dip2px(15)) - scrollY);
+                        setHeaderAnimator((int)(bannerHeight + aiViewHeight + UIUtils.dip2px(15)) - scrollY);
                     } else if (scope2) {
-                        setHeaderAnimator(UIUtils.dip2px(46) - scrollY);
+                        setHeaderAnimator(aiViewHeight - scrollY);
                     }
                 }
             }

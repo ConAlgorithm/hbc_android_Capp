@@ -18,6 +18,7 @@ public class HomeAdapter extends EpoxyAdapter {
     public HomeAiModel homeAiModel;
     public HomeBannerModel homeBannerModel;
     public HomeEmptyModel emptyModel;
+    public HomeExcitedActivityModel excitedActivityModel;
 
     public HomeAdapter() {
         homeAiModel = new HomeAiModel();
@@ -53,7 +54,7 @@ public class HomeAdapter extends EpoxyAdapter {
         charteredModel.setDate(homeBean.charteredList, HomeGoodsModel.TYPE_CHARTERED);
         addModel(charteredModel);
 
-        HomeExcitedActivityModel excitedActivityModel = new HomeExcitedActivityModel();
+        excitedActivityModel = new HomeExcitedActivityModel();
         excitedActivityModel.setData(homeBean.excitingActivityList);
         addModel(excitedActivityModel);
 
@@ -65,5 +66,23 @@ public class HomeAdapter extends EpoxyAdapter {
             emptyModel = new HomeEmptyModel();
         }
         addModel(emptyModel);
+    }
+
+    public void stopAutoScroll() {
+        if (homeBannerModel != null && homeBannerModel.itemView != null) {
+            homeBannerModel.itemView.stopAutoScroll();
+        }
+        if (excitedActivityModel != null && excitedActivityModel.itemView != null) {
+            excitedActivityModel.itemView.stopAutoScroll();
+        }
+    }
+
+    public void startAutoScroll() {
+        if (homeBannerModel != null && homeBannerModel.itemView != null) {
+            homeBannerModel.itemView.startAutoScroll();
+        }
+        if (excitedActivityModel != null && excitedActivityModel.itemView != null) {
+            excitedActivityModel.itemView.startAutoScroll();
+        }
     }
 }

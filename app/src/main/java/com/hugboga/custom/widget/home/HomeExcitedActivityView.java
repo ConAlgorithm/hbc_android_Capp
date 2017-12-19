@@ -92,6 +92,18 @@ public class HomeExcitedActivityView extends LinearLayout implements HbcViewBeha
         mViewPager.startAutoScroll();
     }
 
+    public void stopAutoScroll() {
+        if (mViewPager != null && mAdapter != null) {
+            mViewPager.stopAutoScroll();
+        }
+    }
+
+    public void startAutoScroll() {
+        if (mViewPager != null && mAdapter != null) {
+            mViewPager.startAutoScroll();
+        }
+    }
+
     private static class ItemImageView extends AppCompatImageView implements HbcViewBehavior, OnClickListener{
 
         private HomeBean.ExcitedActivityBean itemData;
