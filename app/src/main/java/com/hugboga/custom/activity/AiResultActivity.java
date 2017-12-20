@@ -14,6 +14,9 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
+
+import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -21,6 +24,7 @@ import butterknife.OnClick;
 public class AiResultActivity extends BaseActivity {
 
     public static final String KEY_AI_RESULT = "key_ai_result";
+    public static final String KEY_AI_RESULT_TO_SERVICE = "key_ai_result_two";
 
     @BindView(R.id.header_title_center)
     TextView header_title_center;
@@ -29,6 +33,7 @@ public class AiResultActivity extends BaseActivity {
 
     AiResultAdapter adapter;
     public DestinationHomeVo destinationHomeVo; //推荐结果显示
+    public UnicornServiceActivity.Params params;
 
     @Override
     public int getContentViewId() {
@@ -41,10 +46,12 @@ public class AiResultActivity extends BaseActivity {
         header_title_center.setText(getTitle());
         if (savedInstanceState != null) {
             destinationHomeVo = savedInstanceState.getParcelable(KEY_AI_RESULT);
+
         } else {
             Bundle bundle = this.getIntent().getExtras();
             if (bundle != null) {
                 destinationHomeVo = bundle.getParcelable(KEY_AI_RESULT);
+                params = (UnicornServiceActivity.Params) bundle.getSerializable(KEY_AI_RESULT_TO_SERVICE);
             }
         }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -52,8 +59,9 @@ public class AiResultActivity extends BaseActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new AiResultAdapter(this);
         recyclerView.setAdapter(adapter);
-        adapter.showAiResult(destinationHomeVo);
+        adapter.showAiResult(destinationHomeVo, params);
         queryFavoriteLineList(); //查询收藏玩法信息
+        SensorsUtils.setPageEvent(getEventSource(), getEventSource(), getIntentSource());
     }
 
     @Override
@@ -92,5 +100,10 @@ public class AiResultActivity extends BaseActivity {
             adapter.resetFavious(favoriteLine.goodsNos);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public String getEventSource() {
+        return "AI推荐结果";
     }
 }

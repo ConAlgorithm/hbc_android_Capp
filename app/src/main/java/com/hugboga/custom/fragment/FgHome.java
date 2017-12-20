@@ -268,7 +268,9 @@ public class FgHome extends BaseFragment {
 
     @OnClick({R.id.homed_titlebar_ai_iv})
     public void aiClickActivity() {
-        startActivity(new Intent(getContext(), FakeAIActivity.class));
+        Intent intent = new Intent(getContext(), FakeAIActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        startActivity(intent);
     }
 
     @Override

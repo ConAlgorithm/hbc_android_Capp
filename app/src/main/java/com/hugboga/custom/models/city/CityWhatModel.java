@@ -7,8 +7,11 @@ import android.view.View;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.AiResultActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.ButterKnife;
@@ -22,6 +25,7 @@ import butterknife.OnClick;
 public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH> {
 
     Context mContext;
+    public UnicornServiceActivity.Params params;
 
     public CityWhatModel(Context mContext) {
         this.mContext = mContext;
@@ -45,14 +49,19 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
         }
     }
 
+    public void setParams(UnicornServiceActivity.Params params) {
+        this.params = params;
+    }
+
     /**
      * 是否显示此model
+     *
      * @param isShow
      */
-    public void noteicModel(boolean isShow){
-        if(isShow){
+    public void noteicModel(boolean isShow) {
+        if (isShow) {
             show();
-        }else{
+        } else {
             hide();
         }
     }
@@ -68,10 +77,20 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
         public void onClick(View view) {
             // 这里开始咨询跳转到指定坐席的人工客服
             if (CommonUtils.isLogin(mContext, "推荐页面")) {//判断是否登陆
-                UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+                if(params==null){
+                    UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+                    params.sourceType = UnicornServiceActivity.SourceType.TYPE_AI_RESULT;
+                }
                 Intent intent = new Intent(mContext, UnicornServiceActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
+                if (view.getContext() instanceof AiResultActivity) {
+                    AiResultActivity aiResultActivity = (AiResultActivity) view.getContext();
+                    SensorsUtils.onAppClick(aiResultActivity.getEventSource(), aiResultActivity.getEventSource(), "咨询客服", aiResultActivity.getIntentSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, aiResultActivity.getEventSource());
+                } else if (view.getContext() instanceof CityActivity) {
+                    CityActivity cityActivity = (CityActivity) view.getContext();
+                    intent.putExtra(Constants.PARAMS_SOURCE, cityActivity.getEventSource());
+                }
                 mContext.startActivity(intent);
             }
         }

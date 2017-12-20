@@ -290,7 +290,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             case R.id.header_right_btn:
                 if (skuItemBean != null) {
                     String title = skuItemBean.getGoodsName();
-                    String content = skuItemBean.salePoints;
+                    String content = TextUtils.isEmpty(skuItemBean.salePoints) ?  "这个线路太赞了，快来看看" : skuItemBean.salePoints;
                     String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
                     shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
                     skuShare(skuItemBean.goodsPicture, title, content, shareUrl);

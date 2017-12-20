@@ -62,5 +62,11 @@ public class FakeAIAdapter extends EpoxyAdapter {
         addModel(model);
 
     }
+    public void clearWaitView(){
+        if (item_WaitModel != null) {
+            removeModel(item_WaitModel);
+            item_WaitModel = null;
+        }
+    }
 
 }
