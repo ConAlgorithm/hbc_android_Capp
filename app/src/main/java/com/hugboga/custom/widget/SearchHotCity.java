@@ -18,6 +18,7 @@ import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
+import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.List;
@@ -74,25 +75,19 @@ public class SearchHotCity extends LinearLayout{
         dayServiceLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), CharterFirstStepActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                getContext().startActivity(intent);
+                IntentUtils.intentCharterActivity(getContext(), getEventSource());
             }
         });
         pickupServiceLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), PickSendActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                getContext().startActivity(intent);
+                IntentUtils.intentPickupActivity(getContext(), getEventSource());
             }
         });
         singleServiceLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), SingleActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                getContext().startActivity(intent);
+                IntentUtils.intentSingleActivity(getContext(), getEventSource());
             }
         });
         displayColumns(cityList.size());
