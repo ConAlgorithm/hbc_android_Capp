@@ -1,6 +1,7 @@
 package com.hugboga.custom.models;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,13 +9,18 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.QueryCityActivity;
+import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.data.bean.SearchGroupBean;
+import com.hugboga.custom.utils.SearchUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 /**
  * Created by zhangqiang on 17/8/23.
@@ -27,14 +33,12 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
     List<SearchGroupBean> list;
     Context context;
     String keyword;
-
-    public SearchMoreModel(Context context, String searchMoreString, List<SearchGroupBean> list, String keyword) {
+    public SearchMoreModel(Context context,String searchMoreString,List<SearchGroupBean> list,String keyword){
         this.searchMoreString = searchMoreString;
-        this.context = context;
-        this.list = list;
+        this.context= context;
+        this.list =list;
         this.keyword = keyword;
     }
-
     @Override
     protected SearchMoreHolder createNewHolder() {
         return new SearchMoreHolder();
@@ -51,7 +55,7 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
         if (holder == null) {
             return;
         }
-        searchMoreHolder = holder;
+        searchMoreHolder =holder;
         init();
     }
 
@@ -61,7 +65,6 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
         TextView textView;
         @BindView(R.id.img)
         ImageView imageView;
-
         @Override
         protected void bindView(View itemView) {
             this.itemView = itemView;
@@ -69,26 +72,42 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
         }
     }
 
-    private void init() {
-        if (searchMoreHolder != null) {
+    private void init(){
+        if(searchMoreHolder!= null){
             searchMoreHolder.textView.setText(searchMoreString);
-            if (searchMoreString.startsWith(context.getResources().getString(R.string.home_search_more_about))) {
+            if(searchMoreString.startsWith(context.getResources().getString(R.string.home_search_more_about))){
                 searchMoreHolder.imageView.setImageResource(R.mipmap.icon_more);
                 searchMoreHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (context instanceof ChooseCityNewActivity) {
-                            ((ChooseCityNewActivity) context).searchAllResult(keyword.trim());
+                        if(context instanceof SearchDestinationGuideLineActivity){
+                            ((SearchDestinationGuideLineActivity)context).searchAdapter.removeModels();
+                            ((SearchDestinationGuideLineActivity)context).searchAfterAdapter.removeModels();
+                            ((SearchDestinationGuideLineActivity)context).search_after_list.setVisibility(VISIBLE);
+                            ((SearchDestinationGuideLineActivity)context).search_first_list.setVisibility(GONE);
+                            ((SearchDestinationGuideLineActivity)context).addAfterSearchDestinationModel(list,keyword);
+                            if(!TextUtils.isEmpty(keyword.trim())){
+                                SearchUtils.addCityHistorySearch(keyword);
+                            }
+                            SearchUtils.isHistory = false;
+                            SearchUtils.isRecommend = false;
+                            ((SearchDestinationGuideLineActivity) context).hideSoftInput();
+                        }else if(context instanceof QueryCityActivity){
+                            ((QueryCityActivity)context).searchAllResult(keyword.trim());
                         }
                     }
                 });
-            } else if (searchMoreString.startsWith(context.getResources().getString(R.string.home_search_moree))) {
+            }else if(searchMoreString.startsWith(context.getResources().getString(R.string.home_search_moree))){
                 searchMoreHolder.imageView.setImageResource(R.mipmap.search_pull_down);
                 searchMoreHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (context instanceof ChooseCityNewActivity) {
-                            ((ChooseCityNewActivity) context).showMoreSearchDestination();
+                        if(context instanceof SearchDestinationGuideLineActivity){
+                            ((SearchDestinationGuideLineActivity)context).search_after_list.setVisibility(VISIBLE);
+                            ((SearchDestinationGuideLineActivity)context).search_first_list.setVisibility(GONE);
+                            ((SearchDestinationGuideLineActivity)context).showAllSearchDestination();
+                        }else if(context instanceof QueryCityActivity){
+                            ((QueryCityActivity)context).showMoreSearchDestination();
                         }
                     }
                 });

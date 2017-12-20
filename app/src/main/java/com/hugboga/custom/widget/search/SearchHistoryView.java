@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.QueryCityActivity;
 import com.hugboga.custom.adapter.SearchAdapter;
 import com.hugboga.custom.adapter.SearchAfterAdapter;
 import com.hugboga.custom.data.bean.SearchGroupBean;
@@ -57,7 +57,7 @@ public class SearchHistoryView extends LinearLayout {
     SearchAdapter searchAdapter;
     SearchAfterAdapter searchAfterAdapter;
 
-    ChooseCityNewActivity mActivity;
+    QueryCityActivity mActivity;
 
     public SearchHistoryView(Context context) {
         this(context, null);
@@ -78,7 +78,7 @@ public class SearchHistoryView extends LinearLayout {
         }
     }
 
-    public void init(ChooseCityNewActivity activity) {
+    public void init(QueryCityActivity activity) {
         this.mActivity = activity;
         initSearchAdapter();
         initSearchAfterAdapter();

@@ -55,7 +55,7 @@ import butterknife.OnClick;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class ChooseCityNewActivity extends BaseActivity {
+public class QueryCityActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

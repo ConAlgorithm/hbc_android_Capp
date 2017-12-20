@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.QueryCityActivity;
 import com.hugboga.custom.adapter.SearchHotCityAdapter;
 import com.hugboga.custom.data.bean.DestinationHotItemBean;
 
@@ -46,8 +46,8 @@ public class SearchHotCity extends LinearLayout {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            if (dy > 0 && (getContext() instanceof ChooseCityNewActivity)) {
-                ((ChooseCityNewActivity) getContext()).scrollQuickChange();
+            if (dy > 0 && (getContext() instanceof QueryCityActivity)) {
+                ((QueryCityActivity) getContext()).scrollQuickChange();
             }
         }
     };

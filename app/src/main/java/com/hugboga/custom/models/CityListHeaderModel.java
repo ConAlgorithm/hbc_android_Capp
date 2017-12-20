@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.QueryCityActivity;
 import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityListBean;
@@ -71,7 +71,7 @@ public class CityListHeaderModel extends EpoxyModel<RelativeLayout> {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                Intent intent = new Intent(context, ChooseCityNewActivity.class);
+                Intent intent = new Intent(context, QueryCityActivity.class);
                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
                 intent.putExtra("isHomeIn", false);
                 String source = "城市";

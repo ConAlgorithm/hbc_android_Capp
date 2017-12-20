@@ -244,7 +244,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         }
     }
     private void goChooseCity() {
-        Intent intent = new Intent(this, ChooseCityNewActivity.class);
+        Intent intent = new Intent(this, QueryCityActivity.class);
         intent.putExtra("isFromTravelPurposeForm",true);
         startActivity(intent);
     }
