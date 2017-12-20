@@ -14,8 +14,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 
@@ -25,7 +23,7 @@ import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 
 public class SearchUtils {
 
-    public static boolean  isHistory;
+    public static boolean isHistory;
     public static boolean isRecommend;
     public static boolean hasResult;
 
@@ -80,20 +78,40 @@ public class SearchUtils {
     public static SpannableString matcherSearchText(Context context, int color, String text, String keyword) {
         if (text != null && text.length() > 0) {
             SpannableString ss = new SpannableString(text);
-            Pattern pattern = Pattern.compile(keyword);
-            Matcher matcher = pattern.matcher(ss);
-            while (matcher.find()) {
-                int start = matcher.start();
-                int end = matcher.end();
-                ss.setSpan(new ForegroundColorSpan(color), start, end, SPAN_EXCLUSIVE_EXCLUSIVE);
+            List<Integer> index = findKeyOf(text, keyword);
+            for (Integer ind : index) {
+                ss.setSpan(new ForegroundColorSpan(color), ind, ind + keyword.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             return ss;
         }
         return null;
     }
 
+    /**
+     * 获取匹配关键字位置
+     *
+     * @param text
+     * @param keyword
+     * @return
+     */
+    private static List<Integer> findKeyOf(String text, String keyword) {
+        List<Integer> result = new ArrayList<>();
+        //开始循环取值
+        String target = text;
+        while (target.contains(keyword)) {
+            int t = target.indexOf(keyword);
+            target = target.substring(t + keyword.length());
+            if (result.size() > 0) {
+                result.add(result.get(result.size() - 1) + keyword.length() + t);
+            } else {
+                result.add(t);
+            }
+        }
+        return result;
+    }
+
     //搜索埋点
-    public static void setSensorsShareEvent(String keyWord,boolean isHistory,boolean isRecommend,boolean hasResult) {
+    public static void setSensorsShareEvent(String keyWord, boolean isHistory, boolean isRecommend, boolean hasResult) {
         try {
             JSONObject properties = new JSONObject();
             properties.put("keyWord", keyWord);
