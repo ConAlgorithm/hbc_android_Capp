@@ -60,6 +60,7 @@ import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SaveFileTask;
 import com.hugboga.custom.widget.DialogUtil;
+import com.qiyukf.unicorn.api.ProductDetail;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
@@ -892,14 +893,26 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Gson gson = new Gson();
-                DeliveryCardBean deliveryCardBean = gson.fromJson(params, DeliveryCardBean.class);
-                Intent intent = new Intent(mActivity, MainActivity.class);
-                intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 2);
-                mActivity.startActivity(intent);
-                EventBus.getDefault().post(new EventAction(EventType.SHOW_JUMP_SERVICE, deliveryCardBean));
+                DeliveryCardBean data = gson.fromJson(params, DeliveryCardBean.class);
+                if (data != null) {
+                    if (CommonUtils.isLogin(mActivity, "主界面")) {//判断是否登陆
+                        UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+                        params.sourceType = UnicornServiceActivity.SourceType.TYPE_AI_RESULT;
+                        ProductDetail.Builder builder = new ProductDetail.Builder();
+                        builder.setUrl(data.urlString);
+                        builder.setTitle(data.title);
+                        builder.setPicture(data.goodsPic);
+                        builder.setShow(1);
+                        builder.setAlwaysSend(true);
+                        params.groupId =Integer.parseInt(data.serviceId);
+                        params.productDetail = builder.build();
+                        Intent intent = new Intent(mActivity, UnicornServiceActivity.class);
+                        intent.putExtra(Constants.PARAMS_DATA, params);
 
+                        mActivity.startActivity(intent);
+                    }
+                }
             }
         });
     }
-
 }

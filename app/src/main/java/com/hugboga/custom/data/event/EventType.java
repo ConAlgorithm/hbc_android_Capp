@@ -122,5 +122,4 @@ public enum EventType {
     REFRESH_POSITION,
 
     REQUEST_HOME_DATA,//刷新首页数据，先解决遗留问题，待优化
-    SHOW_JUMP_SERVICE //测 - H5跳转客服
 }

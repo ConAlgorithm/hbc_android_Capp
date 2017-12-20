@@ -58,7 +58,6 @@ import tk.hongbo.label.adapter.FilterAdapter;
 
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT;
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT_TO_SERVICE;
-
 /**
  * Created by Administrator on 2017/11/28.
  */
@@ -447,6 +446,9 @@ public class FakeAIActivity extends BaseActivity {
         button.setText(buttonContent);
         editText.setVisibility(View.GONE);
         button.setVisibility(View.VISIBLE);
+        fakeAIAdapter.clearWaitView();
+        handler.sendEmptyMessageDelayed(1,200);
+
     }
 
     /**
