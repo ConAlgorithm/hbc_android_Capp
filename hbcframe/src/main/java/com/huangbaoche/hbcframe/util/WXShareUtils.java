@@ -142,6 +142,8 @@ public class WXShareUtils {
                                 Bitmap bitmap = createBitmapThumbnail(BitmapFactory.decodeFile(destinationUri.getPath(), options));
                                 share(type, bitmap, title, content, goUrl);
                             } catch (Exception e) {
+                                Bitmap bitmap = null;
+                                share(type, bitmap, title, content, goUrl);
                                 e.printStackTrace();
                             }
                         }
