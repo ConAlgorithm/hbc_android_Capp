@@ -57,6 +57,7 @@ import butterknife.OnClick;
 import tk.hongbo.label.adapter.FilterAdapter;
 
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT;
+import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT_TO_SERVICE;
 
 /**
  * Created by Administrator on 2017/11/28.
@@ -176,21 +177,8 @@ public class FakeAIActivity extends BaseActivity {
                     case 1://跳转客服对话
                         //ArrayList<String> strings   携带跳转客服的参数
                         if (CommonUtils.isLogin(FakeAIActivity.this, "AI界面")) {//判断是否登陆
-                            UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                            params.sourceType = UnicornServiceActivity.SourceType.TYPE_AI_RESULT;
-                            params.groupId = Integer.parseInt(customServiceId);
-                            if (strings != null && strings.size() > 0) {
-                                params.aiChatRecords = strings.toString();
-                            }
-                            ProductDetail.Builder builder = new ProductDetail.Builder();
-                            builder.setUrl(UrlLibs.TEST_SHARE_BASE_URL_4 + "/app/jiaAIpop.html?id=" + info.askDuoDuoSessionID);
-                            builder.setTitle("我的出去行需求");
-                            builder.setDesc("点击查看详情");
-                            builder.setPicture("https://hbcdn.huangbaoche.com/im/im_default.png");
-                            builder.setShow(1);
-                            params.productDetail = builder.build();
                             intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
-                            intent.putExtra(Constants.PARAMS_DATA, params);
+                            intent.putExtra(Constants.PARAMS_DATA, getParams());
                             startActivity(intent);
                             finish();
                         }
@@ -210,6 +198,26 @@ public class FakeAIActivity extends BaseActivity {
         }
     }
 
+    private UnicornServiceActivity.Params getParams() {  //跳转到客服的 卡片参数
+        UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+        params.sourceType = UnicornServiceActivity.SourceType.TYPE_AI_RESULT;
+        if (customServiceId != null) {
+            params.groupId = Integer.parseInt(customServiceId);
+        }
+        if (strings != null && strings.size() > 0) {
+            params.aiChatRecords = strings.toString();
+        }
+        ProductDetail.Builder builder = new ProductDetail.Builder();
+
+        builder.setUrl(UrlLibs.TEST_SHARE_BASE_URL_4 + "/app/jiaAIpop.html?id=" + info.askDuoDuoSessionID);
+        builder.setTitle("我的出去行需求");
+        builder.setDesc("点击查看详情");
+        builder.setPicture("https://hbcdn.huangbaoche.com/im/im_default.png");
+        builder.setShow(1);
+        params.productDetail = builder.build();
+        return params;
+    }
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
@@ -217,6 +225,9 @@ public class FakeAIActivity extends BaseActivity {
             FakeAIBean dataList = (FakeAIBean) request.getData();
             if (dataList.askDuoDuoSessionID != null) {
                 info.askDuoDuoSessionID = dataList.askDuoDuoSessionID;
+            }
+            if (dataList.userSaidList != null) {
+                info.userSaidList = dataList.userSaidList;
             }
             if (dataList != null) {
                 initTipMessage(dataList);
@@ -315,6 +326,7 @@ public class FakeAIActivity extends BaseActivity {
                 }
 
                 intent.putExtra(KEY_AI_RESULT, destinationHomeVo);
+                intent.putExtra(KEY_AI_RESULT_TO_SERVICE, getParams());
                 startActivity(intent);
                 finish();
             }
