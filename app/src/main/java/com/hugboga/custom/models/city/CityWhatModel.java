@@ -7,8 +7,11 @@ import android.view.View;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.AiResultActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.ButterKnife;
@@ -72,6 +75,14 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
                 params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
                 Intent intent = new Intent(mContext, UnicornServiceActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
+                if (view.getContext() instanceof AiResultActivity) {
+                    AiResultActivity aiResultActivity = (AiResultActivity) view.getContext();
+                    SensorsUtils.onAppClick(aiResultActivity.getEventSource(), aiResultActivity.getEventSource(), "咨询客服", aiResultActivity.getIntentSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, aiResultActivity.getEventSource());
+                } else if (view.getContext() instanceof CityActivity) {
+                    CityActivity cityActivity = (CityActivity) view.getContext();
+                    intent.putExtra(Constants.PARAMS_SOURCE, cityActivity.getEventSource());
+                }
                 mContext.startActivity(intent);
             }
         }

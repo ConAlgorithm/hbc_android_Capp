@@ -28,6 +28,7 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FakeAIAdapter;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.qiyukf.unicorn.api.ProductDetail;
 import com.qiyukf.unicorn.api.ProductDetail.Builder;
 import com.hugboga.custom.constants.Constants;
@@ -106,7 +107,7 @@ public class FakeAIActivity extends BaseActivity {
         info.distinctId = SensorsDataAPI.sharedInstance(FakeAIActivity.this).getAnonymousId();
         initView();
         requestHotSearch();
-
+        SensorsUtils.setPageEvent(getEventSource(), getEventSource(), getIntentSource());
     }
 
     private void initView() {
@@ -192,7 +193,9 @@ public class FakeAIActivity extends BaseActivity {
                             params.productDetail = builder.build();
                             intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                             intent.putExtra(Constants.PARAMS_DATA, params);
+                            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                             startActivity(intent);
+                            SensorsUtils.onAppClick(getEventSource(), getEventSource(), "和旅行小管家继续沟通", getIntentSource());
                             finish();
                         }
                         break;
@@ -201,6 +204,7 @@ public class FakeAIActivity extends BaseActivity {
                         if (info.userSaidList != null && info.userSaidList.size() >= 2) {
                             intent.putExtra("cityName", info.userSaidList.get(0).saidContent);
                         }
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         startActivity(intent);
                         finish();
                         break;
@@ -316,6 +320,7 @@ public class FakeAIActivity extends BaseActivity {
                 }
 
                 intent.putExtra(KEY_AI_RESULT, destinationHomeVo);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 finish();
             }
@@ -475,4 +480,8 @@ public class FakeAIActivity extends BaseActivity {
         return super.dispatchKeyEvent(event);
     }
 
+    @Override
+    public String getEventSource() {
+        return "AI对话";
+    }
 }
