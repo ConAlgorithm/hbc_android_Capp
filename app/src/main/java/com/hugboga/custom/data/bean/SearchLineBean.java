@@ -21,5 +21,6 @@ public class SearchLineBean implements Serializable {
         public String keyword;//关键字
         public String goodsDetailUrl;//跳转
         public List<String> poiNames;//poiName
+        public List<String> tagNames;//属于描述内容，属于“韩国”游玩线路
     }
 }

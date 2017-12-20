@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!--状态栏透明-->
-    <style name="AppTheme.NoActionBar.Trans">
-        <item name="android:windowTranslucentStatus">true</item>
-    </style>
-</resources>

@@ -77,6 +77,7 @@ public class UnicornDetailView extends LinearLayout implements HbcViewBehavior{
         builder.setDesc(skuItemBean.getGoodsName());
         builder.setPicture(skuItemBean.goodsPicture);
         builder.setShow(1);
+        builder.setAlwaysSend(true);
 
         if (!TextUtils.isEmpty(skuItemBean.perPrice)) {
             builder.setNote(getContext().getResources().getString(R.string.sign_rmb) + skuItemBean.perPrice + otherStr);

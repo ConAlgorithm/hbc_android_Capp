@@ -35,19 +35,6 @@ public class RequestSearchLine extends BaseRequest {
         }
     }
 
-//    @Override
-//    public Map getDataMap() {
-//        try {
-//            map.put("keywords",keywords);
-//            if(!isDefault){
-//                map.put("offset",offset);
-//                map.put("limit",limit);
-//            }
-//        } catch (Exception e) {
-//            MLog.e(e.toString());
-//        }
-//        return map;
-//    }
     @Override
     public ImplParser getParser() {
         return new ParseSearchLine();

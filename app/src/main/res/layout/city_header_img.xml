@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/city_header_img"
         android:layout_width="match_parent"
-        android:layout_height="420dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="?attr/actionBarSize"
         android:scaleType="centerCrop"
