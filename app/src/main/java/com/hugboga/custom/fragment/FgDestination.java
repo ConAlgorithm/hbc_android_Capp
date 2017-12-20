@@ -16,7 +16,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.NetWork;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.QueryCityActivity;
 import com.hugboga.custom.adapter.DesTabPagerAdpter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SimpleLineGroupVo;
@@ -107,7 +107,7 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
 
     }
     private void goChooseCity() {
-        Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
+        Intent intent = new Intent(this.getContext(), QueryCityActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
         this.getContext().startActivity(intent);
     }

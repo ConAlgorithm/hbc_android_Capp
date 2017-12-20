@@ -73,9 +73,9 @@ public class SearchShortcut extends FrameLayout {
      * @param view2
      */
     private void startAnim(View view1, View view2) {
-        view1.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_out));
+        view1.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.choose_btn_exit));
         view1.setVisibility(View.GONE);
-        view2.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
+        view2.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.choose_btn_enter));
         view2.setVisibility(View.VISIBLE);
     }
 

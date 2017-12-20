@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
 import com.hugboga.custom.models.city.CityWhatModel;
@@ -24,7 +25,7 @@ public class AiResultAdapter extends SkuAdapter {
         super(mContext);
     }
 
-    public void showAiResult(DestinationHomeVo vo) {
+    public void showAiResult(DestinationHomeVo vo, UnicornServiceActivity.Params params) {
         this.data = vo;
         //快速了解目的地,添加广告条，新手指引
         if (vo.beginnerDirection != null) {
@@ -47,7 +48,11 @@ public class AiResultAdapter extends SkuAdapter {
         // 咨询旅行小管家确认行程
         addModel(new AiResultTitleModel(mContext.getString(R.string.ai_result_banner_title_call)));
         //添加旅行小管家入口
-        addModel(new CityWhatModel(mContext));
+        CityWhatModel cityWhatModel = new CityWhatModel(mContext);
+        if (params != null) {
+            cityWhatModel.setParams(params);
+        }
+        addModel(cityWhatModel);
     }
 
     /**

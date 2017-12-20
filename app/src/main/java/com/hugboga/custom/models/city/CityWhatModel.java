@@ -25,6 +25,7 @@ import butterknife.OnClick;
 public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH> {
 
     Context mContext;
+    public UnicornServiceActivity.Params params;
 
     public CityWhatModel(Context mContext) {
         this.mContext = mContext;
@@ -48,14 +49,19 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
         }
     }
 
+    public void setParams(UnicornServiceActivity.Params params) {
+        this.params = params;
+    }
+
     /**
      * 是否显示此model
+     *
      * @param isShow
      */
-    public void noteicModel(boolean isShow){
-        if(isShow){
+    public void noteicModel(boolean isShow) {
+        if (isShow) {
             show();
-        }else{
+        } else {
             hide();
         }
     }
@@ -71,8 +77,10 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
         public void onClick(View view) {
             // 这里开始咨询跳转到指定坐席的人工客服
             if (CommonUtils.isLogin(mContext, "推荐页面")) {//判断是否登陆
-                UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+                if(params==null){
+                    UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+                    params.sourceType = UnicornServiceActivity.SourceType.TYPE_AI_RESULT;
+                }
                 Intent intent = new Intent(mContext, UnicornServiceActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 if (view.getContext() instanceof AiResultActivity) {
