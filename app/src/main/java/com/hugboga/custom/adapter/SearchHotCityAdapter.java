@@ -30,7 +30,7 @@ public class SearchHotCityAdapter extends RecyclerView.Adapter<SearchHotCityVH> 
 
     @Override
     public SearchHotCityVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SearchHotCityVH(LayoutInflater.from(mContext).inflate(R.layout.hot_search_textview, parent, false));
+        return new SearchHotCityVH(LayoutInflater.from(mContext).inflate(R.layout.query_hot_search_item, parent, false));
     }
 
     @Override

@@ -878,6 +878,10 @@
     <string name="guide_detail_contact_dialog_content">优秀司导都在服务用户的路上，预订后沟通更高效~</string>
 
     <string name = "destiation_search">目的地搜索</string>
+    <string name = "destiation_all">全境</string>
+    <string name = "destiation_day_service">按天包车游</string>
+    <string name = "destiation_pick_send">接送机</string>
+    <string name = "destiation_single">单次接送</string>
 
     <string name = "home_more">查看更多</string>
     <string name = "home_h5_1">一价全包</string>

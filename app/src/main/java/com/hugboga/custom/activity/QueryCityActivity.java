@@ -36,7 +36,7 @@ import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
-import com.hugboga.custom.widget.SearchHotCity;
+import com.hugboga.custom.widget.QueryHotCity;
 import com.hugboga.custom.widget.search.SearchHistoryView;
 import com.hugboga.custom.widget.search.SearchShortcut;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -73,7 +73,7 @@ public class QueryCityActivity extends BaseActivity {
     @BindView(R.id.middle_layout)
     RelativeLayout middleLayout;
     @BindView(R.id.search_hot)
-    SearchHotCity searchHotCity; //热门城市列表
+    QueryHotCity searchHotCity; //热门城市列表
 
     @BindView(R.id.search_shortcut)
     SearchShortcut searchShortcut; //快捷下单区域
@@ -102,7 +102,7 @@ public class QueryCityActivity extends BaseActivity {
 
     @Override
     public int getContentViewId() {
-        return R.layout.fg_city_new;
+        return R.layout.query_city_layout;
     }
 
     @Override

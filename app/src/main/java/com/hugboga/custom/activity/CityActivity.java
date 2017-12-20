@@ -271,7 +271,7 @@ public class CityActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.city_toolbar_title:
                 //点击标题
-                Intent intent = new Intent(this, QueryCityActivity.class);
+                Intent intent = new Intent(this, ChooseCityNewActivity.class);
                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
                 intent.putExtra("isHomeIn", false);
                 intent.putExtra("source", getEventSource());
