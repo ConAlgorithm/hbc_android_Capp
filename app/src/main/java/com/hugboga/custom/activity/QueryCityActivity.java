@@ -440,12 +440,6 @@ public class QueryCityActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        hideInputMethod(headSearch);
-    }
-
-    @Override
     public String getEventSource() {
         return "目的地搜索";
     }
