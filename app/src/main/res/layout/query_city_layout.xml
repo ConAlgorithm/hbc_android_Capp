@@ -45,7 +45,7 @@
                 android:drawableLeft="@mipmap/top_search"
                 android:drawablePadding="@dimen/basic_margin_small"
                 android:ellipsize="end"
-                android:hint="@string/choose_city_new_hint"
+                android:hint="@string/query_city_input_hint"
                 android:inputType="text"
                 android:maxLines="1"
                 android:padding="6dp"
