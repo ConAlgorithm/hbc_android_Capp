@@ -14,7 +14,6 @@
     <string name="gender_female">女</string>
     <string name="gender_secrecy">保密</string>
     <string name="yuan">元</string>
-    <string name="more">更多</string>
     <string name="sign_rmb">¥</string>
     <string name="separator">%1$s-%2$s</string>
     <string name="people">人</string>
@@ -65,7 +64,6 @@
     <string name="grant_fail_im">權限只是用做聊天基礎功能使用，拒絕將不能正常使用</string>
 
     <!-- 提示信息 -->
-    <string name="two_exit">再按一次退出程序</string>
     <string name="no_network"> 當前網絡不可用，請檢查網絡連接</string>
     <string name="no_room">存儲空間不足，建議清除存</string>
     <string name="net_overtime">網絡鏈接超時啦</string>
@@ -705,7 +703,6 @@
     <string name="choose_city_new_hint">請輸入目的地名稱</string>
     <string name="search_line_title">相關線路</string>
     <string name="search_guide_title">相關司導</string>
-    <string name="search_destination_head_hint">搜索目的地、司導、線路</string>
     <string name="coupon_des_title">優惠券使用說明</string>
     <string name="coupon_invalid_title1">不可用優惠券</string>
     <string name="coupon_invalid_title2">失效優惠券</string>
@@ -880,39 +877,12 @@
     <string name="guide_detail_contact_dialog_content">優秀司導都在服務用戶的路上，預訂後溝通更高效~</string>
 
     <string name = "destiation_search">目的地搜索</string>
-    <string name = "destiation_all">全境</string>
-    <string name = "destiation_day_service">按天包車游</string>
-    <string name = "destiation_pick_send">接送機</string>
-    <string name = "destiation_single">單次接送</string>
 
-
-    <string name = "home_hot_destination">熱門目的地</string>
     <string name = "home_more">查看更多</string>
-    <string name = "home_hot_destination_guide_num">位司導</string>
-    <string name = "home_guide_comment">游客說</string>
-    <string name = "home_guide_comment_img">圖</string>
-    <string name = "home_guide_service">服務司導</string>
-    <string name = "home_hot_album_guide_orders">累計服務%s單</string>
-    <string name = "home_recomment_guide">%s推薦司導</string>
-    <string name = "home_album_purchse">起/人</string>
-    <string name = "home_guide_evaluate">評價 </string>
-    <string name = "home_album_experience">人已體驗</string>
-    <string name = "home_recomment_guide_end">司導推薦</string>
-    <string name = "home_recomment_service_china">位中文司導可服務</string>
-    <string name = "home_search">搜索目的地、司導、線路</string>
-    <string name = "home_service_day">中文包車游</string>
-    <string name = "home_service_pick_send">接送機</string>
-    <string name = "home_service_single_pick_send">單次接送</string>
-    <string name = "home_service_day_experience">按天暢游</string>
-    <string name = "home_service_good_line">精品線路游</string>
-    <string name = "home_service_favorite_love">私人定製</string>
-    <string name = "home_favorite_guide">選擇心儀的司導服務</string>
-    <string name = "home_favorite_guide_yuding">找Ta預訂</string>
     <string name = "home_h5_1">一價全包</string>
     <string name = "home_h5_2">服務保障</string>
     <string name = "home_h5_3">先行賠付</string>
     <string name = "home_h5_4">免費保險</string>
-    <string name = "home_hot_album">熱門專輯</string>
     <string name = "home_search_more">搜索更多關於“%s”的結果</string>
     <string name = "home_search_history">歷史記錄</string>
     <string name = "home_search_hot">熱門搜索</string>
@@ -950,7 +920,6 @@
     <string name="guidance_view_subtitle">這裡有%1$s位中文司導可為您服務</string>
 
     <string name = "facebook_app_id">645647955823312</string>
-    <string name = "home_service_past_album">往期專輯</string>
 
     <string name = "servicer_center_item1">預訂須知</string>
     <string name = "servicer_center_item2">服務承諾</string>
@@ -983,7 +952,6 @@
     <string name="voice_captcha_input_error">請輸入手機號</string>
     <!-- AI Service -->
     <string name="fake_ai_head" >旅行小管家</string>
-    <string name="fake_ai_hint_one" >我想去....</string>
     <string name="fake_ai_hint_two" >我要玩....</string>
     <string name="fake_ai_hint_three" >我和....</string>
     <string name="fake_ai_buttoncontent_one" >和旅行小管家繼續溝通</string>
@@ -1019,10 +987,6 @@
     <string name="domestic_card_add_date_hint">月份 ／ 年份</string>
     <string name="domestic_card_add_saft_label">安全碼</string>
     <string name="domestic_card_add_saft_hint">CW2銀行卡背面3位數字</string>
-    <string name="domestic_card_add_username_label">姓&#160;&#160;&#160;&#160;名</string>
-    <string name="domestic_card_add_username_hint">請輸入持卡人姓名</string>
-    <string name="domestic_card_add_cardnum_label">身份證</string>
-    <string name="domestic_card_add_cardnum_hint">持卡人身份號</string>
     <string name="domestic_card_add_phone_label">手機號</string>
     <string name="domestic_card_add_phone_hint">辦卡時預留手機號</string>
 
