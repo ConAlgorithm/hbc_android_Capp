@@ -74,9 +74,9 @@ public class IntentUtils {
     }
 
     public static void intentPickupActivity(Context context, PickSendActivity.Params _params, String source) {
-        boolean condition1 = _params.guidesDetailData != null || _params.flightBean != null;
-        boolean condition2 = !TextUtils.isEmpty(_params.cityName) && !TextUtils.isEmpty(_params.cityId);
-        if (_params != null && (condition1 || condition2)) {//不需要进入引导页
+        boolean condition1 = _params != null && (_params.guidesDetailData != null || _params.flightBean != null);
+        boolean condition2 =  _params != null && !TextUtils.isEmpty(_params.cityName) && !TextUtils.isEmpty(_params.cityId);
+        if (condition1 || condition2) {//不需要进入引导页
             Intent intent = new Intent(context, PickSendActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             intent.putExtra(Constants.PARAMS_DATA, _params);
@@ -97,9 +97,9 @@ public class IntentUtils {
     }
 
     public static void intentSendActivity(Context context, PickSendActivity.Params _params, String source) {
-        boolean condition1 = _params.guidesDetailData != null || _params.airPortBean != null;
-        boolean condition2 = !TextUtils.isEmpty(_params.cityName) && !TextUtils.isEmpty(_params.cityId);
-        if (_params != null && (condition1 || condition2)) {//不需要进入引导页
+        boolean condition1 = _params != null && (_params.guidesDetailData != null || _params.airPortBean != null);
+        boolean condition2 =  _params != null && !TextUtils.isEmpty(_params.cityName) && !TextUtils.isEmpty(_params.cityId);
+        if (condition1 || condition2) {//不需要进入引导页
             Intent intent = new Intent(context, PickSendActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             intent.putExtra(Constants.PARAMS_DATA, _params);
