@@ -22,10 +22,12 @@ public class SearchHotCityAdapter extends RecyclerView.Adapter<SearchHotCityVH> 
 
     Context mContext;
     List<DestinationHotItemBean> data;
+    int listWidth;
 
-    public SearchHotCityAdapter(Context mContext, List<DestinationHotItemBean> data) {
+    public SearchHotCityAdapter(Context mContext, List<DestinationHotItemBean> data, int listWidth) {
         this.mContext = mContext;
         this.data = data;
+        this.listWidth = listWidth;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class SearchHotCityAdapter extends RecyclerView.Adapter<SearchHotCityVH> 
 
     @Override
     public void onBindViewHolder(SearchHotCityVH holder, int position) {
-        holder.init(data.get(position));
+        holder.init(data.get(position), listWidth);
         holder.setOnItemClickListener(onItemClickListener);
     }
 

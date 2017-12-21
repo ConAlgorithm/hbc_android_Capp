@@ -38,7 +38,7 @@ public class QueryHotCity extends LinearLayout {
     }
 
     public void setHotCitys(List<DestinationHotItemBean> cityList) {
-        hotCityList.setAdapter(new SearchHotCityAdapter(getContext(), cityList));
+        hotCityList.setAdapter(new SearchHotCityAdapter(getContext(), cityList, hotCityList.getWidth()));
         hotCityList.addOnScrollListener(onScrollListener);
     }
 
