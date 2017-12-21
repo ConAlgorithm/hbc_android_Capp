@@ -128,7 +128,7 @@ public class QueryCityActivity extends BaseActivity {
         initView();
     }
 
-    @OnClick({R.id.head_search, R.id.head_search_clean, R.id.searchCityNewLabelLayout})
+    @OnClick({R.id.head_search, R.id.head_search_clean, R.id.searchCityNewLabelLayout, R.id.head_search_remove})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.head_search:
@@ -139,6 +139,9 @@ public class QueryCityActivity extends BaseActivity {
                 hideSoftInput();
                 headSearch.setText("");
                 headSearch.clearFocus();
+                break;
+            case R.id.head_search_remove:
+                headSearch.setText("");
                 break;
             default:
                 break;

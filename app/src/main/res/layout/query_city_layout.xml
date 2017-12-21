@@ -52,6 +52,15 @@
                 android:textColorHint="#cccccc"
                 android:textSize="@dimen/text_size_mediumx" />
 
+            <ImageView
+                android:id="@+id/head_search_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/head_search"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:src="@mipmap/top_search_close" />
+
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
