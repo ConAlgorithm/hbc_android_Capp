@@ -9,5 +9,4 @@ public class FakeAIArrayBean {
     public String destinationImageUrl;
     public String destinationName;
     public int destinationType;
-    public int guideCount;
 }
