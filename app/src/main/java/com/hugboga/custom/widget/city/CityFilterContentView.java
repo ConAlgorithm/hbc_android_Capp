@@ -96,6 +96,8 @@ public class CityFilterContentView extends FrameLayout {
             boolean isFinish = !isParent || (isParent && (bean.childs == null || bean.childs.size() == 0));
             if (adapter != null && filterView != null) {
                 adapter.setSelectIds(filterView.getSelectIds());
+                adapter.cityListLabelModel.setParentBean(bean); //设置列表区父标签选中
+                content_city_filte_view1.setParentBean(bean); //设置选择区父标签选中
             }
             if (isFinish) {
                 city_content_filter_view.clear();
@@ -105,7 +107,7 @@ public class CityFilterContentView extends FrameLayout {
             // 关联城市联动
             if (!isParent && "0".equals(labelBean.id)) {
                 if (bean != null && bean.parentLabel != null) {
-                    linkCity(bean.parentLabel);
+                    linkCity2(bean);
                 }
             } else {
                 linkCity(labelBean);
@@ -152,6 +154,15 @@ public class CityFilterContentView extends FrameLayout {
      */
     private void linkCity(LabelBean labelBean) {
         content_city_filte_view2.setEnableClickIds(new CityDataTools().getDepCityIds(labelBean.depIdSet));
+    }
+
+    /**
+     * 父标签关联城市需要计算子标签所有包含城市
+     *
+     * @param bean
+     */
+    private void linkCity2(LabelParentBean bean) {
+        content_city_filte_view2.setEnableClickIds(new CityDataTools().getDepCityIds2(bean));
     }
 
     /**

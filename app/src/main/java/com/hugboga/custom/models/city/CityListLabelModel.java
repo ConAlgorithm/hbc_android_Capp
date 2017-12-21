@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelBean;
 import tk.hongbo.label.data.LabelItemData;
+import tk.hongbo.label.data.LabelParentBean;
 
 /**
  * 目的地列表头部快速选择标签区
@@ -87,6 +88,16 @@ public class CityListLabelModel extends EpoxyModelWithHolder<CityListLabelModel.
         this.enableIds = ids;
         if (holder != null) {
             holder.filterView.setEnableClickIds(ids);
+        }
+    }
+
+    /**
+     * 设置选中的父标签数据
+     * @param parentBean
+     */
+    public void setParentBean(LabelParentBean parentBean) {
+        if (holder != null) {
+            holder.filterView.setParentBean(parentBean);
         }
     }
 }

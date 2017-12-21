@@ -6,9 +6,7 @@ import com.hugboga.custom.data.bean.city.DestinationTagGroupVo;
 import com.hugboga.custom.data.bean.city.DestinationTagVo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import tk.hongbo.label.data.LabelBean;
 import tk.hongbo.label.data.LabelItemData;
@@ -211,6 +209,21 @@ public class CityDataTools {
     }
 
     /**
+     * 获取选择的父标签的关联城市
+     *
+     * @param bean
+     * @return
+     */
+    public List<String> getDepCityIds2(LabelParentBean bean) {
+        List<String> ids = new ArrayList<>();
+        ids.addAll(getDepCityIds(bean.parentLabel.depIdSet));
+        for (LabelBean labelBean : bean.childs) {
+            ids.addAll(getDepCityIds(labelBean.depIdSet));
+        }
+        return ids;
+    }
+
+    /**
      * 获取城市关联标签
      *
      * @param destinationTagGroupList
@@ -223,8 +236,14 @@ public class CityDataTools {
             for (DestinationTagGroupVo vo : destinationTagGroupList) {
                 if (vo.goodsDepCityIdSet.contains(cityId)) {
                     ids.add(vo.tagId);
+                    ids.addAll(getSubTagDep(vo.subTagList, cityId));
+                } else {
+                    List<String> subTags = getSubTagDep(vo.subTagList, cityId);
+                    if (subTags != null && subTags.size() > 0) {
+                        ids.add(vo.tagId);
+                        ids.addAll(subTags);
+                    }
                 }
-                ids.addAll(getSubTagDep(vo.subTagList, cityId));
             }
         }
         return ids;
