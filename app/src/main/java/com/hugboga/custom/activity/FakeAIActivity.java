@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FakeAIAdapter;
@@ -211,7 +212,7 @@ public class FakeAIActivity extends BaseActivity {
         }
         ProductDetail.Builder builder = new ProductDetail.Builder();
 
-        builder.setUrl(UrlLibs.TEST_SHARE_BASE_URL_4 + "/app/jiaAIpop.html?id=" + info.askDuoDuoSessionID);
+        builder.setUrl(BuildConfig.SHARE_BASE_URL_4 + "/app/jiaAIpop.html?id=" + info.askDuoDuoSessionID);
         builder.setTitle("我的出去行需求");
         builder.setDesc("点击查看详情");
         builder.setPicture("https://hbcdn.huangbaoche.com/im/im_default.png");
