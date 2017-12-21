@@ -20,6 +20,8 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.AiResultActivity;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -127,7 +129,7 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener, Hbc
                 Intent intent = new Intent(getContext(), SkuDetailActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, destinationGoodsVo.skuDetailUrl);
                 intent.putExtra(Constants.PARAMS_ID, destinationGoodsVo.goodsNo);
-                intent.putExtra(Constants.PARAMS_SOURCE, "目的地首页-玩法");
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 getContext().startActivity(intent);
                 break;
             case R.id.city_item_guide:
@@ -181,7 +183,14 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener, Hbc
     }
 
     public String getEventSource() {
-        return "目的地详情";
+        if (getContext() instanceof AiResultActivity) {
+            AiResultActivity aiResultActivity = (AiResultActivity) getContext();
+            return aiResultActivity.getEventSource();
+        } else if (getContext() instanceof CityActivity) {
+            CityActivity cityActivity = (CityActivity) getContext();
+            return cityActivity.getEventSource();
+        }
+        return null;
     }
 
     //收藏商品埋点

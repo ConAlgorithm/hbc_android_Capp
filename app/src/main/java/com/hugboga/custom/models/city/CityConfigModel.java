@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.AiResultActivity;
 import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleActivity;
@@ -80,11 +81,11 @@ public class CityConfigModel extends EpoxyModelWithHolder<CityConfigModel.CityCo
                         params.cityId = String.valueOf(cityBean.cityId);
                         params.cityName = cityBean.name;
                     }
-                    IntentUtils.intentPickupActivity(mContext, params, "目的地首页");
+                    IntentUtils.intentPickupActivity(mContext, params, getEventSource());
                     break;
                 case 3:
                     //进入包车
-                    IntentUtils.intentCharterActivity(mContext, null, null, cityBean, "目的地首页");
+                    IntentUtils.intentCharterActivity(mContext, null, null, cityBean, getEventSource());
                     break;
                 case 4:
                     //进入次租
@@ -92,16 +93,21 @@ public class CityConfigModel extends EpoxyModelWithHolder<CityConfigModel.CityCo
                     if (cityBean != null) {
                         params1.cityId = String.valueOf(cityBean.cityId);
                     }
-                    IntentUtils.intentSingleActivity(mContext, params1, "目的地首页");
+                    IntentUtils.intentSingleActivity(mContext, params1, getEventSource());
                     break;
             }
         }
     };
 
-    private void intentActivity(Context context, Class<?> cls) {
-        Intent intent = new Intent(context, cls);
-        intent.putExtra(Constants.PARAMS_SOURCE, "目的地首页");
-        context.startActivity(intent);
+    public String getEventSource() {
+        if (mContext instanceof AiResultActivity) {
+            AiResultActivity aiResultActivity = (AiResultActivity) mContext;
+            return aiResultActivity.getEventSource();
+        } else if (mContext instanceof CityActivity) {
+            CityActivity cityActivity = (CityActivity) mContext;
+            return cityActivity.getEventSource();
+        }
+        return null;
     }
 
     public void init(CityConfigVH holder, ServiceConfigVo vo) {

@@ -61,7 +61,6 @@ public class AiResultActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
         adapter.showAiResult(destinationHomeVo, params);
         queryFavoriteLineList(); //查询收藏玩法信息
-        SensorsUtils.setPageEvent(getEventSource(), getEventSource(), getIntentSource());
     }
 
     @Override

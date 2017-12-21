@@ -76,23 +76,27 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
         @OnClick(R.id.city_item_what_btn)
         public void onClick(View view) {
             // 这里开始咨询跳转到指定坐席的人工客服
-            if (CommonUtils.isLogin(mContext, "推荐页面")) {//判断是否登陆
+            if (CommonUtils.isLogin(mContext, getEventSource())) {//判断是否登陆
                 if(params==null){
                     params = new UnicornServiceActivity.Params();
                     params.sourceType = UnicornServiceActivity.SourceType.TYPE_AI_RESULT;
                 }
                 Intent intent = new Intent(mContext, UnicornServiceActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
-                if (view.getContext() instanceof AiResultActivity) {
-                    AiResultActivity aiResultActivity = (AiResultActivity) view.getContext();
-                    SensorsUtils.onAppClick(aiResultActivity.getEventSource(), aiResultActivity.getEventSource(), "咨询客服", aiResultActivity.getIntentSource());
-                    intent.putExtra(Constants.PARAMS_SOURCE, aiResultActivity.getEventSource());
-                } else if (view.getContext() instanceof CityActivity) {
-                    CityActivity cityActivity = (CityActivity) view.getContext();
-                    intent.putExtra(Constants.PARAMS_SOURCE, cityActivity.getEventSource());
-                }
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 mContext.startActivity(intent);
             }
+        }
+
+        public String getEventSource() {
+            if (mContext instanceof AiResultActivity) {
+                AiResultActivity aiResultActivity = (AiResultActivity) mContext;
+                return aiResultActivity.getEventSource();
+            } else if (mContext instanceof CityActivity) {
+                CityActivity cityActivity = (CityActivity) mContext;
+                return cityActivity.getEventSource();
+            }
+            return null;
         }
     }
 }

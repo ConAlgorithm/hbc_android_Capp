@@ -107,7 +107,6 @@ public class FakeAIActivity extends BaseActivity {
         info.distinctId = SensorsDataAPI.sharedInstance(FakeAIActivity.this).getAnonymousId();
         initView();
         requestHotSearch();
-        SensorsUtils.setPageEvent(getEventSource(), getEventSource(), getIntentSource());
     }
 
     private void initView() {
