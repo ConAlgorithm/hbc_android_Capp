@@ -42,14 +42,14 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp"
-                    android:gravity="right">
+                    android:gravity="center">
 
                     <ImageView
                         android:id="@+id/searchHistoryRemove"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/search_remove" />
+                        android:src="@mipmap/dustbin_icon" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -64,13 +64,13 @@
                     android:id="@+id/searchHistoryOld"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginRight="21dp"
                     app:onlyOneLine="true"
                     app:overspread="false"
-                    app:textBackground="@drawable/search_history_and_hot_item"
-                    app:textColor="@color/color_7f7f7f"
-                    app:textLineMargin="15dp"
+                    app:textBackground="@drawable/query_history_label_bg"
+                    app:textColor="@color/black"
+                    app:textLineMargin="12dp"
                     app:textPaddingBottom="6dp"
                     app:textPaddingLeft="10dp"
                     app:textPaddingRight="10dp"
@@ -114,12 +114,12 @@
                     android:id="@+id/searchHistoryHotitem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginRight="21dp"
                     app:overspread="false"
-                    app:textBackground="@drawable/search_history_and_hot_item"
-                    app:textColor="@color/color_7f7f7f"
-                    app:textLineMargin="15dp"
+                    app:textBackground="@drawable/query_history_label_bg"
+                    app:textColor="@color/black"
+                    app:textLineMargin="12dp"
                     app:textPaddingBottom="6dp"
                     app:textPaddingLeft="10dp"
                     app:textPaddingRight="10dp"
