@@ -75,7 +75,7 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
             // 这里开始咨询跳转到指定坐席的人工客服
             if (CommonUtils.isLogin(mContext, "推荐页面")) {//判断是否登陆
                 if(params==null){
-                    UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+                    params = new UnicornServiceActivity.Params();
                     params.sourceType = UnicornServiceActivity.SourceType.TYPE_AI_RESULT;
                 }
                 Intent intent = new Intent(mContext, UnicornServiceActivity.class);

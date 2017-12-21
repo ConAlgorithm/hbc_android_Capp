@@ -213,6 +213,7 @@ public class FakeAIActivity extends BaseActivity {
         builder.setDesc("点击查看详情");
         builder.setPicture("https://hbcdn.huangbaoche.com/im/im_default.png");
         builder.setShow(1);
+        builder.setAlwaysSend(true);
         params.productDetail = builder.build();
         return params;
     }
@@ -400,7 +401,7 @@ public class FakeAIActivity extends BaseActivity {
             requestSelf(null, bean.destinationName);
         } else if (type == AIGETDATA_ACCOMPANY) {
             info.accompanyOptId = bean.destinationId;//此参数为伴随ID
-            requestSelf(null, null);
+            requestSelf(null, bean.destinationName);
         }
     }
 
@@ -468,7 +469,7 @@ public class FakeAIActivity extends BaseActivity {
             info.destinationId = String.valueOf(bean.destinationId);
             info.destinationType = String.valueOf(bean.destinationType);
             info.destinationName = bean.destinationName;
-            info.guideCount = String.valueOf(bean.guideCount);
+//            info.guideCount = String.valueOf(bean.guideCount);
         }
         if (!TextUtils.isEmpty(str)) {
             info.userWant = str;
