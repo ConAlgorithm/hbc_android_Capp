@@ -94,6 +94,7 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
                             ((SearchDestinationGuideLineActivity) context).hideSoftInput();
                         }else if(context instanceof QueryCityActivity){
                             ((QueryCityActivity)context).searchAllResult(keyword.trim());
+                            ((QueryCityActivity)context).hideSoftInput();
                         }
                     }
                 });
