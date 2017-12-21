@@ -62,6 +62,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     public static final String WEB_SHARE_BTN = "web_share_btn"; //是否动态控制展示分享按钮
     public static final String WEB_SHARE_NO = "web_share_no"; //动态控制分享的请求码
     public static final String CONTACT_SERVICE = "contact_service";
+    public static final String IS_SHOW_TITLE_NAME = "is_show_title_name";
 
     public boolean isHttps = false;
     @BindView(R.id.header_left_btn)
@@ -84,6 +85,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     private String url;
     private WebAgent webAgent;
     private String title;
+    private boolean isShowTitleName = true;
 
     @Override
     public int getContentViewId() {
@@ -354,6 +356,13 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 //    public void set
 
     public void initView() {
+        if (getIntent() != null) {
+            isShowTitleName = getIntent().getBooleanExtra(WebInfoActivity.IS_SHOW_TITLE_NAME, true);
+        }
+        if (!isShowTitleName) {
+            headerTitle.setVisibility(View.INVISIBLE);
+        }
+
         // 启用javaScript
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
         webView.getSettings().setJavaScriptEnabled(true);
