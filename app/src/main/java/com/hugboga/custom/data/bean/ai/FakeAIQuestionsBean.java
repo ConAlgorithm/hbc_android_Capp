@@ -16,6 +16,7 @@ public class FakeAIQuestionsBean {
     public String chooseDestinationId;
     public String chooseDestinationType;
     public List<UserSaid> userSaidList;
+    public List<UserSaid> regardsList;
     public String customServiceId;
     @SerializedName("DuoDuoSaid")
     public List<DuoDuoSaid> duoDuoSaid;
