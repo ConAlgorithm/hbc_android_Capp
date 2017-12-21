@@ -59,6 +59,7 @@ import tk.hongbo.label.adapter.FilterAdapter;
 
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT;
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT_TO_SERVICE;
+
 /**
  * Created by Administrator on 2017/11/28.
  */
@@ -265,6 +266,9 @@ public class FakeAIActivity extends BaseActivity {
                         strings.add(data.userSaidList.get(i).saidContent);
                     }
                 }
+                if (data.regardsList != null) {
+                    info.regardsList = data.regardsList;
+                }
                 if (data.chooseDestinationId != null) {
                     info.destinationId = data.chooseDestinationId;
                 }
@@ -401,10 +405,10 @@ public class FakeAIActivity extends BaseActivity {
             requestSelf(bean, null);
         } else if (type == AIGETDATA_DURATION) {
             info.durationOptId = bean.destinationId;//此参数为时间ID
-            requestSelf(null, bean.destinationName);
+            requestSelf(null, null);
         } else if (type == AIGETDATA_ACCOMPANY) {
             info.accompanyOptId = bean.destinationId;//此参数为伴随ID
-            requestSelf(null, bean.destinationName);
+            requestSelf(null, null);
         }
     }
 
@@ -451,7 +455,7 @@ public class FakeAIActivity extends BaseActivity {
         editText.setVisibility(View.GONE);
         button.setVisibility(View.VISIBLE);
         fakeAIAdapter.clearWaitView();
-        handler.sendEmptyMessageDelayed(1,200);
+        handler.sendEmptyMessageDelayed(1, 200);
 
     }
 
@@ -468,6 +472,7 @@ public class FakeAIActivity extends BaseActivity {
      */
     private void requestSelf(FakeAIArrayBean bean, String str) {
         handler.sendEmptyMessage(0);
+        info.userWant = null;
         if (bean != null) {
             info.destinationId = String.valueOf(bean.destinationId);
             info.destinationType = String.valueOf(bean.destinationType);
