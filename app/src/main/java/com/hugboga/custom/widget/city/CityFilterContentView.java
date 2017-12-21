@@ -272,4 +272,8 @@ public class CityFilterContentView extends FrameLayout {
         content_city_filte_view3.hide();
         checkFilterConSee();
     }
+
+    public void show(boolean isShow) {
+        city_content_filter_view.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
 }
