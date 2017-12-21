@@ -418,9 +418,11 @@ public class CityActivity extends BaseActivity {
         if (data.destinationGoodsCount > 0) {
             //有玩法数据则显示筛选器
             adapter.showFilterModel(true);
+            filterContentView.show(true);
         } else {
             //无玩法数据隐藏筛选器
             adapter.showFilterModel(false);
+            filterContentView.show(false);
         }
     }
 

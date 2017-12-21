@@ -16,7 +16,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.QueryCityActivity;
 import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -258,7 +258,7 @@ public class FgHome extends BaseFragment {
 
     @OnClick({R.id.homed_titlebar_search_iv})
     public void intentSearchActivity() {
-        Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
+        Intent intent = new Intent(this.getContext(), QueryCityActivity.class);
         intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
         intent.putExtra("isHomeIn", true);
         intent.putExtra("source", getEventSource());
@@ -268,7 +268,9 @@ public class FgHome extends BaseFragment {
 
     @OnClick({R.id.homed_titlebar_ai_iv})
     public void aiClickActivity() {
-        startActivity(new Intent(getContext(), FakeAIActivity.class));
+        Intent intent = new Intent(getContext(), FakeAIActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        startActivity(intent);
     }
 
     @Override

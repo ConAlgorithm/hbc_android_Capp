@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.FakeAIActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.widget.home.HomeAIView;
 
 /**
@@ -31,7 +32,9 @@ public class HomeAiModel extends EpoxyModel<LinearLayout> {
         homeAIView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(new Intent(view.getContext(), FakeAIActivity.class));
+                Intent intent = new Intent(view.getContext(), FakeAIActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, "首页");
+                view.getContext().startActivity(intent);
             }
         });
     }

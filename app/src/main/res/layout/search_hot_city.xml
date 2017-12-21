@@ -1,12 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/hotCityList"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/hot_city_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/day_service_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/destiation_day_service"
+                        android:drawableLeft="@mipmap/home_search_charter"
+                        android:drawablePadding="10dp"/>
+
+                    <com.hugboga.custom.widget.DashView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        app:dashOrientation="0"
+                        app:dashWidth="2dp"
+                        app:lineColor="#dbdbdb"
+                        app:lineHeight="1dp"
+                        app:lineWidth="2dp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/pickup_service_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/destiation_pick_send"
+                        android:drawableLeft="@mipmap/home_search_pickup"
+                        android:drawablePadding="10dp"/>
+
+                    <com.hugboga.custom.widget.DashView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        app:dashOrientation="0"
+                        app:dashWidth="2dp"
+                        app:lineColor="#dbdbdb"
+                        app:lineHeight="1dp"
+                        app:lineWidth="2dp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/single_service_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/destiation_single"
+                        android:drawableLeft="@mipmap/home_search_once"
+                        android:drawablePadding="10dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#dbdbdb"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hot_city_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp">
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

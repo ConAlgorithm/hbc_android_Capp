@@ -262,7 +262,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 }
                 break;
             case 4://联系客服
-                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
                         if (csDialog != null && csDialog.isShowing()) {

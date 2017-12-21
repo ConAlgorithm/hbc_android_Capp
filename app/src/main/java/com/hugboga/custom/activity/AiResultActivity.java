@@ -14,6 +14,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
 import java.io.Serializable;
 
@@ -60,6 +61,7 @@ public class AiResultActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
         adapter.showAiResult(destinationHomeVo, params);
         queryFavoriteLineList(); //查询收藏玩法信息
+        SensorsUtils.setPageEvent(getEventSource(), getEventSource(), getIntentSource());
     }
 
     @Override
@@ -98,5 +100,10 @@ public class AiResultActivity extends BaseActivity {
             adapter.resetFavious(favoriteLine.goodsNos);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public String getEventSource() {
+        return "AI推荐结果";
     }
 }

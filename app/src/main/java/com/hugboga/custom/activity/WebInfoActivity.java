@@ -469,7 +469,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
             headerRightBtn.setLayoutParams(headerRightImageParams);
             headerRightBtn.setPadding(26, 26, 26, 26);
-            headerRightBtn.setImageResource(R.mipmap.evaluate_share);
+            headerRightBtn.setImageResource(R.mipmap.guide_homepage_share);
             headerRightBtn.setVisibility(View.VISIBLE);
             headerRightBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

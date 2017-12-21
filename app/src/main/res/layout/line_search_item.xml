@@ -43,7 +43,7 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tagNameDes"
+                    android:id="@+id/poi_des"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
@@ -53,7 +53,7 @@
                     android:visibility="gone" />
 
                 <TextView
-                    android:id="@+id/poi_des"
+                    android:id="@+id/tagNameDes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
