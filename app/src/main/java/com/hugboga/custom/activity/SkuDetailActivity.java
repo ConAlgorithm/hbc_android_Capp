@@ -61,6 +61,7 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
+import com.hugboga.custom.widget.PathChatDialog;
 import com.hugboga.custom.widget.ShareDialog;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
@@ -288,14 +289,18 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
             case R.id.header_right_btn:
-                if (skuItemBean != null) {
-                    String title = skuItemBean.getGoodsName();
-                    String content = TextUtils.isEmpty(skuItemBean.salePoints) ?  "这个线路太赞了，快来看看" : skuItemBean.salePoints;
-                    String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
-                    shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
-                    skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
-                    StatisticClickEvent.click(StatisticConstant.SHARESKU);
-                }
+                PathChatDialog pathChatDialog = new PathChatDialog(this);
+                pathChatDialog.setMessageState(true);
+                pathChatDialog.show();
+
+//                if (skuItemBean != null) {
+//                    String title = skuItemBean.getGoodsName();
+//                    String content = TextUtils.isEmpty(skuItemBean.salePoints) ?  "这个线路太赞了，快来看看" : skuItemBean.salePoints;
+//                    String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
+//                    shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
+//                    skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
+//                    StatisticClickEvent.click(StatisticConstant.SHARESKU);
+//                }
                 break;
             case R.id.header_right_2_btn:
                 if (skuItemBean == null || !CommonUtils.isLogin(SkuDetailActivity.this,getEventSource())) {
