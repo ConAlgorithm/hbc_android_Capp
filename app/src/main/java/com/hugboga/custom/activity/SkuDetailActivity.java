@@ -8,10 +8,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -35,6 +32,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MainActivity;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
@@ -57,12 +55,16 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.PathChatDialog;
 import com.hugboga.custom.widget.ShareDialog;
+import com.hugboga.custom.widget.SkuDetailToolBarLeftButton;
+import com.qiyukf.unicorn.api.Unicorn;
+import com.qiyukf.unicorn.api.UnreadCountChangeListener;
+import com.qiyukf.unicorn.api.msg.UnicornMessage;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
@@ -82,17 +84,19 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.activity.WebInfoActivity.WEB_URL;
+import static com.hugboga.custom.data.event.EventType.SERVICE_BACK_LIST;
 
 
-public class SkuDetailActivity extends BaseActivity implements View.OnKeyListener,HttpRequestListener  {
+public class SkuDetailActivity extends BaseActivity implements View.OnKeyListener, HttpRequestListener {
 
     public static final String TAG = SkuDetailActivity.class.getSimpleName();
     public static final String WEB_SKU = "web_sku";
 
+
     @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @BindView(R.id.header_right_btn)
-    ImageView headerRightBtn;
+    SkuDetailToolBarLeftButton headerRightBtn;
     @BindView(R.id.header_title)
     TextView headerTitle;
     @BindView(R.id.header_right_txt)
@@ -123,7 +127,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     private GuidesDetailData guidesDetailData;
 
     private boolean isPerformClick = false;
-
+    private boolean isChatMessage = false;
     private DialogUtil mDialogUtil;
     private WebAgent webAgent;
 
@@ -131,6 +135,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     private boolean isLoaded = false;
     boolean isFromHome;
+    private PathChatDialog pathChatDialog; //右上角Dialog
 
     public void initView() {
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DETAIL_SKU);
@@ -177,12 +182,49 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
         loadUrl();
         setSensorsDefaultEvent();
-
         //开发者模式，设置特殊cookies
         CommonUtils.synDebugCookies(url);
+
+        if (UserEntity.getUser().isLogin(this)) {
+            distinguishChatConfug();
+            try {
+                if (Unicorn.isServiceAvailable()) {
+                    Unicorn.addUnreadCountChangeListener(listener, true);
+                }
+            } catch (Exception e) {
+                MLog.e("SkuDetailActivity:添加客服监听失败");
+            }
+        }
+
     }
 
-    protected boolean isDefaultEvent(){
+    private void distinguishChatConfug() {
+        if (SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0) > 1) {
+            isChatMessage = true;
+        } else {
+            isChatMessage = false;
+        }
+        headerRightBtn.isChatRedDot(isChatMessage);
+        if (pathChatDialog != null) {
+            pathChatDialog.setMessageState(isChatMessage);
+        }
+    }
+
+    private UnreadCountChangeListener listener = new UnreadCountChangeListener() { // 声明一个成员变量
+        @Override
+        public void onUnreadCountChange(int count) {
+            SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, count);
+            if (count > 0) {
+                isChatMessage = true;
+            } else {
+                isChatMessage = false;
+            }
+            distinguishChatConfug();
+            Log.d("MMM", "count 为 = " + count);
+        }
+    };
+
+    protected boolean isDefaultEvent() {
         return false;
     }
 
@@ -231,7 +273,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public String getEventSource() {
-        if(isFromHome){
+        if (isFromHome) {
             return "全局搜索";
         }
         return "线路详情";
@@ -249,7 +291,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     private void getSkuItemBean(final boolean isShowLoading) {
         if (!TextUtils.isEmpty(goodsNo)) {//skuItemBean == null &&
             isPerformClick = isShowLoading;
-            RequestGoodsById request = new RequestGoodsById(activity, goodsNo, guidesDetailData != null ?  guidesDetailData.guideId : "");
+            RequestGoodsById request = new RequestGoodsById(activity, goodsNo, guidesDetailData != null ? guidesDetailData.guideId : "");
             HttpRequestUtils.request(activity, request, SkuDetailActivity.this, isShowLoading);
         } else {
             setSensorsEvent();
@@ -284,26 +326,41 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
         }
     }
-    @OnClick({R.id.header_right_btn, R.id.header_right_2_btn,R.id.goto_order,R.id.sku_detail_bottom_service_layout, R.id.sku_detail_empty_tv})
+
+    @OnClick({R.id.header_right_btn, R.id.header_right_2_btn, R.id.goto_order, R.id.sku_detail_bottom_service_layout, R.id.sku_detail_empty_tv})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
             case R.id.header_right_btn:
-                PathChatDialog pathChatDialog = new PathChatDialog(this);
-                pathChatDialog.setMessageState(true);
-                pathChatDialog.show();
+                int[] location = new int[2];
+                headerRightBtn.getLocationInWindow(location);
+                pathChatDialog = new PathChatDialog(this, location[0], location[1], new PathChatDialog.DialogClickListener() {
+                    @Override
+                    public void shareClick() {
+                        if (skuItemBean != null) {
+                            String title = skuItemBean.getGoodsName();
+                            String content = TextUtils.isEmpty(skuItemBean.salePoints) ? "这个线路太赞了，快来看看" : skuItemBean.salePoints;
+                            String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
+                            shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
+                            skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
+                            StatisticClickEvent.click(StatisticConstant.SHARESKU);
+                        }
+                    }
 
-//                if (skuItemBean != null) {
-//                    String title = skuItemBean.getGoodsName();
-//                    String content = TextUtils.isEmpty(skuItemBean.salePoints) ?  "这个线路太赞了，快来看看" : skuItemBean.salePoints;
-//                    String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
-//                    shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
-//                    skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
-//                    StatisticClickEvent.click(StatisticConstant.SHARESKU);
-//                }
+                    @Override
+                    public void chatClict() {
+                        Intent intent = new Intent(SkuDetailActivity.this, MainActivity.class);
+                        intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 2);
+                        startActivity(intent);
+                        EventBus.getDefault().post(new EventAction(EventType.SERVICE_BACK_LIST, 0));
+                        finish();
+                    }
+                });
+                pathChatDialog.setMessageState(isChatMessage);
+                pathChatDialog.show();
                 break;
             case R.id.header_right_2_btn:
-                if (skuItemBean == null || !CommonUtils.isLogin(SkuDetailActivity.this,getEventSource())) {
+                if (skuItemBean == null || !CommonUtils.isLogin(SkuDetailActivity.this, getEventSource())) {
                     return;
                 }
                 //EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
@@ -311,10 +368,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 BaseRequest baseRequest = null;
                 if (skuItemBean.favorited == 1) {
                     baseRequest = new RequestUncollectLinesNo(this, skuItemBean.goodsNo);
-                } else{
+                } else {
                     baseRequest = new RequestCollectLineNo(this, skuItemBean.goodsNo);
                 }
-                if(baseRequest!= null){
+                if (baseRequest != null) {
                     requestData(baseRequest);
                 }
 
@@ -353,7 +410,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 intent1.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent1.putExtra(Constants.PARAMS_DATA, unicornServiceparams);
                 startActivity(intent1);
-                SensorsUtils.onAppClick(getEventSource(),"在线咨询",getIntentSource());
+                SensorsUtils.onAppClick(getEventSource(), "在线咨询", getIntentSource());
                 break;
             case R.id.sku_detail_empty_tv:
                 startActivity(new Intent(activity, MainActivity.class));
@@ -368,7 +425,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     @Override
                     public void onShare(int _type) {
                         EventUtil.onShareSkuEvent(StatisticConstant.SHARESKU_TYPE, "" + _type, getCityName());
-                        SensorsUtils.setSensorsShareEvent(_type == 1 ? "微信好友" : "朋友圈", getEventSource(),goodsNo,null);
+                        SensorsUtils.setSensorsShareEvent(_type == 1 ? "微信好友" : "朋友圈", getEventSource(), goodsNo, null);
                     }
                 });
     }
@@ -387,7 +444,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 return;
             }
             if (!view.getTitle().startsWith("http:")) {
-                    headerTitle.setText(R.string.sku_detail_title);
+                headerTitle.setText(R.string.sku_detail_title);
             } else {
                 headerTitle.setText("");
             }
@@ -509,12 +566,22 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     public void onResume() {
         super.onResume();
         GiftController.getInstance(this).showGiftDialog();
+        if (UserEntity.getUser().isLogin(this)) {
+            distinguishChatConfug();
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         setSensorsViewSkuEndEvent();
+        try {
+            if (Unicorn.isServiceAvailable()) {
+                Unicorn.addUnreadCountChangeListener(listener, false);
+            }
+        } catch (Exception e) {
+            MLog.e("SkuDetailActivity:回收客服监听失败");
+        }
     }
 
     @Override
@@ -528,12 +595,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         if (this.getIntent() != null) {
             skuItemBean = (SkuItemBean) getIntent().getSerializableExtra(WEB_SKU);
             goodsNo = getIntent().getStringExtra(Constants.PARAMS_ID);
-            guidesDetailData = (GuidesDetailData)getIntent().getSerializableExtra(Constants.PARAMS_GUIDE);
+            guidesDetailData = (GuidesDetailData) getIntent().getSerializableExtra(Constants.PARAMS_GUIDE);
         }
         if (skuItemBean != null && skuItemBean.arrCityId != 0) {
             cityBean = findCityById("" + skuItemBean.arrCityId);
         }
-        isFromHome = getIntent().getBooleanExtra("isFromHome",false);
+        isFromHome = getIntent().getBooleanExtra("isFromHome", false);
         initView();
         setSensorsShowEvent();
         EventBus.getDefault().register(this);
@@ -613,7 +680,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             if (isPerformClick) {
                 gotoOrder.performClick();
             }
-            if (webAgent!= null) {
+            if (webAgent != null) {
                 if (cityBean != null) {
                     webAgent.setCityBean(cityBean);
                 }
@@ -624,12 +691,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 loadUrl();
             }
             setSensorsEvent();
-        }else if(_request instanceof RequestUncollectLinesNo){
+        } else if (_request instanceof RequestUncollectLinesNo) {
             skuItemBean.favorited = 0;
             collectImg.setSelected(false);
             EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, 0));
             CommonUtils.showToast(getString(R.string.collect_cancel));
-        }else if(_request instanceof RequestCollectLineNo){
+        } else if (_request instanceof RequestCollectLineNo) {
             skuItemBean.favorited = 1;
             collectImg.setSelected(true);
             EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, 1));

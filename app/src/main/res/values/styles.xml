@@ -86,9 +86,14 @@
     </style>
 
     <style name="AnimationDialog" parent="@style/MyDialog">
+
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@style/AnimationMethodDialog</item>
+    </style>
+
+    <style name="AnimationMethodDialog">
         <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
         <item name="android:windowExitAnimation">@anim/dialog_exit</item>
-        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
     <style name="translucent" parent="Theme.AppCompat.NoActionBar">

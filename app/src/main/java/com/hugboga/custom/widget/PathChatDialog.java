@@ -3,6 +3,7 @@ package com.hugboga.custom.widget;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -12,6 +13,12 @@ import android.widget.Toast;
 
 import com.amap.api.maps2d.model.Text;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.UIUtils;
+
+import butterknife.internal.Utils;
 
 /**
  * Created by zhangqi on 2017/12/22.
@@ -19,24 +26,31 @@ import com.hugboga.custom.R;
 
 public class PathChatDialog extends Dialog implements View.OnClickListener {
     private TextView text_share, text_chat;
+    private DialogClickListener listener;
 
-    public PathChatDialog(Context context) {
-        this(context,R.style.AnimationDialog);
+    public  interface DialogClickListener {
+        void shareClick();
+
+        void chatClict();
     }
 
-    public PathChatDialog(Context context, int themeResId) {
+    public PathChatDialog(Context context, int x, int y, DialogClickListener listener) {
+        this(context, R.style.AnimationDialog, x, y, listener);
+    }
+
+    public PathChatDialog(Context context, int themeResId, int x, int y, DialogClickListener listener) {
         super(context, themeResId);
         setContentView(R.layout.dialog_left_top);
-
+        this.listener = listener;
         if (context instanceof Activity) {
             WindowManager windowManager = ((Activity) context).getWindowManager();
             Display display = windowManager.getDefaultDisplay();
             WindowManager.LayoutParams lp = this.getWindow().getAttributes();
             getWindow().setGravity(Gravity.RIGHT | Gravity.TOP);
-            lp.x = (int) (display.getWidth()*0.05f);
-            lp.y = (int) (display.getHeight()*0.03f);
-            lp.height = (int)(display.getHeight()*0.3f);
-            lp.width = (int)(display.getWidth()*0.6f);
+            //lp.x = (int) (display.getWidth()*0.01f);
+            lp.y = y;
+            lp.height = (int) (display.getHeight() * 0.3f);
+            lp.width = (int) (display.getWidth() * 0.52f);
             getWindow().setAttributes(lp);
 
         }
@@ -48,18 +62,18 @@ public class PathChatDialog extends Dialog implements View.OnClickListener {
 
 
     public void setMessageState(boolean state) {
-     //   text_chat.setSelected(state);
+        text_chat.setSelected(state);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.dialog_text_share:
-                Toast.makeText(getContext(),"ok1",Toast.LENGTH_SHORT).show();
+                listener.shareClick();
                 dismiss();
                 break;
             case R.id.dialog_text_chat:
-                Toast.makeText(getContext(),"ok2",Toast.LENGTH_SHORT).show();
+                listener.chatClict();
                 dismiss();
                 break;
         }
