@@ -41,26 +41,19 @@
         android:maxWidth="100dp"
         android:singleLine="true"
         android:text="孟晓雷晓晓晓晓晓晓晓晓"
+        android:textStyle="bold"
         android:textColor="@color/basic_black"
         android:textSize="15sp" />
 
-    <ImageView
-        android:id="@+id/guide_item_include_city_iv"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
-        android:layout_alignTop="@id/guide_item_include_name_tv"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="3.5dp"
-        android:layout_toRightOf="@id/guide_item_include_name_tv"
-        android:background="@mipmap/city_location" />
 
     <TextView
         android:id="@+id/guide_item_include_city_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/guide_item_include_name_tv"
-        android:layout_marginTop="1.5dp"
-        android:layout_toRightOf="@id/guide_item_include_city_iv"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="3.5dp"
+        android:layout_toRightOf="@id/guide_item_include_name_tv"
         android:ellipsize="end"
         android:paddingRight="10dp"
         android:singleLine="true"
@@ -74,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/guide_item_include_name_tv"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/guide_item_include_avatar_iv"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -84,41 +77,54 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="东京"
-            android:textColor="#724700"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:textSize="12sp" />
+         <ImageView
+             android:layout_width="3dp"
+             android:layout_marginTop="0.5dp"
+             android:layout_height="3dp"
+             android:layout_gravity="center"
+             android:layout_marginLeft="12dp"
+             android:layout_marginRight="12dp"
+             android:src="@mipmap/chat_order_page_focus"/>
 
-        <View
-            android:layout_width="@dimen/default_line_height"
-            android:layout_marginTop="0.5dp"
-            android:layout_height="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:background="#724700" />
 
         <TextView
             android:id="@+id/guide_item_include_evaluate_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="东京"
-            android:textColor="#724700"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:textSize="12sp" />
 
-        <View
-            android:layout_width="@dimen/default_line_height"
-            android:layout_height="12dp"
+        <ImageView
+            android:layout_width="3dp"
             android:layout_marginTop="0.5dp"
+            android:layout_height="3dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:background="#724700" />
+            android:src="@mipmap/chat_order_page_focus"/>
 
         <TextView
             android:id="@+id/guide_item_include_star_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="东京"
-            android:textColor="#724700"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:textSize="12sp" />
     </LinearLayout>
+    <ImageView
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/text_size_10"
+        android:layout_alignTop="@id/guide_item_include_avatar_iv"
+        android:layout_marginTop="@dimen/text_size_15"
+        android:src="@mipmap/icon_chat"/>
 
     <com.hugboga.custom.widget.TagGroup
         android:id="@+id/guide_item_include_taggroup"

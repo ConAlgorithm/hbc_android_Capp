@@ -35,8 +35,8 @@ public class ChooseGuideView extends LinearLayout implements HbcViewBehavior{
     @BindView(R.id.guide_item_include_name_tv)
     TextView nameTV;
 
-    @BindView(R.id.guide_item_include_city_iv)
-    ImageView cityIV;
+//    @BindView(R.id.guide_item_include_city_iv)
+//    ImageView cityIV;
     @BindView(R.id.guide_item_include_city_tv)
     TextView cityTV;
 
@@ -46,9 +46,9 @@ public class ChooseGuideView extends LinearLayout implements HbcViewBehavior{
     TextView evaluateTV;
     @BindView(R.id.guide_item_include_star_tv)
     TextView starTV;
-
-    @BindView(R.id.guide_item_include_taggroup)
-    TagGroup tagGroup;
+//
+//    @BindView(R.id.guide_item_include_taggroup)
+//    TagGroup tagGroup;
 
     @BindView(R.id.view_guide_item_bottom_layout)
     RelativeLayout bottomLayout;
@@ -77,14 +77,14 @@ public class ChooseGuideView extends LinearLayout implements HbcViewBehavior{
         nameTV.setText(data.getGuideName());
         nameTV.setMaxWidth(UIUtils.dip2px(200));
         nameTV.setPadding(0, 0, UIUtils.dip2px(20), 0);
-        cityIV.setVisibility(View.GONE);
+        //cityIV.setVisibility(View.GONE);
         cityTV.setVisibility(View.GONE);
         genderIV.setBackgroundResource(data.getGender() == 1 ? R.mipmap.icon_man : R.mipmap.icon_woman);
         orderTV.setText(data.getOrderCounts() + "单");
         evaluateTV.setText(data.getCommentNum() + "评价");
         String level = data.getServiceStar() <= 0 ? "暂无星级" : data.getServiceStar() + "星";
         starTV.setText(level);
-        GuideItemUtils.setTag(tagGroup, data.getSkillLabelNames());
+        //GuideItemUtils.setTag(tagGroup, data.getSkillLabelNames());
         if (TextUtils.isEmpty(data.getCarName()) && TextUtils.isEmpty(data.getCarBrandName())) {
             carDescTV.setText("");
         } else {

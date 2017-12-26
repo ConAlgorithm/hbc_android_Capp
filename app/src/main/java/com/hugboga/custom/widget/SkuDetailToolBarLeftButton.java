@@ -17,8 +17,7 @@ import butterknife.ButterKnife;
 
 public class SkuDetailToolBarLeftButton extends RelativeLayout {
 
-    @BindView(R.id.header_right_btn_share)
-    ImageView headerRightBtnShare;
+
     @BindView(R.id.header_right_btn_share_red_dot)
     ImageView headerRightBtnShareRedDot;
 

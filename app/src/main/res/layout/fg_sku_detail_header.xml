@@ -14,11 +14,12 @@
     <com.hugboga.custom.widget.SkuDetailToolBarLeftButton
         android:id="@+id/header_right_btn"
         layout="@layout/fg_sku_detail_header_image_share"
-        android:layout_width="52dp"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:scaleType="centerCrop" />
 
     <ImageView
         android:id="@+id/header_right_2_btn"
