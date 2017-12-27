@@ -22,7 +22,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
-import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
@@ -103,75 +102,77 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
         }
         orderBean = (OrderBean) _data;
         final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
-        if (orderBean.orderStatus == OrderStatus.INITSTATE || orderBean.orderStatus == OrderStatus.PAYSUCCESS || guideInfo == null) {//1:未付款 || 2:已付款
+        if (guideInfo == null) {
             setVisibility(View.GONE);
-        } else {
-            setVisibility(View.VISIBLE);
-            navLayout.setVisibility(View.GONE);
-            switch (orderBean.orderStatus) {
-                case AGREE://3:已接单
-                case ARRIVED://4:已到达
-                case SERVICING://5:服务中
-                    if (orderBean.isIm || orderBean.isPhone) {
-                        navLayout.setVisibility(View.VISIBLE);
-                        evaluateLayout.setVisibility(View.GONE);
-                        collectLayout.setVisibility(View.GONE);
-                        collectIV.setVisibility(View.GONE);
-                        chatLayout.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
-                        callLayout.setVisibility(orderBean.isPhone ? View.VISIBLE : View.GONE);
-                    }
-                    break;
-                case NOT_EVALUATED://6:服务完成
-                case COMPLETE://7:已完成
+            return;
+        }
+        setVisibility(View.VISIBLE);
+        navLayout.setVisibility(View.GONE);
+        switch (orderBean.orderStatus) {
+            case AGREE://3:已接单
+            case ARRIVED://4:已到达
+            case SERVICING://5:服务中
+                if (orderBean.isIm || orderBean.isPhone) {
                     navLayout.setVisibility(View.VISIBLE);
-                    callLayout.setVisibility(View.GONE);
-                    evaluateLayout.setVisibility(View.VISIBLE);
-                    chatLayout.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
-                    if (orderBean.isEvaluated()) {
-                        evaluateIV.setVisibility(View.VISIBLE);
-                        if (orderBean.appraisement != null) {
-                            evaluateTV.setText((int)orderBean.appraisement.totalScore + CommonUtils.getString(R.string.order_detail_star_comment));
-                        } else {
-                            evaluateTV.setText(R.string.order_detail_commented);
-                        }
-                    } else {
-                        evaluateIV.setVisibility(View.GONE);
-                        evaluateTV.setText(R.string.order_detail_guide_comment);
-                    }
-
-                    if (guideInfo.isCollected()) { //不可取消收藏
-                        collectIV.setVisibility(View.VISIBLE);
-                        collectLayout.setVisibility(View.GONE);
-                    } else {
-                        collectIV.setVisibility(View.GONE);
-                        collectLayout.setVisibility(View.VISIBLE);
-                    }
-                    break;
-                case COMPLAINT://10:客诉处理中
-                    navLayout.setVisibility(View.VISIBLE);
-                    callLayout.setVisibility(View.GONE);
                     evaluateLayout.setVisibility(View.GONE);
                     collectLayout.setVisibility(View.GONE);
                     collectIV.setVisibility(View.GONE);
                     chatLayout.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
-                    break;
-            }
+                    callLayout.setVisibility(orderBean.isPhone ? View.VISIBLE : View.GONE);
+                }
+                break;
+            case NOT_EVALUATED://6:服务完成
+            case COMPLETE://7:已完成
+                navLayout.setVisibility(View.VISIBLE);
+                callLayout.setVisibility(View.GONE);
+                evaluateLayout.setVisibility(View.VISIBLE);
+                chatLayout.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
+                if (orderBean.isEvaluated()) {
+                    evaluateIV.setVisibility(View.VISIBLE);
+                    if (orderBean.appraisement != null) {
+                        evaluateTV.setText((int)orderBean.appraisement.totalScore + CommonUtils.getString(R.string.order_detail_star_comment));
+                    } else {
+                        evaluateTV.setText(R.string.order_detail_commented);
+                    }
+                } else {
+                    evaluateIV.setVisibility(View.GONE);
+                    evaluateTV.setText(R.string.order_detail_guide_comment);
+                }
 
-            Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
-            nameTV.setText(orderBean.getGuideName());
-            if ((float)guideInfo.guideStarLevel >= 4) {
-                starIV.setBackgroundResource(R.mipmap.star_level_full);
-            } else {
-                starIV.setBackgroundResource(R.mipmap.star_level_half);
-            }
-            starTV.setText(CommonUtils.getString(R.string.order_detail_star_hint, "" + guideInfo.guideStarLevel, "" + guideInfo.orderCount));
-
-            describeTV.setText(CommonUtils.getString(R.string.order_detail_collect) + guideInfo.guideCar);
-            if (!TextUtils.isEmpty(guideInfo.carNumber)) {
-                numberTV.setText(getContext().getString(R.string.platenumber) + guideInfo.carNumber);
-            }
-            stateTV.setText(orderBean.orderStatus.name);
+                if (guideInfo.isCollected()) { //不可取消收藏
+                    collectIV.setVisibility(View.VISIBLE);
+                    collectLayout.setVisibility(View.GONE);
+                } else {
+                    collectIV.setVisibility(View.GONE);
+                    collectLayout.setVisibility(View.VISIBLE);
+                }
+                break;
+            case COMPLAINT://10:客诉处理中
+                navLayout.setVisibility(View.VISIBLE);
+                callLayout.setVisibility(View.GONE);
+                evaluateLayout.setVisibility(View.GONE);
+                collectLayout.setVisibility(View.GONE);
+                collectIV.setVisibility(View.GONE);
+                chatLayout.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
+                break;
         }
+
+        Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
+        nameTV.setText(orderBean.getGuideName());
+        if ((float)guideInfo.guideStarLevel >= 4) {
+            starIV.setBackgroundResource(R.mipmap.star_level_full);
+        } else {
+            starIV.setBackgroundResource(R.mipmap.star_level_half);
+        }
+        starTV.setText(CommonUtils.getString(R.string.order_detail_star_hint, "" + guideInfo.guideStarLevel, "" + guideInfo.orderCount));
+
+        if (!TextUtils.isEmpty(guideInfo.guideCar)) {
+            describeTV.setText(CommonUtils.getString(R.string.order_detail_car_type) + guideInfo.guideCar);
+        }
+        if (!TextUtils.isEmpty(guideInfo.carNumber)) {
+            numberTV.setText(getContext().getString(R.string.platenumber) + guideInfo.carNumber);
+        }
+        stateTV.setText(orderBean.orderStatus.name);
     }
 
     @OnClick({R.id.ogi_collect_layout, R.id.ogi_evaluate_layout, R.id.ogi_chat_layout, R.id.ogi_call_layout, R.id.ogi_avatar_iv})

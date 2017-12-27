@@ -240,6 +240,8 @@ public class ParserOrder extends ImplParser {
         orderbean.journeyList = gson.fromJson(jsonObj.optString("journeyList"), new TypeToken<List<OrderBean.JourneyItem>>(){}.getType());
 
         orderbean.deliverCategory = jsonObj.optInt("deliverCategory");
+
+        orderbean.fxJourneyInfo = gson.fromJson(jsonObj.optString("fxJourneyInfo"), OrderBean.FxJourneyInfoBean.class);
         return orderbean;
     }
 }

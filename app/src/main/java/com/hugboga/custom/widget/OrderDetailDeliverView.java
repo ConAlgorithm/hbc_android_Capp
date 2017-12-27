@@ -22,6 +22,7 @@ import com.hugboga.custom.data.request.RequestDeliverInfo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -56,6 +57,7 @@ import cn.iwgang.countdownview.CountdownView;
         super(context, attrs);
         final View view = inflate(context, R.layout.view_order_detail_deliver, this);
         ButterKnife.bind(view);
+        setOrientation(LinearLayout.VERTICAL);
     }
 
     public OrderDetailGuideInfo getGuideInfoView() {
@@ -68,23 +70,43 @@ import cn.iwgang.countdownview.CountdownView;
             return;
         }
         orderBean = (OrderBean) _data;
-        if (orderBean.isSeparateOrder()) {
+        if (orderBean.isSeparateOrder()) {// 是否拆单
             setVisibility(View.GONE);
             return;
         }
-        if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 2.预订成功
-            sendRequest(true);
-        } else if (orderBean.orderType != 888 && orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
-            removeAllViews();
-            if (guideInfoView == null) {
-                guideInfoView = new OrderDetailGuideInfo(getContext());
+        if (orderBean.orderSource == 12 && orderBean.orderGuideInfo != null) {// 分销订单
+            if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) {
+                addDetailGuideInfoView(false);
+                sendRequest(true);
+            } else {
+                addDetailGuideInfoView(true);
             }
-            addView(guideInfoView);
-            guideInfoView.update(orderBean);
-        } else {
-            stop();
-            setVisibility(View.GONE);
+        } else {// 其它订单
+            if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 2.预订成功
+                sendRequest(true);
+            } else if (orderBean.orderType != 888 && orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
+                addDetailGuideInfoView(true);
+            } else {
+                stop();
+                setVisibility(View.GONE);
+            }
         }
+    }
+
+    private void addDetailGuideInfoView(boolean isRemoveAllViews) {
+        if (guideInfoView == null) {
+            guideInfoView = new OrderDetailGuideInfo(getContext());
+            if (isRemoveAllViews) {
+                removeAllViews();
+                addView(guideInfoView);
+            } else {
+                View spaceView = new View(getContext());
+                spaceView.setBackgroundColor(getContext().getResources().getColor(R.color.default_bg));
+                addView(spaceView, LayoutParams.MATCH_PARENT, UIUtils.dip2px(10));
+                addView(guideInfoView);
+            }
+        }
+        guideInfoView.update(orderBean);
     }
 
     public void refreshData(boolean isShowLoadingView) {

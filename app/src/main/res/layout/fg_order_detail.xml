@@ -42,6 +42,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/order_margin_vertical"/>
 
+            <com.hugboga.custom.widget.OrderDetailFxJourneyView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/order_margin_vertical"/>
+
             <com.hugboga.custom.widget.OrderDetailItineraryView
                 android:id="@+id/order_detail_itinerary_view"
                 android:layout_width="match_parent"
