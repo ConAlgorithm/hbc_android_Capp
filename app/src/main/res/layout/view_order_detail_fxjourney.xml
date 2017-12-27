@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:paddingLeft="@dimen/order_padding_left"
+    android:paddingRight="@dimen/order_padding_left">
+
+    <TextView
+        android:id="@+id/order_detail_fxjourney_title_tv"
+        style="@style/SkuOrderSubtitleTextView"
+        android:text="@string/order_detail_fxjourney_title" />
+
+    <TextView
+        android:id="@+id/order_detail_fxjourney_name_tv"
+        style="@style/SkuOrderSubtitleTextView"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0.5dp"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/order_detail_fxjourney_arrow_iv"
+        android:layout_width="5dp"
+        android:layout_height="9dp"
+        android:layout_below="@id/order_detail_fxjourney_title_tv"
+        android:layout_marginTop="8.5dp"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/ente_icon" />
+
+    <TextView
+        android:id="@+id/order_detail_fxjourney_detail_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="3dp"
+        android:layout_toLeftOf="@id/order_detail_fxjourney_arrow_iv"
+        android:layout_below="@id/order_detail_fxjourney_title_tv"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:text="@string/order_detail_fxjourney_detail"
+        android:textColor="#b0b0b0"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/order_detail_fxjourney_subtitle_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/order_detail_fxjourney_title_tv"
+        android:layout_marginTop="5dp"
+        android:textSize="14sp"
+        android:textColor="@color/default_black" />
+
+    <TextView
+        android:id="@+id/order_detail_fxjourney_city_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/order_detail_fxjourney_subtitle_tv"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="5dp"
+        android:textSize="14sp"
+        android:textColor="@color/default_black" />
+</RelativeLayout>

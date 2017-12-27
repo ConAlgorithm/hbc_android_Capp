@@ -370,6 +370,11 @@
     <string name="order_detail_other_price">其他費用(%1$s) × %2$s人</string>
     <string name="order_detail_problem">常見問題</string>
     <string name="order_detail_cancel_hint">如需要取消訂單，請聯繫客服處理</string>
+    <string name="order_detail_car_type">車型：</string>
+    <string name="order_detail_fxjourney_title">行程安排</string>
+    <string name="order_detail_fxjourney_detail">詳情</string>
+    <string name="order_detail_fxjourney_guidename">當地人 %1$s 提供</string>
+    <string name="order_detail_fxjourney_days">%1$s日</string>
 
     <string name="select_day">請選擇游玩日期</string>
 
