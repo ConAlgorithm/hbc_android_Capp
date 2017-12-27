@@ -52,12 +52,22 @@ public class OrderDetailFxJourneyView extends LinearLayout implements HbcViewBeh
             return;
         }
         OrderBean data = (OrderBean) _data;
-        if (data.orderSource == 12 && data.fxJourneyInfo != null) {
+        if (data.fxJourneyInfo != null) {
             setVisibility(View.VISIBLE);
             fxJourneyInfo = data.fxJourneyInfo;
             subtitleTV.setText(fxJourneyInfo.journeyTitle);
+
+            String city = "";
+            if (!TextUtils.isEmpty(fxJourneyInfo.journeyCityNames)) {
+                String citys[] = fxJourneyInfo.journeyCityNames.split("、");
+                if (citys.length > 1) {
+                    city = citys[0] + " - " + citys[citys.length - 1];
+                } else if (citys.length == 1) {
+                    city = citys[0] + " - " + citys[0];
+                }
+            }
             String days = getContext().getResources().getString(R.string.order_detail_fxjourney_days, "" + fxJourneyInfo.journeyDays);
-            cityTV.setText(fxJourneyInfo.journeyCityNames + "  " + days);
+            cityTV.setText(city + "  " + days);
 
             if (!TextUtils.isEmpty(fxJourneyInfo.guideName)) {
                 String guideName = getContext().getResources().getString(R.string.order_detail_fxjourney_guidename, fxJourneyInfo.guideName);

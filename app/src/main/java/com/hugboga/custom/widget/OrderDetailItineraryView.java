@@ -84,8 +84,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         orderBean = (OrderBean) _data;
         itineraryLayout.removeAllViews();
 
-        // 分销订单隐藏查看行程入口
-        if (orderBean.orderSource == 12 && orderBean.fxJourneyInfo != null) {
+        if (orderBean.fxJourneyInfo != null) {
             arrowIV.setVisibility(View.GONE);
             travelTV.setVisibility(View.GONE);
         }
