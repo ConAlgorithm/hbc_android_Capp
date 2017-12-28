@@ -1,13 +1,11 @@
 package com.hugboga.custom.widget.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -52,7 +50,7 @@ public class HomeGoodsView<T> extends LinearLayout {
         titleTV.setMaxWidth(UIUtils.getScreenWidth() - UIUtils.dip2px(70));
         displayImgWidth = (int) ((376 / 750.0f) * UIUtils.getScreenWidth() - UIUtils.dip2px(9) * 2);
         displayImgHeight = displayImgWidth;
-        int viewHeight = displayImgHeight + UIUtils.dip2px(9 + 35 + 20 + 32 + 15);
+        int viewHeight = displayImgHeight + UIUtils.dip2px(9 + 32 + 35 + 24  + 15);
         recyclerView.getLayoutParams().height = viewHeight;
 
         recyclerView.setFocusable(false);

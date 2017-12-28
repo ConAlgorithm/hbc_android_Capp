@@ -41,6 +41,11 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
     @BindView(R.id.order_itinerary_order_number_view)
     OrderDetailNoView orderNumberView;
 
+    @BindView(R.id.order_itinerary_charter_arrow_iv)
+    ImageView arrowIV;
+    @BindView(R.id.order_itinerary_charter_travel_tv)
+    TextView travelTV;
+
     @BindView(R.id.order_itinerary_route_tv)
     TextView routeTV;
     @BindView(R.id.order_itinerary_route_iv)
@@ -78,6 +83,11 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
         orderBean = (OrderBean) _data;
         itineraryLayout.removeAllViews();
+
+        if (orderBean.fxJourneyInfo != null) {
+            arrowIV.setVisibility(View.GONE);
+            travelTV.setVisibility(View.GONE);
+        }
 
         // 包车开始城市
         if (orderBean.orderType == 3 || orderBean.orderType == 888) {

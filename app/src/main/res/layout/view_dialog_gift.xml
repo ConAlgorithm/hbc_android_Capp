@@ -52,7 +52,7 @@
             android:gravity="center"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="恭喜您成为皇包车用户，初始密码短信已下发，请注意查收。"
+            android:text="恭喜您成为皇包车旅行用户，初始密码短信已下发，请注意查收。"
             android:visibility="gone"
             android:textColor="#111111"
             android:textSize="12sp" />

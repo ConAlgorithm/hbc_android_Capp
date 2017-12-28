@@ -13,20 +13,29 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.PushMessage;
-import com.hugboga.custom.data.request.RequestPushToken;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestPushDeviceInit;
+import com.hugboga.custom.data.request.RequestPushReceive;
+import com.hugboga.custom.receiver.GetuiPushService;
 import com.hugboga.custom.widget.ZVersionDialog;
+import com.igexin.sdk.PushManager;
+import com.xiaomi.mipush.sdk.Logger;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.common.task.PriorityExecutor;
 import org.xutils.common.util.LogUtil;
@@ -44,6 +53,8 @@ import cn.jpush.android.api.JPushInterface;
  * Created by ZHZEPHI on 2015/7/30.
  */
 public class PushUtils {
+
+    public final static String TAG = "hbc_push";
 
     private final static int MAX_DOWNLOAD_THREAD = 2; // 有效的值范围[1, 3], 设置为3时, 可能阻塞图片加载.
     private final static Executor executor = new PriorityExecutor(MAX_DOWNLOAD_THREAD, true);
@@ -286,11 +297,11 @@ public class PushUtils {
         activity.startActivity(i);
     }
 
-    public static void requestPushToken(final Integer isSuccess, final String pushToken, final String regId, final String desc) {
+    public static void pushRegister(int pushGateway, String uniqueId) {
+        Log.i(TAG,"pushGateway = " + pushGateway + "   uniqueId = " + uniqueId);
         Context context = MyApplication.getAppContext();
-        if(UnicornUtils.isGranted(Manifest.permission.READ_PHONE_STATE,context)){
-            RequestPushToken request = new RequestPushToken(context, pushToken, BuildConfig.VERSION_NAME,
-                    PhoneInfo.getIMEI(context), PhoneInfo.getSoftwareVersion(context), isSuccess, regId, desc);
+        if (UnicornUtils.isGranted(Manifest.permission.READ_PHONE_STATE, context)) {
+            RequestPushDeviceInit request = new RequestPushDeviceInit(context, pushGateway, uniqueId);
             HttpRequestUtils.request(context, request, new HttpRequestListener() {
                 @Override
                 public void onDataRequestSucceed(BaseRequest request) {
@@ -310,67 +321,54 @@ public class PushUtils {
         }
     }
 
-    /**
-     * 上报极光注册结果
-     */
-    public static void uploadPushRegister(String regId) {
-        Integer isSuccess = 0; //失败
-        String desc = ""; //描述
-        if (!TextUtils.isEmpty(regId)) {
-            isSuccess = 1;
-            desc = "极光注册成功";
-        } else {
-            isSuccess = 0;
-            desc = "极光注册失败";
+    public static void onPushReceive(PushMessage pushMessage) {
+        showNotification(pushMessage);
+        if ("IM".equals(pushMessage.type)) {
+            EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
         }
-        requestPushToken(isSuccess, "", regId, desc);
+        ActionBean actionBean = pushMessage.getActionBean();
+        if (actionBean != null) {
+            uploadPushReceive(actionBean.pushId);
+        }
     }
 
-    /**
-     * 上报小米注册结果
-     */
-    public static void uploadMiPushRegister(String regId) {
-        Integer isSuccess = 0; //失败
-        String desc = ""; //描述
-        if (!TextUtils.isEmpty(regId)) {
-            isSuccess = 1;
-            desc = "MiPush注册成功";
-        } else {
-            isSuccess = 0;
-            desc = "MiPush注册失败";
+    private static void uploadPushReceive(String pushId){
+        if (TextUtils.isEmpty(pushId)) {
+            return;
         }
-        requestPushToken(isSuccess, "", regId, desc);
+        RequestPushReceive request = new RequestPushReceive(MyApplication.getAppContext(), pushId);
+        HttpRequestUtils.request(MyApplication.getAppContext(), request, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        },false);
     }
 
-    /**
-     * 上报设置极光别名结果
-     */
-    public static void uploadPushAlias(int code, String alias) {
-        Integer isSuccess = 0; //失败
-        String desc = ""; //描述
-        if (code == 0) {
-            isSuccess = 1;
-            desc = "极光设置别名成功";
-        } else {
-            isSuccess = 0;
-            desc = "极光设置别名失败,错误码为" + code;
-        }
-        requestPushToken(isSuccess, alias, JPushInterface.getRegistrationID(MyApplication.getAppContext()), desc);
+
+    public static void initXMpush() {
+        MiPushClient.registerPush(MyApplication.getAppContext(), "2882303761517373432", "5601737383432");
+        Logger.disablePushFileLog(MyApplication.getAppContext());
     }
 
-    /**
-     * 上报设置MiPush别名结果
-     */
-    public static void uploadMiPushAlias(int code, String alias) {
-        Integer isSuccess = 0; //失败
-        String desc = ""; //描述
-        if (code == 0) {
-            isSuccess = 1;
-            desc = "MiPush设置别名成功";
-        } else {
-            isSuccess = 0;
-            desc = "MiPush设置别名失败,错误码为" + code;
-        }
-        requestPushToken(isSuccess, alias, JPushInterface.getRegistrationID(MyApplication.getAppContext()), desc);
+    public static void initJPush() {
+        JPushInterface.setDebugMode(false);// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(MyApplication.getAppContext());// 初始化 JPush
+    }
+
+    public static void initGeTui() {
+        PushManager.getInstance().initialize(MyApplication.getAppContext(),null);
+        // GeTuiService 为第三方自定义的推送服务事件接收类
+        PushManager.getInstance().registerPushIntentService(MyApplication.getAppContext(), GetuiPushService.class);
     }
 }

@@ -3,7 +3,10 @@ package com.hugboga.custom.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
@@ -21,6 +24,7 @@ import com.hugboga.custom.widget.GlideCircleTransform;
 import com.hugboga.custom.widget.GlideRoundTransform;
 
 import java.io.File;
+import java.util.List;
 
 import jp.wasabeef.blurry.Blurry;
 
@@ -29,16 +33,23 @@ import jp.wasabeef.blurry.Blurry;
  */
 public class Tools {
 
-    public static void showImage(ImageView imageView, String url) {
+    public static void showImage(final ImageView imageView, final String url) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        Glide.with(MyApplication.getAppContext())
-                .load(url)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imageView);
-
+        ViewTreeObserver vto = imageView.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                Glide.with(MyApplication.getAppContext())
+                        .load(transformImgUrl(imageView, url))
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(imageView);
+                imageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                return true;
+            }
+        });
     }
     public static void showAdImage(ImageView imageView, String url) {
         if (TextUtils.isEmpty(url)) {
@@ -76,67 +87,84 @@ public class Tools {
                 .into(imageView);
     }
 
-    public static void showImage(final ImageView imageView, String url, final int resId) {
+    public static void showImage(final ImageView imageView,final String url, final int resId) {
         if (TextUtils.isEmpty(url)) {
 //            imageView.setBackgroundResource(resId);
             imageView.setImageResource(resId);
             return;
         }
 //        imageView.setBackgroundResource(resId);
-        Glide.with(MyApplication.getAppContext())
-                .load(url)
-                .centerCrop()
-                .error(resId)
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+
+        ViewTreeObserver vto = imageView.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                Glide.with(MyApplication.getAppContext())
+                        .load(transformImgUrl(imageView, url))
+                        .centerCrop()
+                        .error(resId)
+                        .listener(new RequestListener<String, GlideDrawable>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
 //                        if (imageView != null && resId != 0) {
 //                            imageView.setBackgroundResource(0);
-                        imageView.setImageResource(resId);
+                                imageView.setImageResource(resId);
 //                        }
-                        return false;
-                    }
+                                return false;
+                            }
 
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        imageView.setBackgroundResource(0);
-                        return false;
-                    }
-                })
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imageView);
+                            @Override
+                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                imageView.setBackgroundResource(0);
+                                return false;
+                            }
+                        })
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(imageView);
+                imageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                return true;
+            }
+        });
     }
 
     //placeholder 显示有问题
-    public static void showImageFitCenter(final ImageView imageView, String url, final int resId) {
+    public static void showImageFitCenter(final ImageView imageView, final String url, final int resId) {
         if (TextUtils.isEmpty(url)) {
 //            imageView.setBackgroundResource(resId);
             imageView.setImageResource(resId);
             return;
         }
 //        imageView.setBackgroundResource(resId);
-        Glide.with(MyApplication.getAppContext())
-                .load(url)
-                .fitCenter()
-                .error(resId)
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+        ViewTreeObserver vto = imageView.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                Glide.with(MyApplication.getAppContext())
+                        .load(transformImgUrl(imageView, url))
+                        .fitCenter()
+                        .error(resId)
+                        .listener(new RequestListener<String, GlideDrawable>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
 //                        if (imageView != null && resId != 0) {
 //                            imageView.setBackgroundResource(0);
-                            imageView.setImageResource(resId);
+                                imageView.setImageResource(resId);
 //                        }
-                        return false;
-                    }
+                                return false;
+                            }
 
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        imageView.setBackgroundResource(0);
-                        return false;
-                    }
-                })
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imageView);
+                            @Override
+                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                imageView.setBackgroundResource(0);
+                                return false;
+                            }
+                        })
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(imageView);
+                imageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                return true;
+            }
+        });
     }
 
 
@@ -301,19 +329,6 @@ public class Tools {
                 .into(imageView);
     }
 
-//    public static void showRoundImage(final Context context,final ImageView imageView,String url){
-//        Glide.with(context).load(url).asBitmap().centerCrop().into(new BitmapImageViewTarget(imageView) {
-//            @Override
-//            protected void setResource(Bitmap resource) {
-//                RoundedBitmapDrawable circularBitmapDrawable =
-//                        RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-//                circularBitmapDrawable.setCircular(true);
-//                imageView.setImageDrawable(circularBitmapDrawable);
-//            }
-//        });
-//    }
-
-
     public static void showCircleImage(Context context,ImageView imageView,String url){
         Glide.with(context).load(url).transform(new GlideCircleTransform(context))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -393,4 +408,60 @@ public class Tools {
             }
         }
     }
+
+    // 情况1
+    // https://hbcdn.huangbaoche.com/fr-hd[-t-d]/Dtjf9B6AQA0 替换前
+    // https://fr-hd.huangbaoche.com/Dtjf9B6AQA0   替换后
+
+    // 情况2
+    // https://hbcdn.huangbaoche.com/C61Yn_6AKA0!m  替换前，并去掉叹号及叹号之后内容!s !l
+    // https://fr-static.huangbaoche.com/C61Yn_6AKA0 替换后
+
+    // 阿里云 https://help.aliyun.com/document_detail/44688.html?spm=5176.doc44701.6.939.fhSUWP
+    // JS逻辑代码 http://gitlab.hbc.tech/widgets/comImg/blob/master/src/index.js#L56
+
+    public static String transformImgUrl(ImageView imageView, final String url) {
+        if (TextUtils.isEmpty(url)) {
+            return url;
+        }
+        String resultUrl = url;
+        Uri uri = Uri.parse(url);
+
+        List<String> pathSegments = uri.getPathSegments();
+        if (pathSegments == null || pathSegments.size() <= 0) {
+            return resultUrl;
+        }
+
+        String host = uri.getHost();
+        if (TextUtils.isEmpty(host)) {
+            return resultUrl;
+        }
+        String local = host.substring(0, host.indexOf("."));
+        if (!TextUtils.equals(local,"hbcdn")) {
+            return resultUrl;
+        }
+
+        String firstSchemt = pathSegments.get(0);
+        if (firstSchemt.indexOf("fr-") > -1) {//规则1
+            resultUrl = resultUrl.replace("/" + firstSchemt, "");
+            resultUrl = resultUrl.replace("hbcdn", firstSchemt);
+        } else {//规则2
+            resultUrl = resultUrl.replace("hbcdn", "fr-static");
+        }
+
+        // 去掉 !m !l !s
+        String lastSchemt = pathSegments.get(pathSegments.size() - 1);
+        if (!TextUtils.isEmpty(lastSchemt) && lastSchemt.contains("!")) {
+            resultUrl = resultUrl.substring(0, resultUrl.lastIndexOf("!"));
+        }
+
+        //指定宽高缩放
+        if (imageView.getWidth() > 0 && imageView.getHeight() > 0) {
+            String params = String.format("x-oss-process=image/resize,m_fill,h_%1$s,w_%2$s,limit_0", "" + imageView.getHeight(), "" + imageView.getWidth());
+            resultUrl = CommonUtils.getBaseUrl(resultUrl) + params;
+        }
+        Log.i("imgUrl", "url = " + url +" --- resultUrl = " + resultUrl);
+        return resultUrl;
+    }
+
 }

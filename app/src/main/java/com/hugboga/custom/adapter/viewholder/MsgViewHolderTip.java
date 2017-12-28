@@ -6,8 +6,11 @@ import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.TextView;
 
-import com.netease.nim.uikit.session.emoji.MoonUtil;
-import com.netease.nim.uikit.session.viewholder.MsgViewHolderBase;
+
+import com.hugboga.custom.R;
+import com.netease.nim.uikit.business.session.emoji.MoonUtil;
+import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderBase;
+import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLoadAdapter;
 
 import java.util.Map;
 
@@ -19,9 +22,13 @@ public class MsgViewHolderTip extends MsgViewHolderBase {
 
     protected TextView notificationTextView;
 
+    public MsgViewHolderTip(BaseMultiItemFetchLoadAdapter adapter) {
+        super(adapter);
+    }
+
     @Override
     protected int getContentResId() {
-        return com.netease.nim.uikit.R.layout.x_nim_message_item_notification;
+        return R.layout.x_nim_message_item_notification;
     }
 
     @Override

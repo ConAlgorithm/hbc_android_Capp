@@ -71,8 +71,8 @@
 
         <ImageView
             android:id="@+id/order_itinerary_charter_arrow_iv"
-            android:layout_width="6dp"
-            android:layout_height="10dp"
+            android:layout_width="5dp"
+            android:layout_height="9dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@mipmap/ente_icon" />

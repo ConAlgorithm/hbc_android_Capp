@@ -72,7 +72,7 @@ public class OrderBean implements IBaseBean{
     public boolean canComment;              // appraisable 能否评价
     public int additionIsRead;              // 是否确认后付费用
     public String travelFund;               // 当前订单使用的旅游基金
-    public int orderSource;                 // 订单来源：1-C端、2-GDS、3-OTA；
+    public int orderSource;                 // 订单来源：1-C端、2-GDS、3-OTA、12-分销；
     public String skuDetailUrl;             // H5商品详情URL
     public boolean isChangeManual;          // 是否人工退改：0-非人工、1-人工；
     public boolean isIm;                    // 是否可以聊天：0-不可以、1-可以；
@@ -179,6 +179,8 @@ public class OrderBean implements IBaseBean{
     public List<String> subOrderGuideAvartar;   // 子单司导头像
     public List<JourneyItem> journeyList;       // 行程信息
     public int deliverCategory;                 // 0普通发单，1组合单主单发单，2组合单拆单发单，3人工拆单，
+
+    public FxJourneyInfoBean fxJourneyInfo;
 
     public boolean isSeparateOrder() {
         return deliverCategory == 2 || deliverCategory == 3;
@@ -443,5 +445,21 @@ public class OrderBean implements IBaseBean{
 
     public PoiBean getDestPoiBean() {
         return new PoiBean(destAddress, destAddressDetail, destAddressPoi);
+    }
+
+    public static class FxJourneyInfoBean implements Serializable{
+        public String guideId;
+        public String guideName;
+        public String guideNo;
+        public String journeyCityIds;
+        public String journeyCityNames;
+        public String journeyCover;
+        public int journeyDays;
+        public String journeyId;
+        public String journeyNo;
+        public String journeyTitle;
+        public String journeyUrl;
+        public int journeyVersion;
+        public String orderNo;
     }
 }

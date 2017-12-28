@@ -2,22 +2,14 @@ package com.hugboga.custom.receiver;
 
 import android.content.Context;
 import android.text.TextUtils;
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import android.util.Log;
+
 import com.hugboga.custom.data.bean.PushMessage;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.request.RequestPushReceive;
-import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PushUtils;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * 1、PushMessageReceiver 是个抽象类，该类继承了 BroadcastReceiver。<br/>
@@ -48,29 +40,26 @@ import org.greenrobot.eventbus.EventBus;
  * 8、以上这些方法运行在非 UI 线程中。
  *
  */
-public class XMPushReceiver extends PushMessageReceiver implements HttpRequestListener {
+public class XMPushReceiver extends PushMessageReceiver {
     @Override
     public void onReceivePassThroughMessage(Context context, MiPushMessage miPushMessage) {
-
+        Log.i(PushUtils.TAG,"MiPushMessage " + miPushMessage.getContent());
         if (context == null || TextUtils.isEmpty(miPushMessage.getContent())) {
             return;
         }
 
         PushMessage pushMessage = (PushMessage) JsonUtils.fromJson(miPushMessage.getContent(), PushMessage.class);
         pushMessage.messageID = miPushMessage.getMessageId();
-        pushMessage.title = miPushMessage.getTitle();
-        if (!TextUtils.isEmpty(miPushMessage.getDescription())) {
+        if (TextUtils.isEmpty(pushMessage.title)) {
+            pushMessage.title = miPushMessage.getTitle();
+        }
+        if (TextUtils.isEmpty(pushMessage.message)) {
             pushMessage.message = miPushMessage.getDescription();
         }
         if (pushMessage == null) {
             return;
         }
-        PushUtils.showNotification(pushMessage);
-        RequestPushReceive request = new RequestPushReceive(context, miPushMessage.getMessageId());
-        HttpRequestUtils.request(context, request, this);
-        if ("IM".equals(pushMessage.type)) {
-            EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
-        }
+        PushUtils.onPushReceive(pushMessage);
     }
 
     @Override
@@ -82,29 +71,14 @@ public class XMPushReceiver extends PushMessageReceiver implements HttpRequestLi
                     && miPushCommandMessage.getCommandArguments().size() > 0) {
                 regId = miPushCommandMessage.getCommandArguments().get(0);
             }
-            PushUtils.uploadMiPushRegister(regId);
+            PushUtils.pushRegister(2, regId);
+            Log.i(PushUtils.TAG,"XMPushReceiver onCommandResult() regId = " + regId);
         } else if ("set-alias".equals(miPushCommandMessage.getCommand())) {
             String alias = "";
             if (miPushCommandMessage.getCommandArguments() != null
                     && miPushCommandMessage.getCommandArguments().size() > 0) {
                 alias = miPushCommandMessage.getCommandArguments().get(0);
             }
-            PushUtils.uploadMiPushAlias((int) miPushCommandMessage.getResultCode(), alias);
         }
-    }
-
-    @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        ApiReportHelper.getInstance().addReport(request);
-    }
-
-    @Override
-    public void onDataRequestCancel(BaseRequest request) {
-
-    }
-
-    @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
     }
 }

@@ -79,7 +79,7 @@
         android:layout_marginTop="18dp"
         android:gravity="center"
         android:lineSpacingExtra="2dp"
-        android:text="好友可得600元皇包车体验大礼包\n当Ta完成首单,你也能赚旅游基金"
+        android:text="好友可得600元皇包车旅行体验大礼包\n当Ta完成首单,你也能赚旅游基金"
         android:textColor="#666666"
         android:textSize="13sp" />
 

@@ -116,4 +116,10 @@
 
     </RelativeLayout>
 
+    <com.hugboga.custom.widget.ImSendMesView
+        android:id="@+id/im_send_mes_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 </RelativeLayout>
