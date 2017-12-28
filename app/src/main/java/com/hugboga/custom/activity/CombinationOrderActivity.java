@@ -50,7 +50,6 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircularProgress;
 import com.hugboga.custom.widget.CombinationExtrasPriceView;
@@ -63,6 +62,7 @@ import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderDiscountView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
+import com.hugboga.tools.HLog;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
@@ -718,7 +718,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 .travelerInfoBean(travelerInfoBean)
                 .build();
         requestSubmitOrder(requestParams);
-        LogUtils.e("组合单下单 params = " + requestParams);
+        HLog.e("组合单下单 params = " + requestParams);
         SensorsUtils.onAppClick(getEventSource(), "去支付", getIntentSource());
     }
 

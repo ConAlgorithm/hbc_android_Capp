@@ -15,7 +15,7 @@ import com.hugboga.custom.data.parser.HbcParser;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.JsonUtils;
-import com.hugboga.custom.utils.LogUtils;
+import com.hugboga.tools.HLog;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -42,7 +42,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         this.context = _context;
         map = new HashMap<String, Object>();
         bodyEntity = getRequestParamsBody(charterDataUtils);
-        LogUtils.e("组合单报价 params = " + bodyEntity);
+        HLog.e("组合单报价 params = " + bodyEntity);
         errorType = ERROR_TYPE_IGNORE;
         isSeckills = charterDataUtils.isSeckills();
     }

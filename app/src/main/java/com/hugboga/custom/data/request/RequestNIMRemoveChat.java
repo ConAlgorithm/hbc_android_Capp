@@ -6,7 +6,7 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.utils.LogUtils;
+import com.hugboga.tools.HLog;
 
 import org.json.JSONObject;
 import org.xutils.http.HttpMethod;
@@ -43,7 +43,7 @@ public class RequestNIMRemoveChat extends BaseRequest {
         return new ImplParser() {
             @Override
             public Object parseObject(JSONObject obj) throws Throwable {
-                LogUtils.json(obj.toString());
+                HLog.json(obj.toString());
                 return null;
             }
         };

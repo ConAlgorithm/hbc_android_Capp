@@ -20,7 +20,6 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.NotificationCheckUtils;
 import com.hugboga.custom.utils.UmengADPlus;
 import com.hugboga.custom.utils.UnicornUtils;
@@ -32,7 +31,6 @@ import com.ishumei.smantifraud.SmAntiFraud;
 import com.leon.channel.helper.ChannelReaderUtil;
 import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -73,7 +71,7 @@ public class MyApplication extends HbcApplication {
         mAppContext = this.getApplicationContext();
         MobclickAgent.setDebugMode(HbcConfig.IS_DEBUG);
         x.Ext.setDebug(true);
-        HLog.setIsDebug(BuildConfig.DEBUG);
+        setHlog(); //设置日志配置
         getChannelNum();
         initUrlHost();
         JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
@@ -107,6 +105,15 @@ public class MyApplication extends HbcApplication {
         }
         initNetworkbench();
         initNim();
+    }
+
+    /**
+     * 设置日志配置
+     */
+    private void setHlog() {
+        HLog.setIsDebug(BuildConfig.DEBUG);
+        HLog.setLogTag("huangbaoche");
+        HLog.setMethodCount(1);
     }
 
     private void initNim() {
@@ -161,7 +168,7 @@ public class MyApplication extends HbcApplication {
         UrlLibs.SHARE_APPID = BuildConfig.SHARE_APPID;
         UrlLibs.H5_HOST = BuildConfig.H5_HOST;
 
-        LogUtils.e(UrlLibs.SHARE_BASE_URL_1 + "\n" + UrlLibs.SHARE_BASE_URL_2
+        HLog.e(UrlLibs.SHARE_BASE_URL_1 + "\n" + UrlLibs.SHARE_BASE_URL_2
                 + "\n" + UrlLibs.SHARE_BASE_URL_3 + "\n" + UrlLibs.SHARE_BASE_URL_4
                 + "\n" + UrlLibs.H5_HOST);
     }

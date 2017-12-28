@@ -27,10 +27,10 @@ import com.hugboga.custom.adapter.SearchAfterAdapter;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.request.RequestHotSearch;
 import com.hugboga.custom.utils.CityUtils;
-import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.SearchUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.MultipleTextViewGroup;
+import com.hugboga.tools.HLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,7 +164,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                             listAfter = listAll;
                         }
                         addSearchDestinationModel(listAll);
-                        LogUtils.e(listfirst.size() + "====" + headSearch.getText().toString());
+                        HLog.e(listfirst.size() + "====" + headSearch.getText().toString());
 
                     } else {
                         firstEnter.setVisibility(VISIBLE);

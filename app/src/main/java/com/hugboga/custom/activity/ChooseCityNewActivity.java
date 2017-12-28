@@ -32,10 +32,10 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CityUtils;
-import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.FlowLayout;
 import com.hugboga.custom.widget.SearchHotCity;
+import com.hugboga.tools.HLog;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
@@ -260,7 +260,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(headSearch.getText())) {
                     headSearchClean.setVisibility(VISIBLE);
                     list = CityUtils.search(activity, headSearch.getText().toString());
-                    LogUtils.e(list.size() + "====" + headSearch.getText().toString());
+                    HLog.e(list.size() + "====" + headSearch.getText().toString());
                     showSearchPop(list);
                     if (list != null && list.size() <= 0) {
                         setSensorsShareEvent(headSearch.getText().toString(), false, false, false);
@@ -280,7 +280,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(headSearch.getText())) {
                     list = CityUtils.search(activity, headSearch.getText().toString());
-                    LogUtils.e(list.size() + "====" + headSearch.getText().toString());
+                    HLog.e(list.size() + "====" + headSearch.getText().toString());
                     showSearchPop(list);
                 }
             }
@@ -489,7 +489,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                         }
                     });
                     view.setGravity(Gravity.CENTER_VERTICAL);
-                    LogUtils.e(name);
+                    HLog.e(name);
                     view.setText(name);
                     view.setTextColor(Color.parseColor("#666666"));
                     view.setHeight(UIUtils.dip2px(50f));
