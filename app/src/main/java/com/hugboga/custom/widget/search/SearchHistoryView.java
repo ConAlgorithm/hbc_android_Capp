@@ -98,9 +98,7 @@ public class SearchHistoryView extends LinearLayout {
             showUI();
             List<SearchGroupBean> list = CityUtils.search(mActivity, searchStr);
             showLocalResult(list, searchStr); //展示关联词结果
-            if (list != null && list.size() <= 0) {
-                mActivity.addPoint(); //添加埋点
-            }
+            mActivity.addPoint(list != null && list.size() > 0); //添加埋点
         } else {
             initResetUI();
         }
@@ -145,7 +143,11 @@ public class SearchHistoryView extends LinearLayout {
         searchHistoryAfterList.setVisibility(GONE);
     }
 
-    private void showAfterUI2(String searchStr) {
+    /**
+     * 标签搜索
+     * @param searchStr
+     */
+    private void showAfterUI2(String searchStr,boolean isHotLabel) {
         mActivity.hideSoft(searchStr);
         searchHistoryTagLayout.setVisibility(GONE);
         searchListLayout.setVisibility(View.VISIBLE);
@@ -155,8 +157,8 @@ public class SearchHistoryView extends LinearLayout {
         searchAfterAdapter.removeModels();
         List<SearchGroupBean> list = CityUtils.search(mActivity, searchStr);
         addAfterSearchDestinationModel(list, searchStr);
-        SearchUtils.isHistory = true;
-        SearchUtils.isRecommend = false;
+        SearchUtils.isHistory = !isHotLabel;
+        SearchUtils.isRecommend = isHotLabel;
     }
 
     private void showAfterUI(String msg) {
@@ -257,7 +259,7 @@ public class SearchHistoryView extends LinearLayout {
                     String searchStr = dataList.get(position);
                     //热门搜索过的标签需要添加到历史记录
                     SearchUtils.addCityHistorySearch(searchStr);
-                    showAfterUI2(searchStr); //展示After列表
+                    showAfterUI2(searchStr,true); //展示After列表
                 }
             });
         } else {
@@ -278,7 +280,7 @@ public class SearchHistoryView extends LinearLayout {
                 @Override
                 public void onMultipleTVItemClick(View view, int position) {
                     //历史标签点击事件
-                    showAfterUI2(dataList.get(position)); //展示After列表
+                    showAfterUI2(dataList.get(position),false); //展示After列表
                 }
             });
         } else {

@@ -119,26 +119,24 @@ public class ChooseCityNewActivity extends BaseActivity {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 //                ToastUtils.showShort(groupPosition+"======");
-                if(isFromTravelPurposeForm){
-                    if(list.get(groupPosition).sub_city_name != null && !list.get(groupPosition).sub_city_name.equals("")){
-                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,list.get(groupPosition).sub_city_name));
-                    }else if(list.get(groupPosition).sub_place_name != null && !list.get(groupPosition).sub_place_name.equals("")){
-                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,list.get(groupPosition).sub_place_name));
-                    }else if(list.get(groupPosition).group_name != null && !list.get(groupPosition).group_name.equals("")){
-                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,list.get(groupPosition).group_name));
+                if (isFromTravelPurposeForm) {
+                    if (list.get(groupPosition).sub_city_name != null && !list.get(groupPosition).sub_city_name.equals("")) {
+                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, list.get(groupPosition).sub_city_name));
+                    } else if (list.get(groupPosition).sub_place_name != null && !list.get(groupPosition).sub_place_name.equals("")) {
+                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, list.get(groupPosition).sub_place_name));
+                    } else if (list.get(groupPosition).group_name != null && !list.get(groupPosition).group_name.equals("")) {
+                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, list.get(groupPosition).group_name));
                     }
 
                     finish();
-                }else{
+                } else {
                     goCityList(list.get(groupPosition));
                 }
                 Map map = new HashMap();
                 map.put("source", getIntentSource());
                 map.put("searchinput", "输入内容后联想");
                 MobClickUtils.onEvent(StatisticConstant.SEARCH, map);
-                if(getIntentSource().equals("首页")){
-                    setSensorsShareEvent(headSearch.getText().toString(),false,true,true);
-                }
+                setSensorsShareEvent(headSearch.getText().toString(), false, true, true);
                 return true;
             }
         });
@@ -149,19 +147,19 @@ public class ChooseCityNewActivity extends BaseActivity {
                 if (searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_id != -100
                         && searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_id != -200) {
 //                    ToastUtils.showShort(groupPosition + "======" + childPosition);
-                    if(isFromTravelPurposeForm){
-                        if(searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_city_name != null &&
-                                !searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_city_name.equals("")){
-                            EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_city_name));
-                        }else if(searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_place_name != null &&
-                                !searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_place_name.equals("")){
-                            EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_place_name));
-                        }else if(searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_name != null &&
-                                !searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_name.equals("")){
-                            EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_name));
+                    if (isFromTravelPurposeForm) {
+                        if (searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_city_name != null &&
+                                !searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_city_name.equals("")) {
+                            EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_city_name));
+                        } else if (searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_place_name != null &&
+                                !searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_place_name.equals("")) {
+                            EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, searchNewAdapter.getChildList().get(groupPosition).get(childPosition).sub_place_name));
+                        } else if (searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_name != null &&
+                                !searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_name.equals("")) {
+                            EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_name));
                         }
                         finish();
-                    }else{
+                    } else {
                         goCityList(searchNewAdapter.getChildList().get(groupPosition).get(childPosition));
                     }
 
@@ -169,9 +167,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                     map.put("source", getIntentSource());
                     map.put("searchinput", "输入内容后联想");
                     MobClickUtils.onEvent(StatisticConstant.SEARCH, map);
-                    if(getIntentSource().equals("首页")){
-                        setSensorsShareEvent(headSearch.getText().toString(),false,true,true);
-                    }
+                    setSensorsShareEvent(headSearch.getText().toString(), false, true, true);
                 }
                 return true;
             }
@@ -245,7 +241,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     public void initView() {
         initHeader();
         rightList.setVisibility(GONE);
-        if(isFromTravelPurposeForm){
+        if (isFromTravelPurposeForm) {
             historyLayout.setVisibility(GONE);
         }
         headSearch.addTextChangedListener(new TextWatcher() {
@@ -266,10 +262,8 @@ public class ChooseCityNewActivity extends BaseActivity {
                     list = CityUtils.search(activity, headSearch.getText().toString());
                     LogUtils.e(list.size() + "====" + headSearch.getText().toString());
                     showSearchPop(list);
-                    if(list!= null && list.size() <= 0){
-                        if(getIntentSource().equals("首页")){
-                            setSensorsShareEvent(headSearch.getText().toString(),false,false,false);
-                        }
+                    if (list != null && list.size() <= 0) {
+                        setSensorsShareEvent(headSearch.getText().toString(), false, false, false);
                     }
                 } else {
                     headSearchClean.setVisibility(GONE);
@@ -328,19 +322,19 @@ public class ChooseCityNewActivity extends BaseActivity {
                     startActivity(intent);
                 } else {
                     if (CityUtils.canGoCityList(groupList2.get(position))) {
-                        if(isFromTravelPurposeForm){
-                            if(groupList2.get(position).spot_name != null && !groupList2.get(position).spot_name.equals("")){
-                                EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,groupList2.get(position).spot_name));
-                            }else if(groupList2.get(position).sub_city_name != null && !groupList2.get(position).sub_city_name.equals("")){
-                                EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,groupList2.get(position).sub_city_name));
-                            }else if(groupList2.get(position).sub_place_name != null && !groupList2.get(position).sub_place_name.equals("")){
-                                EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,groupList2.get(position).sub_place_name));
-                            }else if(groupList2.get(position).group_name != null && !groupList2.get(position).group_name.equals("")){
-                                EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,groupList2.get(position).group_name));
+                        if (isFromTravelPurposeForm) {
+                            if (groupList2.get(position).spot_name != null && !groupList2.get(position).spot_name.equals("")) {
+                                EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, groupList2.get(position).spot_name));
+                            } else if (groupList2.get(position).sub_city_name != null && !groupList2.get(position).sub_city_name.equals("")) {
+                                EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, groupList2.get(position).sub_city_name));
+                            } else if (groupList2.get(position).sub_place_name != null && !groupList2.get(position).sub_place_name.equals("")) {
+                                EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, groupList2.get(position).sub_place_name));
+                            } else if (groupList2.get(position).group_name != null && !groupList2.get(position).group_name.equals("")) {
+                                EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, groupList2.get(position).group_name));
                             }
 
                             finish();
-                        }else{
+                        } else {
                             goCityList(groupList2.get(position));
                         }
 
@@ -368,18 +362,18 @@ public class ChooseCityNewActivity extends BaseActivity {
                 }
                 groupList3.get(position).isSelected = true;
                 levelCityAdapterRight.notifyDataSetChanged();
-                if(isFromTravelPurposeForm){
-                    if(groupList3.get(position).spot_name != null && !groupList3.get(position).spot_name.equals("")){
-                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,groupList3.get(position).spot_name));
-                    }else if(groupList3.get(position).sub_city_name != null && !groupList3.get(position).sub_city_name.equals("")){
-                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,groupList3.get(position).sub_city_name));
-                    }else if(groupList3.get(position).sub_place_name != null &&!groupList3.get(position).sub_place_name.equals("")){
-                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,groupList3.get(position).sub_place_name));
-                    }else if(groupList3.get(position).group_name != null &&!groupList3.get(position).group_name.equals("")){
-                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,groupList3.get(position).group_name));
+                if (isFromTravelPurposeForm) {
+                    if (groupList3.get(position).spot_name != null && !groupList3.get(position).spot_name.equals("")) {
+                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, groupList3.get(position).spot_name));
+                    } else if (groupList3.get(position).sub_city_name != null && !groupList3.get(position).sub_city_name.equals("")) {
+                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, groupList3.get(position).sub_city_name));
+                    } else if (groupList3.get(position).sub_place_name != null && !groupList3.get(position).sub_place_name.equals("")) {
+                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, groupList3.get(position).sub_place_name));
+                    } else if (groupList3.get(position).group_name != null && !groupList3.get(position).group_name.equals("")) {
+                        EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, groupList3.get(position).group_name));
                     }
                     finish();
-                }else{
+                } else {
                     goCityList(groupList3.get(position));
                 }
                 Map map = new HashMap();
@@ -415,16 +409,16 @@ public class ChooseCityNewActivity extends BaseActivity {
 
     private void showRightData(int position) {
         levelCityAdapterRight = new LevelCityAdapter(activity, 3);
-        List<SearchGroupBean> list3 = CityUtils.getCountrySearch(activity,groupList2.get(position).sub_place_id);
+        List<SearchGroupBean> list3 = CityUtils.getCountrySearch(activity, groupList2.get(position).sub_place_id);
         list3.addAll(CityUtils.getLevel3City(activity, groupList2.get(position).sub_place_id));
 
         if (null == list3 || list3.size() == 0) {
-            if(isFromTravelPurposeForm){
-                if(groupList2.get(position).sub_place_name != null){
-                    EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY,groupList2.get(position).sub_place_name));
+            if (isFromTravelPurposeForm) {
+                if (groupList2.get(position).sub_place_name != null) {
+                    EventBus.getDefault().post(new EventAction(EventType.PURPOSER_CITY, groupList2.get(position).sub_place_name));
                 }
                 finish();
-            }else{
+            } else {
                 goCityList(groupList2.get(position));
             }
             Map map = new HashMap();
@@ -477,10 +471,10 @@ public class ChooseCityNewActivity extends BaseActivity {
         if (null != historyCityLayout) {
             historyCityLayout.removeAllViews();
             List<SearchGroupBean> list = CityUtils.getSaveCity();
-            if(list == null ||list.size()==0){
+            if (list == null || list.size() == 0) {
                 historyLayout.setVisibility(GONE);
             }
-            if (null != list && list.size()>0) {
+            if (null != list && list.size() > 0) {
                 TextView view = null;
                 historyLayout.setVisibility(VISIBLE);
                 for (int i = 0; i < list.size(); i++) {
@@ -491,9 +485,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                         @Override
                         public void onClick(View v) {
                             goCityList((SearchGroupBean) v.getTag());
-                            if(getIntentSource().equals("首页")){
-                                setSensorsShareEvent(name,true,true,true);
-                            }
+                            setSensorsShareEvent(name, true, true, true);
                         }
                     });
                     view.setGravity(Gravity.CENTER_VERTICAL);
@@ -575,7 +567,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if(!isFromTravelPurposeForm){
+        if (!isFromTravelPurposeForm) {
             genHistoryCity();
         }
     }
@@ -602,7 +594,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     }
 
     //搜索埋点
-    public static void setSensorsShareEvent(String keyWord,boolean isHistory,boolean isRecommend,boolean hasResult) {
+    public static void setSensorsShareEvent(String keyWord, boolean isHistory, boolean isRecommend, boolean hasResult) {
         try {
             JSONObject properties = new JSONObject();
             properties.put("keyWord", keyWord);
