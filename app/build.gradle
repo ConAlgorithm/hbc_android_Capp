@@ -259,7 +259,7 @@ dependencies {
     compile 'com.airbnb.android:epoxy:2.7.3'
     compile 'com.hbc.im:nim_libary:1.6.5'
     compile 'com.hugboga.mediaplayer:app-mediaplayer:1.0.0'
-    compile 'tk.hongbo.label:single-label:1.0.7'
+    compile 'tk.hongbo.label:single-label:1.0.8'
     compile 'com.android.support:cardview-v7:+'
     compile 'com.jcodecraeer:xrecyclerview:1.3.2'
     compile 'com.7heaven.ioswidget:iosswitch:0.6'

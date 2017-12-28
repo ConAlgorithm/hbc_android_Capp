@@ -112,8 +112,7 @@ public class MyApplication extends HbcApplication {
      */
     private void setHlog() {
         HLog.setIsDebug(BuildConfig.DEBUG);
-        HLog.setLogTag("huangbaoche");
-        HLog.setMethodCount(1);
+        HLog.setMethodCount(0);
     }
 
     private void initNim() {

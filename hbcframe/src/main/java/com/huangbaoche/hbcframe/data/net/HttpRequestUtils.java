@@ -158,7 +158,9 @@ public class HttpRequestUtils {
             public void beforeRequest(UriRequest urlRequest) throws Throwable {
                 super.beforeRequest(urlRequest);
                 if (request != null && urlRequest != null) {
-                    HLog.d("REQUEST Headers：" + PairUtils.getRequesetStr(request.getHeaders()) + "，Params：" + urlRequest.getCacheKey());
+                    HLog.d("REQUEST Headers：" + PairUtils.getRequesetStr(request.getHeaders())
+                            + "，Method：" + request.getMethod().name()
+                            + "，Params：" + urlRequest.getCacheKey());
                 }
             }
 
@@ -297,7 +299,7 @@ public class HttpRequestUtils {
                 public void onDataRequestSucceed(BaseRequest request) {
                     UserSession.getUser().setAccessKey(mContext, (String) request.getData());
                     String accessKey = UserSession.getUser().getAccessKey(mContext);
-                    MLog.e("accessKey =" + accessKey);
+                    HLog.d("accessKey =" + accessKey);
                     request(mContext, baseRequest, listener, option);
                 }
 
