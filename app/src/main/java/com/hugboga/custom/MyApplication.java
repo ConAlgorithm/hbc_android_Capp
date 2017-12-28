@@ -112,6 +112,7 @@ public class MyApplication extends HbcApplication {
      */
     private void setHlog() {
         HLog.setIsDebug(BuildConfig.DEBUG);
+        HLog.setLogTag("HBC");
         HLog.setMethodCount(0);
     }
 
