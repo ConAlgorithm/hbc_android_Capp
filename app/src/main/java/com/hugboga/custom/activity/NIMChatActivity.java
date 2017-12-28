@@ -258,7 +258,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             SharedPre.setBoolean("im_show_tip", false);
             IMMessage msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.P2P);
             msg.setStatus(MsgStatusEnum.success);
-            msg.setContent("请您使用皇包车旅行APP和当地司导沟通，皇包车旅行只认识APP内的聊天记录");
+            msg.setContent("请您使用皇包车旅行APP和当地司导沟通，皇包车旅行只认可APP内的聊天记录");
             CustomMessageConfig config = new CustomMessageConfig();
             config.enableUnreadCount = false;
             msg.setConfig(config);
