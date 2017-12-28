@@ -608,17 +608,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             case CLICK_USER_LOOUT:
                 setIMCount(0, 0);
                 break;
-            case  SERVICE_BACK_LIST:
-                if (CommonUtils.isLogin(this, "主界面")) {//判断是否登陆
-                    UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                    params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
-                    ProductDetail.Builder builder = new ProductDetail.Builder();
-                    Intent intent = new Intent(this, UnicornServiceActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    intent.putExtra(Constants.PARAMS_DATA, params);
-                    startActivity(intent);
-                }
-                break;
             default:
                 break;
         }

@@ -6,12 +6,32 @@
     android:paddingLeft="@dimen/default_margin_mlarges"
     android:paddingRight="@dimen/default_margin_mlarges">
 
-    <com.hugboga.custom.widget.CircleImageView
-        android:id="@+id/letter_item_img"
+    <RelativeLayout
+        android:id="@+id/letter_item_img_parent_layout"
         android:layout_width="54dp"
         android:layout_height="54dp"
         android:layout_centerVertical="true"
-        android:src="@mipmap/icon_avatar_user" />
+        android:src="@mipmap/icon_avatar_user">
+
+        <com.hugboga.custom.widget.CircleImageView
+            android:id="@+id/letter_item_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/icon_avatar_user" />
+
+        <TextView
+            android:id="@+id/footer_order_btn_point"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/letter_img_point_width_x"
+            android:layout_alignRight="@id/letter_item_img"
+            android:layout_alignTop="@id/letter_item_img"
+            android:background="@mipmap/tabbar_number"
+            android:gravity="center"
+            android:minWidth="@dimen/letter_img_point_width_x"
+            android:textColor="@color/basic_white"
+            android:textSize="10sp"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/letter_item_img_layout"
@@ -20,17 +40,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp">
-
-        <TextView
-            android:id="@+id/footer_order_btn_point"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/letter_img_point_width_x"
-            android:background="@mipmap/tabbar_number"
-            android:gravity="center"
-            android:minWidth="@dimen/letter_img_point_width_x"
-            android:textColor="@color/basic_white"
-            android:textSize="10sp"
-            android:visibility="gone" />
 
         <TextView
             android:id="@+id/footer_service_unread"
@@ -48,7 +57,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/default_margin_large"
         android:layout_toLeftOf="@+id/letter_item_img_layout"
-        android:layout_toRightOf="@id/letter_item_img"
+        android:layout_toRightOf="@id/letter_item_img_parent_layout"
         android:orientation="vertical">
 
         <LinearLayout
@@ -58,8 +67,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_weight="1.0">
+                android:layout_weight="1.0"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/letter_item_username"
@@ -79,25 +88,27 @@
                     android:layout_marginLeft="12dp"
                     android:layout_toRightOf="@id/letter_item_username"
                     android:background="@drawable/shape_rounded_yellow_btn"
+                    android:paddingBottom="0.3dp"
                     android:paddingLeft="3dp"
                     android:paddingRight="3dp"
-                    android:paddingBottom="0.3dp"
-                    android:visibility="gone"
                     android:text="官方"
                     android:textColor="#ffffff"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
                 <ImageView
                     android:id="@+id/letter_item_country_name_iv"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_marginLeft="6dp"
-                    android:background="@mipmap/im_city_location"/>
+                    android:background="@mipmap/im_city_location" />
+
                 <TextView
                     android:id="@+id/letter_item_country_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxWidth="80dp"
                     android:layout_toRightOf="@id/letter_item_username"
+                    android:maxWidth="80dp"
                     android:textColor="#8f8f8f"
                     android:textSize="13sp" />
             </LinearLayout>

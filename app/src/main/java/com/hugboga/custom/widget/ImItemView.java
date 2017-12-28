@@ -99,7 +99,7 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
             } else {
                 mImage.setImageResource(R.mipmap.icon_avatar_guide);
             }
-            flushPoint( chatBean);
+            flushPoint(chatBean);
         }
     }
 

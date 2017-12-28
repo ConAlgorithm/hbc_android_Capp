@@ -39,8 +39,8 @@ public class CollectGuideItemView extends RelativeLayout implements HbcViewBehav
     @BindView(R.id.view_guide_item_disable_shade_view)
     View disableShadeView;
 
-//    @BindView(R.id.guide_item_include_city_iv)
-//    ImageView cityIV;
+    @BindView(R.id.guide_item_include_city_iv)
+    ImageView cityIV;
     @BindView(R.id.guide_item_include_city_tv)
     TextView cityTV;
 
@@ -53,8 +53,8 @@ public class CollectGuideItemView extends RelativeLayout implements HbcViewBehav
 
     @BindView(R.id.guide_item_include_info_layout)
     LinearLayout infoLayout;
-//    @BindView(R.id.guide_item_include_taggroup)
-//    TagGroup tagGroup;
+    @BindView(R.id.guide_item_include_taggroup)
+    TagGroup tagGroup;
 
     @BindView(R.id.view_guide_item_service_line_view)
     View serviceLineView;
@@ -86,11 +86,11 @@ public class CollectGuideItemView extends RelativeLayout implements HbcViewBehav
         }
 
         if (isShowCity) {
-          //  cityIV.setVisibility(View.VISIBLE);
+            cityIV.setVisibility(View.VISIBLE);
             cityTV.setVisibility(View.VISIBLE);
             cityTV.setText(data.cityName);
         } else {
-        //    cityIV.setVisibility(View.GONE);
+            cityIV.setVisibility(View.GONE);
             cityTV.setVisibility(View.GONE);
         }
 
@@ -104,7 +104,7 @@ public class CollectGuideItemView extends RelativeLayout implements HbcViewBehav
         String level = serviceStar <= 0 ? "暂无星级" : serviceStar + "星";
         starTV.setText(level);
 
-       // GuideItemUtils.setTag(tagGroup, data.skillLabelNames);
+        GuideItemUtils.setTag(tagGroup, data.skillLabelNames);
 
         String serviceType = "";
 

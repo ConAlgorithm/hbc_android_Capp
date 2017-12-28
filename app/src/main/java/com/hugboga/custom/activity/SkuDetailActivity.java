@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JsResult;
@@ -55,7 +56,6 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
-import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
@@ -63,8 +63,6 @@ import com.hugboga.custom.widget.PathChatDialog;
 import com.hugboga.custom.widget.ShareDialog;
 import com.hugboga.custom.widget.SkuDetailToolBarLeftButton;
 import com.qiyukf.unicorn.api.Unicorn;
-import com.qiyukf.unicorn.api.UnreadCountChangeListener;
-import com.qiyukf.unicorn.api.msg.UnicornMessage;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
@@ -76,6 +74,7 @@ import org.xutils.ex.DbException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
@@ -84,7 +83,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.activity.WebInfoActivity.WEB_URL;
-import static com.hugboga.custom.data.event.EventType.SERVICE_BACK_LIST;
 
 
 public class SkuDetailActivity extends BaseActivity implements View.OnKeyListener, HttpRequestListener {
@@ -135,7 +133,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     private boolean isLoaded = false;
     boolean isFromHome;
-    private PathChatDialog pathChatDialog; //右上角Dialog
 
     public void initView() {
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DETAIL_SKU);
@@ -185,44 +182,32 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         //开发者模式，设置特殊cookies
         CommonUtils.synDebugCookies(url);
 
-        if (UserEntity.getUser().isLogin(this)) {
-            distinguishChatConfug();
-            try {
-                if (Unicorn.isServiceAvailable()) {
-                    Unicorn.addUnreadCountChangeListener(listener, true);
+        initHeaderLeftClick();
+    }
+
+    private void initHeaderLeftClick() {//初始化右上角分享、消息事件
+        headerRightBtn.setClickListener(new SkuDetailToolBarLeftButton.ToolBarLeftClick() {
+            @Override
+            public void shareClickListener() {
+                if (skuItemBean != null) {
+                    String title = skuItemBean.getGoodsName();
+                    String content = TextUtils.isEmpty(skuItemBean.salePoints) ? "这个线路太赞了，快来看看" : skuItemBean.salePoints;
+                    String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
+                    shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
+                    skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
+                    StatisticClickEvent.click(StatisticConstant.SHARESKU);
                 }
-            } catch (Exception e) {
-                MLog.e("SkuDetailActivity:添加客服监听失败");
             }
-        }
 
-    }
-
-    private void distinguishChatConfug() {
-        if (SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0) > 1) {
-            isChatMessage = true;
-        } else {
-            isChatMessage = false;
-        }
-        headerRightBtn.isChatRedDot(isChatMessage);
-        if (pathChatDialog != null) {
-            pathChatDialog.setMessageState(isChatMessage);
-        }
-    }
-
-    private UnreadCountChangeListener listener = new UnreadCountChangeListener() { // 声明一个成员变量
-        @Override
-        public void onUnreadCountChange(int count) {
-            SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, count);
-            if (count > 0) {
-                isChatMessage = true;
-            } else {
-                isChatMessage = false;
+            @Override
+            public void serviceChatListener() {
+                Intent intent = new Intent(SkuDetailActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 2);
+                startActivity(intent);
+                finish();
             }
-            distinguishChatConfug();
-            Log.d("MMM", "count 为 = " + count);
-        }
-    };
+        });
+    }
 
     protected boolean isDefaultEvent() {
         return false;
@@ -327,38 +312,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         }
     }
 
-    @OnClick({R.id.header_right_btn, R.id.header_right_2_btn, R.id.goto_order, R.id.sku_detail_bottom_service_layout, R.id.sku_detail_empty_tv})
+    @OnClick({R.id.header_right_2_btn, R.id.goto_order, R.id.sku_detail_bottom_service_layout, R.id.sku_detail_empty_tv})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
-            case R.id.header_right_btn:
-                int[] location = new int[2];
-                headerRightBtn.getLocationInWindow(location);
-                pathChatDialog = new PathChatDialog(this, location[0], location[1], new PathChatDialog.DialogClickListener() {
-                    @Override
-                    public void shareClick() {
-                        if (skuItemBean != null) {
-                            String title = skuItemBean.getGoodsName();
-                            String content = TextUtils.isEmpty(skuItemBean.salePoints) ? "这个线路太赞了，快来看看" : skuItemBean.salePoints;
-                            String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
-                            shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
-                            skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
-                            StatisticClickEvent.click(StatisticConstant.SHARESKU);
-                        }
-                    }
-
-                    @Override
-                    public void chatClict() {
-                        Intent intent = new Intent(SkuDetailActivity.this, MainActivity.class);
-                        intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 2);
-                        startActivity(intent);
-                        EventBus.getDefault().post(new EventAction(EventType.SERVICE_BACK_LIST, 0));
-                        finish();
-                    }
-                });
-                pathChatDialog.setMessageState(isChatMessage);
-                pathChatDialog.show();
-                break;
             case R.id.header_right_2_btn:
                 if (skuItemBean == null || !CommonUtils.isLogin(SkuDetailActivity.this, getEventSource())) {
                     return;
@@ -567,7 +524,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         super.onResume();
         GiftController.getInstance(this).showGiftDialog();
         if (UserEntity.getUser().isLogin(this)) {
-            distinguishChatConfug();
+            headerRightBtn.distinguishChatConfug();
         }
     }
 
@@ -577,7 +534,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         setSensorsViewSkuEndEvent();
         try {
             if (Unicorn.isServiceAvailable()) {
-                Unicorn.addUnreadCountChangeListener(listener, false);
+                Unicorn.addUnreadCountChangeListener(headerRightBtn.listener, false);
             }
         } catch (Exception e) {
             MLog.e("SkuDetailActivity:回收客服监听失败");
