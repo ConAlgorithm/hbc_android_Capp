@@ -39,8 +39,8 @@
     <string name="hbc_back">返回</string>
 
     <!-- Basic name -->
-    <string name="user_info_tip">登录即代表同意《皇包车用户协议》</string>
-    <string name="user_info_tip1">皇包车用户协议</string>
+    <string name="user_info_tip">登录即代表同意《皇包车旅行用户协议》</string>
+    <string name="user_info_tip1">皇包车旅行用户协议</string>
     <string name="login_country_search_hint">搜索国际或区号</string>
 
     <!-- 按钮 -->
@@ -133,11 +133,11 @@
     <string name="promise_title_pay">先行赔付</string>
     <string name="promise_title_safe">免费保险</string>
 
-    <string name="promise_content_all">皇包车服务为一价全包(但不包含预订的标准服务外的超公里、超时等后付费用)</string>
+    <string name="promise_content_all">皇包车旅行服务为一价全包(但不包含预订的标准服务外的超公里、超时等后付费用)</string>
     <string name="promise_content_wait">接机产品提供飞机落地后免费等待60分钟(以航班实际落地30分钟后开始计算)</string>
     <string name="promise_content_app">服务提供中文导游服务，日租服务提供行程规划、景点讲解等服务</string>
-    <string name="promise_content_pay">皇包车如未如约提供服务，将无条件退还预订费用并给出相应赔偿</string>
-    <string name="promise_content_safe">每一份服务，皇包车都为您免费购买责任保险</string>
+    <string name="promise_content_pay">皇包车旅行如未如约提供服务，将无条件退还预订费用并给出相应赔偿</string>
+    <string name="promise_content_safe">每一份服务，皇包车旅行都为您免费购买责任保险</string>
 
     <!-- ZListView text -->
     <string name="footer_text">亲，俺正在拼命加载</string>
@@ -205,8 +205,8 @@
     <string name="back_alert_msg">订单未填写完，要离开吗?</string>
     <string name="location_airport">当前城市机场</string>
 
-    <string name="about_copyright">Copyright@2014-2017皇包车</string>
-    <string name="about_version">皇包车 Hi Guides %1$s_%2$s</string>
+    <string name="about_copyright">Copyright@2014-2017皇包车旅行</string>
+    <string name="about_version">皇包车旅行 Hi Guides %1$s_%2$s</string>
     <string name="about_check_update">检测新版本</string>
     <string name="about_grade">给我评分</string>
     <string name="about_story">品牌故事</string>
@@ -323,7 +323,7 @@
     <string name="order_detail_refund_description">退款将退回到您支付订单的账户中，到账时间以该账户通知为准。\n</string>
     <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>
     <string name="order_detail_tips_title">平台保障：</string>
-    <string name="order_detail_tips">订单款项由皇包车平台先行保管，服务完成才会支付给司导。如在服务过程中发生任何问题请及时联系皇包车客服，您与司导在APP内的聊天内容可作为纠纷凭证；经查证如属司导违约，您可获得相应补偿。</string>
+    <string name="order_detail_tips">订单款项由皇包车旅行平台先行保管，服务完成才会支付给司导。如在服务过程中发生任何问题请及时联系皇包车旅行客服，您与司导在APP内的聊天内容可作为纠纷凭证；经查证如属司导违约，您可获得相应补偿。</string>
     <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；聊天信息可作为纠纷凭证，获得平台保障。</string>
     <string name="order_detail_bargain_end">共砍掉</string>
     <string name="order_detail_bargain">已砍掉</string>
@@ -386,7 +386,7 @@
     <string name="show_tips_half">请选择日期</string>
 
     <string name="share_evaluate_title">评价成功</string>
-    <string name="share_evaluate_description_3">分享评价给好友,送TA %1$s皇包车大礼包\n好友完成首单消费后,你还能赚旅游基金</string>
+    <string name="share_evaluate_description_3">分享评价给好友,送TA %1$s皇包车旅行大礼包\n好友完成首单消费后,你还能赚旅游基金</string>
     <string name="share_evaluate_collected_tv">根据您的好评已为您收藏该司导</string>
 
     <string name="choose_city_tab_inland">国内</string>
@@ -395,8 +395,8 @@
 
     <string name="loading_time">%1$s 跳过</string>
 
-    <string name="commit_agree">点击“%1$s”表示您已阅读并同意皇包车协议和条款</string>
-    <string name="commit_agree_click">皇包车协议和条款</string>
+    <string name="commit_agree">点击“%1$s”表示您已阅读并同意皇包车旅行协议和条款</string>
+    <string name="commit_agree_click">皇包车旅行协议和条款</string>
 
     <string name="choose_other_tips">温馨提示: 如果填写境内手机号,请记得在出发前开通运营商的国际漫游业务。避免到了境外司导打电话联系不上您。</string>
 
@@ -424,8 +424,8 @@
     <string name="cut_list_empty">还没有朋友帮你砍价，再次邀请试试吧</string>
     <string name="show_more">显示更多</string>
     <string name="no_more">没有更多了</string>
-    <string name="share_bargin_100">你来砍价，还能领100元优惠券！境外出行就选皇包车~</string>
-    <string name="share_bargin_title">我在皇包车预订了%1$s，快来帮我砍价！</string>
+    <string name="share_bargin_100">你来砍价，还能领100元优惠券！境外出行就选皇包车旅行~</string>
+    <string name="share_bargin_title">我在皇包车旅行预订了%1$s，快来帮我砍价！</string>
 
     <string name="real_name">请输入你的真实姓名</string>
 
@@ -453,13 +453,13 @@
     <string name="seckills_check_hint3">很抱歉，本场限量秒杀包车已抢光。送您%1$s，出行依然优惠！（该礼包仅可领取一次）~</string>
 
     <string name="coupon_des">
-        1. 同一个皇包车账号、同一台设备、同一个手机号以及同一个支付账号仅可领取一次,此优惠券仅限皇包车APP下单时使用;\n\n
+        1. 同一个皇包车旅行账号、同一台设备、同一个手机号以及同一个支付账号仅可领取一次,此优惠券仅限皇包车旅行APP下单时使用;\n\n
     2. 每单仅可使用一张优惠券，一张优惠券不可拆分多次使用;\n\n
     3. 优惠券不可兑换现金、不可开发票、不可找零，且不能与其他优惠同享（打折商品不支持使用优惠券);\n\n
     4. 取消订单时是免费取消，未产生扣款，优惠券可退还；取消订单时产生扣款，优惠券不可拆分、不可退还;\n\n
-    5. 如果用户对优惠券使用规则或在使用皇包车下单和／或在相关服务过程中有任何疑问或需要任何帮助，请及时与皇包车客服联系，联系电话：400-610-0009;\n\n
-    6. 对于不符合领取及使用优惠券规则的领取账户，皇包车有权收回已领取的优惠券;\n\n
-    7. 优惠券最终解释权归北京纯粹旅行有限公司（品牌名称：皇包车）所有。</string>
+    5. 如果用户对优惠券使用规则或在使用皇包车旅行下单和／或在相关服务过程中有任何疑问或需要任何帮助，请及时与皇包车旅行客服联系，联系电话：400-610-0009;\n\n
+    6. 对于不符合领取及使用优惠券规则的领取账户，皇包车旅行有权收回已领取的优惠券;\n\n
+    7. 优惠券最终解释权归北京纯粹旅行有限公司（品牌名称：皇包车旅行）所有。</string>
     <string name="gotomain"><u>去首页转转</u></string>
 
     <string name="daily_people_count">出行人数</string>
@@ -640,7 +640,7 @@
     <string name="insure_add_hint">您还没有常用投保人，快去添加吧</string>
     <string name="insure_submit">马上提交</string>
     <string name="insure_selected">已选</string>
-    <string name="insure_bottom_hint">人,由皇包车替你支付</string>
+    <string name="insure_bottom_hint">人,由皇包车旅行替你支付</string>
     <string name="insure_title">常用投保人</string>
     <string name="insure_add">添加投保人</string>
     <string name="insure_add2">添加</string>
@@ -916,7 +916,7 @@
     <string name="home_goodes_item_subtitle">%1$s位司导 · 已服务%2$s用户</string>
     <string name="home_ai_where_to_go">想去哪里?</string>
     <string name="home_top_up_detail">松手，查看详情</string>
-    <string name="home_top_pull">继续下拉，秒懂皇包车</string>
+    <string name="home_top_pull">继续下拉，秒懂皇包车旅行</string>
 
     <string name="guidance_pickup">接机</string>
     <string name="guidance_send">送机</string>

@@ -433,6 +433,9 @@ public class Tools {
         }
 
         String host = uri.getHost();
+        if (TextUtils.isEmpty(host)) {
+            return resultUrl;
+        }
         String local = host.substring(0, host.indexOf("."));
         if (!TextUtils.equals(local,"hbcdn")) {
             return resultUrl;

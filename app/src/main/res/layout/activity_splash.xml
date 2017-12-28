@@ -24,7 +24,7 @@
         res:fillColor="#ffc100"
         res:strokeColor="#00ffffff"
         res:strokeWidth="0dip"
-        res:radius="4dip" />
+        res:radius_vp="4dip" />
 
     <!--<TextView
         android:id="@+id/enter"

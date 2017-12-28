@@ -61,6 +61,6 @@
         res:centered="true"
         res:fillColor="#ffe7a1"
         res:pageColor="#e2e2e7"
-        res:radius="2.5dip"
+        res:radius_vp="2.5dip"
         res:strokeWidth="0dip" />
 </merge>
