@@ -39,8 +39,8 @@
     <string name="hbc_back">返回</string>
 
     <!-- Basic name -->
-    <string name="user_info_tip">登錄即代表同意《皇包車用戶協議》</string>
-    <string name="user_info_tip1">皇包車用戶協議</string>
+    <string name="user_info_tip">登錄即代表同意《皇包車旅行用戶協議》</string>
+    <string name="user_info_tip1">皇包車旅行用戶協議</string>
     <string name="login_country_search_hint">搜索國際或區號</string>
 
     <!-- 按鈕 -->
@@ -133,11 +133,11 @@
     <string name="promise_title_pay">先行賠付</string>
     <string name="promise_title_safe">免費保險</string>
 
-    <string name="promise_content_all">皇包車服務為一價全包(但不包含預訂的標準服務外的超公里、超時等後付費用)</string>
+    <string name="promise_content_all">皇包車旅行服務為一價全包(但不包含預訂的標準服務外的超公里、超時等後付費用)</string>
     <string name="promise_content_wait">接機產品提供飛機落地後免費等待60分鐘(以航班實際落地30分鐘後開始計算)</string>
     <string name="promise_content_app">服務提供中文導游服務，日租服務提供行程規劃、景點講解等服務</string>
-    <string name="promise_content_pay">皇包車如未如約提供服務，將無條件退還預訂費用並給出相應賠償</string>
-    <string name="promise_content_safe">每一份服務，皇包車都為您免費購買責任保險</string>
+    <string name="promise_content_pay">皇包車旅行如未如約提供服務，將無條件退還預訂費用並給出相應賠償</string>
+    <string name="promise_content_safe">每一份服務，皇包車旅行都為您免費購買責任保險</string>
 
     <!-- ZListView text -->
     <string name="footer_text">親，俺正在拚命加載</string>
@@ -205,8 +205,8 @@
     <string name="back_alert_msg">訂單未填寫完，要離開嗎?</string>
     <string name="location_airport">當前城市機場</string>
 
-    <string name="about_copyright">Copyright@2014-2017皇包車</string>
-    <string name="about_version">皇包車 Hi Guides %1$s_%2$s</string>
+    <string name="about_copyright">Copyright@2014-2017皇包車旅行</string>
+    <string name="about_version">皇包車旅行 Hi Guides %1$s_%2$s</string>
     <string name="about_check_update">檢測新版本</string>
     <string name="about_grade">給我評分</string>
     <string name="about_story">品牌故事</string>
@@ -323,7 +323,7 @@
     <string name="order_detail_refund_description">退款將退回到您支付訂單的賬戶中，到賬時間以該賬戶通知為準。\n</string>
     <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>
     <string name="order_detail_tips_title">平台保障：</string>
-    <string name="order_detail_tips">訂單款項由皇包車平台先行保管，服務完成才會支付給司導。如在服務過程中發生任何問題請及時聯繫皇包車客服，您與司導在APP內的聊天內容可作為糾紛憑證；經查證如屬司導違約，您可獲得相應補償。</string>
+    <string name="order_detail_tips">訂單款項由皇包車旅行平台先行保管，服務完成才會支付給司導。如在服務過程中發生任何問題請及時聯繫皇包車旅行客服，您與司導在APP內的聊天內容可作為糾紛憑證；經查證如屬司導違約，您可獲得相應補償。</string>
     <string name="order_detail_top2_tips">司導接單後，您可以在app內通過私聊與Ta聯繫；聊天信息可作為糾紛憑證，獲得平台保障。</string>
     <string name="order_detail_bargain_end">共砍掉</string>
     <string name="order_detail_bargain">已砍掉</string>
@@ -370,6 +370,11 @@
     <string name="order_detail_other_price">其他費用(%1$s) × %2$s人</string>
     <string name="order_detail_problem">常見問題</string>
     <string name="order_detail_cancel_hint">如需要取消訂單，請聯繫客服處理</string>
+    <string name="order_detail_car_type">車型：</string>
+    <string name="order_detail_fxjourney_title">行程安排</string>
+    <string name="order_detail_fxjourney_detail">詳情</string>
+    <string name="order_detail_fxjourney_guidename">當地人 %1$s 提供</string>
+    <string name="order_detail_fxjourney_days">%1$s日</string>
 
     <string name="select_day">請選擇游玩日期</string>
 
@@ -381,7 +386,7 @@
     <string name="show_tips_half">請選擇日期</string>
 
     <string name="share_evaluate_title">評價成功</string>
-    <string name="share_evaluate_description_3">分享評價給好友,送TA %1$s皇包車大禮包\n好友完成首單消費後,你還能賺旅游基金</string>
+    <string name="share_evaluate_description_3">分享評價給好友,送TA %1$s皇包車旅行大禮包\n好友完成首單消費後,你還能賺旅游基金</string>
     <string name="share_evaluate_collected_tv">根據您的好評已為您收藏該司導</string>
 
     <string name="choose_city_tab_inland">國內</string>
@@ -390,8 +395,8 @@
 
     <string name="loading_time">%1$s 跳過</string>
 
-    <string name="commit_agree">點擊“%1$s”表示您已閱讀並同意皇包車協議和條款</string>
-    <string name="commit_agree_click">皇包車協議和條款</string>
+    <string name="commit_agree">點擊“%1$s”表示您已閱讀並同意皇包車旅行協議和條款</string>
+    <string name="commit_agree_click">皇包車旅行協議和條款</string>
 
     <string name="choose_other_tips">溫馨提示: 如果填寫境內手機號,請記得在出發前開通運營商的國際漫游業務。避免到了境外司導打電話聯繫不上您。</string>
 
@@ -419,8 +424,8 @@
     <string name="cut_list_empty">還沒有朋友幫你砍價，再次邀請試試吧</string>
     <string name="show_more">顯示更多</string>
     <string name="no_more">沒有更多了</string>
-    <string name="share_bargin_100">你來砍價，還能領100元優惠券！境外出行就選皇包車~</string>
-    <string name="share_bargin_title">我在皇包車預訂了%1$s，快來幫我砍價！</string>
+    <string name="share_bargin_100">你來砍價，還能領100元優惠券！境外出行就選皇包車旅行~</string>
+    <string name="share_bargin_title">我在皇包車旅行預訂了%1$s，快來幫我砍價！</string>
 
     <string name="real_name">請輸入你的真實姓名</string>
 
@@ -448,14 +453,14 @@
     <string name="seckills_check_hint3">很抱歉，本場限量秒殺包車已搶光。送您%1$s，出行依然優惠！（該禮包僅可領取一次）~</string>
 
     <string name="coupon_des">
-        1. 同一個皇包車賬號、同一台設備、同一個手機號以及同一個支付賬號僅可領取一次,此優惠券僅限皇包車APP下單時使用;\n\n
+        1. 同一個皇包車旅行賬號、同一台設備、同一個手機號以及同一個支付賬號僅可領取一次,此優惠券僅限皇包車旅行APP下單時使用;\n\n
     2. 每單僅可使用一張優惠券，一張優惠券不可拆分多次使用;\n\n
     3. 優惠券不可兌換現金、不可開發票、不可找零，且不能與其他優惠同享（打折商品不支持使用優惠券);\n\n
     4. 取消訂單時是免費取消，未產生扣款，優惠券可退還；取消訂單時產生扣款，優惠券不可拆分、不可退還;\n\n
-    5. 如果用戶對優惠券使用規則或在使用皇包車下單和／或在相關服務過程中有任何疑問或需要任何幫助，請及時與皇包車客服聯繫，聯繫電話：400-610-0009;\n\n
-    6. 對於不符合領取及使用優惠券規則的領取賬戶，皇包車有權收回已領取的優惠券;\n\n
-    7. 優惠券最終解釋權歸北京純粹旅行有限公司（品牌名稱：皇包車）所有。</string>
-    <string name = "gotomain"><u>去首頁轉轉</u></string>
+    5. 如果用戶對優惠券使用規則或在使用皇包車旅行下單和／或在相關服務過程中有任何疑問或需要任何幫助，請及時與皇包車旅行客服聯繫，聯繫電話：400-610-0009;\n\n
+    6. 對於不符合領取及使用優惠券規則的領取賬戶，皇包車旅行有權收回已領取的優惠券;\n\n
+    7. 優惠券最終解釋權歸北京純粹旅行有限公司（品牌名稱：皇包車旅行）所有。</string>
+    <string name="gotomain"><u>去首頁轉轉</u></string>
 
     <string name="daily_people_count">出行人數</string>
     <string name="daily_adult">成人</string>
@@ -635,7 +640,7 @@
     <string name="insure_add_hint">您還沒有常用投保人，快去添加吧</string>
     <string name="insure_submit">馬上提交</string>
     <string name="insure_selected">已選</string>
-    <string name="insure_bottom_hint">人,由皇包車替你支付</string>
+    <string name="insure_bottom_hint">人,由皇包車旅行替你支付</string>
     <string name="insure_title">常用投保人</string>
     <string name="insure_add">添加投保人</string>
     <string name="insure_add2">添加</string>
@@ -704,6 +709,7 @@
     <string name="query_city_input_hint">搜索目的地、司導、線路</string>
     <string name="search_line_title">相關線路</string>
     <string name="search_guide_title">相關司導</string>
+    <string name="search_destination_head_hint">搜索目的地、司導、線路</string>
     <string name="coupon_des_title">優惠券使用說明</string>
     <string name="coupon_invalid_title1">不可用優惠券</string>
     <string name="coupon_invalid_title2">失效優惠券</string>
@@ -877,25 +883,25 @@
     <string name="guide_detail_contact_dialog_title">需要先下單並支付才能找Ta聊天呢</string>
     <string name="guide_detail_contact_dialog_content">優秀司導都在服務用戶的路上，預訂後溝通更高效~</string>
 
-    <string name = "destiation_search">目的地搜索</string>
-    <string name = "destiation_all">全境</string>
-    <string name = "destiation_day_service">按天包車游</string>
-    <string name = "destiation_pick_send">接送機</string>
-    <string name = "destiation_single">單次接送</string>
+    <string name="destiation_search">目的地搜索</string>
+    <string name="destiation_all">全境</string>
+    <string name="destiation_day_service">按天包車游</string>
+    <string name="destiation_pick_send">接送機</string>
+    <string name="destiation_single">單次接送</string>
 
-    <string name = "home_more">查看更多</string>
-    <string name = "home_h5_1">一價全包</string>
-    <string name = "home_h5_2">服務保障</string>
-    <string name = "home_h5_3">先行賠付</string>
-    <string name = "home_h5_4">免費保險</string>
-    <string name = "home_search_more">搜索更多關於“%s”的結果</string>
-    <string name = "home_search_history">歷史記錄</string>
-    <string name = "home_search_hot">熱門搜索</string>
-    <string name = "home_search_moree">展開更多</string>
-    <string name = "home_search_more_about">搜索更多關於</string>
-    <string name = "home_search_loading">加載中...</string>
-    <string name = "home_search_all_here">結果全都在這了</string>
-    <string name = "home_search_see_all">查看全部</string>
+    <string name="home_more">查看更多</string>
+    <string name="home_h5_1">一價全包</string>
+    <string name="home_h5_2">服務保障</string>
+    <string name="home_h5_3">先行賠付</string>
+    <string name="home_h5_4">免費保險</string>
+    <string name="home_search_more">搜索更多關於“%s”的結果</string>
+    <string name="home_search_history">歷史記錄</string>
+    <string name="home_search_hot">熱門搜索</string>
+    <string name="home_search_moree">展開更多</string>
+    <string name="home_search_more_about">搜索更多關於</string>
+    <string name="home_search_loading">加載中...</string>
+    <string name="home_search_all_here">結果全都在這了</string>
+    <string name="home_search_see_all">查看全部</string>
 
     <string name="home_goodes_title_transfer">境外中文接送機</string>
     <string name="home_goodes_title_chartered">按天包車暢游</string>
@@ -910,7 +916,7 @@
     <string name="home_goodes_item_subtitle">%1$s位司導 · 已服務%2$s用戶</string>
     <string name="home_ai_where_to_go">想去哪裡?</string>
     <string name="home_top_up_detail">鬆手，查看詳情</string>
-    <string name="home_top_pull">繼續下拉，秒懂皇包車</string>
+    <string name="home_top_pull">繼續下拉，秒懂皇包車旅行</string>
 
     <string name="guidance_pickup">接機</string>
     <string name="guidance_send">送機</string>
@@ -924,36 +930,36 @@
     <string name="guidance_single_hint_subtitle">請選擇用車城市</string>
     <string name="guidance_view_subtitle">這裡有%1$s位中文司導可為您服務</string>
 
-    <string name = "facebook_app_id">645647955823312</string>
+    <string name="servicer_center_item1">預訂須知</string>
+    <string name="servicer_center_item2">服務承諾</string>
+    <string name="servicer_center_item3">訂單取消規則</string>
+    <string name="servicer_center_item4">費用說明</string>
+    <string name="servicer_center_item5">常見問題</string>
+    <string name="servicer_center_item6">保險說明</string>
 
-    <string name = "servicer_center_item1">預訂須知</string>
-    <string name = "servicer_center_item2">服務承諾</string>
-    <string name = "servicer_center_item3">訂單取消規則</string>
-    <string name = "servicer_center_item4">費用說明</string>
-    <string name = "servicer_center_item5">常見問題</string>
-    <string name = "servicer_center_item6">保險說明</string>
+    <string name="facebook_app_id">645647955823312</string>
 
-    <string name = "add_insure_name">中文姓名</string>
-    <string name = "add_insure_name_hint">姓名需與證件姓名一致</string>
-    <string name = "add_insure_gender">性別</string>
-    <string name = "add_insure_gender_hint">請選擇</string>
-    <string name = "add_insure_birthday">出生日期</string>
-    <string name = "add_insure_birthday_hint">請選擇日期</string>
-    <string name = "add_insure_cardid">護照編號</string>
-    <string name = "add_insure_cardid_hint">G+8位數字或E+8位數字</string>
-    <string name = "add_insure_hint">請認真核對投保人信息，填寫有誤會影響保險公司理賠</string>
-    <string name = "add_insure_save">保存</string>
-    <string name = "add_insure_man">男</string>
-    <string name = "add_insure_woman">女</string>
-    <string name = "add_insure_choose_gender">選擇性別</string>
+    <string name="add_insure_name">中文姓名</string>
+    <string name="add_insure_name_hint">姓名需與證件姓名一致</string>
+    <string name="add_insure_gender">性別</string>
+    <string name="add_insure_gender_hint">請選擇</string>
+    <string name="add_insure_birthday">出生日期</string>
+    <string name="add_insure_birthday_hint">請選擇日期</string>
+    <string name="add_insure_cardid">護照編號</string>
+    <string name="add_insure_cardid_hint">G+8位數字或E+8位數字</string>
+    <string name="add_insure_hint">請認真核對投保人信息，填寫有誤會影響保險公司理賠</string>
+    <string name="add_insure_save">保存</string>
+    <string name="add_insure_man">男</string>
+    <string name="add_insure_woman">女</string>
+    <string name="add_insure_choose_gender">選擇性別</string>
 
-    <string name = "voice_captcha_title">語音驗證碼登錄</string>
-    <string name = "voice_captcha_get_hint">我們將給您撥打電話告知您驗證碼，如果您接下來收到一個陌生來電，請放心接聽</string>
-    <string name = "voice_captcha_phone">手機號</string>
-    <string name = "voice_captcha_get">獲取語音驗證碼</string>
-    <string name = "voice_captcha_send">驗證碼已發送到手機：</string>
-    <string name = "voice_captcha_count_down">%1$ss後重新獲取</string>
-    <string name = "voice_captcha_retry">重新獲取語音驗證碼</string>
+    <string name="voice_captcha_title">語音驗證碼登錄</string>
+    <string name="voice_captcha_get_hint">我們將給您撥打電話告知您驗證碼，如果您接下來收到一個陌生來電，請放心接聽</string>
+    <string name="voice_captcha_phone">手機號</string>
+    <string name="voice_captcha_get">獲取語音驗證碼</string>
+    <string name="voice_captcha_send">驗證碼已發送到手機：</string>
+    <string name="voice_captcha_count_down">%1$ss後重新獲取</string>
+    <string name="voice_captcha_retry">重新獲取語音驗證碼</string>
     <string name="voice_captcha_input_error">請輸入手機號</string>
     <!-- AI Service -->
     <string name="fake_ai_head" >旅行小管家</string>
@@ -962,7 +968,7 @@
     <string name="fake_ai_buttoncontent_one" >和旅行小管家繼續溝通</string>
     <string name="fake_ai_buttoncontent_two" >留下意向，讓小管家明天聯繫我</string>
     <string name="fake_ai_requestrrror">您的網絡好像有點兒問題哦~請檢查您的網絡設置~</string>
-    <!-- 推荐详情 -->
+    <!-- 玩法詳情 -->
     <string name="recommend_zhong">種</string>
     <string name="recommend_wei">位</string>
     <string name="recommend_playing_method">包車玩法</string>
@@ -1000,9 +1006,9 @@
     <string name="city_sku_title11"> · %s</string>
     <string name="city_sku_title2">%s位當地人可帶你體驗</string>
     <string name="city_sku_item_price">¥ %s起/人</string>
-    <string name="city_filter_tab1">遊玩線路</string>
+    <string name="city_filter_tab1">游玩線路</string>
     <string name="city_filter_tab2">出發城市</string>
-    <string name="city_filter_tab3">遊玩天數</string>
+    <string name="city_filter_tab3">游玩天數</string>
 
     <!--AI text-->
     <string name="ai_result_title">為您推薦</string>

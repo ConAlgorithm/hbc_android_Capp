@@ -51,7 +51,7 @@ public class Config {
      */
     private static String softid = "hugboga";
     private static String pageName = "com.hugboga.custom";
-    private static String appName = "皇包车";
+    private static String appName = "皇包车旅行";
 
 
     /**

@@ -37,7 +37,7 @@
                 android:layout_height="40dp"
                 android:background="#fff9e2"
                 android:gravity="center"
-                android:text="打5星好评，可帮他争取皇包车1000小费奖励哦"
+                android:text="打5星好评，可帮他争取皇包车旅行1000小费奖励哦"
                 android:textColor="#c7a513"
                 android:textSize="13sp"
                 android:visibility="gone" />
@@ -48,7 +48,7 @@
                 android:layout_height="40dp"
                 android:background="#eeeeee"
                 android:gravity="center"
-                android:text="打5星好评，可帮他争取皇包车1000小费奖励哦"
+                android:text="打5星好评，可帮他争取皇包车旅行1000小费奖励哦"
                 android:textColor="#77ff0000"
                 android:textSize="14sp"
                 android:visibility="gone" />

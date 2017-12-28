@@ -54,10 +54,11 @@ public class HomeAdapter extends EpoxyAdapter {
         charteredModel.setDate(homeBean.charteredList, HomeGoodsModel.TYPE_CHARTERED);
         addModel(charteredModel);
 
-        excitedActivityModel = new HomeExcitedActivityModel();
-        excitedActivityModel.setData(homeBean.excitingActivityList);
-        addModel(excitedActivityModel);
-
+        if (homeBean.excitingActivityList != null && homeBean.excitingActivityList.size() > 0) {
+            excitedActivityModel = new HomeExcitedActivityModel();
+            excitedActivityModel.setData(homeBean.excitingActivityList);
+            addModel(excitedActivityModel);
+        }
     }
 
     public void addEmptyModel() {

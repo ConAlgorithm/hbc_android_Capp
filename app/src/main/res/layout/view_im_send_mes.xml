@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="20dp">
+
+    <LinearLayout
+        android:id="@+id/view_im_send_mes_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rounded_gray"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:id="@+id/view_im_send_mes_iv"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@color/default_pic_gray" />
+
+        <TextView
+            android:id="@+id/view_im_send_mes_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:ellipsize="end"
+            android:lineSpacingExtra="2dp"
+            android:lines="2"
+            android:textColor="@color/default_black"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/view_im_send_mes_send_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/bg_im_send_mes_subfirm"
+        android:text="发送链接"
+        android:textColor="@color/default_yellow"
+        android:textSize="15sp" />
+
+    <FrameLayout
+        android:id="@+id/view_im_send_mes_close_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="10dp">
+        <View
+            android:layout_width="30dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="@color/default_dividing_line" />
+    </FrameLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_line_height"
+        android:layout_marginLeft="-16dp"
+        android:layout_marginRight="-16dp"
+        android:background="@color/default_dividing_line" />
+</LinearLayout>

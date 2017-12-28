@@ -1,6 +1,7 @@
 package com.hugboga.custom.activity;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,19 +43,30 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CountryLocalTimeView;
+import com.hugboga.custom.widget.ImSendMesView;
 import com.hugboga.im.ImHelper;
 import com.hugboga.im.ImObserverHelper;
-import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.uikit.permission.MPermission;
-import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
-import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
-import com.netease.nim.uikit.session.SessionEventListener;
-import com.netease.nim.uikit.session.constant.Extras;
-import com.netease.nim.uikit.session.fragment.MessageFragment;
+import com.hugboga.im.callback.HbcCustomMsgClickListener;
+import com.hugboga.im.callback.HbcSessionCallback;
+import com.hugboga.im.custom.CustomAttachment;
+import com.hugboga.im.custom.attachment.MsgOrderAttachment;
+import com.hugboga.im.custom.attachment.MsgSkuAttachment;
+import com.hugboga.im.custom.attachment.MsgTravelAttachment;
+import com.netease.nim.uikit.business.session.constant.Extras;
+import com.netease.nim.uikit.business.session.fragment.MessageFragment;
+import com.netease.nim.uikit.support.permission.MPermission;
+import com.netease.nim.uikit.support.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.support.permission.annotation.OnMPermissionGranted;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
@@ -73,23 +85,30 @@ import static android.view.View.GONE;
 public class NIMChatActivity extends BaseActivity implements MessageFragment.OnFragmentInteractionListener, ImObserverHelper.OnUserStatusListener, ImObserverHelper.OnUserInfoListener{
 
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
+    private static final String PARAMS_CUSTOM_MSG = "params_custom_msg";
 
     private MessageFragment messageFragment;
 
     private String sessionId;
 
+    public static void start(Context context, String contactId, String source) {
+        start(context, contactId, source,null);
+    }
+
     /**
      * @param context
      * @param contactId
      */
-    public static void start(Context context, String contactId, String source) {
+    public static void start(Context context, String contactId, String source, CustomAttachment customAttachment) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
         intent.putExtra(Constants.PARAMS_SOURCE, source);
         intent.setClass(context, NIMChatActivity.class);
+        if (customAttachment != null) {
+            intent.putExtra(NIMChatActivity.PARAMS_CUSTOM_MSG, customAttachment);
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
-        ImHelper.forceUpdateUserInfo(contactId);
     }
 
 
@@ -110,6 +129,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @BindView(R.id.imchat_local_time_view)
     CountryLocalTimeView localTimeView;
 
+    @BindView(R.id.im_send_mes_view)
+    ImSendMesView imSendMesView;
+
     private String userId; //用户ID
     private String targetType; //目标类型
     private int inBlack;//标识对方是否被自己拉黑，1是 0否
@@ -119,6 +141,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private int timezone;
     private String cityName;
     private String countryName;
+    private CustomAttachment customAttachment;
 
     ImObserverHelper imObserverHelper;
 
@@ -141,7 +164,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         imObserverHelper.setOnUserInfoListener(this);
         imObserverHelper.setOnUserStatusListener(this);
 
-        imObserverHelper.registerUserInfo(sessionId);
         imObserverHelper.registerUserStatusObservers(true);
     }
 
@@ -159,13 +181,96 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             header_right_btn.setVisibility(GONE);
         }
 
-         addConversationFragment();
+        addConversationFragment();
+
+        showSendMesView();
+        imSendMesView.setData(customAttachment);
+        imSendMesView.getSendMesView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (customAttachment != null && customAttachment.getType() == 1) {
+                    MsgSkuAttachment msgSkuAttachment = (MsgSkuAttachment) customAttachment;
+                    ImHelper.sendCustomMsg(sessionId, msgSkuAttachment, messageFragment);
+                    hideSendMesView();
+                }
+            }
+        });
+
+        imSendMesView.getCloseLayout().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideSendMesView();
+            }
+        });
+        ImHelper.setHbcCustomMsgClickListener(new HbcCustomMsgClickListener() {
+            @Override
+            public void onHbcCustomMsgClick(CustomAttachment customAttachment) {
+                switch (customAttachment.getType()) {
+                    case CustomAttachment.VALUE_SKU_TYPE:
+                        MsgSkuAttachment msgSkuAttachment = (MsgSkuAttachment) customAttachment;
+                        Intent intent = new Intent(NIMChatActivity.this, SkuDetailActivity.class);
+                        intent.putExtra(Constants.PARAMS_ID, msgSkuAttachment.getGoodsNo());
+                        intent.putExtra(WebInfoActivity.WEB_URL, msgSkuAttachment.getUrl());
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                        NIMChatActivity.this.startActivity(intent);
+                        break;
+                    case CustomAttachment.VALUE_TRAVEL_TYPE:
+                        MsgTravelAttachment msgTravelAttachment = (MsgTravelAttachment) customAttachment;
+                        Intent intent1 = new Intent(activity, WebInfoActivity.class);
+                        intent1.putExtra(WebInfoActivity.WEB_URL, msgTravelAttachment.getUrl());
+                        startActivity(intent1);
+                        break;
+                    case CustomAttachment.VALUE_ORDER_TYPE:
+                        MsgOrderAttachment msgOrderAttachment = (MsgOrderAttachment) customAttachment;
+                        OrderDetailActivity.Params params = new OrderDetailActivity.Params();
+                        params.orderType = CommonUtils.getCountInteger(msgOrderAttachment.getOrderType());
+                        params.orderId = msgOrderAttachment.getOrderNo();
+                        params.source = getEventSource();
+                        Intent intent2 = new Intent(NIMChatActivity.this, OrderDetailActivity.class);
+                        intent2.putExtra(Constants.PARAMS_DATA, params);
+                        NIMChatActivity.this.startActivity(intent2);
+                        break;
+                }
+            }
+        });
+        ImHelper.setHbcSessionCallback(new HbcSessionCallback() {
+
+            @Override
+            public void onAvatarClicked(String s) {
+                if (!TextUtils.equals(s, sessionId)) {
+                    return;
+                }
+                GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
+                params.guideId = userId;
+                Intent intent = new Intent(NIMChatActivity.this, GuideWebDetailActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAvatarLongClicked(String s) {
+
+            }
+        });
+
+        if (SharedPre.getBoolean("im_show_tip", true)) {
+            SharedPre.setBoolean("im_show_tip", false);
+            IMMessage msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.P2P);
+            msg.setStatus(MsgStatusEnum.success);
+            msg.setContent("请您使用皇包车旅行APP和当地司导沟通，皇包车旅行只认可APP内的聊天记录");
+            CustomMessageConfig config = new CustomMessageConfig();
+            config.enableUnreadCount = false;
+            msg.setConfig(config);
+            NIMClient.getService(MsgService.class).saveMessageToLocal(msg, true);
+        }
     }
 
     private void addConversationFragment(){
         Bundle arguments = getIntent().getExtras();
         arguments.putSerializable(Extras.EXTRA_TYPE, SessionTypeEnum.P2P);
         sessionId = arguments.getString(Extras.EXTRA_ACCOUNT);
+        customAttachment = (CustomAttachment) arguments.getSerializable(NIMChatActivity.PARAMS_CUSTOM_MSG);
         messageFragment = new MessageFragment();
         messageFragment.setArguments(arguments);
 
@@ -174,29 +279,28 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         transaction.add(R.id.conversation_container,messageFragment);
         transaction.commitAllowingStateLoss();
 
-        NimUIKit.setSessionListener(new SessionEventListener() {
-            @Override
-            public void onAvatarClicked(Context context, IMMessage message) {
-                String fromAccount = message.getFromAccount();
-                String sessionId = message.getSessionId();
-                if(TextUtils.equals(fromAccount,sessionId)){
-                    GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
-                    params.guideId = userId;
-                    Intent intent = new Intent(NIMChatActivity.this, GuideWebDetailActivity.class);
-                    intent.putExtra(Constants.PARAMS_DATA, params);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    startActivity(intent);
-                }
-
-            }
-
-            @Override
-            public void onAvatarLongClicked(Context context, IMMessage message) {
-
-            }
-        });
         validateAllowMessage();
+    }
 
+    private void showSendMesView() {
+        if (customAttachment == null) {
+            return;
+        }
+        imSendMesView.setVisibility(View.VISIBLE);
+        float translationY = imSendMesView.getHeight() <= 0 ? UIUtils.dip2px(300) : imSendMesView.getHeight();
+        ObjectAnimator anim = ObjectAnimator.ofFloat(imSendMesView, "translationY", -translationY, 0);
+        anim.setDuration(800);
+        anim.start();
+    }
+
+    private void hideSendMesView() {
+        if (customAttachment == null) {
+            return;
+        }
+        float translationY = imSendMesView.getHeight() <= 0 ? UIUtils.dip2px(300) : imSendMesView.getHeight();
+        ObjectAnimator anim = ObjectAnimator.ofFloat(imSendMesView, "translationY", 0, -translationY);
+        anim.setDuration(500);
+        anim.start();
     }
 
     @Override
@@ -263,7 +367,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
      */
     private void requestBasicPermission() {
         MPermission.with(NIMChatActivity.this)
-                .addRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+                .setRequestCode(BASIC_PERMISSION_REQUEST_CODE)
                 .permissions(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -311,7 +415,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             viewPageLayout.setVisibility(View.VISIBLE);
             viewPage.setAdapter(new IMOrderPagerAdapter(orders));
             viewPage.addOnPageChangeListener(onPageChangeListener);
-            messageFragment.messageListScrollToBottom();
+            messageFragment.onInputPanelExpand();
         } else {
             //无订单数据
             viewPageLayout.setVisibility(GONE);
@@ -711,7 +815,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     @Override
     public void onDestroy() {
-        imObserverHelper.unRegisterUserInfo();
         imObserverHelper.registerUserStatusObservers(false);
         if (localTimeView != null) {
             localTimeView.setStop(true);
