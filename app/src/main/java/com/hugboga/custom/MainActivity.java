@@ -365,6 +365,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), new TagAliasCallback() {
                 @Override
                 public void gotResult(int i, String s, Set<String> set) {
+                    Log.i(PushUtils.TAG,"JPushInterface setAlias gotResult() pushId = " + JPushInterface.getRegistrationID(MainActivity.this));
                     PushUtils.pushRegister(4, JPushInterface.getRegistrationID(MainActivity.this));
                 }
             });

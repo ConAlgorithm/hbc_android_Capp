@@ -43,7 +43,7 @@ import com.xiaomi.mipush.sdk.PushMessageReceiver;
 public class XMPushReceiver extends PushMessageReceiver {
     @Override
     public void onReceivePassThroughMessage(Context context, MiPushMessage miPushMessage) {
-
+        Log.i(PushUtils.TAG,"MiPushMessage " + miPushMessage.getContent());
         if (context == null || TextUtils.isEmpty(miPushMessage.getContent())) {
             return;
         }

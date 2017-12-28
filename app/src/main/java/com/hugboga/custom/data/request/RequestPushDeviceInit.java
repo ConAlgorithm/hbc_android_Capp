@@ -61,7 +61,7 @@ public class RequestPushDeviceInit extends BaseRequest {
 
     @Override
     public HttpMethod getHttpMethod() {
-        return HttpMethod.GET;
+        return HttpMethod.POST;
     }
 
     @Override

@@ -57,6 +57,7 @@ public class GetuiPushService extends GTIntentService {
     @Override
     public void onReceiveClientId(Context context, String clientid) {
         Log.e(TAG, "onReceiveClientId -> " + "clientid = " + clientid);
+        Log.i(PushUtils.TAG, "GetuiPushService onReceiveClientId() clientid = " + clientid);
         PushUtils.pushRegister(3, clientid);
 
     }

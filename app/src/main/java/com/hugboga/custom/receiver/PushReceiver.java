@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.PushMessage;
@@ -34,6 +35,7 @@ public class PushReceiver extends BroadcastReceiver {
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String pushId = intent.getStringExtra(JPushInterface.EXTRA_REGISTRATION_ID);
             PushUtils.pushRegister(4, pushId);
+            Log.i(PushUtils.TAG,"JGPushReceiver onReceive() pushId = " + pushId);
         }
         String msgId = bundle.getString(JPushInterface.EXTRA_MSG_ID);
         String title = bundle.getString(JPushInterface.EXTRA_TITLE);

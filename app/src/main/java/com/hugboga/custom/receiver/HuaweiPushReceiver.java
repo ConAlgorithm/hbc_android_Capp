@@ -72,6 +72,7 @@ public class HuaweiPushReceiver extends PushReceiver{
         super.onToken(context, token, bundle);
         String belongId = bundle.getString("belongId");
         Log.i(TAG, "获取token和belongId成功，token = " + token + ",belongId = " + belongId);
+        Log.i(PushUtils.TAG, "HuaweiPushReceiver onToken() token = " + token + ",belongId = " + belongId);
         PushUtils.pushRegister(1, token);
     }
 
