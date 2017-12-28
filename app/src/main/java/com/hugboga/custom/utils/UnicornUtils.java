@@ -135,7 +135,7 @@ public class UnicornUtils {
         if (productDetail != null) {
             source.productDetail = productDetail;
         }
-        ServiceMessageFragment fragment = Unicorn.newServiceFragment("皇包车客服", source, new FrameLayout(activity));
+        ServiceMessageFragment fragment = Unicorn.newServiceFragment("旅行小管家", source, new FrameLayout(activity));
         if (fragment == null) {
             return;
         }
