@@ -20,6 +20,8 @@ import android.widget.EditText;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
@@ -670,5 +672,21 @@ public final class CommonUtils {
             String key1 = "HbcAppAk=" + UserSession.getUser().getAccessKey(MyApplication.getAppContext()) + ";Domain=huangbaoche.com;Path=/";
             synCookiesArray(url, key1);
         }
+    }
+
+    /**
+     * 是否支持google服务
+     */
+    public static boolean isSupportGoogleService() {
+        try {
+            GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+            int result = googleApiAvailability.isGooglePlayServicesAvailable(MyApplication.getAppContext());
+            if (result != ConnectionResult.SUCCESS) {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }

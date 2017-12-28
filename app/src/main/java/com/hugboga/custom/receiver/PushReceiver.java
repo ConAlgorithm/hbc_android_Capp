@@ -9,28 +9,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.data.bean.PushMessage;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.request.RequestPushReceive;
-import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PushUtils;
-
 import cn.jpush.android.api.JPushInterface;
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Push
  */
-public class PushReceiver extends BroadcastReceiver implements HttpRequestListener {
+public class PushReceiver extends BroadcastReceiver {
 
     /* (non-Javadoc)
      * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
@@ -43,9 +34,9 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
         }
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String pushId = intent.getStringExtra(JPushInterface.EXTRA_REGISTRATION_ID);
-            PushUtils.uploadPushRegister(pushId);
+            PushUtils.pushRegister(4, pushId);
+            Log.i(PushUtils.TAG,"JGPushReceiver onReceive() pushId = " + pushId);
         }
-        MLog.e("bundle="+bundle);
         String msgId = bundle.getString(JPushInterface.EXTRA_MSG_ID);
         String title = bundle.getString(JPushInterface.EXTRA_TITLE);
         String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
@@ -57,60 +48,13 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
         }
 
         PushMessage pushMessage = (PushMessage) JsonUtils.fromJson(msg2, PushMessage.class);
-        pushMessage.messageID = msgId;
-        pushMessage.title = title;
-        pushMessage.message = message;
-        /*
-        部分工作在此处进行过滤
-		1. 是否使用当前版本
-		2. 是否超过有效期
-		3. 是否需要验证当前账号
-		 */
-        PushUtils.showNotification(pushMessage);
-        uploadPushReceive(context,msgId);
-        if("IM".equals(pushMessage.type)){
-            notifyChatList();
+        if (TextUtils.isEmpty(pushMessage.title)) {
+            pushMessage.title = title;
         }
-    }
+        if (TextUtils.isEmpty(pushMessage.message)) {
+            pushMessage.message = message;
+        }
 
-    private void notifyChatList() {
-        EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
-    }
-
-    private void uploadPushReceive(Context context,String pushId){
-        RequestPushReceive request = new RequestPushReceive(context,pushId);
-        HttpRequestUtils.request(context,request,this);
-
-    }
-    /**
-     * 交给Main进行事件处理
-     * 只有在Main处于打开状态，才进行弹出提示，才能接收到广播信息
-     * @param context
-     * @param pushMessage
-     */
-    private void gotoMain(Context context, PushMessage pushMessage) {
-        try {
-            Intent intent1 = new Intent(MainActivity.FILTER_PUSH_DO);
-            Bundle bundle1 = new Bundle();
-            bundle1.putSerializable(MainActivity.PUSH_BUNDLE_MSG, pushMessage);
-            intent1.putExtras(bundle1);
-            context.sendBroadcast(intent1);
-        }catch (Exception e){}
-    }
-
-    @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        ApiReportHelper.getInstance().addReport(request);
-        MLog.e("pushReceiver = "+request.getData());
-    }
-
-    @Override
-    public void onDataRequestCancel(BaseRequest request) {
-
-    }
-
-    @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        MLog.e("pushReceiver ="+errorInfo);
+        PushUtils.onPushReceive(pushMessage);
     }
 }

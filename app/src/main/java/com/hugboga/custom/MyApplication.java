@@ -1,7 +1,9 @@
 package com.hugboga.custom;
 
 
+import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +42,7 @@ import org.json.JSONObject;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
@@ -49,7 +52,7 @@ import cn.tongdun.android.shell.exception.FMException;
 /**
  * Created by admin on 2016/2/25.
  */
-public class MyApplication extends HbcApplication {
+public class MyApplication extends HbcApplication implements Application.ActivityLifecycleCallbacks{
 
     private static Context mAppContext;
 
@@ -65,6 +68,8 @@ public class MyApplication extends HbcApplication {
     final SensorsDataAPI.DebugMode SA_DEBUG_MODE = SensorsDataAPI.DebugMode.DEBUG_OFF;
     static String channelNum = null;
 
+    private final static List<Activity> activityList = new LinkedList<>();
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -74,9 +79,6 @@ public class MyApplication extends HbcApplication {
         setHlog(); //设置日志配置
         getChannelNum();
         initUrlHost();
-        JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);            // 初始化 JPush
-
         initConfig();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
@@ -94,7 +96,6 @@ public class MyApplication extends HbcApplication {
         if (inMainProcess) {
             UnicornUtils.initUnicorn(); // 七鱼
             initSensorsData();          // 初始化神策
-            initXMpush();               // 小米push
 
             // android 大渠道（例如：官方渠道）接入数美， 其他小渠道接入同盾科技
             if (CommonUtils.isAgainstSM()) {
@@ -289,12 +290,6 @@ public class MyApplication extends HbcApplication {
         return packageName.equals(processName);
     }
 
-
-    public void initXMpush() {
-        MiPushClient.registerPush(this, "2882303761517373432", "5601737383432");
-        Logger.disablePushFileLog(MyApplication.getAppContext());
-    }
-
     /**
      * 数美
      * 系统地址：https://www.fengkongcloud.com
@@ -398,5 +393,51 @@ public class MyApplication extends HbcApplication {
         channelNum = ChannelReaderUtil.getChannel(mAppContext);
         MLog.e("channelNum=" + channelNum);
         return channelNum;
+    }
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        activityList.add(activity);
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+        activityList.remove(activity);
+    }
+
+    /**
+     * 是否还有正在运行的activity
+     * @return
+     */
+    public static boolean hasAliveActivity(){
+        if(activityList!=null && activityList.size()!=0){
+            return true;
+        }
+        return false;
     }
 }

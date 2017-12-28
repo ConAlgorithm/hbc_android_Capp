@@ -419,6 +419,16 @@
 
 -keep class com.ishumei.dfp.SMSDK { *; }
 
+-ignorewarning
+-keepattributes *Annotation*
+-keepattributes Exceptions
+-keepattributes InnerClasses
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
+-keep class com.hianalytics.android.**{*;}
+-keep class com.huawei.updatesdk.**{*;}
+-keep class com.huawei.hms.**{*;}
+
 # ProGuard configurationsfor NetworkBench Lens
 -keep class com.networkbench.** { *; }
 -dontwarn com.networkbench.**
