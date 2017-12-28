@@ -40,7 +40,7 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.mani:ThinDownloadManager:1.2.4'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.hugboga.tools:app-tools:latest.integration'
+    compile 'com.hugboga.tools:app-tools:1.0.7'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.sensorsdata.analytics.android:SensorsAnalyticsSDK:1.8.8'
