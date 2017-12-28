@@ -23,5 +23,5 @@
         android:background="#00000000"
         res:fillColor="#FFFFC118"
         res:pageColor="#A3FFFFFF"
-        res:radius="2dp" />
+        res:radius_vp="2dp" />
 </RelativeLayout>
