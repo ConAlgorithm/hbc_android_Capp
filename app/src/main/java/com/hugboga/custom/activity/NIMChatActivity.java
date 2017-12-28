@@ -43,6 +43,7 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CountryLocalTimeView;
 import com.hugboga.custom.widget.ImSendMesView;
@@ -63,7 +64,9 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
@@ -189,11 +192,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                     MsgSkuAttachment msgSkuAttachment = (MsgSkuAttachment) customAttachment;
                     ImHelper.sendCustomMsg(sessionId, msgSkuAttachment, messageFragment);
                     hideSendMesView();
-
-                    MsgSkuAttachment msgSkuAttachment2 = new MsgSkuAttachment(2);
-                    msgSkuAttachment2.setTitle(msgSkuAttachment.getTitle());
-                    msgSkuAttachment2.setUrl(msgSkuAttachment.getUrl());
-                    ImHelper.sendCustomMsg(sessionId, msgSkuAttachment2, messageFragment);
                 }
             }
         });
@@ -255,9 +253,17 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
             }
         });
-//        IMMessage message = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.P2P);
-//        message.setContent("test tip");
-//        NIMClient.getService(MsgService.class).saveMessageToLocal(message,true);
+
+        if (SharedPre.getBoolean("im_show_tip", true)) {
+            SharedPre.setBoolean("im_show_tip", false);
+            IMMessage msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.P2P);
+            msg.setStatus(MsgStatusEnum.success);
+            msg.setContent("请您使用皇包车旅行APP和当地司导沟通，皇包车旅行只认识APP内的聊天记录");
+            CustomMessageConfig config = new CustomMessageConfig();
+            config.enableUnreadCount = false;
+            msg.setConfig(config);
+            NIMClient.getService(MsgService.class).saveMessageToLocal(msg, true);
+        }
     }
 
     private void addConversationFragment(){
