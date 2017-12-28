@@ -3,6 +3,10 @@ package com.hugboga.custom.widget.home;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -59,15 +63,26 @@ public class HomeGoodsItemView extends LinearLayout implements HbcViewBehavior, 
             HomeBean.TransferBean transferBean = (HomeBean.TransferBean) _data;
             Tools.showImage(desplayIV, transferBean.airportPicture);
             titleTV.setText(transferBean.airportName);
-            subtitleTV.setText(getContext().getResources().getString(R.string.home_goodes_item_subtitle, "" + transferBean.airportGuideNum, transferBean.airportUserNum));
+            subtitleTV.setText(getSubtitle("" + transferBean.airportGuideNum, transferBean.airportUserNum));
             priceTV.setText(getContext().getResources().getString(R.string.home_goodes_price_car, "" + transferBean.airportPrice));
         } else if (_data instanceof HomeBean.CharteredBean) {
             HomeBean.CharteredBean charteredBean = (HomeBean.CharteredBean) _data;
             Tools.showImage(desplayIV, charteredBean.starCityPicture);
             titleTV.setText(charteredBean.starCityName);
-            subtitleTV.setText(getContext().getResources().getString(R.string.home_goodes_item_subtitle, "" + charteredBean.charteredGuideNum, charteredBean.charteredUserNum));
+            subtitleTV.setText(getSubtitle("" + charteredBean.charteredGuideNum, charteredBean.charteredUserNum));
             priceTV.setText(getContext().getResources().getString(R.string.home_goodes_price_car, "" + charteredBean.charteredPrice));
         }
+    }
+
+    private SpannableString getSubtitle(String _guideNum, String _userNum) {
+        String userNum = TextUtils.isEmpty(_userNum) ? "0" : _userNum;
+        String guideNum = TextUtils.isEmpty(_guideNum) ? "0" : _guideNum;
+        String subtitle = getContext().getResources().getString(R.string.home_goodes_item_subtitle, userNum, guideNum);
+        int startIndex = subtitle.indexOf(userNum);
+        int endIndex = startIndex + userNum.length();
+        SpannableString spannableString = new SpannableString(subtitle);
+        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.default_black)), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
     }
 
     public void setDesplayViewLayoutParams(int displayImgWidth, int displayImgHeight) {
