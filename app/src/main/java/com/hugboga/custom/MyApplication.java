@@ -70,7 +70,7 @@ public class MyApplication extends HbcApplication {
         super.onCreate();
         mAppContext = this.getApplicationContext();
         MobclickAgent.setDebugMode(HbcConfig.IS_DEBUG);
-        x.Ext.setDebug(true);
+        x.Ext.setDebug(false); //设置xUtils的debug模式
         setHlog(); //设置日志配置
         getChannelNum();
         initUrlHost();
@@ -182,7 +182,6 @@ public class MyApplication extends HbcApplication {
         HbcConfig.VERSION_NAME = BuildConfig.VERSION_NAME;
         HbcConfig.VERSION_CODE = BuildConfig.VERSION_CODE;
         HbcConfig.APP_NAME = getString(R.string.app_name);
-        x.Ext.setDebug(HbcConfig.IS_DEBUG);
         HbcConfig.WX_APP_ID = BuildConfig.WX_APP_ID;
         if (getChannelNum() != null) {
             HbcConfig.FLAVOR = getChannelNum();
