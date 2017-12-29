@@ -81,7 +81,8 @@
                 android:layout_marginRight="@dimen/default_margin_large"
                 android:text="忙碌"
                 android:textColor="#707070"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/guide_detail_bottom_contact_tv"

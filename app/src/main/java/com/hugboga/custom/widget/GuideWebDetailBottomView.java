@@ -137,7 +137,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         } else {
             hintTv.setVisibility(View.VISIBLE);
             topLineView.setVisibility(View.VISIBLE);
-            contactIv.setBackgroundResource(R.mipmap.navbar_chat_white);
+            contactIv.setImageResource(R.mipmap.navbar_chat_white);
             contactTv.setTextColor(0xFFFFFFFF);
             contactLayout.setBackgroundResource(R.drawable.shape_rounded_disabled);
             contactLayout.setOnClickListener(new OnClickListener() {
