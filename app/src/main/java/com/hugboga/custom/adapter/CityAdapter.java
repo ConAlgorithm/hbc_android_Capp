@@ -68,7 +68,7 @@ public class CityAdapter extends SkuAdapter {
         }
         for (int i = 0; i < data.size(); i++) {
             DestinationGoodsVo vo = data.get(i);
-            CityListModel model = new CityListModel(mContext, vo, listener);
+            CityListModel model = new CityListModel(mContext, vo);
             addModelConfig(model);
             goodModels.add(model);
         }

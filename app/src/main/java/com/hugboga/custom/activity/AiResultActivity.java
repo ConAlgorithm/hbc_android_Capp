@@ -60,7 +60,6 @@ public class AiResultActivity extends BaseActivity {
         adapter = new AiResultAdapter(this);
         recyclerView.setAdapter(adapter);
         adapter.showAiResult(destinationHomeVo, params);
-        queryFavoriteLineList(); //查询收藏玩法信息
     }
 
     @Override
@@ -77,27 +76,6 @@ public class AiResultActivity extends BaseActivity {
             case R.id.header_left_btn:
                 finish();
                 break;
-        }
-    }
-
-    /**
-     * 查询已收藏线路数据
-     */
-    private void queryFavoriteLineList() {
-        if (UserEntity.getUser().isLogin(this)) {
-            FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this, UserEntity.getUser().getUserId(this));
-            HttpRequestUtils.request(this, favoriteLinesaved, this, false);
-        }
-    }
-
-    @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        super.onDataRequestSucceed(request);
-        if (request instanceof FavoriteLinesaved) {
-            //查询出已收藏线路信息
-            UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();
-            adapter.resetFavious(favoriteLine.goodsNos);
-            adapter.notifyDataSetChanged();
         }
     }
 

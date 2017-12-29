@@ -91,6 +91,7 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
+import com.hugboga.custom.utils.collection.CollectionUtils;
 import com.hugboga.custom.utils.rom.Rom;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
@@ -180,6 +181,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
         checkVersion();
+        //收藏信息初始化
+        CollectionUtils.getIns(this).queryFavoriteLineList();
         sharedPre = new SharedPre(this);
         verifyStoragePermissions(this, REQUEST_EXTERNAL_STORAGE);
         initBottomView();
