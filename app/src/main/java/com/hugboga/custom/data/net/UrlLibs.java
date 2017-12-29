@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 204
+    //current urlErrorCode 205
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -317,6 +317,7 @@ public class UrlLibs {
     public static final String API_PUSH_DEVICE              = "communication/v1.0/c/push/device";                       // push用户设备注册 202
     public static final String API_PUSH_DEVICE_LOGIN        = "communication/v1.0/c/push/device/login";                 // 用户设备登录 203
     public static final String API_PUSH_DEVICE_LOGOUT       = "communication/v1.0/c/push/device/logout";                // 用户设备注销 204
+    public static final String IM_FIRST_TALKED              = "communication/v4.0/c/im/first/chat";                     //IM首次聊天蒙层判断205
 
     public static final String API_SERVICE_QUESTION_LIST    = "crm/v1.0/c/advice/source";                               // 客服常见问题
     public static final String API_CREATE_TRAVEL_FORM       = "crm/v1.0/c/workorderthird/create";                       // 创建旅行意向单125

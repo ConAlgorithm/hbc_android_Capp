@@ -12,11 +12,12 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.NetWork;
+import com.huangbaoche.hbcframe.util.PairUtils;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
+import com.hugboga.tools.HLog;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONObject;
-import org.xutils.HttpManager;
 import org.xutils.common.Callback;
 import org.xutils.ex.HttpException;
 import org.xutils.http.app.RequestInterceptListener;
@@ -40,34 +41,37 @@ import javax.net.ssl.SSLHandshakeException;
 public class HttpRequestUtils {
 
 
-    public static Callback.Cancelable request(Context mContext,final BaseRequest request, final HttpRequestListener listener) {
-        return request(mContext,request,listener,(HttpRequestOption)null);
-    }
-    public static Callback.Cancelable request(Context mContext,final BaseRequest request, final HttpRequestListener listener,boolean needShowLoading) {
-        HttpRequestOption option =  new HttpRequestOption();
-        option.needShowLoading = needShowLoading;
-        return request(mContext,request,listener,option);
-    }
-    public static Callback.Cancelable request(Context mContext,final BaseRequest request, final HttpRequestListener listener,View btn) {
-        HttpRequestOption option =  new HttpRequestOption();
-        option.btn = btn;
-        return request(mContext,request,listener,option);
+    public static Callback.Cancelable request(Context mContext, final BaseRequest request, final HttpRequestListener listener) {
+        return request(mContext, request, listener, (HttpRequestOption) null);
     }
 
-    public static Callback.Cancelable request(final Context mContext,final BaseRequest request, final HttpRequestListener listener,HttpRequestOption option){
+    public static Callback.Cancelable request(Context mContext, final BaseRequest request, final HttpRequestListener listener, boolean needShowLoading) {
+        HttpRequestOption option = new HttpRequestOption();
+        option.needShowLoading = needShowLoading;
+        return request(mContext, request, listener, option);
+    }
+
+    public static Callback.Cancelable request(Context mContext, final BaseRequest request, final HttpRequestListener listener, View btn) {
+        HttpRequestOption option = new HttpRequestOption();
+        option.btn = btn;
+        return request(mContext, request, listener, option);
+    }
+
+    public static Callback.Cancelable request(final Context mContext, final BaseRequest request, final HttpRequestListener listener, HttpRequestOption option) {
         return request(mContext, request, listener, option, false);
     }
 
     /**
      * 请求
+     *
      * @param mContext
      * @param request
      * @param listener
      * @param option
      * @return
      */
-    public static Callback.Cancelable request(final Context mContext,final BaseRequest request, final HttpRequestListener listener,HttpRequestOption option, boolean isAccessKey){
-        if(option==null)option=new HttpRequestOption();
+    public static Callback.Cancelable request(final Context mContext, final BaseRequest request, final HttpRequestListener listener, HttpRequestOption option, boolean isAccessKey) {
+        if (option == null) option = new HttpRequestOption();
         option.setBtnEnabled(false);//设置按钮不可用
         if (!NetWork.isNetworkAvailable(mContext)) {//无网络直接报错
             ExceptionInfo result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_NET_UNAVAILABLE, null);
@@ -77,18 +81,19 @@ public class HttpRequestUtils {
             return null;
         }
         final DialogUtilInterface dialogUtil = getDialogUtil(mContext);
-        if(mContext instanceof Activity) {
+        if (mContext instanceof Activity) {
             final HttpRequestOption finalOption1 = option;
             ((Activity) mContext).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (dialogUtil != null&& finalOption1.needShowLoading) dialogUtil.showLoadingDialog();
+                    if (dialogUtil != null && finalOption1.needShowLoading)
+                        dialogUtil.showLoadingDialog();
                 }
             });
         }
 
-        if (!checkAccessKey(mContext) && !isAccessKey){//Accesskey不能用,请求AccessKey ,回来继续请求上一个请求
-            requestAccessKey(mContext,request,listener,option);
+        if (!checkAccessKey(mContext) && !isAccessKey) {//Accesskey不能用,请求AccessKey ,回来继续请求上一个请求
+            requestAccessKey(mContext, request, listener, option);
             return null;
         }
         final HttpRequestOption finalOption = option;
@@ -98,14 +103,15 @@ public class HttpRequestUtils {
             @Override
             public void onSuccess(String result) {//请求成功
 //                MLog.e(request.getClass().getSimpleName()+" onSuccess result=" + result);
-                MLog.log(MLog.LogLevel.DEBUG, request.getClass().getSimpleName() + " onSuccess result=" + result);
+//                MLog.log(MLog.LogLevel.DEBUG, request.getClass().getSimpleName() + " onSuccess result=" + result);
+                HLog.d("REQUEST requestClass=" + request.getClass().getSimpleName() + "，result=" + result);
                 try {
                     if ("{\"status\":200}".equals(result)) {
                         listener.onDataRequestSucceed(request);
                         return;
                     }
                     ImplParser parser = request.getParser();
-                    if(parser==null) parser= new DefaultParser();//默认解析器
+                    if (parser == null) parser = new DefaultParser();//默认解析器
                     Object data = parser.parse(String.class, String.class, result);
                     request.setData(data);//设置数据
                 } catch (Throwable throwable) {//内部的错误直接抛到错误回调方法内
@@ -118,24 +124,24 @@ public class HttpRequestUtils {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 boolean isReset = resetSSLSocketFactory(mContext, ex);
-                MLog.e(request.getClass().getSimpleName()+" onError",ex);
+                MLog.e(request.getClass().getSimpleName() + " onError", ex);
 //                if (!isReset) {
-                    listener.onDataRequestError(handleException(ex), request);
+                listener.onDataRequestError(handleException(ex), request);
 //                }
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                MLog.e(request.getClass().getSimpleName()+" onCancelled="+cex.toString());
+                MLog.e(request.getClass().getSimpleName() + " onCancelled=" + cex.toString());
                 listener.onDataRequestCancel(request);
             }
 
             @Override
             public void onFinished() {
                 finalOption.setBtnEnabled(true);
-                if(dialogUtil !=null){
-                    MLog.e("onFinished = "+request.getUrl());
-                    if (dialogUtil != null&& finalOption.needShowLoading)
+                if (dialogUtil != null) {
+                    MLog.e("onFinished = " + request.getUrl());
+                    if (dialogUtil != null && finalOption.needShowLoading)
                         dialogUtil.dismissLoadingDialog();
                 }
             }
@@ -151,13 +157,18 @@ public class HttpRequestUtils {
             @Override
             public void beforeRequest(UriRequest urlRequest) throws Throwable {
                 super.beforeRequest(urlRequest);
+                if (request != null && urlRequest != null) {
+                    HLog.d("REQUEST Headers：" + PairUtils.getRequesetStr(request.getHeaders())
+                            + "，Method：" + request.getMethod().name()
+                            + "，Params：" + urlRequest.getCacheKey());
+                }
             }
 
         });
         return cancelable;
     }
 
-    public static class CommonCallback<String> implements Callback.CommonCallback<String>, RequestInterceptListener{
+    public static class CommonCallback<String> implements Callback.CommonCallback<String>, RequestInterceptListener {
 
         @Override
         public void onSuccess(String result) {
@@ -192,14 +203,15 @@ public class HttpRequestUtils {
 
     /**
      * 通过反射拿到 dialog 实例
+     *
      * @param mContext
      * @return
      */
-    public static DialogUtilInterface getDialogUtil(Context mContext){
+    public static DialogUtilInterface getDialogUtil(Context mContext) {
         DialogUtilInterface dialogUtil = null;
-        if(mContext instanceof Activity) {
+        if (mContext instanceof Activity) {
             try {
-                if(HbcConfig.dialogUtil!=null) {
+                if (HbcConfig.dialogUtil != null) {
                     Method method = HbcConfig.dialogUtil.getMethod("getInstance", Activity.class);
                     dialogUtil = (DialogUtilInterface) method.invoke(null, mContext);
                 }
@@ -218,6 +230,7 @@ public class HttpRequestUtils {
 
     /**
      * 处理错误
+     *
      * @param error
      * @return 错误信息
      */
@@ -234,15 +247,15 @@ public class HttpRequestUtils {
             result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_NET, null);
         } else if (error instanceof SSLHandshakeException) {
             result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_SSL, null);
-        }else if(error instanceof UnknownHostException){
+        } else if (error instanceof UnknownHostException) {
             result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_NET_NOTFOUND, null);
-        } else if(error instanceof  ServerException){
-            ServerException serverException = (ServerException)error;
+        } else if (error instanceof ServerException) {
+            ServerException serverException = (ServerException) error;
             result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_SERVER, serverException);
-        }else{
+        } else {
             result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_OTHER, null);
             if (error instanceof HttpException) {
-                result.setErrorCode(((HttpException)error).getErrorCode());
+                result.setErrorCode(((HttpException) error).getErrorCode());
 
             }
         }
@@ -252,6 +265,7 @@ public class HttpRequestUtils {
 
     /**
      * 检测Accesskey
+     *
      * @param mContext
      * @return
      */
@@ -266,25 +280,26 @@ public class HttpRequestUtils {
 
     /**
      * 请求AccessKey
+     *
      * @param mContext
      * @param baseRequest 上一个请求
-     * @param listener 上一个回调
-     * @param option 上一个请求的配置
+     * @param listener    上一个回调
+     * @param option      上一个请求的配置
      */
-    private static void requestAccessKey(final Context mContext,final BaseRequest baseRequest,final HttpRequestListener listener, final HttpRequestOption option){
+    private static void requestAccessKey(final Context mContext, final BaseRequest baseRequest, final HttpRequestListener listener, final HttpRequestOption option) {
         try {
             //通过反射实例化AccessKey
             Constructor constructor = HbcConfig.accessKeyRequest.getDeclaredConstructor(Context.class);
             constructor.setAccessible(true);
             final BaseRequest accessKeyRequest = (BaseRequest) constructor.newInstance(mContext);
             HttpRequestOption accessOption = option.clone();
-            accessOption.needShowLoading =false;
+            accessOption.needShowLoading = false;
             request(mContext, accessKeyRequest, new HttpRequestListener() {
                 @Override
                 public void onDataRequestSucceed(BaseRequest request) {
                     UserSession.getUser().setAccessKey(mContext, (String) request.getData());
                     String accessKey = UserSession.getUser().getAccessKey(mContext);
-                    MLog.e("accessKey =" + accessKey);
+                    HLog.d("accessKey =" + accessKey);
                     request(mContext, baseRequest, listener, option);
                 }
 
@@ -296,15 +311,15 @@ public class HttpRequestUtils {
 
                 @Override
                 public void onDataRequestCancel(BaseRequest request) {
-                            listener.onDataRequestCancel(request);
-                        }
-            },accessOption, true);
+                    listener.onDataRequestCancel(request);
+                }
+            }, accessOption, true);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             throw new RuntimeException("AccessKeyRequest is not allow null");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -313,7 +328,7 @@ public class HttpRequestUtils {
     /**
      * 空的解析
      */
-    public static class DefaultParser extends ImplParser{
+    public static class DefaultParser extends ImplParser {
         @Override
         public Object parseObject(JSONObject obj) throws Throwable {
             return obj;
@@ -321,7 +336,7 @@ public class HttpRequestUtils {
     }
 
     public static boolean resetSSLSocketFactory(Context context, Throwable error) {
-        if (error instanceof HttpException && ((HttpException)error).getCode() == 400) {
+        if (error instanceof HttpException && ((HttpException) error).getCode() == 400) {
             DefaultSSLSocketFactory.resetSSLSocketFactory(context);
             return true;
         }

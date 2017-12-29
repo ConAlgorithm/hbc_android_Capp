@@ -95,11 +95,11 @@ public class HbcParamsBuilder implements ParamsBuilder {
             if (!TextUtils.isEmpty(request.bodyEntity)) {
                 params.setBodyContent(request.bodyEntity);
             }
-            MLog.e("URL = " + params.getUri());
-            for (int i=0;i<params.getHeaders().size();i++) {
-                MLog.e("header = " +params.getHeaders().get(i).key+":"+params.getHeaders().get(i).value);
-            }
-            MLog.e(request.getHttpMethod()+" params = " + sb.toString());
+//            MLog.e("URL = " + params.getUri());
+//            for (int i=0;i<params.getHeaders().size();i++) {
+//                MLog.e("header = " +params.getHeaders().get(i).key+":"+params.getHeaders().get(i).value);
+//            }
+//            MLog.e(request.getHttpMethod()+" params = " + sb.toString());
         }else{
             throw new RuntimeException("params must instanceof BaseRequest");
         }

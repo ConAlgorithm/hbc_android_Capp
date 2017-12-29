@@ -494,12 +494,10 @@ public class QueryCityActivity extends BaseActivity {
     }
 
     /**
-     * 关联结果埋点
+     * 关联本地结果埋点
      */
-    public void addPoint() {
-        if (getIntentSource().equals("首页")) {
-            setSensorsShareEvent(headSearch.getText().toString(), false, false, false);
-        }
+    public void addPoint(boolean isHasResult) {
+        setSensorsShareEvent(headSearch.getText().toString(), false, false, isHasResult);
     }
 
     /**
@@ -538,4 +536,5 @@ public class QueryCityActivity extends BaseActivity {
             }
         }
     };
+
 }

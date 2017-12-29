@@ -22,7 +22,6 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.NotificationCheckUtils;
 import com.hugboga.custom.utils.UmengADPlus;
 import com.hugboga.custom.utils.UnicornUtils;
@@ -34,7 +33,6 @@ import com.ishumei.smantifraud.SmAntiFraud;
 import com.leon.channel.helper.ChannelReaderUtil;
 import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -77,8 +75,8 @@ public class MyApplication extends HbcApplication implements Application.Activit
         super.onCreate();
         mAppContext = this.getApplicationContext();
         MobclickAgent.setDebugMode(HbcConfig.IS_DEBUG);
-        x.Ext.setDebug(true);
-        HLog.setIsDebug(BuildConfig.DEBUG);
+        x.Ext.setDebug(false); //设置xUtils的debug模式
+        setHlog(); //设置日志配置
         getChannelNum();
         initUrlHost();
         initConfig();
@@ -108,6 +106,15 @@ public class MyApplication extends HbcApplication implements Application.Activit
         }
         initNetworkbench();
         initNim();
+    }
+
+    /**
+     * 设置日志配置
+     */
+    private void setHlog() {
+        HLog.setIsDebug(BuildConfig.DEBUG);
+        HLog.setLogTag("HBC");
+        HLog.setMethodCount(0);
     }
 
     private void initNim() {
@@ -162,7 +169,7 @@ public class MyApplication extends HbcApplication implements Application.Activit
         UrlLibs.SHARE_APPID = BuildConfig.SHARE_APPID;
         UrlLibs.H5_HOST = BuildConfig.H5_HOST;
 
-        LogUtils.e(UrlLibs.SHARE_BASE_URL_1 + "\n" + UrlLibs.SHARE_BASE_URL_2
+        HLog.e(UrlLibs.SHARE_BASE_URL_1 + "\n" + UrlLibs.SHARE_BASE_URL_2
                 + "\n" + UrlLibs.SHARE_BASE_URL_3 + "\n" + UrlLibs.SHARE_BASE_URL_4
                 + "\n" + UrlLibs.H5_HOST);
     }
@@ -176,7 +183,6 @@ public class MyApplication extends HbcApplication implements Application.Activit
         HbcConfig.VERSION_NAME = BuildConfig.VERSION_NAME;
         HbcConfig.VERSION_CODE = BuildConfig.VERSION_CODE;
         HbcConfig.APP_NAME = getString(R.string.app_name);
-        x.Ext.setDebug(HbcConfig.IS_DEBUG);
         HbcConfig.WX_APP_ID = BuildConfig.WX_APP_ID;
         if (getChannelNum() != null) {
             HbcConfig.FLAVOR = getChannelNum();

@@ -13,7 +13,7 @@
             android:layout_height="10dp"
             android:background="#f4f4f4" />
 
-        <include layout="@layout/view_guide_item_include" />
+        <include layout="@layout/view_collect_item_include" />
 
         <View
             android:id="@+id/view_guide_item_service_line_view"

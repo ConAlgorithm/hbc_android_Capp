@@ -2,20 +2,17 @@ package com.hugboga.custom.data.parser;
 
 import android.text.TextUtils;
 
-import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
-import com.hugboga.custom.data.bean.HomeTopBean;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
-import com.hugboga.custom.utils.LogUtils;
+import com.hugboga.tools.HLog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.http.request.UriRequest;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HbcParser extends ImplParser {
@@ -48,8 +45,8 @@ public class HbcParser extends ImplParser {
             } catch (Exception e) {
                 String resultStr = "解析错误 url: " + url;
                 CommonUtils.showToast(resultStr);
-                LogUtils.e(resultStr);
-                LogUtils.json(result);
+                HLog.e(resultStr);
+                HLog.json(result);
                 e.printStackTrace();
                 return null;
             }
@@ -69,8 +66,8 @@ public class HbcParser extends ImplParser {
         } catch (Exception e) {
             String resultStr = "解析错误 url: " + url;
             CommonUtils.showToast(resultStr);
-            LogUtils.e(resultStr);
-            LogUtils.json(array.toString());
+            HLog.e(resultStr);
+            HLog.json(array.toString());
             e.printStackTrace();
             return null;
         }

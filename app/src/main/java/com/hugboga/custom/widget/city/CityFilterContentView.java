@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.utils.CityDataTools;
@@ -40,6 +41,7 @@ public class CityFilterContentView extends FrameLayout {
     @BindView(R.id.content_city_filte_view3)
     FilterView content_city_filte_view3; //筛选条件内容，游玩天数
 
+    CityActivity mActivity;
     CityAdapter adapter;
     DestinationHomeVo data;
 
@@ -67,7 +69,8 @@ public class CityFilterContentView extends FrameLayout {
         this.adapter = adapter;
     }
 
-    public void setData(DestinationHomeVo data, FilterConSelect filterConSelect1, FilterConSelect filterConSelect2, FilterConSelect filterConSelect3) {
+    public void setData(CityActivity activity, DestinationHomeVo data, FilterConSelect filterConSelect1, FilterConSelect filterConSelect2, FilterConSelect filterConSelect3) {
+        this.mActivity = activity;
         this.data = data;
         this.filterConSelect1 = filterConSelect1;
         this.filterConSelect2 = filterConSelect2;
@@ -127,6 +130,10 @@ public class CityFilterContentView extends FrameLayout {
                 filterConSelect1.onSelect(filterView, labelBean);
             }
             checkFilterConSee();
+            //添加点击玩法标签埋点
+            if (mActivity != null) {
+                mActivity.setSensorsClickTag(isParent ? 1 : 2, labelBean.name);
+            }
         }
     };
 
