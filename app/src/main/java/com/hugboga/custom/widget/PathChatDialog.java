@@ -3,7 +3,6 @@ package com.hugboga.custom.widget;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -30,21 +29,14 @@ public class PathChatDialog extends Dialog implements View.OnClickListener {
         this(context, R.style.AnimationDialog, listener);
     }
 
-
     public PathChatDialog(Context context, int themeResId, DialogClickListener listener) {
         super(context, themeResId);
         setContentView(R.layout.dialog_left_top);
-
         this.listener = listener;
         if (context instanceof Activity) {
-            WindowManager windowManager = ((Activity) context).getWindowManager();
-            Display display = windowManager.getDefaultDisplay();
             WindowManager.LayoutParams lp = this.getWindow().getAttributes();
-            lp.gravity = Gravity.RIGHT | Gravity.TOP;
-            lp.x = lp.x - UIUtils.getActionBarSize() / 2;
-            lp.y = UIUtils.getActionBarSize() - 15;
-            lp.height = (int) (display.getHeight() * 0.2f);
-            lp.width = (int) (display.getWidth() * 0.43f);
+            lp.gravity = Gravity.TOP | Gravity.RIGHT;
+            lp.y = UIUtils.getActionBarSize() - UIUtils.dip2px(15);
             getWindow().setAttributes(lp);
         }
         text_share = findViewById(R.id.dialog_text_share);

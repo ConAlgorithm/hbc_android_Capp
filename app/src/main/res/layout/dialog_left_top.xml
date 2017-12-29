@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="160dp"
     android:layout_height="110dp"
+    android:layout_marginRight="-5dp"
     android:background="@drawable/play_down"
-    android:orientation="vertical"
-    android:weightSum="100">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_text_share"

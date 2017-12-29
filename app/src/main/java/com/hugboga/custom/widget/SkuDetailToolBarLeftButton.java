@@ -3,6 +3,7 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -12,6 +13,7 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.UIUtils;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 
@@ -107,7 +109,6 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
     }
 
     private void isChatRedDot(boolean b) {
-
         if (b) {
             if (!isWeiXin) {
                 backGroundImageView.setImageResource(R.mipmap.play_down_chat_red_dot);
@@ -125,7 +126,6 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
 
 
     public void onClick(View view) {
-
         if (!isWeiXin) {
             clickListener.serviceChatListener();
             return;
