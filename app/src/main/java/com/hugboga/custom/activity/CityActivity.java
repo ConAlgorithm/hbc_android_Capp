@@ -109,7 +109,7 @@ public class CityActivity extends BaseActivity {
 
         //初始化埋点
         setSensorsViewCityBeginEvent();
-        SensorsUtils.setPageEvent(getEventSource(),null,getIntentSource());
+        SensorsUtils.setPageEvent(getEventSource(), null, getIntentSource());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //展示线路数据
         recyclerView.setHasFixedSize(true);
@@ -391,7 +391,7 @@ public class CityActivity extends BaseActivity {
                 //修改标题
                 city_toolbar_title.setText(data.destinationName);
                 //设置过滤条件筛选中的数据
-                filterContentView.setData(data, filterConSelect1, filterConSelect2, filterConSelect3);
+                filterContentView.setData(CityActivity.this, data, filterConSelect1, filterConSelect2, filterConSelect3);
                 // 设置玩法列表初始化数据
                 if (data.destinationGoodsList != null && data.destinationGoodsList.size() > 0) {
                     flushSkuList(data.destinationGoodsList);
@@ -583,5 +583,15 @@ public class CityActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 添加点击玩法标签埋点
+     *
+     * @param tagLevel
+     * @param tagName
+     */
+    public void setSensorsClickTag(int tagLevel, String tagName) {
+        SensorsUtils.setSensorsClickTag(paramsData, String.valueOf(tagLevel), tagName);
     }
 }

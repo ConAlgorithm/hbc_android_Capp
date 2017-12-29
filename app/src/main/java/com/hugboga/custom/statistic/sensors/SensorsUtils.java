@@ -6,6 +6,7 @@ import android.webkit.WebView;
 
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MyApplication;
+import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.bean.EventPayBean;
@@ -166,7 +167,7 @@ public class SensorsUtils {
 
 
     //分享
-    public static void setSensorsShareEvent(String type, String source,String goodsNo,String guideId) {
+    public static void setSensorsShareEvent(String type, String source, String goodsNo, String guideId) {
         try {
             JSONObject properties = new JSONObject();
             properties.put("shareType", type);
@@ -210,7 +211,7 @@ public class SensorsUtils {
     public static void setSensorsShowUpWebView(WebView webView) {
         Context context = MyApplication.getAppContext();
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String date =  sDateFormat.format(new java.util.Date());
+        String date = sDateFormat.format(new java.util.Date());
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
@@ -221,8 +222,8 @@ public class SensorsUtils {
             properties.put("hbc_realname", UserEntity.getUser().getUserName(context));
             properties.put("hbc_plateform_type", "Android");        // 平台类型
             properties.put("hbc_version", BuildConfig.VERSION_NAME);// C端产品版本
-            properties.put("hbc_longitude",UserEntity.getUser().getLongitude());
-            properties.put("hbc_latitude",UserEntity.getUser().getLatitude());
+            properties.put("hbc_longitude", UserEntity.getUser().getLongitude());
+            properties.put("hbc_latitude", UserEntity.getUser().getLatitude());
             properties.put("hbc_time", date);
             SensorsDataAPI.sharedInstance(context).showUpWebView(webView, false, properties);
         } catch (Exception e) {
@@ -245,16 +246,16 @@ public class SensorsUtils {
     }
 
     //神策统计_Im监控统计
-    public static void setSensorsAppointImAnalysis(String event, HashMap<String,String> attributes){
+    public static void setSensorsAppointImAnalysis(String event, HashMap<String, String> attributes) {
         try {
             JSONObject properties = new JSONObject();
-            if(attributes!=null && attributes.size()>0){
-                Set<Map.Entry<String,String>> entrySet = attributes.entrySet();
-                for(Iterator<Map.Entry<String,String>> iterator = entrySet.iterator(); iterator.hasNext();){
-                    Map.Entry<String,String> entry = iterator.next();
+            if (attributes != null && attributes.size() > 0) {
+                Set<Map.Entry<String, String>> entrySet = attributes.entrySet();
+                for (Iterator<Map.Entry<String, String>> iterator = entrySet.iterator(); iterator.hasNext(); ) {
+                    Map.Entry<String, String> entry = iterator.next();
                     String entryKey = entry.getKey();
                     String entryValue = entry.getValue();
-                    if(!TextUtils.isEmpty(entryKey) && !TextUtils.isEmpty(entryValue)){
+                    if (!TextUtils.isEmpty(entryKey) && !TextUtils.isEmpty(entryValue)) {
                         properties.put(entryKey, entryValue);
                     }
                 }
@@ -279,6 +280,38 @@ public class SensorsUtils {
             properties.put("isAppointGuide", isAppointGuide ? "1" : "0");
             properties.put("isHavePrice", isHavePrice);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("seePrice", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 点击标签埋点
+     * @param paramsData
+     * @param tagLevel
+     * @param tagName
+     */
+    public static void setSensorsClickTag(CityActivity.Params paramsData, String tagLevel, String tagName) {
+        try {
+            JSONObject properties = new JSONObject();
+            switch (paramsData.cityHomeType) {
+                case CITY:
+                    properties.put("cityId", paramsData.id);
+                    properties.put("cityName", paramsData.titleName);
+                    break;
+                case ROUTE:
+                    properties.put("lineGroupId", paramsData.id);
+                    properties.put("lineGroupName", paramsData.titleName);
+                    break;
+                case COUNTRY:
+                    properties.put("countryId", paramsData.id);
+                    properties.put("countryName", paramsData.titleName);
+                    break;
+            }
+//            properties.put("tagGroupName", null); //标签组名称,主要针对目的地tab，如果没有，为空
+            properties.put("tagLevel", tagLevel);
+            properties.put("tagName", tagName); //玩法标签名
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("clickTag", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
