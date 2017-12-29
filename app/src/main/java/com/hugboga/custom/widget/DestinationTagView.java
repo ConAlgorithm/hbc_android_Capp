@@ -13,6 +13,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.DestinationListActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.DestinationTabItemBean;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class DestinationTagView extends LinearLayout {
         ButterKnife.bind(this);
     }
 
-    public void setData(DestinationTabItemBean.TagBean tagBean) {
+    public void setData(final DestinationTabItemBean.TagBean tagBean) {
         if (tagBean == null) {
             setVisibility(View.GONE);
             return;
@@ -56,8 +57,10 @@ public class DestinationTagView extends LinearLayout {
                 DestinationTabItemBean.TagItemBean tagItemBean = tagList.get(position);
                 Intent intent = new Intent(getContext(), DestinationListActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, tagItemBean);
-                intent.putExtra(Constants.PARAMS_SOURCE,"目的地");
+                intent.putExtra(Constants.PARAMS_SOURCE, "目的地");
                 getContext().startActivity(intent);
+                //埋点-目的地Tab页标签点击
+                SensorsUtils.setSensorsClickTagTab(tagBean.tagGroupName, tagItemBean.tagName);
             }
         });
     }
