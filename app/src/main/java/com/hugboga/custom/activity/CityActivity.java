@@ -29,12 +29,15 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCity;
 import com.hugboga.custom.data.request.RequestQuerySkuList;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterContentView;
 import com.hugboga.custom.widget.city.CityFilterView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.List;
@@ -103,6 +106,10 @@ public class CityActivity extends BaseActivity {
             RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
             HttpRequestUtils.request(this, requestCity, this);
         }
+
+        //初始化埋点
+        setSensorsViewCityBeginEvent();
+        SensorsUtils.setPageEvent(getEventSource(),null,getIntentSource());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //展示线路数据
         recyclerView.setHasFixedSize(true);
@@ -222,6 +229,7 @@ public class CityActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        setSensorsViewCityEndEvent();
     }
 
     CityFilterContentView.FilterConSelect filterConSelect1 = new CityFilterContentView.FilterConSelect() {
@@ -539,5 +547,41 @@ public class CityActivity extends BaseActivity {
             intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         }
         startActivity(intent);
+    }
+
+    private void setSensorsViewCityBeginEvent() {
+        try {
+            SensorsDataAPI.sharedInstance(this).trackTimerBegin("viewCity");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_浏览城市/国家页
+    private void setSensorsViewCityEndEvent() {
+        if (paramsData == null) {
+            return;
+        }
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("refer", getIntentSource());
+            switch (paramsData.cityHomeType) {
+                case CITY:
+                    properties.put("cityId", paramsData.id);
+                    properties.put("cityName", paramsData.titleName);
+                    break;
+                case ROUTE:
+                    properties.put("lineGroupId", paramsData.id);
+                    properties.put("lineGroupName", paramsData.titleName);
+                    break;
+                case COUNTRY:
+                    properties.put("countryId", paramsData.id);
+                    properties.put("countryName", paramsData.titleName);
+                    break;
+            }
+            SensorsDataAPI.sharedInstance(this).trackTimerEnd("viewCity", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
