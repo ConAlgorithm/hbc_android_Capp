@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +19,8 @@ import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 import net.grobas.view.PolygonImageView;
+
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,8 +39,6 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
     @BindView(R.id.guide_item_include_name_tv)
     TextView nameTV;
 
-    @BindView(R.id.guide_item_include_city_iv)
-    ImageView cityIV;
     @BindView(R.id.guide_item_include_city_tv)
     TextView cityTV;
 
@@ -49,12 +51,12 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
 
     @BindView(R.id.guide_item_include_info_layout)
     LinearLayout infoLayout;
-    @BindView(R.id.guide_item_include_taggroup)
-    TagGroup tagGroup;
     @BindView(R.id.view_guide_item_desc_tv)
-    TextView descTV;
+    LinearLayout descTV;
     @BindView(R.id.view_guide_item_service_type_tv)
-    TextView serviceTypeTV;
+    LinearLayout serviceTypeTV;
+    @BindView(R.id.view_guide_item_label)
+    LinearLayout labelTypeTV;
 
     public GuideItemView(Context context) {
         this(context, null);
@@ -83,14 +85,14 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
         }
 
         if (isShowCity) {
-            cityIV.setVisibility(View.VISIBLE);
+            //    cityIV.setVisibility(View.VISIBLE);
             cityTV.setVisibility(View.VISIBLE);
             cityTV.setText(data.cityName);
 
             nameTV.setMaxWidth(UIUtils.dip2px(100));
             nameTV.setPadding(0, 0, 0, 0);
         } else {
-            cityIV.setVisibility(View.GONE);
+            //   cityIV.setVisibility(View.GONE);
             cityTV.setVisibility(View.GONE);
 
             nameTV.setMaxWidth(UIUtils.dip2px(200));
@@ -107,13 +109,23 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
         String level = serviceStar <= 0 ? "暂无星级" : serviceStar + "星";
         starTV.setText(level);
 
-        GuideItemUtils.setTag(tagGroup, data.skillLabelNames);
-
+        // GuideItemUtils.setTag(tagGroup, data.skillLabelNames);
+        if (data.skillLabelNames == null && data.skillLabelNames.size() == 0) {
+            labelTypeTV.setVisibility(View.GONE);
+        } else {
+            StringBuffer stringBuffer = new StringBuffer();
+            for (String str : data.skillLabelNames) {
+                stringBuffer.append(str + " 、");
+            }
+            stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+            labelTypeTV.setVisibility(View.VISIBLE);
+            ((TextView) labelTypeTV.getChildAt(1)).setText(stringBuffer.toString());
+        }
         if (TextUtils.isEmpty(data.getGuideDesc())) {
             descTV.setVisibility(View.GONE);
         } else {
             descTV.setVisibility(View.VISIBLE);
-            descTV.setText(data.getGuideDesc());
+            ((TextView) descTV.getChildAt(1)).setText(data.getGuideDesc());
         }
 
         String serviceType = data.getServiceType();
@@ -121,7 +133,7 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
             serviceTypeTV.setVisibility(View.GONE);
         } else {
             serviceTypeTV.setVisibility(View.VISIBLE);
-            serviceTypeTV.setText(serviceType);
+            ((TextView) serviceTypeTV.getChildAt(1)).setText(serviceType);
         }
     }
 }

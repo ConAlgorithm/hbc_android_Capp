@@ -13,14 +13,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -32,10 +36,13 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatBean;
+import com.hugboga.custom.data.bean.ImShadowBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestIMOrder;
+import com.hugboga.custom.data.request.RequestImFirstChat;
 import com.hugboga.custom.data.request.RequestNIMBlackMan;
 import com.hugboga.custom.data.request.RequestNIMUnBlackMan;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -45,6 +52,7 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.SoftKeyboardStateHelper;
 import com.hugboga.custom.widget.CountryLocalTimeView;
 import com.hugboga.custom.widget.ImSendMesView;
 import com.hugboga.im.ImHelper;
@@ -82,7 +90,7 @@ import static android.view.View.GONE;
 /**
  * Created by on 16/8/9.
  */
-public class NIMChatActivity extends BaseActivity implements MessageFragment.OnFragmentInteractionListener, ImObserverHelper.OnUserStatusListener, ImObserverHelper.OnUserInfoListener{
+public class NIMChatActivity extends BaseActivity implements MessageFragment.OnFragmentInteractionListener, ImObserverHelper.OnUserStatusListener, ImObserverHelper.OnUserInfoListener {
 
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
     private static final String PARAMS_CUSTOM_MSG = "params_custom_msg";
@@ -132,6 +140,14 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @BindView(R.id.im_send_mes_view)
     ImSendMesView imSendMesView;
 
+    @BindView(R.id.conversation_container)
+    LinearLayout conversationContainer;
+
+    @BindView(R.id.shadow_text4)
+    TextView shadowButton;
+
+    @BindView(R.id.im_shadow)
+    RelativeLayout imShadow;
     private String userId; //用户ID
     private String targetType; //目标类型
     private int inBlack;//标识对方是否被自己拉黑，1是 0否
@@ -144,6 +160,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private CustomAttachment customAttachment;
 
     ImObserverHelper imObserverHelper;
+    SoftKeyboardStateHelper softKeyboardStateHelper;//键盘弹起监听事件
+    private boolean first = true;//判断第一次键盘弹出事件
 
     @Override
     public int getContentViewId() {
@@ -264,6 +282,58 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             msg.setConfig(config);
             NIMClient.getService(MsgService.class).saveMessageToLocal(msg, true);
         }
+        initFirstShadow();
+    }
+
+    private void initFirstShadow() { //监听键盘弹出事件发送请求设置蒙层
+        SoftKeyboardStateHelper softKeyboardStateHelper = new SoftKeyboardStateHelper(conversationContainer);
+        softKeyboardStateHelper.addSoftKeyboardStateListener(new SoftKeyboardStateHelper.SoftKeyboardStateListener() {
+            @Override
+            public void onSoftKeyboardOpened(int keyboardHeightInPx) {
+                if (first) {
+                    RequestImFirstChat requestImFirstChat = new RequestImFirstChat(NIMChatActivity.this, UserEntity.getUser().getUserId(NIMChatActivity.this),userId);
+                    HttpRequestUtils.request(NIMChatActivity.this, requestImFirstChat, new HttpRequestListener() {
+                        @Override
+                        public void onDataRequestSucceed(BaseRequest request) {
+                            ImShadowBean data = ((RequestImFirstChat) request).getData();
+                            if (data.firstChat == 1) {
+                                imShadow.setVisibility(View.VISIBLE);
+                                imShadow.setOnTouchListener(new View.OnTouchListener() {
+                                    @Override
+                                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                                        return true;
+                                    }
+                                });
+                                shadowButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        imShadow.setVisibility(View.GONE);
+                                    }
+                                });
+                            }else{
+                                Toast.makeText(NIMChatActivity.this,"data.firstChat="+data.firstChat,Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onDataRequestCancel(BaseRequest request) {
+
+                        }
+
+                        @Override
+                        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                            Log.d("MMM","errorInfo="+errorInfo+"  request="+request);
+                        }
+                    },false);
+                    first = false;
+                }
+            }
+
+            @Override
+            public void onSoftKeyboardClosed() {
+
+            }
+        });
     }
 
     private void addConversationFragment(){
@@ -407,6 +477,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     /**
      * 根据数据刷新界面
+     *
      * @param orders
      */
     private void flushOrderView(ArrayList<OrderBean> orders) {
@@ -424,6 +495,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     /**
      * 获取构建viewPage数据
+     *
      * @param datas
      * @return
      */
@@ -495,7 +567,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             try {
                 sb.append(DateUtils.getStrWeekFormat3(orderBean.serviceTime));
             } catch (Exception e) {
-               e.printStackTrace();
+                e.printStackTrace();
             }
         } else if (orderBean.orderType == 3) {
             sb.append("路线：");
@@ -603,6 +675,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
      */
     private PopupWindow popup;
     View menuLayout;
+
     public void showPopupWindow() {
         if (popup != null && popup.isShowing()) {
             return;
@@ -771,11 +844,11 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 //        }
 //    };
 
-    public static String getOrderStatus(TextView textView, OrderStatus orderStatus){
+    public static String getOrderStatus(TextView textView, OrderStatus orderStatus) {
         textView.setTextColor(0xFFADADAD);
         switch (orderStatus) {
             case INITSTATE:     // 未支付
-                return  "未支付";
+                return "未支付";
             case PAYSUCCESS:
             case AGREE:    // 已支付--服务中
                 return "未开始";
@@ -820,7 +893,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             localTimeView.setStop(true);
         }
         View view = this.getCurrentFocus();
-        if(view!=null){
+        if (view != null) {
             view.clearFocus();
             hideInputMethod(view);
         }
@@ -830,9 +903,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     @Override
     public void onSendMessageFailed(int code, String message) {
-        if(code!=7101){
+        if (code != 7101) {
             CommonUtils.showToast(R.string.chat_send_message_failed);
-           // ApiFeedbackUtils.requestIMFeedback(2, String.valueOf(code));
+            // ApiFeedbackUtils.requestIMFeedback(2, String.valueOf(code));
         }
 
     }
@@ -840,7 +913,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @Override
     public boolean isAllowMessage() {
         //return true;
-        return chatBean==null?true:chatBean.isCancel==0;
+        return chatBean == null ? true : chatBean.isCancel == 0;
     }
 
     @Override
@@ -855,8 +928,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     }
 
     ChatBean chatBean;
-    private void validateAllowMessage(){
-        RequestChatOrderDetail requestChatOrderDetail = new RequestChatOrderDetail(MyApplication.getAppContext(),sessionId);
+
+    private void validateAllowMessage() {
+        RequestChatOrderDetail requestChatOrderDetail = new RequestChatOrderDetail(MyApplication.getAppContext(), sessionId);
         HttpRequestUtils.request(this, requestChatOrderDetail, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -864,6 +938,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                 setSensorsContactGuide(chatBean.targetId);
                 setOrderData(chatBean);
             }
+
             @Override
             public void onDataRequestCancel(BaseRequest request) {
             }
@@ -886,34 +961,34 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 //        }
         if (code.wontAutoLogin()) {
             //IMUtil.getInstance().connect();
-            if(emptyView!=null){
+            if (emptyView != null) {
                 emptyView.setVisibility(View.VISIBLE);
                 emptyView.setText(R.string.chat_empty_login_hint);
             }
         } else {
             if (code == StatusCode.NET_BROKEN) {
-                if(emptyView!=null){
+                if (emptyView != null) {
                     emptyView.setVisibility(View.VISIBLE);
                     emptyView.setText(R.string.no_network);
                 }
             } else if (code == StatusCode.UNLOGIN) {
                 IMUtil.getInstance().connect();
-                if(emptyView!=null){
+                if (emptyView != null) {
                     emptyView.setVisibility(View.VISIBLE);
                     emptyView.setText(R.string.chat_empty_hint);
                 }
             } else if (code == StatusCode.CONNECTING) {
-                if(emptyView!=null){
+                if (emptyView != null) {
                     emptyView.setVisibility(View.VISIBLE);
                     emptyView.setText(R.string.chat_empty_hint2);
                 }
             } else if (code == StatusCode.LOGINING) {
-                if(emptyView!=null){
+                if (emptyView != null) {
                     emptyView.setVisibility(View.VISIBLE);
                     emptyView.setText(R.string.chat_empty_hint);
                 }
             } else {
-                if(emptyView!=null){
+                if (emptyView != null) {
                     emptyView.setVisibility(View.GONE);
                 }
             }

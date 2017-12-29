@@ -65,6 +65,56 @@
 
 
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/im_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="invisible">
+        <TextView
+            android:id="@+id/shadow_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:text="温馨提示"
+            android:textSize="@dimen/text_size_24"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/shadow_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shadow_text1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:text="请您使用皇包车APP与当地人沟通，皇包车只接"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_14" />
+        <TextView
+            android:id="@+id/shadow_text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shadow_text2"
+            android:layout_centerHorizontal="true"
+            android:text="受本平台APP的聊天记录作为有效凭证。"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="#FFFFFF"
+            />
+        <TextView
+            android:id="@+id/shadow_text4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shadow_text3"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_17"
+            android:background="@drawable/shape_im_shadow_button"
+            android:layout_marginTop="30dp"
+            android:textColor="#FFFFFF"
+            android:text="我知道了"/>
+
+    </RelativeLayout>
 
     <com.hugboga.custom.widget.ImSendMesView
         android:id="@+id/im_send_mes_view"

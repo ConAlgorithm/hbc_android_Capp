@@ -1,45 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#F4F4F4"
+    >
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_marginRight="10dp"
+       android:layout_marginLeft="10dp"
+       android:layout_marginTop="@dimen/text_size_10"
+       android:layout_height="wrap_content"
+       android:background="#FFFFFF"
+       android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#f4f4f4" />
+       <include
+           layout="@layout/view_guide_item_include"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" />
 
-    <include layout="@layout/view_guide_item_include" />
+       <View
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/default_line_height"
+           android:layout_marginLeft="@dimen/text_size_12"
+           android:layout_marginRight="@dimen/text_size_12"
+           android:layout_marginTop="14dp"
+           android:background="@color/default_dividing_line" />
 
-    <TextView
-        android:id="@+id/view_guide_item_desc_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/home_hot_explore_title_bg"
-        android:lineSpacingExtra="4dp"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:paddingBottom="4dp"
-        android:paddingLeft="17dp"
-        android:paddingRight="17dp"
-        android:paddingTop="4dp"
-        android:textColor="#7f7f7f"
-        android:textSize="13sp" />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="12dp"
+           android:layout_marginTop="12dp"
+           android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/view_guide_item_service_type_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/choiceness_guide_taggroup"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp"
-        android:layout_marginTop="10dp"
-        android:textColor="#8a8a8a"
-        android:textSize="13sp" />
+           <LinearLayout
+               android:id="@+id/view_guide_item_label"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/default_line_height"
-        android:layout_marginTop="14dp"
-        android:background="@color/default_dividing_line" />
-</merge>
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="25dp"
+                   android:layout_marginRight="10dp"
+                   android:src="@mipmap/icon_label" />
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:maxLength="30"
+                   android:textColor="#727272" />
+           </LinearLayout>
+
+           <LinearLayout
+               android:id="@+id/view_guide_item_service_type_tv"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="12dp">
+
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="25dp"
+                   android:layout_marginRight="10dp"
+                   android:src="@mipmap/icon_service" />
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:maxLength="30"
+                   android:textColor="#727272" />
+           </LinearLayout>
+
+           <LinearLayout
+               android:id="@+id/view_guide_item_desc_tv"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="12dp">
+
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="25dp"
+                   android:layout_marginRight="10dp"
+                   android:src="@mipmap/icon_autograph" />
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:maxLength="30"
+                   android:textColor="#727272" />
+           </LinearLayout>
+       </LinearLayout>
+   </LinearLayout>
+</LinearLayout>

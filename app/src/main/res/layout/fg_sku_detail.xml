@@ -5,7 +5,8 @@
     android:background="@color/servicer_center_content_bg"
     android:orientation="vertical">
 
-    <include layout="@layout/fg_sku_detail_header" />
+    <include
+        layout="@layout/fg_sku_detail_header" />
 
     <LinearLayout
         android:id="@+id/sku_detail_empty_layout"

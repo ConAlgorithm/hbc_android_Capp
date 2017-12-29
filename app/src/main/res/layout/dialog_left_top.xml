@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="110dp"
+    android:layout_marginRight="-5dp"
+    android:background="@drawable/play_down"
+    android:orientation="vertical"
+    android:weightSum="100">
+
+    <TextView
+        android:id="@+id/dialog_text_share"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="45"
+        android:drawableLeft="@mipmap/play_down_share"
+        android:drawablePadding="@dimen/text_size_16"
+        android:gravity="center"
+        android:text="分享"
+        android:textColor="@color/basic_black"
+        android:textSize="@dimen/ysf_text_size_17" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:weightSum="10">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:background="#E4E4E4" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dialog_text_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="45"
+        android:drawableLeft="@drawable/selector_dalog_message"
+        android:drawablePadding="@dimen/text_size_16"
+        android:gravity="center"
+        android:text="消息"
+        android:textColor="@color/basic_black"
+        android:textSize="@dimen/ysf_text_size_17" />
+</LinearLayout>
