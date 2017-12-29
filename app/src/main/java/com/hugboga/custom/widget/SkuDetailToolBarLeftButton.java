@@ -1,41 +1,22 @@
 package com.hugboga.custom.widget;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
-import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.SkuDetailActivity;
-import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.SharedPre;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by zhangqi on 2017/12/25.
@@ -49,7 +30,6 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
     @BindView(R.id.backgroundimageview)
     ImageView backGroundImageView;
 
-    private Context context;
     private boolean isWeiXin, isChatMessage = false;//是否安装微信,否有新消息
     private ToolBarLeftClick clickListener;
     private PathChatDialog pathChatDialog;
@@ -68,7 +48,6 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
 
     public SkuDetailToolBarLeftButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
         view = inflate(context, R.layout.fg_sku_detail_header_image_share, this);
         ButterKnife.bind(view);
 
@@ -122,7 +101,7 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
     }
 
     public void isLnstallWeiXin() {
-        WXShareUtils wxShareUtils = WXShareUtils.getInstance(context);
+        WXShareUtils wxShareUtils = WXShareUtils.getInstance(getContext());
         isWeiXin = wxShareUtils.isInstall(false);
         distinguishChatConfug();
     }
@@ -151,11 +130,12 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
             clickListener.serviceChatListener();
             return;
         }
-        pathChatDialog = new PathChatDialog(context, new PathChatDialog.DialogClickListener() {
+        pathChatDialog = new PathChatDialog(getContext(), new PathChatDialog.DialogClickListener() {
             @Override
             public void shareClick() {
                 clickListener.shareClickListener();
             }
+
             @Override
             public void chatClict() {
                 clickListener.serviceChatListener();
