@@ -84,7 +84,7 @@ public class CollectionUtils implements HttpRequestListener {
     private void updateDataLine(String goodsNo, boolean isConnected, Boolean value) {
         if (isConnected && !value) {
             HttpRequestUtils.request(getContext(), new RequestUncollectLinesNo(getContext(), goodsNo), this, false);
-        } else if (value) {
+        } else if (!isConnected && value) {
             HttpRequestUtils.request(getContext(), new RequestCollectLineNo(getContext(), goodsNo), this, false);
         }
     }
