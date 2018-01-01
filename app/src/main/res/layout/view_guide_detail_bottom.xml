@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <View
         android:id="@+id/guide_detail_bottom_top_line_view"
@@ -43,28 +42,47 @@
 
         <TextView
             android:id="@+id/guide_detail_bottom_book_tv"
-            style="@style/OrderBottomConfirm"
-            android:layout_width="110dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:text="@string/guide_detail_bottom_book" />
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_black_btn"
+            android:gravity="center"
+            android:paddingLeft="@dimen/default_margin_mlarges"
+            android:paddingRight="@dimen/default_margin_mlarges"
+            android:text="@string/guide_detail_bottom_book"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/guide_detail_bottom_contact_layout"
-            android:layout_width="86dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
-            android:layout_marginRight="12dp"
             android:layout_marginTop="10dp"
             android:layout_toLeftOf="@id/guide_detail_bottom_book_tv"
-            android:background="@drawable/shape_rounded_yellow"
+            android:background="@drawable/shape_rounded_gray"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/default_margin_mlarges"
+            android:paddingRight="@dimen/default_margin_mlarges">
 
             <ImageView
                 android:id="@+id/guide_detail_bottom_contact_iv"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                android:background="@mipmap/navbar_chat" />
+                android:src="@drawable/ic_im_online" />
+
+            <TextView
+                android:id="@+id/guide_detail_bottom_contact_online"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/default_margin_small"
+                android:layout_marginRight="@dimen/default_margin_large"
+                android:text="忙碌"
+                android:textColor="#707070"
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/guide_detail_bottom_contact_tv"
@@ -73,7 +91,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="3dp"
                 android:text="@string/guide_detail_bottom_contact"
-                android:textColor="@color/default_yellow"
+                android:textColor="@color/default_black"
                 android:textSize="15sp" />
         </LinearLayout>
 

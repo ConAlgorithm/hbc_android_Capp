@@ -35,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBehavior{
+public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBehavior {
 
     @BindView(R.id.guide_detail_bottom_top_line_view)
     View topLineView;
@@ -47,6 +47,8 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
 
     @BindView(R.id.guide_detail_bottom_contact_iv)
     ImageView contactIv;
+    @BindView(R.id.guide_detail_bottom_contact_online)
+    TextView contactOnline; //联系司导状态
     @BindView(R.id.guide_detail_bottom_contact_tv)
     TextView contactTv;
     @BindView(R.id.guide_detail_bottom_contact_layout)
@@ -114,8 +116,9 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         if (guideExtinfoBean.accessible == 1) {//是否可联系司导
             hintTv.setVisibility(View.GONE);
             topLineView.setVisibility(View.GONE);
-            contactIv.setBackgroundResource(R.mipmap.navbar_chat);
-            contactTv.setTextColor(getContext().getResources().getColor(R.color.default_yellow));
+            contactIv.setImageResource(getTvImage());
+            resetContactOnline(); //设置司导在线状态描述
+            contactTv.setTextColor(getContext().getResources().getColor(R.color.default_black));
             contactLayout.setBackgroundResource(R.drawable.shape_rounded_yellow);
             contactLayout.setOnClickListener(new OnClickListener() {
                 @Override
@@ -134,7 +137,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         } else {
             hintTv.setVisibility(View.VISIBLE);
             topLineView.setVisibility(View.VISIBLE);
-            contactIv.setBackgroundResource(R.mipmap.navbar_chat_white);
+            contactIv.setImageResource(R.mipmap.navbar_chat_white);
             contactTv.setTextColor(0xFFFFFFFF);
             contactLayout.setBackgroundResource(R.drawable.shape_rounded_disabled);
             contactLayout.setOnClickListener(new OnClickListener() {
@@ -143,11 +146,11 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
                     AlertDialogUtils.showAlertDialog(v.getContext(), false, CommonUtils.getString(R.string.guide_detail_contact_dialog_title)
                             , CommonUtils.getString(R.string.guide_detail_contact_dialog_content)
                             , CommonUtils.getString(R.string.dialog_btn_know), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
                 }
             });
         }
@@ -173,6 +176,42 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         }
     }
 
+    /**
+     * 获取底部联系我图标
+     *
+     * @return
+     */
+    private int getTvImage() {
+        //TODO 根据司导在线状态显示不同在线图标
+        int i = 1;
+        switch (i) {
+            case 1:
+                return R.drawable.ic_im_online;
+            case 2:
+                return R.drawable.ic_im_busy;
+            case 3:
+                return R.drawable.ic_im_reset;
+            default:
+                return R.mipmap.navbar_chat;
+        }
+    }
+
+    /**
+     * 根据司导在线状态设置图标
+     *
+     * @return
+     */
+    private void resetContactOnline() {
+        //TODO 根据司导在线状态
+        String txt = "忙碌"; //状态
+        if (!TextUtils.isEmpty(txt)) {
+            contactOnline.setVisibility(View.VISIBLE);
+            contactOnline.setText(txt);
+        } else {
+            contactOnline.setVisibility(View.GONE);
+        }
+    }
+
     private Runnable timeRunnable = new Runnable() {
 
         @Override
@@ -193,7 +232,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         }
     };
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -212,7 +251,9 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
 
     public TextView getBookTextView() {
         return bottomBookTv;
-    };
+    }
+
+    ;
 
     public void setStop(boolean isStop) {
         this.isStop = isStop;
