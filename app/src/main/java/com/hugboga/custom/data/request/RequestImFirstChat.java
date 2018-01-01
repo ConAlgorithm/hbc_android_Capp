@@ -24,7 +24,7 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.IM_FIRST_TALKED, builder = NewParamsBuilder.class)
 public class RequestImFirstChat extends BaseRequest<ImShadowBean> {
 
-    public RequestImFirstChat(Context context, String userId,String guideId) {
+    public RequestImFirstChat(Context context, String userId, String guideId) {
         super(context);
         map = new HashMap<String, Object>();
         try {
@@ -36,16 +36,19 @@ public class RequestImFirstChat extends BaseRequest<ImShadowBean> {
             e.printStackTrace();
         }
     }
+
     @Override
     public HttpMethod getHttpMethod() {
         return HttpMethod.GET;
     }
+
     @Override
     public ImplParser getParser() {
         return new HbcParser(UrlLibs.IM_FIRST_TALKED, ImShadowBean.class);
     }
+
     @Override
     public String getUrlErrorCode() {
-        return "40202";
+        return "40205";
     }
 }
