@@ -2,6 +2,7 @@ package com.hugboga.custom.utils.collection;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -15,9 +16,9 @@ import com.hugboga.custom.data.request.RequestCollectLineNo;
 import com.hugboga.custom.data.request.RequestUncollectLinesNo;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import static com.netease.nim.uikit.impl.NimUIKitImpl.getContext;
@@ -33,7 +34,7 @@ public class CollectionUtils implements HttpRequestListener {
 
     private static CollectionUtils instance;
 
-    List<String> collectLines; //收藏的线路
+    Map<String, Boolean> serverCollections = new HashMap<>(); //服务器端记录收藏的线路
     Map<String, Boolean> collectionLine = new HashMap<>(); //收藏的线路
 
     private CollectionUtils(Context context) {
@@ -53,7 +54,7 @@ public class CollectionUtils implements HttpRequestListener {
 
     /**
      * 查询已收藏线路数据
-     * TODO 重新查询司导收藏线路或者收藏司导需要在主界面进行触发
+     * 重新查询司导收藏线路或者收藏司导需要在主界面进行触发
      */
     public void queryFavoriteLineList() {
         if (weakReference != null) {
@@ -70,7 +71,7 @@ public class CollectionUtils implements HttpRequestListener {
             Iterator<Map.Entry<String, Boolean>> entries = collectionLine.entrySet().iterator();
             while (entries.hasNext()) {
                 Map.Entry<String, Boolean> entry = entries.next();
-                updateDataLine(entry.getKey(), collectLines.contains(entry.getKey()), entry.getValue());
+                updateDataLine(entry.getKey(), serverCollections.containsKey(entry.getKey()), entry.getValue());
             }
         }
     }
@@ -82,10 +83,20 @@ public class CollectionUtils implements HttpRequestListener {
      * @param isConnected
      */
     private void updateDataLine(String goodsNo, boolean isConnected, Boolean value) {
-        if (isConnected && !value) {
-            HttpRequestUtils.request(getContext(), new RequestUncollectLinesNo(getContext(), goodsNo), this, false);
-        } else if (!isConnected && value) {
-            HttpRequestUtils.request(getContext(), new RequestCollectLineNo(getContext(), goodsNo), this, false);
+        if (isConnected) {
+            if (serverCollections.get(goodsNo).equals(value)) {
+                //如果服务端数据和本地数据相同，则不做同步处理
+            } else {
+                if (value) {
+                    HttpRequestUtils.request(getContext(), new RequestCollectLineNo(getContext(), goodsNo), this, false);
+                } else {
+                    HttpRequestUtils.request(getContext(), new RequestUncollectLinesNo(getContext(), goodsNo), this, false);
+                }
+            }
+        } else {
+            if (value) {
+                HttpRequestUtils.request(getContext(), new RequestCollectLineNo(getContext(), goodsNo), this, false);
+            }
         }
     }
 
@@ -96,14 +107,16 @@ public class CollectionUtils implements HttpRequestListener {
             if (request.getData() != null) {
                 UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();
                 if (favoriteLine != null && favoriteLine.goodsNos != null) {
-                    collectLines = favoriteLine.goodsNos;
-                    resetFaviousLine(); //构建已收藏线路集合
+                    serverCollections = buildMap(favoriteLine.goodsNos); //记录为服务器端数据
+                    collectionLine = buildMap(favoriteLine.goodsNos); //记录为本地数据
                 }
             }
         } else if (request instanceof RequestUncollectLinesNo) {
             //取消收藏提交数据成功
+            serverCollections.remove(((RequestUncollectLinesNo) request).getGoodsNo());
         } else if (request instanceof RequestCollectLineNo) {
             //收藏提交数据成功
+            serverCollections.put(((RequestCollectLineNo) request).getGoodsNo(), true);
         }
     }
 
@@ -131,7 +144,21 @@ public class CollectionUtils implements HttpRequestListener {
      * @return
      */
     public boolean isCollectionLine(String goodNo) {
-        return collectionLine.containsKey(goodNo);
+        return collectionLine.containsKey(goodNo) ? collectionLine.get(goodNo) : false;
+    }
+
+    /**
+     * 把list数据转换成map数据记录
+     *
+     * @param data
+     * @return
+     */
+    private Map<String, Boolean> buildMap(ArrayList<String> data) {
+        Map<String, Boolean> result = new HashMap<>();
+        for (String number : data) {
+            result.put(number, true);
+        }
+        return result;
     }
 
     /**
@@ -145,18 +172,11 @@ public class CollectionUtils implements HttpRequestListener {
         } else {
             collectionLine.put(goodNo, false);
         }
-        checkDataLine(); //改变结果之后检测同步数据到服务器
-    }
-
-    /**
-     * 设置是否收藏数据，数据来源为查询最新数据所得
-     */
-    private void resetFaviousLine() {
-        collectionLine.clear();
-        if (collectLines != null && collectLines.size() > 0) {
-            for (String goodsNo : collectLines) {
-                collectionLine.put(goodsNo, true);
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                checkDataLine(); //改变结果之后检测同步数据到服务器
             }
-        }
+        });
     }
 }

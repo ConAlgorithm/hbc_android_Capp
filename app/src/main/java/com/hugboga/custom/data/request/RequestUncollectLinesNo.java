@@ -19,8 +19,12 @@ import java.util.HashMap;
 
 @HttpRequest(path = UrlLibs.UNCOLLECT_LINES_NO, builder = NewParamsBuilder.class)
 public class RequestUncollectLinesNo extends BaseRequest {
+
+    private String goodsNo; //本次操作的商品ID
+
     public RequestUncollectLinesNo(Context context,String goodsNo) {
         super(context);
+        this.goodsNo = goodsNo;
         map = new HashMap<String, Object>();
         map.put("source", Constants.REQUEST_SOURCE);
         map.put("userId", UserEntity.getUser().getUserId(context));
@@ -38,5 +42,9 @@ public class RequestUncollectLinesNo extends BaseRequest {
     @Override
     public String getUrlErrorCode() {
         return "40184";
+    }
+
+    public String getGoodsNo() {
+        return goodsNo;
     }
 }
