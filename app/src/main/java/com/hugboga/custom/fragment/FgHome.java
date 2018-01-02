@@ -298,6 +298,7 @@ public class FgHome extends BaseFragment {
             case CLICK_USER_LOOUT:
                 break;
             case LINE_UPDATE_COLLECT:
+                homeAdapter.notifyDataSetChanged();
                 break;
             case REQUEST_HOME_DATA:
                 if (homeBean == null) {

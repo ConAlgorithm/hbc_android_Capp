@@ -104,7 +104,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
         if (!UserEntity.getUser().isLogin(getContext())) {
             collectIV.setSelected(false);
         } else {
-            collectIV.setSelected(albumBean.isCollected == 1);
+            collectIV.setSelected(CollectionUtils.getIns(getContext()).isCollectionLine(albumBean.goodsNo));
         }
     }
 
@@ -139,15 +139,12 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
     public void onClickCollect() {
         if (CommonUtils.isLogin(getContext(), getEventSource())) {
             collectIV.setEnabled(false);
+            collectIV.setSelected(!collectIV.isSelected());
             CollectionUtils.getIns(getContext()).changeCollectionLine(albumBean.goodsNo, collectIV.isSelected());
             if (collectIV.isSelected()) {
-                albumBean.isCollected = 1;
-                collectIV.setSelected(true);
                 CommonUtils.showToast(getResources().getString(R.string.collect_succeed));
                 setSensorsEvent(albumBean.guideId);
             } else {
-                albumBean.isCollected = 0;
-                collectIV.setSelected(false);
                 CommonUtils.showToast(getResources().getString(R.string.collect_cancel));
             }
             collectIV.setEnabled(true);

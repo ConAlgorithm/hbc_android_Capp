@@ -160,6 +160,7 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
                 filterLayout.hideFilterView();
                 break;
             case LINE_UPDATE_COLLECT:
+                mAdapter.notifyDataSetChanged();
                 break;
         }
     }
