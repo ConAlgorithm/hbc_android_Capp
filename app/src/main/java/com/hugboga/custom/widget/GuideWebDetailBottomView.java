@@ -113,28 +113,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         chooseGuideTv.setVisibility(View.GONE);
         chooseGuideTv.setEnabled(false);
 
-        if (guideExtinfoBean.accessible == 1) {//是否可联系司导
-            hintTv.setVisibility(View.GONE);
-            topLineView.setVisibility(View.GONE);
-            contactIv.setImageResource(getTvImage());
-            resetContactOnline(); //设置司导在线状态描述
-            contactTv.setTextColor(getContext().getResources().getColor(R.color.default_black));
-            contactLayout.setBackgroundResource(R.drawable.shape_rounded_yellow);
-            contactLayout.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
-                        return;
-                    }
-                    String source = "司导个人页";
-                    if (getContext() instanceof GuideWebDetailActivity) {
-                        source = ((GuideWebDetailActivity) getContext()).getEventSource();
-                    }
-                    NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId, source);
-                    StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
-                }
-            });
-        } else {
+        if (guideExtinfoBean.accessible == 0) {//是否可联系司导
             hintTv.setVisibility(View.VISIBLE);
             topLineView.setVisibility(View.VISIBLE);
             contactIv.setImageResource(R.mipmap.navbar_chat_white);
@@ -151,6 +130,27 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
                                     dialog.dismiss();
                                 }
                             });
+                }
+            });
+
+        } else {
+            hintTv.setVisibility(View.GONE);
+            topLineView.setVisibility(View.GONE);
+            contactIv.setImageResource(getTvImage(guideExtinfoBean.accessible)); //设置司导在线状态描述
+            contactTv.setTextColor(getContext().getResources().getColor(R.color.default_black));
+            contactLayout.setBackgroundResource(R.drawable.shape_rounded_yellow);
+            contactLayout.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
+                        return;
+                    }
+                    String source = "司导个人页";
+                    if (getContext() instanceof GuideWebDetailActivity) {
+                        source = ((GuideWebDetailActivity) getContext()).getEventSource();
+                    }
+                    NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId, source);
+                    StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
                 }
             });
         }
@@ -177,40 +177,37 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
     }
 
     /**
-     * 获取底部联系我图标
+     * 获取底部联系我图标、根据司导在线状态设置图标
      *
      * @return
      */
-    private int getTvImage() {
-        //TODO 根据司导在线状态显示不同在线图标
-        int i = 1;
+    private int getTvImage(int i) {
+        String txt = "";
+        int drawableId;
         switch (i) {
-            case 1:
-                return R.drawable.ic_im_online;
             case 2:
-                return R.drawable.ic_im_busy;
+                drawableId = R.drawable.ic_im_online;
+                txt = "在线";
+                break;
             case 3:
-                return R.drawable.ic_im_reset;
+                drawableId = R.drawable.ic_im_reset;
+                txt = "休息";
+                break;
+            case 4:
+                drawableId = R.drawable.ic_im_busy;
+                txt = "忙碌";
+                break;
             default:
-                return R.mipmap.navbar_chat;
+                drawableId = R.mipmap.navbar_chat;
+                break;
         }
-    }
-
-    /**
-     * 根据司导在线状态设置图标
-     *
-     * @return
-     */
-    private void resetContactOnline() {
-        //TODO 根据司导在线状态
-        String txt = "忙碌"; //状态
         if (!TextUtils.isEmpty(txt)) {
             contactOnline.setVisibility(View.VISIBLE);
             contactOnline.setText(txt);
-        } else {
-            contactOnline.setVisibility(View.GONE);
         }
+        return drawableId;
     }
+
 
     private Runnable timeRunnable = new Runnable() {
 
