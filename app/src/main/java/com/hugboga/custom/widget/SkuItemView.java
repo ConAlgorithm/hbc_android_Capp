@@ -1,6 +1,5 @@
 package com.hugboga.custom.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Spannable;
@@ -14,24 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.net.ErrorHandler;
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.request.RequestCollectLineNo;
-import com.hugboga.custom.data.request.RequestUncollectLinesNo;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.collection.CollectionUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONObject;
@@ -39,7 +32,7 @@ import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpRequestListener{
+public class SkuItemView extends LinearLayout implements HbcViewBehavior {
 
     @BindView(R.id.home_hot_search_city_img)
     ImageView imageView;
@@ -60,6 +53,7 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpReq
     @BindView(R.id.save_line)
     ImageView saveLine;
     Context context;
+
     public SkuItemView(Context context) {
         this(context, null);
     }
@@ -73,17 +67,19 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpReq
         setBackgroundColor(0xFFFFFFFF);
 
         int displayImgWidth = UIUtils.getScreenWidth() - UIUtils.dip2px(8) * 2;
-        int displayImgHeight = (int)((400 / 650.0) * displayImgWidth);
+        int displayImgHeight = (int) ((400 / 650.0) * displayImgWidth);
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(displayImgWidth, displayImgHeight);
         imageView.setLayoutParams(params);
         filterView.setLayoutParams(params);
     }
+
     SkuItemBean skuItemBean;
+
     @Override
     public void update(Object _data) {
         skuItemBean = (SkuItemBean) _data;
-        if(skuItemBean!= null) {
+        if (skuItemBean != null) {
             Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
             customCount.setText(skuItemBean.transactionVolumes + "人已体验");
             bottomTitle.setText(skuItemBean.getGoodsName());
@@ -111,29 +107,30 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpReq
                     }
                 }
             });
-            if(!UserEntity.getUser().isLogin(context)){
+            if (!UserEntity.getUser().isLogin(context)) {
                 saveLine.setSelected(false);
-            }else if(skuItemBean.favorited == 1){
+            } else if (skuItemBean.favorited == 1) {
                 saveLine.setSelected(true);
 
-            }else if(skuItemBean.favorited == 0){
+            } else if (skuItemBean.favorited == 0) {
                 saveLine.setSelected(false);
             }
             save_guild_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(CommonUtils.isLogin(context,getEventSource())) {
+                    if (CommonUtils.isLogin(context, getEventSource())) {
                         save_guild_layout.setEnabled(false);
                         ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
-                        if(saveLine.isSelected()){
-                            skuItemBean.favorited = 0;
-                            saveLine.setSelected(false);
-                            RequestUncollectLinesNo requestUncollectLinesNo = new RequestUncollectLinesNo(context, skuItemBean.goodsNo);
-                            HttpRequestUtils.request(context,requestUncollectLinesNo,SkuItemView.this,false);
-                        }else{
-                            saveLine.setSelected(true);
-                            //data.isCollected= 1;
-                            HttpRequestUtils.request(context,new RequestCollectLineNo(context, skuItemBean.goodsNo),SkuItemView.this,false);
+                        saveLine.setSelected(!saveLine.isSelected());
+                        if (skuItemBean != null) {
+                            skuItemBean.favorited = saveLine.isSelected() ? 1 : 0;
+                        }
+                        CollectionUtils.getIns(getContext()).changeCollectionLine(skuItemBean.goodsNo, saveLine.isSelected());
+                        CommonUtils.showToast(saveLine.isSelected() ? getResources().getString(R.string.collect_succeed)
+                                : getResources().getString(R.string.collect_cancel));
+                        save_guild_layout.setEnabled(true);
+                        if (saveLine.isSelected()) {
+                            setSensorsShareEvent(skuItemBean.goodsNo);
                         }
                     }
                 }
@@ -141,41 +138,6 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpReq
         }
     }
 
-    @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        if(request instanceof RequestCollectLineNo){
-            if(skuItemBean!= null){
-                saveLine.setSelected(true);
-                skuItemBean.favorited= 1;
-                CommonUtils.showToast("收藏成功");
-            }
-            setSensorsShareEvent(skuItemBean.goodsNo);
-        }else if(request instanceof RequestUncollectLinesNo){
-            CommonUtils.showToast("已取消收藏");
-        }
-        save_guild_layout.setEnabled(true);
-    }
-
-    @Override
-    public void onDataRequestCancel(BaseRequest request) {
-
-    }
-
-    private ErrorHandler errorHandler;
-    @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if(request instanceof RequestCollectLineNo){
-            if(skuItemBean!= null){
-                saveLine.setSelected(false);
-                skuItemBean.favorited= 0;
-                if (errorHandler == null) {
-                    errorHandler = new ErrorHandler((Activity) context, this);
-                }
-                errorHandler.onDataRequestError(errorInfo, request);
-            }
-        }
-        save_guild_layout.setEnabled(true);
-    }
     //收藏商品埋点
     public static void setSensorsShareEvent(String goodsNo) {
         try {

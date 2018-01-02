@@ -6,17 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.AiResultAdapter;
-import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
-import com.hugboga.custom.data.request.FavoriteLinesaved;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
-
-import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.OnClick;

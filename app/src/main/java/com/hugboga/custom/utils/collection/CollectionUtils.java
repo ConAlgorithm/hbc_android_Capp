@@ -11,9 +11,13 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserFavoriteLineList;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCollectLineNo;
 import com.hugboga.custom.data.request.RequestUncollectLinesNo;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -57,6 +61,7 @@ public class CollectionUtils implements HttpRequestListener {
      * 重新查询司导收藏线路或者收藏司导需要在主界面进行触发
      */
     public void queryFavoriteLineList() {
+        EventBus.getDefault().register(CollectionUtils.this);
         if (weakReference != null) {
             Context context = weakReference.get();
             if (UserEntity.getUser().isLogin(context)) {
@@ -83,6 +88,16 @@ public class CollectionUtils implements HttpRequestListener {
      * @param isConnected
      */
     private void updateDataLine(String goodsNo, boolean isConnected, Boolean value) {
+        if (weakReference == null) {
+            return;
+        }
+        Context context = weakReference.get();
+        if (context == null) {
+            return;
+        }
+        if (!UserEntity.getUser().isLogin(context)) {
+            return;
+        }
         if (isConnected) {
             if (serverCollections.get(goodsNo).equals(value)) {
                 //如果服务端数据和本地数据相同，则不做同步处理
@@ -178,5 +193,21 @@ public class CollectionUtils implements HttpRequestListener {
                 checkDataLine(); //改变结果之后检测同步数据到服务器
             }
         });
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CLICK_USER_LOGIN:
+                queryFavoriteLineList();
+                break;
+            case CLICK_USER_LOOUT:
+                //退出后清空数据，停止同步
+                serverCollections.clear();
+                collectionLine.clear();
+                break;
+            case LINE_UPDATE_COLLECT:
+                break;
+        }
     }
 }

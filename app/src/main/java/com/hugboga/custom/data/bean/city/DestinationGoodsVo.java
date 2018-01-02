@@ -29,8 +29,6 @@ public class DestinationGoodsVo implements Parcelable, Serializable{
     public String guideHeadImageUrl; //司导头像
     public String guideId; //司导ID
 
-    public int isCollected; //本地字段 1:收藏 0:未收藏
-
     protected DestinationGoodsVo(Parcel in) {
         goodsNo = in.readString();
         goodsVersion = in.readInt();
@@ -48,7 +46,6 @@ public class DestinationGoodsVo implements Parcelable, Serializable{
         shareUrl = in.readString();
         placeList = in.readString();
         guideHeadImageUrl = in.readString();
-        isCollected = in.readInt();
         guideId = in.readString();
     }
 
@@ -87,7 +84,6 @@ public class DestinationGoodsVo implements Parcelable, Serializable{
         parcel.writeString(shareUrl);
         parcel.writeString(placeList);
         parcel.writeString(guideHeadImageUrl);
-        parcel.writeInt(isCollected);
         parcel.writeString(guideId);
     }
 }
