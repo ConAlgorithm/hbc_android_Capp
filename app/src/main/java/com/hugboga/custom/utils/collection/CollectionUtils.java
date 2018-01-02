@@ -61,7 +61,9 @@ public class CollectionUtils implements HttpRequestListener {
      * 重新查询司导收藏线路或者收藏司导需要在主界面进行触发
      */
     public void queryFavoriteLineList() {
-        EventBus.getDefault().register(CollectionUtils.this);
+        if (!EventBus.getDefault().isRegistered(CollectionUtils.this)) {
+            EventBus.getDefault().register(CollectionUtils.this);
+        }
         if (weakReference != null) {
             Context context = weakReference.get();
             if (UserEntity.getUser().isLogin(context)) {
