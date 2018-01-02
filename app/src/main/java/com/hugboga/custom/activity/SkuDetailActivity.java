@@ -667,4 +667,27 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
     }
+
+    public void h5Order(String guideId, String guideName){
+        if (skuItemBean == null) {
+            getSkuItemBean(true);
+            return;
+        }
+        if (cityBean == null) {
+            cityBean = findCityById("" + skuItemBean.arrCityId);
+        }
+        SkuOrderActivity.Params params = new SkuOrderActivity.Params();
+        params.skuItemBean = skuItemBean;
+        params.cityBean = cityBean;
+        GuidesDetailData guidesDetailData = new GuidesDetailData();
+        guidesDetailData.guideId = guideId;
+        guidesDetailData.guideName = guideName;
+        params.guidesDetailData = guidesDetailData;
+        Intent intent = new Intent(activity, SkuDateActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
+        startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.CLICK_SKUDATE);
+
+    }
 }

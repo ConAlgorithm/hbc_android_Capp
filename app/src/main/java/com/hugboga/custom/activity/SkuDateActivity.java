@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,6 +52,8 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
     FrameLayout calendarLoadingLayout;
     @BindView(R.id.sku_date_guide_name_tv)
     TextView guideNameTV;
+    @BindView(R.id.guide_item_include_message_imageview)
+    ImageView messageImageView;
 
     private SkuOrderActivity.Params params;
     private String serverDate;

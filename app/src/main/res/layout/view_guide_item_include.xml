@@ -118,6 +118,7 @@
             android:textSize="12sp" />
     </LinearLayout>
     <ImageView
+        android:id="@+id/guide_item_include_message_imageview"
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_alignParentRight="true"

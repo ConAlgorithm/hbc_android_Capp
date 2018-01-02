@@ -126,6 +126,9 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
 
 
     public void onClick(View view) {
+        if (clickListener == null) {
+            return;
+        }
         if (!isWeiXin) {
             clickListener.serviceChatListener();
             return;
