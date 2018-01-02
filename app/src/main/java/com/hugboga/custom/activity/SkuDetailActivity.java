@@ -318,11 +318,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 //EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
                 mDialogUtil.showLoadingDialog();
 
-                skuItemBean.favorited = skuItemBean.favorited == 1 ? 0 : 1;
-                CollectionUtils.getIns(this).changeCollectionLine(skuItemBean.goodsNo, skuItemBean.favorited == 1);
-                collectImg.setSelected(skuItemBean.favorited == 1);
-                EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, skuItemBean.favorited));
-                CommonUtils.showToast(skuItemBean.favorited == 1 ? getString(R.string.collect_succeed) : getString(R.string.collect_cancel));
+                collectImg.setSelected(!collectImg.isSelected());
+                CollectionUtils.getIns(this).changeCollectionLine(skuItemBean.goodsNo, collectImg.isSelected());
+                EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, collectImg.isSelected() ? 1 : 0));
+                CommonUtils.showToast(collectImg.isSelected() ? getString(R.string.collect_succeed) : getString(R.string.collect_cancel));
                 break;
             case R.id.goto_order:
                 if (skuItemBean == null) {
@@ -618,7 +617,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             }
             if (UserEntity.getUser().isLogin(this)) {
                 if (skuItemBean != null) {
-                    collectImg.setSelected(skuItemBean.favorited == 1);
+                    collectImg.setSelected(CollectionUtils.getIns(this).isCollectionLine(skuItemBean.goodsNo));
                 }
             }
             setBottomLayoutShow();

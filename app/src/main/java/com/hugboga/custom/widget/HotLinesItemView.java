@@ -129,11 +129,8 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior {
 
             if (!UserEntity.getUser().isLogin(context)) {
                 saveLine.setSelected(false);
-            } else if (skuItemBean.favorited == 1) {
-                saveLine.setSelected(true);
-
-            } else if (skuItemBean.favorited == 0) {
-                saveLine.setSelected(false);
+            }else{
+                saveLine.setSelected(CollectionUtils.getIns(getContext()).isCollectionLine(skuItemBean.goodsNo));
             }
             save_guild_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -148,10 +145,8 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior {
                         saveLine.setSelected(!saveLine.isSelected());
                         CollectionUtils.getIns(getContext()).changeCollectionLine(skuItemBean.goodsNo, saveLine.isSelected());
                         if (saveLine.isSelected()) {
-                            skuItemBean.favorited = 0;
                             if (skuItemBean != null) {
                                 saveLine.setSelected(true);
-                                skuItemBean.favorited = 1;
                                 CommonUtils.showToast("收藏成功");
                             }
                             setSensorsShareEvent(skuItemBean.goodsNo);

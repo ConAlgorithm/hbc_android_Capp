@@ -109,11 +109,8 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior {
             });
             if (!UserEntity.getUser().isLogin(context)) {
                 saveLine.setSelected(false);
-            } else if (skuItemBean.favorited == 1) {
-                saveLine.setSelected(true);
-
-            } else if (skuItemBean.favorited == 0) {
-                saveLine.setSelected(false);
+            }else{
+                saveLine.setSelected(CollectionUtils.getIns(getContext()).isCollectionLine(skuItemBean.goodsNo));
             }
             save_guild_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -122,9 +119,6 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior {
                         save_guild_layout.setEnabled(false);
                         ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
                         saveLine.setSelected(!saveLine.isSelected());
-                        if (skuItemBean != null) {
-                            skuItemBean.favorited = saveLine.isSelected() ? 1 : 0;
-                        }
                         CollectionUtils.getIns(getContext()).changeCollectionLine(skuItemBean.goodsNo, saveLine.isSelected());
                         CommonUtils.showToast(saveLine.isSelected() ? getResources().getString(R.string.collect_succeed)
                                 : getResources().getString(R.string.collect_cancel));
