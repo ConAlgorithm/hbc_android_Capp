@@ -125,6 +125,7 @@
         android:layout_marginRight="@dimen/text_size_17"
         android:layout_alignTop="@id/guide_item_include_avatar_iv"
         android:layout_marginTop="@dimen/text_size_15"
+        android:visibility="gone"
         android:src="@mipmap/icon_chat"/>
 
 </RelativeLayout>

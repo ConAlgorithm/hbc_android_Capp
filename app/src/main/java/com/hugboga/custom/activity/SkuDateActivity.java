@@ -52,8 +52,6 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
     FrameLayout calendarLoadingLayout;
     @BindView(R.id.sku_date_guide_name_tv)
     TextView guideNameTV;
-    @BindView(R.id.guide_item_include_message_imageview)
-    ImageView messageImageView;
 
     private SkuOrderActivity.Params params;
     private String serverDate;

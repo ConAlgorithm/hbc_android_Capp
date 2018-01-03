@@ -108,7 +108,7 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
         distinguishChatConfug();
     }
 
-    private void isChatRedDot(boolean b) {
+    public void isChatRedDot(boolean b) {
         if (b) {
             if (!isWeiXin) {
                 backGroundImageView.setImageResource(R.mipmap.play_down_chat_red_dot);

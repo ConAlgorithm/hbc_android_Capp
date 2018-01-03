@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -112,6 +113,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     TextView bottomStateTV;
     @BindView(R.id.sku_detail_bottom_price_tv)
     TextView bottomPriceTV;
+    @BindView(R.id.sku_detail_topbar_layout)
+    ViewGroup topBarLayout;
 
     @BindView(R.id.header_right_2_btn)
     ImageView collectImg;
@@ -252,6 +255,16 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         }
     }
 
+    public void h5InvokingBottomLayout(int i) {
+        if (i == 0) {
+            bottomLayout.setVisibility(View.VISIBLE);
+            topBarLayout.setVisibility(View.VISIBLE);
+        } else {
+            bottomLayout.setVisibility(View.GONE);
+            topBarLayout.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public String getEventSource() {
         if (isFromHome) {
@@ -291,6 +304,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
+
         if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
             webView.goBack();
             return true;
@@ -303,6 +317,14 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 getSkuItemBean(false);
+                break;
+            case SKU_PUTH_MESSAGE:
+                int totalCount = (int) action.getData();
+                if (totalCount == 0) {
+                    headerRightBtn.isChatRedDot(false);
+                } else {
+                    headerRightBtn.isChatRedDot(true);
+                }
                 break;
 
         }
@@ -668,7 +690,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         super.onDataRequestError(errorInfo, request);
     }
 
-    public void h5Order(String guideId, String guideName){
+    public void h5OrderJumpDate(String guideId, String guideName) {
         if (skuItemBean == null) {
             getSkuItemBean(true);
             return;

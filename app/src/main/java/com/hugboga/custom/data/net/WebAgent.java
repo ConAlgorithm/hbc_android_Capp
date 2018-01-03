@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
@@ -943,7 +945,18 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 if (mActivity instanceof SkuDetailActivity) {
-                    ((SkuDetailActivity) mActivity).h5Order(guideId,guideName);
+                    ((SkuDetailActivity) mActivity).h5OrderJumpDate(guideId,guideName);
+                }
+            }
+        });
+    }
+    @JavascriptInterface
+    public void showGoodsShowBottomLayout(final String i) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mActivity instanceof SkuDetailActivity) {
+                    ((SkuDetailActivity) mActivity).h5InvokingBottomLayout(Integer.parseInt(i));
                 }
             }
         });

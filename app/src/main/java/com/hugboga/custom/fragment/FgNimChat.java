@@ -41,6 +41,7 @@ import com.hugboga.custom.data.bean.ImListBean;
 import com.hugboga.custom.data.bean.ServiceQuestionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestNIMChatList;
 import com.hugboga.custom.data.request.RequestNIMRemoveChat;
@@ -498,7 +499,10 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
             }
+
+
         }
+        EventBus.getDefault().post(new EventAction(EventType.SKU_PUTH_MESSAGE,totalCount));
     }
 
     @Override

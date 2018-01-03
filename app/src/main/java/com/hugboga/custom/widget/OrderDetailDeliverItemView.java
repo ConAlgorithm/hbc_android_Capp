@@ -191,7 +191,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         List<CanServiceGuideBean.GuidesBean> guidesList = canServiceGuideBean.getGuides();
         avatarLayout.removeAllViews();
 
-        //TODO 每次刷新都重新new,当前刷新频率低,后续优化。
+        //;TODO 每次刷新都重新new,当前刷新频率低,后续优化。
         int size = guidesList.size();
         int viewWidth = UIUtils.dip2px(147) + AVATAR_MARGIN + AVATAR_WIDTH;;
         j:for (int i = 0; i < size; i++) {

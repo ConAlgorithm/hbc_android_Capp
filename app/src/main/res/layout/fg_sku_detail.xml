@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <include
+        android:id="@+id/sku_detail_topbar_layout"
         layout="@layout/fg_sku_detail_header" />
 
     <LinearLayout
@@ -105,17 +106,11 @@
                     android:layout_marginTop="-1dp"/>
             </LinearLayout>
         </LinearLayout>
-        <View
-            android:id="@+id/goto_order_lay_line"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_line_height"
-            android:layout_above="@id/goto_order_lay"
-            android:background="@color/default_dividing_line" />
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/goto_order_lay_line" />
+            android:layout_above="@id/goto_order_lay" />
 
     </RelativeLayout>
 </LinearLayout>
