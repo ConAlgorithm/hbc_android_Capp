@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import com.huangbaoche.imageselector.bean.Image;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.activity.FilterGuideListActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.GuideItemUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -59,7 +61,7 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
     LinearLayout serviceTypeTV;
     @BindView(R.id.view_guide_item_label)
     LinearLayout labelTypeTV;
-    @BindView(R.id.guide_item_include_message_img)
+    @BindView(R.id.guide_item_include_image)
     ImageView imageView;
 
 
@@ -88,7 +90,7 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
             FilterGuideListActivity filterGuideListActivity = (FilterGuideListActivity) getContext();
             isShowCity = filterGuideListActivity.isShowCity();
         }
-        if (data.decisionMaker.equals("1")) {
+        if ("1".equals(data.decisionMaker)) {
             imageView.setVisibility(View.VISIBLE);
         } else {
             imageView.setVisibility(View.GONE);
@@ -107,12 +109,6 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
             nameTV.setMaxWidth(UIUtils.dip2px(200));
             nameTV.setPadding(0, 0, UIUtils.dip2px(20), 0);
         }
-        imageView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {//TODO 第三个参数 张奇不会埋点求帮助
-                NIMChatActivity.start(getContext(),data.guideId,"");
-            }
-        });
         genderIV.setBackgroundResource("1".equals(data.gender) ? R.mipmap.icon_man : R.mipmap.icon_woman);
 
         orderTV.setText(data.completeOrderNum + "单");

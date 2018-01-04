@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -47,6 +48,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DeliveryCardBean;
 import com.hugboga.custom.data.bean.GuideOrderWebParamsBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.data.bean.InsureBean;
 import com.hugboga.custom.data.bean.PushToGuideIMBeam;
 import com.hugboga.custom.data.bean.SeckillsBean;
 import com.hugboga.custom.data.bean.ShareBean;
@@ -928,6 +930,8 @@ public class WebAgent implements HttpRequestListener {
     public void pushToGuideIMWithParams(String params) {
         Gson gson = new Gson();
         PushToGuideIMBeam data = gson.fromJson(params, PushToGuideIMBeam.class);
+        if (data == null)
+            return;
         if (!CommonUtils.isLogin(mActivity, getEventSource()) || !IMUtil.getInstance().isLogined() || skuItemBean == null) {
             return;
         }
@@ -941,22 +945,32 @@ public class WebAgent implements HttpRequestListener {
 
     @JavascriptInterface
     public void showGoodsCalendarWithGuide(final String guideId, final String guideName) {
+        if (guideId == null || guideName == null)
+            return;
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mActivity instanceof SkuDetailActivity) {
-                    ((SkuDetailActivity) mActivity).h5OrderJumpDate(guideId,guideName);
+                    ((SkuDetailActivity) mActivity).h5OrderJumpDate(guideId, guideName);
                 }
             }
         });
     }
+
     @JavascriptInterface
     public void showGoodsShowBottomLayout(final String i) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mActivity instanceof SkuDetailActivity) {
-                    ((SkuDetailActivity) mActivity).h5InvokingBottomLayout(Integer.parseInt(i));
+                    int s = 0;
+                    try {
+                         s = Integer.parseInt(i);
+                    } catch (NumberFormatException e) {
+                        MLog.e(getClass().getName()+"异常：\"" + i + "\"不是数字/整数...");
+                        return;
+                    }
+                    ((SkuDetailActivity) mActivity).h5InvokingBottomLayout(s);
                 }
             }
         });

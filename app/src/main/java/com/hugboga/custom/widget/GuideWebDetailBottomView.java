@@ -187,15 +187,15 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         switch (i) {
             case 2:
                 drawableId = R.drawable.ic_im_online;
-                txt = "在线";
+                txt = getResources().getString(R.string.guide_state_on_line);
                 break;
             case 3:
                 drawableId = R.drawable.ic_im_reset;
-                txt = "休息";
+                txt = getResources().getString(R.string.guide_state_rest);
                 break;
             case 4:
                 drawableId = R.drawable.ic_im_busy;
-                txt = "忙碌";
+                txt = getResources().getString(R.string.guide_state_busy);
                 break;
             default:
                 drawableId = R.mipmap.navbar_chat;

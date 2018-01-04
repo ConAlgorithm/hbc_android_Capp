@@ -701,7 +701,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             popup.showAsDropDown(header_right_btn,0, 0);
             return;
         }
-        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        popup = new PopupWindow(menuLayout, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);

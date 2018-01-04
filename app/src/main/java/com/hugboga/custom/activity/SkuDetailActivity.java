@@ -320,9 +320,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 break;
             case SKU_PUTH_MESSAGE:
                 int totalCount = (int) action.getData();
-                if (totalCount == 0) {
-                    headerRightBtn.isChatRedDot(false);
-                } else {
+                if (totalCount != 0) {
                     headerRightBtn.isChatRedDot(true);
                 }
                 break;
