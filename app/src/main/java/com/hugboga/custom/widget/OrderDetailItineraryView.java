@@ -34,7 +34,7 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 16/6/2.
  */
-public class OrderDetailItineraryView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
+public class OrderDetailItineraryView extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
 
     @BindView(R.id.order_itinerary_item_layout)
     LinearLayout itineraryLayout;
@@ -170,7 +170,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         luggageStr += CommonUtils.getString(R.string.order_detail_luggage_num, orderBean.luggageNum);
         addLuggageView(luggageStr);
 
-        if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
+        if (orderBean.orderGoodsType == 1 && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
             addItemView(R.mipmap.trip_icon_addition, CommonUtils.getString(R.string.order_detail_airport_card));
         } else if (orderBean.orderGoodsType == 2 && "1".equals(orderBean.isCheckin)) {//送机checkin
             addItemView(R.mipmap.trip_icon_addition, CommonUtils.getString(R.string.order_detail_checkin));
@@ -194,7 +194,10 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             orderNumberView.update(orderBean.orderNo);
         }
 
-        if (orderBean.orderType == 3) {
+        if (orderBean.fxJourneyInfo != null) {
+            //不需要判断渠道来源@老侯沟通核对，只要有行程安排，就隐藏行程模块的行程安排（冲突）
+            travelView.setVisibility(View.GONE);
+        } else if (orderBean.orderType == 3) {
             travelView.singleTravel();
             travelView.setVisibility(View.VISIBLE);
             orderBean.orderIndex = 1;
@@ -274,7 +277,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
             int showWidth = UIUtils.getScreenWidth() - (getContext().getResources().getDimensionPixelOffset(R.dimen.order_padding_left) * 2 + UIUtils.dip2px(24) + UIUtils.dip2px(3));
             int stringWidth = UIUtils.getStringWidth(startDesTV, orderBean.startAddressDetail);
-            int lines = (int)Math.ceil(stringWidth / showWidth);
+            int lines = (int) Math.ceil(stringWidth / showWidth);
             int startDesViewWidth = UIUtils.dip2px(20) + lines * UIUtils.dip2px(10);
 
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(2), startDesViewWidth);
