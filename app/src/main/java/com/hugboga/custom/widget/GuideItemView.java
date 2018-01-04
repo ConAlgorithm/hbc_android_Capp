@@ -59,7 +59,7 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
     LinearLayout serviceTypeTV;
     @BindView(R.id.view_guide_item_label)
     LinearLayout labelTypeTV;
-    @BindView(R.id.guide_item_include_message_imageview)
+    @BindView(R.id.guide_item_include_message_img)
     ImageView imageView;
 
 
