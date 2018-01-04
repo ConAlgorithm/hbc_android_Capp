@@ -88,6 +88,7 @@ public class CityActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
         getSupportActionBar().setHomeAsUpIndicator(R.mipmap.top_back_black);
         if (savedInstanceState != null) {
             paramsData = (CityActivity.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
