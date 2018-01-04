@@ -17,6 +17,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 public class PathChatDialog extends Dialog implements View.OnClickListener {
     private TextView text_share, text_chat;
+
     private DialogClickListener listener;
 
     public interface DialogClickListener {
@@ -36,7 +37,7 @@ public class PathChatDialog extends Dialog implements View.OnClickListener {
         if (context instanceof Activity) {
             WindowManager.LayoutParams lp = this.getWindow().getAttributes();
             lp.gravity = Gravity.TOP | Gravity.RIGHT;
-            lp.y = UIUtils.getActionBarSize() - UIUtils.dip2px(5);//- UIUtils.dip2px(15)
+            lp.y = UIUtils.getActionBarSize() - UIUtils.dip2px(5);
             getWindow().setAttributes(lp);
         }
         text_share = findViewById(R.id.dialog_text_share);
