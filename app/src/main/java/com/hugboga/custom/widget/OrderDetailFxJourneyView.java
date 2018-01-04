@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
@@ -24,14 +23,12 @@ import butterknife.ButterKnife;
  * Created by qingcha on 27/12/2017.
  */
 
-public class OrderDetailFxJourneyView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
+public class OrderDetailFxJourneyView extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
 
     @BindView(R.id.order_detail_fxjourney_name_tv)
     TextView nameTV;
     @BindView(R.id.order_detail_fxjourney_subtitle_tv)
     TextView subtitleTV;
-    @BindView(R.id.order_detail_fxjourney_city_tv)
-    TextView cityTV;
 
     private OrderBean.FxJourneyInfoBean fxJourneyInfo;
 
@@ -56,19 +53,6 @@ public class OrderDetailFxJourneyView extends LinearLayout implements HbcViewBeh
             setVisibility(View.VISIBLE);
             fxJourneyInfo = data.fxJourneyInfo;
             subtitleTV.setText(fxJourneyInfo.journeyTitle);
-
-            String city = "";
-            if (!TextUtils.isEmpty(fxJourneyInfo.journeyCityNames)) {
-                String citys[] = fxJourneyInfo.journeyCityNames.split("、");
-                if (citys.length > 1) {
-                    city = citys[0] + " - " + citys[citys.length - 1];
-                } else if (citys.length == 1) {
-                    city = citys[0] + " - " + citys[0];
-                }
-            }
-            String days = getContext().getResources().getString(R.string.order_detail_fxjourney_days, "" + fxJourneyInfo.journeyDays);
-            cityTV.setText(city + "  " + days);
-
             if (!TextUtils.isEmpty(fxJourneyInfo.guideName)) {
                 String guideName = getContext().getResources().getString(R.string.order_detail_fxjourney_guidename, fxJourneyInfo.guideName);
                 int startIndex = guideName.indexOf(fxJourneyInfo.guideName);
