@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
@@ -24,14 +23,12 @@ import butterknife.ButterKnife;
  * Created by qingcha on 27/12/2017.
  */
 
-public class OrderDetailFxJourneyView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
+public class OrderDetailFxJourneyView extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
 
     @BindView(R.id.order_detail_fxjourney_name_tv)
     TextView nameTV;
     @BindView(R.id.order_detail_fxjourney_subtitle_tv)
     TextView subtitleTV;
-    @BindView(R.id.order_detail_fxjourney_city_tv)
-    TextView cityTV;
 
     private OrderBean.FxJourneyInfoBean fxJourneyInfo;
 
