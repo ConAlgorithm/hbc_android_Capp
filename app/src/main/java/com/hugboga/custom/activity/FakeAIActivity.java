@@ -240,7 +240,6 @@ public class FakeAIActivity extends BaseActivity {
             }
         } else if (request instanceof RequestFakeAIChange) {
             FakeAIQuestionsBean data = ((RequestFakeAIChange) request).getData();
-            //TODO 问答回复，稍后做处理
             if (data.recommendationDestinationHome != null) {
                 //有推荐结果
                 initServiceMessage(data.duoDuoSaid);
@@ -478,7 +477,6 @@ public class FakeAIActivity extends BaseActivity {
             info.destinationId = String.valueOf(bean.destinationId);
             info.destinationType = String.valueOf(bean.destinationType);
             info.destinationName = bean.destinationName;
-//            info.guideCount = String.valueOf(bean.guideCount);
         }
         if (!TextUtils.isEmpty(str)) {
             info.userWant = str;
