@@ -4,7 +4,7 @@
     tools:context="tk.hongbo.city.CityActivity">
     <item
         android:id="@+id/action_settings"
-        android:icon="@mipmap/destination_news_icon"
+        android:icon="@drawable/city_menu_cion_two"
         android:orderInCategory="100"
         android:title="邮箱"
         app:showAsAction="always" />

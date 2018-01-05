@@ -136,9 +136,11 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         } else {
             hintTv.setVisibility(View.GONE);
             topLineView.setVisibility(View.GONE);
-            contactIv.setImageResource(getTvImage(guideExtinfoBean.accessible)); //设置司导在线状态描述
             contactTv.setTextColor(getContext().getResources().getColor(R.color.default_black));
             contactLayout.setBackgroundResource(R.drawable.shape_rounded_yellow);
+            if(guideExtinfoBean.accessible!=0){
+                contactIv.setImageResource(getTvImage(guideExtinfoBean.accessible)); //设置司导在线状态描述
+            }
             contactLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
