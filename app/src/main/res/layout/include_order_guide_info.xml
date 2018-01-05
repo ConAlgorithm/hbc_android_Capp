@@ -5,9 +5,9 @@
     android:layout_height="wrap_content"
     android:background="#ffffff"
     android:orientation="horizontal"
-    android:paddingTop="5dp"
     android:paddingBottom="18dp"
-    android:paddingLeft="@dimen/order_padding_left">
+    android:paddingLeft="@dimen/order_padding_left"
+    android:paddingTop="5dp">
 
     <net.grobas.view.PolygonImageView
         android:id="@+id/ogi_avatar_iv"
@@ -16,20 +16,20 @@
         android:layout_marginTop="13dp"
         android:src="@mipmap/icon_avatar_guide"
         app:poly_vertices="0" />
+
     <ImageView
         android:id="@+id/ogi_collect_iv"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_alignBottom="@id/ogi_avatar_iv"
         android:layout_alignRight="@id/ogi_avatar_iv"
         android:layout_marginRight="1dp"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
         android:background="@mipmap/head_collect"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="12dp"
         android:layout_toRightOf="@id/ogi_avatar_iv"
@@ -86,19 +86,19 @@
             android:id="@+id/ogi_describe_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dip"
             android:layout_marginRight="@dimen/order_padding_left"
+            android:layout_marginTop="2dip"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/basic_gray_light"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/ogi_plate_number_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dip"
             android:layout_marginRight="@dimen/order_padding_left"
+            android:layout_marginTop="2dip"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/basic_gray_light"
@@ -119,41 +119,46 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/shape_rounded_yellow"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:orientation="horizontal">
+                android:paddingRight="8dp">
+
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:background="@mipmap/btn_detail_call" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="2dp"
+                    android:gravity="center_vertical"
                     android:text="@string/order_detail_call"
                     android:textColor="@color/default_yellow"
                     android:textSize="12sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ogi_chat_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/shape_rounded_yellow"
                 android:gravity="center"
-                android:layout_marginRight="10dp"
+                android:orientation="horizontal"
                 android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:orientation="horizontal">
+                android:paddingRight="8dp">
+
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:background="@mipmap/btn_detail_chat" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="2dp"
+                    android:gravity="center_vertical"
                     android:text="@string/order_detail_chat"
                     android:textColor="@color/default_yellow"
                     android:textSize="12sp" />
@@ -163,23 +168,25 @@
                 android:id="@+id/ogi_evaluate_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/shape_rounded_yellow"
                 android:gravity="center"
-                android:layout_marginRight="10dp"
+                android:orientation="horizontal"
                 android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:orientation="horizontal">
+                android:paddingRight="8dp">
+
                 <ImageView
                     android:id="@+id/ogi_evaluate_iv"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:background="@mipmap/star_level_full" />
+
                 <TextView
                     android:id="@+id/ogi_evaluate_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="2dp"
+                    android:gravity="center_vertical"
                     android:text="@string/order_detail_fivestar_comment"
                     android:textColor="@color/default_yellow"
                     android:textSize="12sp" />
@@ -191,13 +198,15 @@
                 android:layout_height="26dp"
                 android:background="@drawable/shape_rounded_red"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:orientation="horizontal">
+                android:paddingRight="8dp">
+
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:background="@mipmap/btn_detail_collect" />
+
                 <TextView
                     android:id="@+id/ogi_collect_tv"
                     android:layout_width="wrap_content"

@@ -21,18 +21,18 @@
         android:background="#ffffff"
         android:gravity="center"
         android:text="此段行程已取消"
-        android:textSize="14sp"
         android:textColor="#a8a8a8"
-        />
+        android:textSize="14sp" />
+
     <com.hugboga.custom.widget.OrderDetailDeliverItemView
         android:id="@+id/order_detail_child_deliver_view"
         android:layout_width="match_parent"
-        android:paddingTop="5dp"
+        android:layout_height="125dp"
+        android:background="#ffffff"
         android:paddingLeft="@dimen/order_padding_left"
         android:paddingRight="@dimen/order_padding_left"
-        android:background="#ffffff"
-        android:layout_height="125dp"
-        />
+        android:paddingTop="5dp" />
+
     <com.hugboga.custom.widget.OrderDetailTravelView
         android:id="@+id/order_detail_child_travel_view"
         android:layout_width="match_parent"
