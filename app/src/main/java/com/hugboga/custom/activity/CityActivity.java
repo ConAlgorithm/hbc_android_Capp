@@ -3,7 +3,6 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
@@ -316,17 +314,16 @@ public class CityActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(CityActivity.this, MainActivity.class);
-            intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 2);
-            startActivity(intent);
-            finish();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.action_settings:
+                Intent intent = new Intent(CityActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 2);
+                startActivity(intent);
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
