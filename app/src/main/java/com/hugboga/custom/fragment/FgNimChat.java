@@ -10,8 +10,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +86,7 @@ import butterknife.OnClick;
 /**
  * Created by SPW on 2017/1/5.
  */
-public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpater.OnItemClickListener, HbcRecyclerSingleTypeAdpater.OnItemLongClickListener,ImObserverHelper.OnUserStatusListener {
+public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpater.OnItemClickListener, HbcRecyclerSingleTypeAdpater.OnItemLongClickListener, ImObserverHelper.OnUserStatusListener {
 
     @BindView(R.id.header_left_btn)
     ImageView leftBtn;
@@ -131,10 +133,11 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         return rootView;
     }
+
     @Override
     protected void initHeader() {
         RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -155,7 +158,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SensorsUtils.onAppClick(getEventSource(),"客服",null);
+                SensorsUtils.onAppClick(getEventSource(), "客服", null);
                 //DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
                 csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
                     @Override
@@ -176,16 +179,30 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
         String hintStr = CommonUtils.getString(R.string.chat_login_hint);
         SpannableString msp = new SpannableString(hintStr);
-        msp.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.basic_black)), 8, hintStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        msp.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                gotoLogin();
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(getResources().getColor(R.color.basic_black));
+                ds.setUnderlineText(false);
+                ds.clearShadowLayer();
+            }
+        }, 8, hintStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        loginHintTV.setMovementMethod(LinkMovementMethod.getInstance()); //不设置没有点击事件
         loginHintTV.setText(msp);
 
         initRegisterMsgOberserve();
 
-        try{
-            if(Unicorn.isServiceAvailable()){
+        try {
+            if (Unicorn.isServiceAvailable()) {
                 Unicorn.addUnreadCountChangeListener(listener, true);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             uploadQYErrorMsg(e);
         }
 
@@ -334,14 +351,18 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_btn:
-                Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                intent.putExtra("source", getEventSource());
-                startActivity(intent);
+                gotoLogin();
                 break;
             case R.id.chat_list_empty_tv:
                 sendRequest(0, true);
                 break;
         }
+    }
+
+    private void gotoLogin() {
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        intent.putExtra("source", getEventSource());
+        startActivity(intent);
     }
 
     @Override
@@ -351,10 +372,10 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             imObserverHelper.registerUserStatusObservers(false);
         }
         try {
-            if(Unicorn.isServiceAvailable()){
+            if (Unicorn.isServiceAvailable()) {
                 Unicorn.addUnreadCountChangeListener(null, false);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             uploadQYErrorMsg(e);
         }
         super.onDestroyView();
@@ -492,7 +513,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             for (ChatBean bean : chatBeans) {
                 totalCount += bean.getImCount();
             }
-            EventBus.getDefault().post(new EventAction(EventType.SKU_PUTH_MESSAGE,totalCount));
+            EventBus.getDefault().post(new EventAction(EventType.SKU_PUTH_MESSAGE, totalCount));
         }
         if (getActivity() != null) {
             SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.IM_CHAT_COUNT, totalCount);
@@ -532,7 +553,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                                 if (imListBean.offset == 0) {
                                     adapter.clearData();
                                 }
-                                for(ChatBean chatBean:imListBean.resultBean){
+                                for (ChatBean chatBean : imListBean.resultBean) {
                                     chatBean.setImCount(0);
                                     chatBean.setLastMsg("");
                                 }
@@ -712,9 +733,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     }
 
 
-    private void  uploadQYErrorMsg(Exception e){
+    private void uploadQYErrorMsg(Exception e) {
         String errorMsg = "七鱼初始化失败";
-        if(e!=null && !TextUtils.isEmpty(e.getMessage())){
+        if (e != null && !TextUtils.isEmpty(e.getMessage())) {
             errorMsg = e.getMessage();
         }
         UnicornUtils.uploadQiyuInitError(errorMsg);
