@@ -492,6 +492,8 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             for (ChatBean bean : chatBeans) {
                 totalCount += bean.getImCount();
             }
+            SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.IM_CHAT_COUNT, totalCount);
+            EventBus.getDefault().post(new EventAction(EventType.SKU_PUTH_MESSAGE,totalCount));
         }
         if (getActivity() != null) {
             ((MainActivity) getActivity()).setIMCount(totalCount, SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0));
@@ -499,10 +501,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
             }
-
-
         }
-        EventBus.getDefault().post(new EventAction(EventType.SKU_PUTH_MESSAGE,totalCount));
     }
 
     @Override

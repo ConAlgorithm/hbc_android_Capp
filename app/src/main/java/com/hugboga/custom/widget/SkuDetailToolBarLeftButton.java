@@ -32,7 +32,7 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
     @BindView(R.id.backgroundimageview)
     ImageView backGroundImageView;
 
-    private boolean isWeiXin, isChatMessage = false;//是否安装微信,否有新消息
+    private boolean isWeiXin, isChatMessage = false;//是否安装微信,是否有未读消息
     private ToolBarLeftClick clickListener;
     private PathChatDialog pathChatDialog;
 
@@ -90,7 +90,7 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
         } else {
             backGroundImageView.setImageResource(R.mipmap.play_dot_black);
         }
-        if (SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0) > 0) {
+        if (SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0) > 0 || SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.IM_CHAT_COUNT, 0) > 0) {
             isChatMessage = true;
         } else {
             isChatMessage = false;
@@ -110,6 +110,7 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
 
     public void isChatRedDot(boolean b) {
         if (b) {
+            isChatMessage = true;
             if (!isWeiXin) {
                 backGroundImageView.setImageResource(R.mipmap.play_down_chat_red_dot);
                 return;
@@ -144,8 +145,9 @@ public class SkuDetailToolBarLeftButton extends RelativeLayout implements View.O
                 clickListener.serviceChatListener();
             }
         });
-        pathChatDialog.setMessageState(isChatMessage);
         pathChatDialog.show();
+        pathChatDialog.setMessageState(isChatMessage);
+
     }
 
 }

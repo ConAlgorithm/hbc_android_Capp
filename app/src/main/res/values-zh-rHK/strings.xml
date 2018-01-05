@@ -1010,7 +1010,14 @@
     <string name="city_filter_tab2">出發城市</string>
     <string name="city_filter_tab3">游玩天數</string>
 
+    <!--Guide list-->
+    <string name="guide_state_on_line">在線</string>
+    <string name="guide_state_rest">休息</string>
+    <string name="guide_state_busy">忙碌</string>
+
     <!--AI text-->
     <string name="ai_result_title">為您推薦</string>
     <string name="ai_result_sku_more_title">查看%s全部玩法</string>
+    <string name="ai_requirements">我的出行需求</string>
+    <string name="ai_details">點擊查看詳情</string>
 </resources>

@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MainActivity;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -31,8 +34,12 @@ import com.hugboga.custom.data.request.RequestCity;
 import com.hugboga.custom.data.request.RequestQuerySkuList;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CityDataTools;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.city.CityFilterContentView;
 import com.hugboga.custom.widget.city.CityFilterView;
+import com.hugboga.tools.HLog;
+import com.qiyukf.unicorn.api.Unicorn;
+import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
@@ -75,6 +82,7 @@ public class CityActivity extends BaseActivity {
     CityAdapter adapter;
     private int destinationGoodsCount; //玩法总数量
     private int page = 1; //sku页数
+    private MenuItem item;
 
     CityDataTools cityDataTools = new CityDataTools();
 
@@ -155,6 +163,15 @@ public class CityActivity extends BaseActivity {
                 }
             }
         });
+        if (UserEntity.getUser().isLogin(this)) {
+            try {
+                if (Unicorn.isServiceAvailable()) {
+                    Unicorn.addUnreadCountChangeListener(listener, true);
+                }
+            } catch (Exception e) {
+                HLog.e("CityActivity:添加客服监听失败");
+            }
+        }
     }
 
     private int scrolledDistance = 0; //滚动距离
@@ -292,6 +309,8 @@ public class CityActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_city, menu);
+        item = menu.findItem(R.id.action_settings);
+        chatMessageListener(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -304,8 +323,9 @@ public class CityActivity extends BaseActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Snackbar.make(toolbar, "点击了联系方式按钮！！！", Snackbar.LENGTH_SHORT).show();
-        } else if (id == android.R.id.home) {
+            Intent intent = new Intent(CityActivity.this, MainActivity.class);
+            intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 2);
+            startActivity(intent);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -367,6 +387,12 @@ public class CityActivity extends BaseActivity {
                 break;
             case CLICK_USER_LOGIN:
                 queryFavoriteLineList();
+                break;
+            case SKU_PUTH_MESSAGE:
+                int totalCount = (int) action.getData();
+                if (totalCount != 0) {
+                    chatMessageListener(true);
+                }
                 break;
         }
     }
@@ -595,4 +621,24 @@ public class CityActivity extends BaseActivity {
     public void setSensorsClickTag(int tagLevel, String tagName) {
         SensorsUtils.setSensorsClickTag(paramsData, String.valueOf(tagLevel), tagName);
     }
+
+    /**
+     * 添加聊天消息监听
+     */
+    private void chatMessageListener(boolean b) {
+        item.setIcon(b ? R.drawable.city_menu_cion : R.drawable.city_menu_cion_two);
+
+        if (SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0) > 0 || SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.IM_CHAT_COUNT, 0) > 0) {
+            item.setIcon(R.drawable.city_menu_cion);
+        }
+    }
+
+    public UnreadCountChangeListener listener = new UnreadCountChangeListener() { // 声明一个成员变量
+        @Override
+        public void onUnreadCountChange(int count) {
+            if (count > 0) {
+                chatMessageListener(true);
+            }
+        }
+    };
 }
