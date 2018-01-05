@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/allbg_gray"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/allbg_gray">
 
     <include
         android:id="@+id/toolbar"
@@ -25,7 +24,26 @@
         android:id="@+id/order_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar">
+        android:layout_below="@id/toolbar"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/fg_travel_empty_finish_iv"
+            android:layout_width="130dp"
+            android:layout_height="104dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/empty_order" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fg_travel_empty_finish_iv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/travel_empty_finish"
+            android:textColor="#b9bdc6"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
