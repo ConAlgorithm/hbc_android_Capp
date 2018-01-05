@@ -328,6 +328,9 @@ public class CityActivity extends BaseActivity {
             startActivity(intent);
             finish();
         }
+        if (id == android.R.id.home) {
+            finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 
