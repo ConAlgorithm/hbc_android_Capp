@@ -142,6 +142,9 @@ public class TravelListUnpay extends FgBaseTravel{
         if (request.getOffset() == 0 && mXRecyclerView != null) {
             mXRecyclerView.smoothScrollToPosition(0);
         }
+        if( mXRecyclerView != null){
+            mXRecyclerView.refreshComplete();
+        }
     }
 
     @Override

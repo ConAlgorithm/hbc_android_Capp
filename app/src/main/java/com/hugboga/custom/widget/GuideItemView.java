@@ -92,6 +92,14 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
         }
         if ("1".equals(data.decisionMaker)) {
             imageView.setVisibility(View.VISIBLE);
+            imageView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (CommonUtils.isLogin(getContext(), "精选司导")) {
+                        NIMChatActivity.start(getContext(), data.imTargetId, "");
+                    }
+                }
+            });
         } else {
             imageView.setVisibility(View.GONE);
         }
@@ -145,5 +153,6 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
             serviceTypeTV.setVisibility(View.VISIBLE);
             ((TextView) serviceTypeTV.getChildAt(1)).setText(serviceType);
         }
+
     }
 }

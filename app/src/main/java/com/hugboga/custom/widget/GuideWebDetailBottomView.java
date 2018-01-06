@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.data.bean.GuideExtinfoBean;
@@ -103,10 +104,10 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
 
     @Override
     public void update(Object _data) {
-        if (!UserEntity.getUser().isLogin(getContext())) {
-            setVisibility(View.GONE);
-            return;
-        }
+//        if (!UserEntity.getUser().isLogin(getContext())) {
+//            setVisibility(View.GONE);
+//            return;
+//        }
         setVisibility(View.VISIBLE);
         guideExtinfoBean = (GuideExtinfoBean) _data;
 
@@ -122,14 +123,17 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
             contactLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialogUtils.showAlertDialog(v.getContext(), false, CommonUtils.getString(R.string.guide_detail_contact_dialog_title)
-                            , CommonUtils.getString(R.string.guide_detail_contact_dialog_content)
-                            , CommonUtils.getString(R.string.dialog_btn_know), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
+                    if (CommonUtils.isLogin(getContext(), "司导详情")) {
+                        AlertDialogUtils.showAlertDialog(v.getContext(), false, CommonUtils.getString(R.string.guide_detail_contact_dialog_title)
+                                , CommonUtils.getString(R.string.guide_detail_contact_dialog_content)
+                                , CommonUtils.getString(R.string.dialog_btn_know), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                    }
+
                 }
             });
 

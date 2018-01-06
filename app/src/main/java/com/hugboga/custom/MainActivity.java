@@ -644,6 +644,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     mViewPager.setCurrentItem(index);
                 break;
             case CLICK_USER_LOOUT:
+                SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.IM_CHAT_COUNT, 0);
                 setIMCount(0, 0);
                 break;
             default:

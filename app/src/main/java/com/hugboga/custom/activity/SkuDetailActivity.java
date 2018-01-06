@@ -247,7 +247,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     public void setBottomLayoutShow() {
         if (skuItemBean != null && bottomLayout != null) {
-            bottomLayout.setVisibility(View.VISIBLE);
             String unitStr = CommonUtils.getString(R.string.sku_detail_price_unit);
             String priceStr = getString(R.string.sign_rmb) + CommonUtils.getCountInteger(skuItemBean.perPrice) + " " + unitStr;
             bottomPriceTV.setText(priceStr);
