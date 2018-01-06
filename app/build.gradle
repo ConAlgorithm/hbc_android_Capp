@@ -265,7 +265,7 @@ dependencies {
     compile project(':countdown')
     compile 'jp.wasabeef:blurry:2.0.3'
     compile 'com.airbnb.android:epoxy:2.7.3'
-    compile 'com.hbc.im:nim_libary:1.6.5'
+    compile 'com.hbc.im:nim_libary:1.6.9'
     compile 'com.hugboga.tools:app-tools:1.0.6'
     compile 'com.hugboga.mediaplayer:app-mediaplayer:1.0.0'
     compile 'tk.hongbo.label:single-label:1.0.7'
