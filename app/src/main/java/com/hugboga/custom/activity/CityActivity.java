@@ -182,6 +182,10 @@ public class CityActivity extends BaseActivity {
      * @param dy
      */
     private void onScrollFloat(int dy) {
+        if (adapter.cityHeaderModel.getView() == null) {
+            //Bugly空指针判断
+            return;
+        }
         scrolledDistance += dy;
         int view1Height = adapter.cityHeaderModel.getView().getHeight();
         int toolbarHeight = toolbar.getHeight();

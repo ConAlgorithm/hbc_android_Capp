@@ -56,7 +56,7 @@ import butterknife.OnClick;
  * Created on 16/8/5.
  */
 
-public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTouchingLetterChangedListener, AdapterView.OnItemClickListener, View.OnKeyListener, TextWatcher, TextView.OnEditorActionListener{
+public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTouchingLetterChangedListener, AdapterView.OnItemClickListener, View.OnKeyListener, TextWatcher, TextView.OnEditorActionListener {
 
     public static final String KEY_BUNDLE = "bundle";
     public static final String KEY_AIRPORT = "key_airport";
@@ -107,6 +107,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     private int groupId;
     private int cityId;
     CsDialog csDialog;
+
     protected void initHeader() {
         mDbManager = new DBHelper(activity).getDbManager();
         sharedPer = new SharedPre(activity);
@@ -170,7 +171,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             cityHeaderLayout.setVisibility(View.GONE);
         }
         if (getIntent() != null) {
-            guidanceParams = (GuidanceOrderActivity.Params)getIntent().getSerializableExtra(GuidanceOrderActivity.PARAMS_GUIDANCE);
+            guidanceParams = (GuidanceOrderActivity.Params) getIntent().getSerializableExtra(GuidanceOrderActivity.PARAMS_GUIDANCE);
         }
     }
 
@@ -326,6 +327,9 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
                 if (hotAirportDate.size() > 0l && hotAirportDate.get(0) != null) {
                     hotAirportDate.get(0).isFirst = true;
                 }
+                if (sourceDateList == null) {
+                    sourceDateList = new ArrayList<>();
+                }
                 sourceDateList.addAll(0, hotAirportDate);
             }
         } catch (DbException e) {
@@ -369,6 +373,9 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             }
             if (historyAirportDate.size() > 0 && historyAirportDate.get(0) != null) {
                 historyAirportDate.get(0).isFirst = true;
+            }
+            if (sourceDateList == null) {
+                sourceDateList = new ArrayList<>();
             }
             sourceDateList.addAll(0, historyAirportDate);
         } catch (DbException e) {
@@ -477,9 +484,9 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         MLog.e("" + event.getAction() + " " + keyCode);
         if (event.getAction() == KeyEvent.ACTION_UP && (keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_ENTER)) {
-            if(groupId!=0) {
+            if (groupId != 0) {
                 queryAirPortByGroupId(headSearch.getText().toString().trim());
-            } else if(cityId!=0){
+            } else if (cityId != 0) {
                 queryAirPortByCityId(headSearch.getText().toString().trim());
             } else {
                 requestDate(headSearch.getText().toString().trim());
@@ -506,9 +513,9 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         if (TextUtils.isEmpty(s)) {
             if (groupId != 0) {
                 queryAirPortByGroupId("");
-            } else if(cityId!=0){
+            } else if (cityId != 0) {
                 queryAirPortByCityId("");
-            }  else {
+            } else {
                 requestData();
 
             }
@@ -528,13 +535,13 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             if (cityBeanList != null && cityBeanList.size() > 0) {
                 for (CityBean cityBean : cityBeanList) {
                     String sql = "select * from airport where city_id=" + cityBean.cityId;
-                    if(!TextUtils.isEmpty(keywords)){
-                        sql += " and (airport_name like '%"+ keywords + "%'" + " or "
-                                + "city_name like '%" + keywords +"%')";
+                    if (!TextUtils.isEmpty(keywords)) {
+                        sql += " and (airport_name like '%" + keywords + "%'" + " or "
+                                + "city_name like '%" + keywords + "%')";
                     }
-                    Log.i("sql",sql);
+                    Log.i("sql", sql);
                     cursor = mDbManager.execQuery(sql);
-                    while (cursor!=null && cursor.moveToNext()){
+                    while (cursor != null && cursor.moveToNext()) {
                         AirPort airPort = new AirPort();
                         airPort.airportId = cursor.getInt(cursor.getColumnIndexOrThrow("airport_id"));
                         airPort.airportCode = cursor.getString(cursor.getColumnIndexOrThrow("airport_code"));
@@ -542,28 +549,28 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
                         airPort.areaCode = cursor.getString(cursor.getColumnIndexOrThrow("area_code"));
                         airPort.cityFirstLetter = cursor.getString(cursor.getColumnIndexOrThrow("city_initial"));
                         int bannerswitch = cursor.getInt(cursor.getColumnIndexOrThrow("banner_switch"));
-                        airPort.bannerSwitch = bannerswitch==0?false:true;
+                        airPort.bannerSwitch = bannerswitch == 0 ? false : true;
                         airPort.cityId = cursor.getInt(cursor.getColumnIndexOrThrow("city_id"));
                         airPort.cityName = cursor.getString(cursor.getColumnIndexOrThrow("city_name"));
                         airPort.location = cursor.getString(cursor.getColumnIndexOrThrow("airport_location"));
                         airPort.hotWeight = cursor.getInt(cursor.getColumnIndexOrThrow("hot_weight"));
                         int hot = cursor.getInt(cursor.getColumnIndexOrThrow("is_hot"));
-                        airPort.isHot = hot==0?false:true;
+                        airPort.isHot = hot == 0 ? false : true;
                         int visaSwitch = cursor.getInt(cursor.getColumnIndexOrThrow("landing_visa_switch"));
-                        airPort.visaSwitch = visaSwitch==0?false:true;
+                        airPort.visaSwitch = visaSwitch == 0 ? false : true;
                         int childSwitch = cursor.getInt(cursor.getColumnIndexOrThrow("childseat_switch"));
-                        airPort.childSeatSwitch = childSwitch==0?false:true;
+                        airPort.childSeatSwitch = childSwitch == 0 ? false : true;
                         airPorts.add(airPort);
                     }
-                    if(cursor!=null){
+                    if (cursor != null) {
                         cursor.close();
                     }
                 }
             }
         } catch (Exception e) {
 
-        }finally {
-            if(cursor!=null && !cursor.isClosed()){
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
             }
         }
@@ -577,13 +584,13 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         Cursor cursor = null;
         try {
             String sql = "select * from airport where city_id=" + cityId;
-            if(!TextUtils.isEmpty(keywords)){
-                sql += " and (airport_name like '%"+ keywords + "%'" + " or "
-                        + "city_name like '%" + keywords +"%')";
+            if (!TextUtils.isEmpty(keywords)) {
+                sql += " and (airport_name like '%" + keywords + "%'" + " or "
+                        + "city_name like '%" + keywords + "%')";
             }
-            Log.i("sql",sql);
+            Log.i("sql", sql);
             cursor = mDbManager.execQuery(sql);
-            while (cursor!=null && cursor.moveToNext()){
+            while (cursor != null && cursor.moveToNext()) {
                 AirPort airPort = new AirPort();
                 airPort.airportId = cursor.getInt(cursor.getColumnIndexOrThrow("airport_id"));
                 airPort.airportCode = cursor.getString(cursor.getColumnIndexOrThrow("airport_code"));
@@ -591,26 +598,26 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
                 airPort.areaCode = cursor.getString(cursor.getColumnIndexOrThrow("area_code"));
                 airPort.cityFirstLetter = cursor.getString(cursor.getColumnIndexOrThrow("city_initial"));
                 int bannerswitch = cursor.getInt(cursor.getColumnIndexOrThrow("banner_switch"));
-                airPort.bannerSwitch = bannerswitch==0?false:true;
+                airPort.bannerSwitch = bannerswitch == 0 ? false : true;
                 airPort.cityId = cursor.getInt(cursor.getColumnIndexOrThrow("city_id"));
                 airPort.cityName = cursor.getString(cursor.getColumnIndexOrThrow("city_name"));
                 airPort.location = cursor.getString(cursor.getColumnIndexOrThrow("airport_location"));
                 airPort.hotWeight = cursor.getInt(cursor.getColumnIndexOrThrow("hot_weight"));
                 int hot = cursor.getInt(cursor.getColumnIndexOrThrow("is_hot"));
-                airPort.isHot = hot==0?false:true;
+                airPort.isHot = hot == 0 ? false : true;
                 int visaSwitch = cursor.getInt(cursor.getColumnIndexOrThrow("landing_visa_switch"));
-                airPort.visaSwitch = visaSwitch==0?false:true;
+                airPort.visaSwitch = visaSwitch == 0 ? false : true;
                 int childSwitch = cursor.getInt(cursor.getColumnIndexOrThrow("childseat_switch"));
-                airPort.childSeatSwitch = childSwitch==0?false:true;
+                airPort.childSeatSwitch = childSwitch == 0 ? false : true;
                 airPorts.add(airPort);
             }
-            if(cursor!=null){
+            if (cursor != null) {
                 cursor.close();
             }
         } catch (Exception e) {
 
-        }finally {
-            if(cursor!=null && !cursor.isClosed()){
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
             }
         }
