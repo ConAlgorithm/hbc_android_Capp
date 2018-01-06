@@ -2,9 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
-
+    <View
+        android:id="@+id/bg_top_view"
+        android:layout_width="fill_parent"
+        android:layout_height="?attr/actionBarSize" />
     <View
         android:id="@+id/bg_view"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#750E0E0E"/>
@@ -13,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_alignParentTop="true"
         android:layout_marginRight="16dp"
         android:background="#ffffff"

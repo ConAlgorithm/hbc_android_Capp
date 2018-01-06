@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/conversation_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -64,7 +64,7 @@
         android:orientation="vertical">
 
 
-    </LinearLayout>
+    </FrameLayout>
     <RelativeLayout
         android:id="@+id/im_shadow"
         android:layout_width="match_parent"

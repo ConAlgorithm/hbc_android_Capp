@@ -39,7 +39,7 @@ public class FilterGuideBean implements Serializable {
     public boolean isShowCity = true;   // 本地字段 筛选当前城市不显示城市
     public String orderUrl;             // 跳转预订页面url
     public String decisionMaker;        // 精选司导列表右侧是否展示消息图片  展示为1   不展示为0
-
+    public String imTargetId;           // 对方的IM唯一标识 聊天Id
     public String getServiceType() {
         if (serviceDaily == 0 && serviceJsc == 0) {
             return "";
