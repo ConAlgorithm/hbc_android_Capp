@@ -75,7 +75,7 @@ import butterknife.BindView;
  * Created by qingcha on 17/5/19.
  */
 public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.DiscountOnClickListener,
-        SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener, SkuOrderTravelerInfoView.OnSwitchPickOrSendListener{
+        SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener, SkuOrderTravelerInfoView.OnSwitchPickOrSendListener {
 
     @BindView(R.id.order_scrollview)
     ScrollView scrollView;
@@ -111,6 +111,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
 
     private boolean requestedSubmit = false;
     CsDialog csDialog;
+
     public static class Params implements Serializable {
         public FlightBean flightBean; // 接机航班信息
         public AirPort airPortBean;   // 送机机场信息
@@ -201,7 +202,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         fgRightBtn.setLayoutParams(headerRightImageParams);
-        fgRightBtn.setPadding(0,0,0,0);
+        fgRightBtn.setPadding(0, 0, 0, 0);
         fgRightBtn.setImageResource(R.mipmap.topbar_cs);
         fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
@@ -295,7 +296,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         if (!travelerInfoView.checkTravelerInfo()) {
             return;
         }
-        if (!CommonUtils.isLogin(this,getEventSource())) {
+        if (!CommonUtils.isLogin(this, getEventSource())) {
             return;
         }
         requestSubmitOrder();
@@ -329,7 +330,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             if (params.carListBean.isSeckills) {
                 double additionalPrice = _additionalPrice + countView.getAdditionalPrice();
                 bottomView.updatePrice(params.carBean.seckillingPrice, params.carBean.price + additionalPrice - params.carBean.seckillingPrice);
-            } else{
+            } else {
                 CarAdditionalServicePrice additionalServicePrice = params.carListBean.additionalServicePrice;
                 boolean isPickup = params.orderType == 1 && CommonUtils.getCountInteger(additionalServicePrice.pickupSignPrice) > 0;
                 boolean isSend = params.orderType == 2 && CommonUtils.getCountInteger(additionalServicePrice.checkInPrice) > 0;
@@ -428,9 +429,9 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     }
 
     /*
-    * 获取优惠券
-    * @params additionalPrice 儿童座椅 + 酒店价格 + 接机/举牌
-    * */
+     * 获取优惠券
+     * @params additionalPrice 儿童座椅 + 酒店价格 + 接机/举牌
+     * */
     private void requestMostFit(double additionalPrice) {
         RequestMostFit requestMostFit = new RequestMostFit(this
                 , params.carBean.price + additionalPrice + ""
@@ -438,8 +439,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 , serverDate
                 , params.carBean.carType + ""
                 , params.carBean.seatCategory + ""
-                , params.cityBean.cityId + ""
-                , params.cityBean.areaCode + ""
+                , params.cityBean != null ? params.cityBean.cityId + "" : ""
+                , params.cityBean != null ? params.cityBean.areaCode + "" : ""
                 , "0"
                 , params.carListBean.distance + ""
                 , params.carBean.expectedCompTime == null ? "" : params.carBean.expectedCompTime
@@ -485,8 +486,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     }
 
     /*
-    * 提交订单
-    * */
+     * 提交订单
+     * */
     private void requestSubmitOrder() {
         if (requestedSubmit) {
             return;
@@ -665,7 +666,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 if ("travelFundPay".equals(mParser.getData()) || "couppay".equals(mParser.getData())) {
                     PayResultActivity.Params payParams = new PayResultActivity.Params();
                     payParams.payResult = true;
-                    payParams.orderId =  orderInfoBean.getOrderno();
+                    payParams.orderId = orderInfoBean.getOrderno();
                     payParams.orderType = params.orderType;
                     payParams.extarParamsBean = getPayResultExtarParamsBean();
                     Intent intent = new Intent(this, PayResultActivity.class);
@@ -707,7 +708,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         if (params.carBean != null) {
             eventPayBean.carType = params.carBean.carDesc;
             eventPayBean.seatCategory = params.carBean.seatCategory;
-            eventPayBean.guestcount = params.carBean.capOfPerson+"";
+            eventPayBean.guestcount = params.carBean.capOfPerson + "";
             eventPayBean.shouldPay = params.carBean.vehiclePrice + params.carBean.servicePrice;
         }
         if (orderInfoBean != null) {
