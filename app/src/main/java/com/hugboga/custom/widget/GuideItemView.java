@@ -18,7 +18,7 @@ import com.hugboga.custom.activity.FilterGuideListActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.GuideItemUtils;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -96,7 +96,10 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
                 @Override
                 public void onClick(View view) {
                     if (CommonUtils.isLogin(getContext(), "精选司导")) {
-                        NIMChatActivity.start(getContext(), data.imTargetId, "");
+                        if (!IMUtil.getInstance().isLogined()) {
+                            return;
+                        }
+                        NIMChatActivity.start(getContext(), data.imTargetId, "精选司导");
                     }
                 }
             });
