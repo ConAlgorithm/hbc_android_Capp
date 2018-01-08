@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/backgroundimageview"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 

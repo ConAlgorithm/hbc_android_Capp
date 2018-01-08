@@ -11,9 +11,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.imageselector.bean.Image;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.activity.FilterGuideListActivity;
+import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.GuideItemUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -57,6 +61,9 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
     LinearLayout serviceTypeTV;
     @BindView(R.id.view_guide_item_label)
     LinearLayout labelTypeTV;
+    @BindView(R.id.guide_item_include_image)
+    ImageView imageView;
+
 
     public GuideItemView(Context context) {
         this(context, null);
@@ -72,7 +79,7 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
 
     @Override
     public void update(Object _data) {
-        FilterGuideBean data = (FilterGuideBean) _data;
+        final FilterGuideBean data = (FilterGuideBean) _data;
         serviceTypeTV.getLayoutParams().width = UIUtils.getScreenWidth();
         Tools.showImage(avatarIV, data.avatar, R.mipmap.icon_avatar_guide);
 
@@ -83,7 +90,19 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
             FilterGuideListActivity filterGuideListActivity = (FilterGuideListActivity) getContext();
             isShowCity = filterGuideListActivity.isShowCity();
         }
-
+        if ("1".equals(data.decisionMaker)) {
+            imageView.setVisibility(View.VISIBLE);
+            imageView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (CommonUtils.isLogin(getContext(), "精选司导")) {
+                        NIMChatActivity.start(getContext(), data.imTargetId, "");
+                    }
+                }
+            });
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
         if (isShowCity) {
             //    cityIV.setVisibility(View.VISIBLE);
             cityTV.setVisibility(View.VISIBLE);
@@ -98,7 +117,6 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
             nameTV.setMaxWidth(UIUtils.dip2px(200));
             nameTV.setPadding(0, 0, UIUtils.dip2px(20), 0);
         }
-
         genderIV.setBackgroundResource("1".equals(data.gender) ? R.mipmap.icon_man : R.mipmap.icon_woman);
 
         orderTV.setText(data.completeOrderNum + "单");
@@ -135,5 +153,6 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
             serviceTypeTV.setVisibility(View.VISIBLE);
             ((TextView) serviceTypeTV.getChildAt(1)).setText(serviceType);
         }
+
     }
 }

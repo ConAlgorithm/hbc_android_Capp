@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -31,15 +32,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.os.Handler;
-
-import com.huawei.hms.api.ConnectionResult;
-import com.huawei.hms.api.HuaweiApiAvailability;
-import com.huawei.hms.api.HuaweiApiClient;
-import com.huawei.hms.support.api.client.PendingResult;
-import com.huawei.hms.support.api.client.ResultCallback;
-import com.huawei.hms.support.api.push.HuaweiPush;
-import com.huawei.hms.support.api.push.TokenResult;
 
 import com.bumptech.glide.Glide;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
@@ -48,24 +40,26 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huawei.hms.api.ConnectionResult;
+import com.huawei.hms.api.HuaweiApiAvailability;
+import com.huawei.hms.api.HuaweiApiClient;
+import com.huawei.hms.support.api.client.PendingResult;
+import com.huawei.hms.support.api.client.ResultCallback;
+import com.huawei.hms.support.api.push.HuaweiPush;
+import com.huawei.hms.support.api.push.TokenResult;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
-import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
-import com.hugboga.custom.data.bean.DeliveryCardBean;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.data.request.RequestPushClick;
-import com.hugboga.custom.data.request.RequestPushDeviceLogin;
-import com.hugboga.custom.data.request.RequestPushDeviceLogout;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUpdateAntiCheatInfo;
 import com.hugboga.custom.data.request.RequestUploadLocation;
@@ -97,7 +91,6 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.NoScrollViewPager;
 import com.networkbench.agent.impl.NBSAppAgent;
-import com.qiyukf.unicorn.api.ProductDetail;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.zhy.m.permission.MPermissions;
@@ -227,13 +220,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         PushUtils.initJPush();
         if (Rom.isEmui()) {
-            Log.i("jixing","huawei init");
+            Log.i("jixing", "huawei init");
             initHuaWei();
         } else if (CommonUtils.isSupportGoogleService() && !Rom.isMiui()) {
             Log.i("jixing", "qitajixing init");
             PushUtils.initGeTui();
         } else {
-            Log.i("jixing","xiaomi init");
+            Log.i("jixing", "xiaomi init");
             PushUtils.initXMpush();
         }
         //启动保活服务,针对部分机型有效
@@ -368,7 +361,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), new TagAliasCallback() {
                 @Override
                 public void gotResult(int i, String s, Set<String> set) {
-                    Log.i(PushUtils.TAG,"JPushInterface setAlias gotResult() pushId = " + JPushInterface.getRegistrationID(MainActivity.this));
+                    Log.i(PushUtils.TAG, "JPushInterface setAlias gotResult() pushId = " + JPushInterface.getRegistrationID(MainActivity.this));
                     PushUtils.pushRegister(4, JPushInterface.getRegistrationID(MainActivity.this));
                 }
             });
@@ -443,7 +436,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             EventBus.getDefault().unregister(this);
             ApiReportHelper.getInstance().commitAllReport();
             ApiReportHelper.getInstance().abort();
-            if(Rom.isEmui() && client != null) {
+            if (Rom.isEmui() && client != null) {
                 //建议在onDestroy的时候停止连接华为移动服务
                 //业务可以根据自己业务的形态来确定client的连接和断开的时机，但是确保connect和disconnect必须成对出现
                 client.disconnect();
@@ -647,6 +640,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     mViewPager.setCurrentItem(index);
                 break;
             case CLICK_USER_LOOUT:
+                SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.IM_CHAT_COUNT, 0);
                 setIMCount(0, 0);
                 break;
             default:
@@ -716,6 +710,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);
+                if (fgChat != null) {
+                    //首次发起聊天，需要手动刷新建立聊天对话
+                    fgChat.flushList();
+                }
                 SensorsUtils.setPageEvent("私聊", "私聊", "");
                 break;
             case R.id.tab_text_4:
@@ -1091,8 +1089,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         NBSAppAgent.setLicenseKey("34ac28c049574c4095b57fc0a591cd4b").withLocationServiceEnabled(true).start(this.getApplicationContext());
     }
 
-    private void startJobService(){
-        try{
+    private void startJobService() {
+        try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
                 JobInfo jobInfo = new JobInfo.Builder(1, new ComponentName(getPackageName(), HbcJobService.class.getName()))
@@ -1102,7 +1100,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                         .build();
                 jobScheduler.schedule(jobInfo);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -1116,19 +1114,19 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public static final String EXTRA_RESULT = "intent.extra.RESULT";
 
     private void onHuaWeiPushActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_HMS_RESOLVE_ERROR) {
-            if(resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_HMS_RESOLVE_ERROR) {
+            if (resultCode == Activity.RESULT_OK) {
 
                 int result = data.getIntExtra(EXTRA_RESULT, 0);
 
-                if(result == ConnectionResult.SUCCESS) {
+                if (result == ConnectionResult.SUCCESS) {
                     Log.i(HuaweiPushReceiver.TAG, "错误成功解决");
                     if (!client.isConnecting() && !client.isConnected()) {
                         client.connect();
                     }
-                } else if(result == ConnectionResult.CANCELED) {
+                } else if (result == ConnectionResult.CANCELED) {
                     Log.i(HuaweiPushReceiver.TAG, "解决错误过程被用户取消");
-                } else if(result == ConnectionResult.INTERNAL_ERROR) {
+                } else if (result == ConnectionResult.INTERNAL_ERROR) {
                     Log.i(HuaweiPushReceiver.TAG, "发生内部错误，重试可以解决");
                     //开发者可以在此处重试连接华为移动服务等操作，导致失败的原因可能是网络原因等
                 } else {
@@ -1148,7 +1146,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     @Override
                     public void onConnected() {
                         Log.i(HuaweiPushReceiver.TAG, "HuaweiApiClient 连接成功");
-                        if(!client.isConnected()) {
+                        if (!client.isConnected()) {
                             Log.i(HuaweiPushReceiver.TAG, "获取token失败，原因：HuaweiApiClient未连接");
                             client.connect();
                             return;
@@ -1159,7 +1157,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                         tokenResult.setResultCallback(new ResultCallback<TokenResult>() {
                             @Override
                             public void onResult(TokenResult result) {
-                                Log.i(HuaweiPushReceiver.TAG, "异步接口获取push token"+result.getTokenRes().getToken());
+                                Log.i(HuaweiPushReceiver.TAG, "异步接口获取push token" + result.getTokenRes().getToken());
                             }
                         });
                     }
@@ -1176,7 +1174,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     @Override
                     public void onConnectionFailed(ConnectionResult connectionResult) {
                         Log.i(HuaweiPushReceiver.TAG, "HuaweiApiClient连接失败，错误码：" + connectionResult.getErrorCode());
-                        if(HuaweiApiAvailability.getInstance().isUserResolvableError(connectionResult.getErrorCode())) {
+                        if (HuaweiApiAvailability.getInstance().isUserResolvableError(connectionResult.getErrorCode())) {
                             final int errorCode = connectionResult.getErrorCode();
                             new Handler(getMainLooper()).post(new Runnable() {
                                 @Override

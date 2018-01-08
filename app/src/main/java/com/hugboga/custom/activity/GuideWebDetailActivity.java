@@ -357,14 +357,10 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             }
             shareIV.setEnabled(true);
             collectIV.setEnabled(true);
-            if (UserEntity.getUser().isLogin(this)) {
                 bottomView.update(guideExtinfoBean);
                 if (guideExtinfoBean.isCollected != null) {
                     collectIV.setSelected(guideExtinfoBean.isCollected == 1);
                 }
-            } else {
-                bottomView.setVisibility(View.GONE);
-            }
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             guideExtinfoBean.isCollected = 0;
             collectIV.setSelected(false);

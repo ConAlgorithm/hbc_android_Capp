@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.data.bean.GuideExtinfoBean;
@@ -103,23 +104,45 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
 
     @Override
     public void update(Object _data) {
-        if (!UserEntity.getUser().isLogin(getContext())) {
-            setVisibility(View.GONE);
-            return;
-        }
+//        if (!UserEntity.getUser().isLogin(getContext())) {
+//            setVisibility(View.GONE);
+//            return;
+//        }
         setVisibility(View.VISIBLE);
         guideExtinfoBean = (GuideExtinfoBean) _data;
 
         chooseGuideTv.setVisibility(View.GONE);
         chooseGuideTv.setEnabled(false);
 
-        if (guideExtinfoBean.accessible == 1) {//是否可联系司导
+        if (guideExtinfoBean.accessible == 0) {//是否可联系司导
+            hintTv.setVisibility(View.VISIBLE);
+            topLineView.setVisibility(View.VISIBLE);
+            contactIv.setImageResource(R.mipmap.navbar_chat_white);
+            contactTv.setTextColor(0xFFFFFFFF);
+            contactLayout.setBackgroundResource(R.drawable.shape_rounded_disabled);
+            contactLayout.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (CommonUtils.isLogin(getContext(), "司导详情")) {
+                        AlertDialogUtils.showAlertDialog(v.getContext(), false, CommonUtils.getString(R.string.guide_detail_contact_dialog_title)
+                                , CommonUtils.getString(R.string.guide_detail_contact_dialog_content)
+                                , CommonUtils.getString(R.string.dialog_btn_know), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                    }
+
+                }
+            });
+
+        } else {
             hintTv.setVisibility(View.GONE);
             topLineView.setVisibility(View.GONE);
-            contactIv.setImageResource(getTvImage());
-            resetContactOnline(); //设置司导在线状态描述
             contactTv.setTextColor(getContext().getResources().getColor(R.color.default_black));
-            contactLayout.setBackgroundResource(R.drawable.shape_rounded_yellow);
+            contactLayout.setBackgroundResource(R.drawable.shape_rounded_on_line);
+            contactIv.setImageResource(getTvImage(guideExtinfoBean.accessible)); //设置司导在线状态描述
             contactLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -132,25 +155,6 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
                     }
                     NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId, source);
                     StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
-                }
-            });
-        } else {
-            hintTv.setVisibility(View.VISIBLE);
-            topLineView.setVisibility(View.VISIBLE);
-            contactIv.setImageResource(R.mipmap.navbar_chat_white);
-            contactTv.setTextColor(0xFFFFFFFF);
-            contactLayout.setBackgroundResource(R.drawable.shape_rounded_disabled);
-            contactLayout.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialogUtils.showAlertDialog(v.getContext(), false, CommonUtils.getString(R.string.guide_detail_contact_dialog_title)
-                            , CommonUtils.getString(R.string.guide_detail_contact_dialog_content)
-                            , CommonUtils.getString(R.string.dialog_btn_know), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
                 }
             });
         }
@@ -177,40 +181,37 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
     }
 
     /**
-     * 获取底部联系我图标
+     * 获取底部联系我图标、根据司导在线状态设置图标
      *
      * @return
      */
-    private int getTvImage() {
-        //TODO 根据司导在线状态显示不同在线图标
-        int i = 1;
+    private int getTvImage(int i) {
+        String txt = "";
+        int drawableId;
         switch (i) {
-            case 1:
-                return R.drawable.ic_im_online;
             case 2:
-                return R.drawable.ic_im_busy;
+                drawableId = R.drawable.ic_im_online;
+                txt = getResources().getString(R.string.guide_state_on_line);
+                break;
             case 3:
-                return R.drawable.ic_im_reset;
+                drawableId = R.drawable.ic_im_reset;
+                txt = getResources().getString(R.string.guide_state_rest);
+                break;
+            case 4:
+                drawableId = R.drawable.ic_im_busy;
+                txt = getResources().getString(R.string.guide_state_busy);
+                break;
             default:
-                return R.mipmap.navbar_chat;
+                drawableId = R.mipmap.navbar_chat;
+                break;
         }
-    }
-
-    /**
-     * 根据司导在线状态设置图标
-     *
-     * @return
-     */
-    private void resetContactOnline() {
-        //TODO 根据司导在线状态
-        String txt = "忙碌"; //状态
         if (!TextUtils.isEmpty(txt)) {
             contactOnline.setVisibility(View.VISIBLE);
             contactOnline.setText(txt);
-        } else {
-            contactOnline.setVisibility(View.GONE);
         }
+        return drawableId;
     }
+
 
     private Runnable timeRunnable = new Runnable() {
 

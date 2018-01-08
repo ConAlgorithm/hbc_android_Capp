@@ -129,7 +129,6 @@ public class TravelListAll extends FgBaseTravel {
                 }
             }
         });
-
     }
 
 
@@ -171,6 +170,9 @@ public class TravelListAll extends FgBaseTravel {
         super.onDataRequestError(errorInfo, request);
         if (request.getOffset() == 0 && mXRecyclerView != null) {
             mXRecyclerView.smoothScrollToPosition(0);
+        }
+        if( mXRecyclerView != null){
+            mXRecyclerView.refreshComplete();
         }
     }
 

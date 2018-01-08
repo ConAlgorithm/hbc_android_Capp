@@ -392,7 +392,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
         if (popup != null) {
-            popup.showAsDropDown(titleBar.findViewById(R.id.view_bottom));
+            popup.showAsDropDown(titleBar);
             return;
         }
 
@@ -401,7 +401,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
-        popup.showAsDropDown(titleBar.findViewById(R.id.view_bottom));
+        popup.showAsDropDown(titleBar);
 
         menuLayout.findViewById(R.id.bg_view).setOnClickListener(new View.OnClickListener() {
             @Override

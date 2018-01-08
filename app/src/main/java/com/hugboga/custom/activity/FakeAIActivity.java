@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -19,8 +18,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -213,8 +210,8 @@ public class FakeAIActivity extends BaseActivity {
         ProductDetail.Builder builder = new ProductDetail.Builder();
 
         builder.setUrl(BuildConfig.SHARE_BASE_URL_4 + "/app/jiaAIpop.html?id=" + info.askDuoDuoSessionID);
-        builder.setTitle("我的出去行需求");
-        builder.setDesc("点击查看详情");
+        builder.setTitle(getResources().getString(R.string.ai_requirements));
+        builder.setDesc(getResources().getString(R.string.ai_details));
         builder.setPicture("https://hbcdn.huangbaoche.com/im/im_default.png");
         builder.setShow(1);
         builder.setAlwaysSend(true);
@@ -240,7 +237,6 @@ public class FakeAIActivity extends BaseActivity {
             }
         } else if (request instanceof RequestFakeAIChange) {
             FakeAIQuestionsBean data = ((RequestFakeAIChange) request).getData();
-            //TODO 问答回复，稍后做处理
             if (data.recommendationDestinationHome != null) {
                 //有推荐结果
                 initServiceMessage(data.duoDuoSaid);
@@ -478,7 +474,6 @@ public class FakeAIActivity extends BaseActivity {
             info.destinationId = String.valueOf(bean.destinationId);
             info.destinationType = String.valueOf(bean.destinationType);
             info.destinationName = bean.destinationName;
-//            info.guideCount = String.valueOf(bean.guideCount);
         }
         if (!TextUtils.isEmpty(str)) {
             info.userWant = str;

@@ -43,14 +43,18 @@ public class WXShareUtils {
         this.mContext = mContext;
         /*
          * 微信分享初始化
-		 */
+         */
         iwxapi = WXAPIFactory.createWXAPI(mContext, HbcConfig.WX_APP_ID);
         iwxapi.registerApp(HbcConfig.WX_APP_ID);
     }
 
     public static WXShareUtils getInstance(Context context) {
         if (wxShareUtils == null) {
-            wxShareUtils = new WXShareUtils(context);
+            synchronized (WXShareUtils.class) {
+                if (wxShareUtils == null) {
+                    wxShareUtils = new WXShareUtils(context);
+                }
+            }
         }
         return wxShareUtils;
     }
@@ -71,6 +75,28 @@ public class WXShareUtils {
             MLog.e("微信版本太低");
             if (isShow)
                 DialogUtils.showAlertDialog(mContext, true, "微信版本太低", null, "知道了", null);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 是否安装微信
+     * 从H5发起下单并支付，没安装微信情况下发生不弹框提示问题
+     *
+     * @return
+     */
+    public boolean isInstallOf(Context context, boolean isShow) {
+        if (!iwxapi.isWXAppInstalled()) {
+            MLog.e("手机未安装微信");
+            if (isShow)
+                DialogUtils.showAlertDialog(context, true, "手机未安装微信", null, "知道了", null);
+            return false;
+        }
+        if (!iwxapi.isWXAppSupportAPI()) {
+            MLog.e("微信版本太低");
+            if (isShow)
+                DialogUtils.showAlertDialog(context, true, "微信版本太低", null, "知道了", null);
             return false;
         }
         return true;

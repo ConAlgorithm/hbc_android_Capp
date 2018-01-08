@@ -233,7 +233,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
                 sendRequest(Constants.PAY_STATE_ALIPAY);
                 break;
             case R.id.choose_payment_wechat_layout://微信支付
-                if (isFinishing() || !WXShareUtils.getInstance(this).isInstall(true)) {
+                if (isFinishing() || !WXShareUtils.getInstance(this).isInstallOf(this, true)) {
                     return;
                 }
                 DefaultSSLSocketFactory.resetSSLSocketFactory(this);

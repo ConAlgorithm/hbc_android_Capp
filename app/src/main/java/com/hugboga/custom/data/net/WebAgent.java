@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
@@ -30,10 +33,13 @@ import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.ServiceQuestionActivity;
 import com.hugboga.custom.activity.SingleActivity;
+import com.hugboga.custom.activity.SkuDateActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.SkuOrderActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
@@ -42,6 +48,8 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DeliveryCardBean;
 import com.hugboga.custom.data.bean.GuideOrderWebParamsBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.data.bean.InsureBean;
+import com.hugboga.custom.data.bean.PushToGuideIMBeam;
 import com.hugboga.custom.data.bean.SeckillsBean;
 import com.hugboga.custom.data.bean.ShareBean;
 import com.hugboga.custom.data.bean.ShareInfoBean;
@@ -55,11 +63,13 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SaveFileTask;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.im.custom.attachment.MsgSkuAttachment;
 import com.qiyukf.unicorn.api.ProductDetail;
 
 import org.greenrobot.eventbus.EventBus;
@@ -887,7 +897,7 @@ public class WebAgent implements HttpRequestListener {
     }
 
     @JavascriptInterface
-    public void pushToServiceIMWithParams(final String params){
+    public void pushToServiceIMWithParams(final String params) {
 
         mActivity.runOnUiThread(new Runnable() {
             @Override
@@ -904,7 +914,7 @@ public class WebAgent implements HttpRequestListener {
                         builder.setPicture(data.goodsPic);
                         builder.setShow(1);
                         builder.setAlwaysSend(true);
-                        params.groupId =Integer.parseInt(data.serviceId);
+                        params.groupId = Integer.parseInt(data.serviceId);
                         params.productDetail = builder.build();
                         Intent intent = new Intent(mActivity, UnicornServiceActivity.class);
                         intent.putExtra(Constants.PARAMS_DATA, params);
@@ -915,5 +925,56 @@ public class WebAgent implements HttpRequestListener {
             }
         });
     }
+
+    @JavascriptInterface
+    public void pushToGuideIMWithParams(String params) {
+        Gson gson = new Gson();
+        PushToGuideIMBeam data = gson.fromJson(params, PushToGuideIMBeam.class);
+        if (data == null)
+            return;
+        if (!CommonUtils.isLogin(mActivity, getEventSource()) || !IMUtil.getInstance().isLogined() || skuItemBean == null) {
+            return;
+        }
+        MsgSkuAttachment msgSkuAttachment = new MsgSkuAttachment(1);
+        msgSkuAttachment.setGoodsNo(data.goodsNo);
+        msgSkuAttachment.setFrontCover(data.frontCover);
+        msgSkuAttachment.setTitle(data.title);
+        msgSkuAttachment.setUrl(data.url);
+        NIMChatActivity.start(mActivity, data.neUserId, getEventSource(), msgSkuAttachment);
+    }
+
+    @JavascriptInterface
+    public void showGoodsCalendarWithGuide(final String guideId, final String guideName) {
+        if (guideId == null || guideName == null)
+            return;
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mActivity instanceof SkuDetailActivity) {
+                    ((SkuDetailActivity) mActivity).h5OrderJumpDate(guideId, guideName);
+                }
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void showGoodsShowBottomLayout(final String i) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mActivity instanceof SkuDetailActivity) {
+                    int s = 0;
+                    try {
+                         s = Integer.parseInt(i);
+                    } catch (NumberFormatException e) {
+                        MLog.e(getClass().getName()+"异常：\"" + i + "\"不是数字/整数...");
+                        return;
+                    }
+                    ((SkuDetailActivity) mActivity).h5InvokingBottomLayout(s);
+                }
+            }
+        });
+    }
+
 
 }

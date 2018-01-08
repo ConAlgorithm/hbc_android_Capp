@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -111,6 +112,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     TextView bottomStateTV;
     @BindView(R.id.sku_detail_bottom_price_tv)
     TextView bottomPriceTV;
+    @BindView(R.id.sku_detail_topbar_layout)
+    ViewGroup topBarLayout;
 
     @BindView(R.id.header_right_2_btn)
     ImageView collectImg;
@@ -243,11 +246,20 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     public void setBottomLayoutShow() {
         if (skuItemBean != null && bottomLayout != null) {
-            bottomLayout.setVisibility(View.VISIBLE);
             String unitStr = CommonUtils.getString(R.string.sku_detail_price_unit);
             String priceStr = getString(R.string.sign_rmb) + CommonUtils.getCountInteger(skuItemBean.perPrice) + " " + unitStr;
             bottomPriceTV.setText(priceStr);
             bottomPriceTV.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void h5InvokingBottomLayout(int i) {
+        if (i == 0) {
+            bottomLayout.setVisibility(View.VISIBLE);
+            topBarLayout.setVisibility(View.VISIBLE);
+        } else {
+            bottomLayout.setVisibility(View.GONE);
+            topBarLayout.setVisibility(View.GONE);
         }
     }
 
@@ -290,6 +302,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
+
         if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
             webView.goBack();
             return true;
@@ -302,6 +315,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 getSkuItemBean(false);
+                break;
+            case SKU_PUTH_MESSAGE:
+                int totalCount = (int) action.getData();
+                if (totalCount != 0) {
+                    headerRightBtn.isChatRedDot(true);
+                }
                 break;
 
         }
@@ -649,5 +668,28 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+    }
+
+    public void h5OrderJumpDate(String guideId, String guideName) {
+        if (skuItemBean == null) {
+            getSkuItemBean(true);
+            return;
+        }
+        if (cityBean == null) {
+            cityBean = findCityById("" + skuItemBean.arrCityId);
+        }
+        SkuOrderActivity.Params params = new SkuOrderActivity.Params();
+        params.skuItemBean = skuItemBean;
+        params.cityBean = cityBean;
+        GuidesDetailData guidesDetailData = new GuidesDetailData();
+        guidesDetailData.guideId = guideId;
+        guidesDetailData.guideName = guideName;
+        params.guidesDetailData = guidesDetailData;
+        Intent intent = new Intent(activity, SkuDateActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
+        startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.CLICK_SKUDATE);
+
     }
 }

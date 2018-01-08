@@ -18,7 +18,7 @@ public class GuideExtinfoBean implements Serializable{
     public String homeDesc;         // 司导简介
     public Integer isCollected;     // 司导是否被收藏 1-是,0-否
     public String localTime;        // 司导当地时间,格式：yyyy-MM-dd HH:mm:ss
-    public int accessible;          // 是否可联系司导 1-是,0-否
+    public int accessible;          // 是否可联系司导 ，0-不可联系，1-可联系无状态，2-在线，3-休息，4-忙碌
     public Integer localTimezone;   // 司导所在城市时区
     public String neUserId;         // 司导聊天ID
 

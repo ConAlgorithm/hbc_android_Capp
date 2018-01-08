@@ -122,4 +122,5 @@ public enum EventType {
     REFRESH_POSITION,
 
     REQUEST_HOME_DATA,//刷新首页数据，先解决遗留问题，待优化
+    SKU_PUTH_MESSAGE,//监听司导发来的消息，发送给线路详情页
 }

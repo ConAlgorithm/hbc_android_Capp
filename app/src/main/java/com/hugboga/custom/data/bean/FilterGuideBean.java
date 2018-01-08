@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by qingcha on 17/4/19.
  */
-public class FilterGuideBean implements Serializable{
+public class FilterGuideBean implements Serializable {
 
     public String guideId;              // 司导标识
     public String guideNo;              // 司导工号
@@ -38,17 +38,22 @@ public class FilterGuideBean implements Serializable{
     public int isCollected;             // 是否收藏过司导,1收藏 0 未收藏
     public boolean isShowCity = true;   // 本地字段 筛选当前城市不显示城市
     public String orderUrl;             // 跳转预订页面url
+    public String decisionMaker;        // 精选司导列表右侧是否展示消息图片  展示为1   不展示为0
+    public String imTargetId;           // 对方的IM唯一标识 聊天Id
     public String getServiceType() {
         if (serviceDaily == 0 && serviceJsc == 0) {
             return "";
         }
-        String result = "可提供服务：";
+        String result = "";
         if (serviceDaily == 1 && serviceJsc == 1) {
             result += "接送机、单次接送、按天包车游";
         } else if (serviceDaily == 1) {
             result += "按天包车游";
         } else if (serviceJsc == 1) {
             result += "接送机、单次接送";
+        }
+        if ("1".equals(decisionMaker)) {
+            result += "、行程规划";
         }
         return result;
     }

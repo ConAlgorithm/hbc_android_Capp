@@ -2,6 +2,7 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -11,10 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.CityActivity;
-import com.hugboga.custom.activity.PickSendActivity;
-import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
@@ -30,7 +28,7 @@ import butterknife.ButterKnife;
  * Created by zhangqiang on 17/9/11.
  */
 
-public class SearchHotCity extends LinearLayout{
+public class SearchHotCity extends LinearLayout {
     List<SearchGroupBean> cityList;
     boolean isFromTravelPurposeForm;
     @BindView(R.id.hot_city_layout)
@@ -47,8 +45,9 @@ public class SearchHotCity extends LinearLayout{
 
     private int column = 2;
     private LayoutInflater inflater;
+
     public SearchHotCity(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public SearchHotCity(Context context, AttributeSet attrs) {
@@ -60,16 +59,17 @@ public class SearchHotCity extends LinearLayout{
         //initView();
     }
 
-    public void setHotCitys(List<SearchGroupBean> cityList){
+    public void setHotCitys(List<SearchGroupBean> cityList) {
         this.cityList = cityList;
         initView();
     }
 
-    public void setIsFromTravelPurposeForm(boolean isFromTravelPurposeForm){
+    public void setIsFromTravelPurposeForm(boolean isFromTravelPurposeForm) {
         this.isFromTravelPurposeForm = isFromTravelPurposeForm;
     }
-    public void initView(){
-        if(isFromTravelPurposeForm){
+
+    public void initView() {
+        if (isFromTravelPurposeForm) {
             hotCityService.setVisibility(GONE);
         }
         dayServiceLayout.setOnClickListener(new OnClickListener() {
@@ -95,15 +95,16 @@ public class SearchHotCity extends LinearLayout{
 
     /**
      * 生成多行多列的线性布局
+     *
      * @param displayNumber 需要生成的个数，这里是需要生成的TextView的总个数
      */
     private void displayColumns(int displayNumber) {
-        if(hotCityLayout!= null){
-            if(hotCityLayout.getChildCount()>0){
+        if (hotCityLayout != null) {
+            if (hotCityLayout.getChildCount() > 0) {
                 hotCityLayout.removeAllViews();
             }
         }
-        if(cityList== null || cityList.size()==0){
+        if (cityList == null || cityList.size() == 0) {
             return;
         }
         //判断
@@ -124,26 +125,27 @@ public class SearchHotCity extends LinearLayout{
         if (boo) {
             //如果能够被整除
             for (int i = 0; i < rows; i++) {
-                addLinear(i*column);
+                addLinear(i * column);
             }
             return;
-        }else{
+        } else {
             //如果不能够被整除
             for (int i = 0; i < rows; i++) {
                 //createLinear(column);
-                addLinear(i*column);
+                addLinear(i * column);
             }
             //用%，得到最后剩下的，不足一行的
             rows = displayNumber % column;
             //创建布局一行的布局
             //createLinear(rows);
-            addLastSingleLinear(cityList.size()-1);
+            addLastSingleLinear(cityList.size() - 1);
         }
 
     }
 
     /**
      * 创建每一行显示的线性布局
+     *
      * @param i 一行显示的textview的个数
      */
     private void createLinear(int i) {
@@ -152,7 +154,7 @@ public class SearchHotCity extends LinearLayout{
         //设置LayoutParams
         LayoutParams lp = new LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        lp.setMargins(0,UIUtils.dip2px(15),0,UIUtils.dip2px(10));
+        lp.setMargins(0, UIUtils.dip2px(15), 0, UIUtils.dip2px(10));
         //设置为水平布局
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -161,7 +163,7 @@ public class SearchHotCity extends LinearLayout{
         //循环添加
         for (int j = 0; j < i; j++) {
             TextView textView = new TextView(getContext());
-            textView.setLayoutParams(new LayoutParams(UIUtils.dip2px(95),UIUtils.dip2px(44)));
+            textView.setLayoutParams(new LayoutParams(UIUtils.dip2px(95), UIUtils.dip2px(44)));
             textView.setMaxLines(1);
             //textView.setText("加拿大");
             textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -174,18 +176,18 @@ public class SearchHotCity extends LinearLayout{
             layout.addView(textView);
 
             TextView view = new TextView(getContext());
-            view.setLayoutParams(new LayoutParams(UIUtils.dip2px(10),UIUtils.dip2px(44)));
+            view.setLayoutParams(new LayoutParams(UIUtils.dip2px(10), UIUtils.dip2px(44)));
             layout.addView(view);
         }
         //添加到显示的父线性布局中
         hotCityLayout.addView(layout);
     }
 
-    private void addLinear(final int row){
-        if(cityList!= null && cityList.size()>0 && row<cityList.size()){
+    private void addLinear(final int row) {
+        if (cityList != null && cityList.size() > 0 && row < cityList.size()) {
             LinearLayout view = (LinearLayout) inflater.inflate(R.layout.hot_search_textview, null, false);
             TextView text1 = (TextView) view.findViewById(R.id.text1);
-            text1.setText(getName(row,cityList.get(row).flag));
+            text1.setText(getName(row, cityList.get(row).flag));
             text1.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -193,23 +195,22 @@ public class SearchHotCity extends LinearLayout{
                 }
             });
             TextView text2 = (TextView) view.findViewById(R.id.text2);
-            text2.setText(getName(row+1,cityList.get(row+1).flag));
+            text2.setText(getName(row + 1, cityList.get(row + 1).flag));
             text2.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    goCityList(cityList.get(row+1));
+                    goCityList(cityList.get(row + 1));
                 }
             });
             hotCityLayout.addView(view);
         }
     }
 
-    private void addLastSingleLinear(final int row){
-        if(cityList!= null && cityList.size()>0 && row<cityList.size()){
-            LinearLayout view = (LinearLayout) inflater.inflate(R.layout.query_hot_search_item, null, false);
-            view.setGravity(Gravity.LEFT);
+    private void addLastSingleLinear(final int row) {
+        if (cityList != null && cityList.size() > 0 && row < cityList.size()) {
+            ConstraintLayout view = (ConstraintLayout) inflater.inflate(R.layout.query_hot_search_item, null, false);
             TextView text1 = (TextView) view.findViewById(R.id.text1);
-            text1.setText(getName(row,cityList.get(row).flag));
+            text1.setText(getName(row, cityList.get(row).flag));
             text1.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -225,26 +226,26 @@ public class SearchHotCity extends LinearLayout{
     }
 
 
-    public  String getName(int position,int flag){
-        if(flag == 2){
-            if(cityList.get(position).type == 1){
+    public String getName(int position, int flag) {
+        if (flag == 2) {
+            if (cityList.get(position).type == 1) {
                 return cityList.get(position).group_name;
-            }else if(cityList.get(position).type == 2){
+            } else if (cityList.get(position).type == 2) {
                 return cityList.get(position).sub_place_name;
-            }else if(cityList.get(position).type == 3){
+            } else if (cityList.get(position).type == 3) {
                 return cityList.get(position).sub_city_name;
             }
-        }else if(flag == 3){
-            if(cityList.get(position).type == 1){
+        } else if (flag == 3) {
+            if (cityList.get(position).type == 1) {
                 return cityList.get(position).group_name;
-            }else if(cityList.get(position).type == 2){
+            } else if (cityList.get(position).type == 2) {
                 return cityList.get(position).sub_place_name;
-            }else if(cityList.get(position).type == 3){
+            } else if (cityList.get(position).type == 3) {
                 return cityList.get(position).sub_city_name;
             }
-        }else if(flag == 1){
+        } else if (flag == 1) {
             return cityList.get(position).group_name;
-        }else if(flag == 4){
+        } else if (flag == 4) {
             return cityList.get(position).spot_name;
         }
         return "";

@@ -63,6 +63,7 @@ public class SharedPre {
 
 	public static String QY_SERVICE_UNREADCOUNT = "qy_unreadmsg_count";
 	public static String QY_GROUP_ID = "qy_group_id";
+	public static String IM_CHAT_COUNT = "im_chat_count";//im司导总聊天数
 
 	public SharedPre(Context ctx) {
 		this.ctx = ctx;

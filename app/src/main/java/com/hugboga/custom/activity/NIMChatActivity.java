@@ -14,11 +14,13 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -57,6 +59,7 @@ import com.hugboga.custom.widget.CountryLocalTimeView;
 import com.hugboga.custom.widget.ImSendMesView;
 import com.hugboga.im.ImHelper;
 import com.hugboga.im.ImObserverHelper;
+import com.hugboga.im.Utils;
 import com.hugboga.im.callback.HbcCustomMsgClickListener;
 import com.hugboga.im.callback.HbcSessionCallback;
 import com.hugboga.im.custom.CustomAttachment;
@@ -100,7 +103,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private String sessionId;
 
     public static void start(Context context, String contactId, String source) {
-        start(context, contactId, source,null);
+        start(context, contactId, source, null);
     }
 
     /**
@@ -118,7 +121,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
     }
-
 
 
     @BindView(R.id.imchat_viewpage_layout)
@@ -141,13 +143,14 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     ImSendMesView imSendMesView;
 
     @BindView(R.id.conversation_container)
-    LinearLayout conversationContainer;
+    FrameLayout conversationContainer;
 
     @BindView(R.id.shadow_text4)
     TextView shadowButton;
 
     @BindView(R.id.im_shadow)
     RelativeLayout imShadow;
+
     private String userId; //用户ID
     private String targetType; //目标类型
     private int inBlack;//标识对方是否被自己拉黑，1是 0否
@@ -291,7 +294,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             @Override
             public void onSoftKeyboardOpened(int keyboardHeightInPx) {
                 if (first) {
-                    RequestImFirstChat requestImFirstChat = new RequestImFirstChat(NIMChatActivity.this, UserEntity.getUser().getUserId(NIMChatActivity.this),userId);
+                    RequestImFirstChat requestImFirstChat = new RequestImFirstChat(NIMChatActivity.this, UserEntity.getUser().getUserId(NIMChatActivity.this), userId);
                     HttpRequestUtils.request(NIMChatActivity.this, requestImFirstChat, new HttpRequestListener() {
                         @Override
                         public void onDataRequestSucceed(BaseRequest request) {
@@ -310,8 +313,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                                         imShadow.setVisibility(View.GONE);
                                     }
                                 });
-                            }else{
-                                Toast.makeText(NIMChatActivity.this,"data.firstChat="+data.firstChat,Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(NIMChatActivity.this, "data.firstChat=" + data.firstChat, Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -322,9 +325,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
                         @Override
                         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                            Log.d("MMM","errorInfo="+errorInfo+"  request="+request);
+                            Log.d("MMM", "errorInfo=" + errorInfo + "  request=" + request);
                         }
-                    },false);
+                    }, false);
                     first = false;
                 }
             }
@@ -336,7 +339,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         });
     }
 
-    private void addConversationFragment(){
+    private void addConversationFragment() {
         Bundle arguments = getIntent().getExtras();
         arguments.putSerializable(Extras.EXTRA_TYPE, SessionTypeEnum.P2P);
         sessionId = arguments.getString(Extras.EXTRA_ACCOUNT);
@@ -345,8 +348,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         messageFragment.setArguments(arguments);
 
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction =  fm.beginTransaction();
-        transaction.add(R.id.conversation_container,messageFragment);
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.conversation_container, messageFragment);
         transaction.commitAllowingStateLoss();
 
         validateAllowMessage();
@@ -385,7 +388,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
      */
     private void connectNim() {
         StatusCode status = NIMClient.getStatus();
-        if(status != StatusCode.LOGINED && status!=StatusCode.CONNECTING){
+        if (status != StatusCode.LOGINED && status != StatusCode.CONNECTING) {
             IMUtil.getInstance().connect();
         }
     }
@@ -403,7 +406,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         initRunningOrder(); //构建和该用户之间的订单
     }
 
-    private void setOrderData(ChatBean chatBean){
+    private void setOrderData(ChatBean chatBean) {
         userId = chatBean.targetId;
         fgTitle.setText(chatBean.targetName); //设置标题
         targetType = String.valueOf(chatBean.getTargetType());
@@ -456,11 +459,11 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     }
 
     @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
-    public void onBasicPermissionSuccess(){
+    public void onBasicPermissionSuccess() {
     }
 
     @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
-    public void onBasicPermissionFailed(){
+    public void onBasicPermissionFailed() {
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             AlertDialogUtils.showAlertDialog(this, true, true, getString(R.string.grant_fail_title), getString(R.string.grant_fail_phone1));
         } else {
@@ -511,7 +514,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             TextView textViewtype = (TextView) view.findViewById(R.id.im_chat_orders_item_ordertime);
             textViewtype.setText(getTypeStr(orderBean));
             //时间
-            TextView textViewTime = (TextView)view.findViewById(R.id.im_chat_orders_item_address0);
+            TextView textViewTime = (TextView) view.findViewById(R.id.im_chat_orders_item_address0);
             textViewTime.setText(getAddr(orderBean));
             //订单地址1
             TextView textViewAddr1 = (TextView) view.findViewById(R.id.im_chat_orders_item_address1);
@@ -638,7 +641,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     }
 
 
-
     class IMOrderPagerAdapter extends PagerAdapter {
 
         List<View> views;
@@ -681,13 +683,13 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             return;
         }
         if (menuLayout == null) {
-            menuLayout  = LayoutInflater.from(NIMChatActivity.this).inflate(R.layout.popup_top_right_menu, null);
+            menuLayout = LayoutInflater.from(NIMChatActivity.this).inflate(R.layout.popup_top_right_menu_im, null);
         }
-        TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
-        TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
-        if(inBlack == 1){
+        TextView cancelOrderTV = (TextView) menuLayout.findViewById(R.id.cancel_order);
+        TextView commonProblemTV = (TextView) menuLayout.findViewById(R.id.menu_phone);
+        if (inBlack == 1) {
             cancelOrderTV.setText(R.string.chat_popup_item1);
-        }else{
+        } else {
             cancelOrderTV.setText(R.string.chat_popup_item2);
         }
         if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
@@ -697,15 +699,17 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         }
         commonProblemTV.setText(R.string.chat_popup_item3);
 
-        if (popup != null) {
-            popup.showAsDropDown(header_right_btn,0, 0);
-            return;
-        }
-        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        popup = new PopupWindow(menuLayout, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        popup.showAsDropDown(shadowButton);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
-        popup.showAsDropDown(header_right_btn,0,0);
+        menuLayout.findViewById(R.id.bg_top_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
 
         menuLayout.findViewById(R.id.bg_view).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -717,39 +721,39 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         cancelOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(inBlack == 0) {
+                if (inBlack == 0) {
                     AlertDialogUtils.showAlertDialog(NIMChatActivity.this, getString(R.string.black_man)
                             , CommonUtils.getString(R.string.chat_black_confirm), CommonUtils.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 //                        cancelOrderTV.setText("解除拉黑");
-                            RequestNIMBlackMan requestBlackMan = new RequestNIMBlackMan(NIMChatActivity.this, userId);
-                            HttpRequestUtils.request(NIMChatActivity.this, requestBlackMan, new HttpRequestListener() {
-                                @Override
-                                public void onDataRequestSucceed(BaseRequest request) {
-                                    ApiReportHelper.getInstance().addReport(request);
-                                    inBlack = 1;
+                                    RequestNIMBlackMan requestBlackMan = new RequestNIMBlackMan(NIMChatActivity.this, userId);
+                                    HttpRequestUtils.request(NIMChatActivity.this, requestBlackMan, new HttpRequestListener() {
+                                        @Override
+                                        public void onDataRequestSucceed(BaseRequest request) {
+                                            ApiReportHelper.getInstance().addReport(request);
+                                            inBlack = 1;
+                                        }
+
+                                        @Override
+                                        public void onDataRequestCancel(BaseRequest request) {
+
+                                        }
+
+                                        @Override
+                                        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                                        }
+                                    });
+                                    dialog.dismiss();
                                 }
-
+                            }, new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onDataRequestCancel(BaseRequest request) {
-
-                                }
-
-                                @Override
-                                public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
                                 }
                             });
-                            dialog.dismiss();
-                        }
-                    }, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                }else{
+                } else {
                     RequestNIMUnBlackMan requestUnBlackMan = new RequestNIMUnBlackMan(NIMChatActivity.this, userId);
                     HttpRequestUtils.request(NIMChatActivity.this, requestUnBlackMan, new HttpRequestListener() {
                         @Override

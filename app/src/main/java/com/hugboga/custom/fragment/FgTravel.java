@@ -12,7 +12,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +60,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class  FgTravel extends BaseFragment implements OnItemClickListener {
+public class FgTravel extends BaseFragment implements OnItemClickListener {
 
     public static final String FILTER_FLUSH = "com.hugboga.custom.travel.flush";
     public static final String JUMP_TYPE = "JUMP_TYPE";
@@ -141,6 +143,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
 
     private int pagerPosition = 0;
     CsDialog csDialog;
+
     @Override
     public int getContentViewId() {
         return R.layout.fg_travel;
@@ -169,6 +172,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
     public Map getEventMap() {
         return super.getEventMap();
     }
+
     private void initAdapterContent() {
         //fgHome = new FgHome();
         travelListAll = new TravelListAll();
@@ -177,7 +181,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
         travelListUnevaludate = new TravelListUnevaludate();
         //addFragment(fgHome);
         //构造适配器
-        List<BaseFragment> fragments=new ArrayList<BaseFragment>();
+        List<BaseFragment> fragments = new ArrayList<BaseFragment>();
         fragments.add(travelListAll);
         fragments.add(travelListUnpay);
         fragments.add(travelListDoing);
@@ -204,12 +208,27 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
             }
         });
     }
+
     @Override
     public void initView() {
         logoutLayout.setVisibility(UserEntity.getUser().isLogin(getActivity()) ? View.GONE : View.VISIBLE);
         String hintStr = CommonUtils.getString(R.string.travel_login_hint);
         SpannableString msp = new SpannableString(hintStr);
-        msp.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.basic_black)), 6, hintStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        msp.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                gotoLogin();
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(getResources().getColor(R.color.basic_black));
+                ds.setUnderlineText(false);
+                ds.clearShadowLayer();
+            }
+        }, 6, hintStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        loginHintTV.setMovementMethod(LinkMovementMethod.getInstance()); //不设置没有点击事件
         loginHintTV.setText(msp);
 
         LayoutInflater inflater = LayoutInflater.from(getActivity());
@@ -277,7 +296,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
         headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         fgRightBtn.setLayoutParams(headerRightImageParams);
-        fgRightBtn.setPadding(0,0,0,0);
+        fgRightBtn.setPadding(0, 0, 0, 0);
         fgRightBtn.setImageResource(R.mipmap.topbar_cs2);
         fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
@@ -287,7 +306,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
                 csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
-                        if(csDialog != null && csDialog.isShowing()){
+                        if (csDialog != null && csDialog.isShowing()) {
                             csDialog.dismiss();
                         }
                     }
@@ -313,7 +332,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
         super.onDestroy();
     }
 
-    @OnClick({R.id.travel_tab1_layout, R.id.travel_tab2_layout, R.id.travel_tab3_layout,  R.id.travel_tab4_layout, R.id.travel_login_btn})
+    @OnClick({R.id.travel_tab1_layout, R.id.travel_tab2_layout, R.id.travel_tab3_layout, R.id.travel_tab4_layout, R.id.travel_login_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.travel_tab1_layout:
@@ -332,13 +351,17 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
                 viewPager.setCurrentItem(3);
                 break;
             case R.id.travel_login_btn:
-                Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                intent.putExtra("source",getEventSource());
-                startActivity(intent);
+                gotoLogin();
                 break;
             default:
                 break;
         }
+    }
+
+    private void gotoLogin() {
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        intent.putExtra("source", getEventSource());
+        startActivity(intent);
     }
 
     @Override
@@ -395,7 +418,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
             tab4LineView.setVisibility(View.VISIBLE);
             if (isSetCurrentItem) {
                 viewPager.setCurrentItem(3);
-          }
+            }
         }
 
     }
@@ -415,7 +438,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
         }
     }
 
-    public void clearTravelCount(){
+    public void clearTravelCount() {
         tab2NumberTextView.setVisibility(View.GONE);
         tab2NumberTextView.setText("");
         tab3NumberTextView.setVisibility(View.GONE);
@@ -423,6 +446,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
         tab4NumberTextView.setVisibility(View.GONE);
         tab4NumberTextView.setText("");
     }
+
     private void setListCount(TextView textView, Object _count) {
         int count = CommonUtils.getCountInteger("" + _count);
         if (count > 0) {
@@ -461,7 +485,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
             params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
             Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
-            intent.putExtra(Constants.PARAMS_SOURCE,params.source);
+            intent.putExtra(Constants.PARAMS_SOURCE, params.source);
             getActivity().startActivity(intent);
         }
     }
@@ -545,7 +569,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
                     }
                 }
                 int index = Integer.valueOf(action.data.toString());
-                if (viewPager != null && index >= 0 && index < 4){
+                if (viewPager != null && index >= 0 && index < 4) {
                     viewPager.setCurrentItem(index);
                     reSetTabView(index, true);
                 }
@@ -554,8 +578,8 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
                 Bundle bundle = (Bundle) action.getData();
                 int requestType = bundle.getInt("requestType");
                 TravelListAllBean travelListAllBean = (TravelListAllBean) bundle.getSerializable("travelListAllBean");
-                if(travelListAllBean!= null){
-                    setTravelCount(requestType,travelListAllBean);
+                if (travelListAllBean != null) {
+                    setTravelCount(requestType, travelListAllBean);
                 }
 
                 break;
@@ -582,7 +606,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
             if(travelListUnevaludate!= null){
                 travelListUnevaludate.finish();
             }*/
-        }catch (Exception e) {
+        } catch (Exception e) {
 
         }
     }
@@ -591,13 +615,16 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         private ArrayList<BaseFragment> fragments;
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
+
         public SectionsPagerAdapter(FragmentManager fm, ArrayList<BaseFragment> fragments) {
             super(fm);
             this.fragments = fragments;
         }
+
         @Override
         public Fragment getItem(int position) {
             switch (position) {
