@@ -184,6 +184,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         initHeaderLeftClick();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        CommonUtils.hideSoftInput(this);
+    }
+
     private void initHeaderLeftClick() {//初始化右上角分享、消息事件
         headerRightBtn.setClickListener(new SkuDetailToolBarLeftButton.ToolBarLeftClick() {
             @Override
@@ -354,7 +360,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     break;
                 }
                 if (cityBean == null) {
-                    cityBean = findCityById("" + skuItemBean.arrCityId);
+                    cityBean = findCityById("" + skuItemBean.depCityId);
                 }
                 SkuOrderActivity.Params params = new SkuOrderActivity.Params();
                 params.skuItemBean = skuItemBean;
