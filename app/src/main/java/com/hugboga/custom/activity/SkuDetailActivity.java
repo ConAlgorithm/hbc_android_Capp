@@ -54,7 +54,7 @@ import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.utils.collection.CollectionUtils;
+import com.hugboga.custom.utils.collection.CollectionHelper;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.ShareDialog;
@@ -338,7 +338,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 mDialogUtil.showLoadingDialog();
 
                 collectImg.setSelected(!collectImg.isSelected());
-                CollectionUtils.getIns(this).changeCollectionLine(skuItemBean.goodsNo, collectImg.isSelected());
+                CollectionHelper.getIns(this).getCollectionLine().changeCollectionLine(skuItemBean.goodsNo, collectImg.isSelected());
                 EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, collectImg.isSelected() ? 1 : 0));
                 CommonUtils.showToast(collectImg.isSelected() ? getString(R.string.collect_succeed) : getString(R.string.collect_cancel));
                 break;
@@ -636,7 +636,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             }
             if (UserEntity.getUser().isLogin(this)) {
                 if (skuItemBean != null) {
-                    collectImg.setSelected(CollectionUtils.getIns(this).isCollectionLine(skuItemBean.goodsNo));
+                    collectImg.setSelected(CollectionHelper.getIns(this).getCollectionLine().isCollection(skuItemBean.goodsNo));
                 }
             }
             setBottomLayoutShow();

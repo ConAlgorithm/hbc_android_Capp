@@ -24,7 +24,7 @@ import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.utils.collection.CollectionUtils;
+import com.hugboga.custom.utils.collection.CollectionHelper;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONObject;
@@ -109,8 +109,8 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior {
             });
             if (!UserEntity.getUser().isLogin(context)) {
                 saveLine.setSelected(false);
-            }else{
-                saveLine.setSelected(CollectionUtils.getIns(getContext()).isCollectionLine(skuItemBean.goodsNo));
+            } else {
+                saveLine.setSelected(CollectionHelper.getIns(getContext()).getCollectionLine().isCollection(skuItemBean.goodsNo));
             }
             save_guild_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -119,7 +119,7 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior {
                         save_guild_layout.setEnabled(false);
                         ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
                         saveLine.setSelected(!saveLine.isSelected());
-                        CollectionUtils.getIns(getContext()).changeCollectionLine(skuItemBean.goodsNo, saveLine.isSelected());
+                        CollectionHelper.getIns(getContext()).getCollectionLine().changeCollectionLine(skuItemBean.goodsNo, saveLine.isSelected());
                         CommonUtils.showToast(saveLine.isSelected() ? getResources().getString(R.string.collect_succeed)
                                 : getResources().getString(R.string.collect_cancel));
                         save_guild_layout.setEnabled(true);

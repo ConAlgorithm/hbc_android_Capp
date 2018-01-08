@@ -25,7 +25,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PriceFormat;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.utils.collection.CollectionUtils;
+import com.hugboga.custom.utils.collection.CollectionHelper;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.tools.NetImg;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -88,7 +88,7 @@ public class CitySkuView extends FrameLayout implements HbcViewBehavior {
         city_item_tip.setText(getItemTitle(destinationGoodsVo));
         city_item_tip2.setText(String.format(getContext().getString(R.string.city_sku_title2),
                 String.valueOf(destinationGoodsVo.guideCount)));
-        saveLineImg.setSelected(CollectionUtils.getIns(getContext()).isCollectionLine(destinationGoodsVo.goodsNo)); //显示收藏线路信息
+        saveLineImg.setSelected(CollectionHelper.getIns(getContext()).getCollectionLine().isCollection(destinationGoodsVo.goodsNo)); //显示收藏线路信息
     }
 
     /**
@@ -112,7 +112,7 @@ public class CitySkuView extends FrameLayout implements HbcViewBehavior {
                 if (CommonUtils.isLogin(getContext(), getEventSource())) {
                     saveLineImg.setEnabled(false);
                     saveLineImg.setSelected(!saveLineImg.isSelected());
-                    CollectionUtils.getIns(getContext()).changeCollectionLine(destinationGoodsVo.goodsNo, saveLineImg.isSelected());
+                    CollectionHelper.getIns(getContext()).getCollectionLine().changeCollectionLine(destinationGoodsVo.goodsNo, saveLineImg.isSelected());
                     CommonUtils.showToast(getResources().getString(saveLineImg.isSelected() ? R.string.collect_succeed : R.string.collect_cancel));
                     if (saveLineImg.isSelected()) {
                         setSensorsShareEvent(destinationGoodsVo.goodsNo);

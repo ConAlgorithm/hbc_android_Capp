@@ -22,7 +22,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
-import com.hugboga.custom.utils.collection.CollectionUtils;
+import com.hugboga.custom.utils.collection.CollectionHelper;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
@@ -104,7 +104,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
         if (!UserEntity.getUser().isLogin(getContext())) {
             collectIV.setSelected(false);
         } else {
-            collectIV.setSelected(CollectionUtils.getIns(getContext()).isCollectionLine(albumBean.goodsNo));
+            collectIV.setSelected(CollectionHelper.getIns(getContext()).getCollectionLine().isCollection(albumBean.goodsNo));
         }
     }
 
@@ -140,7 +140,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
         if (CommonUtils.isLogin(getContext(), getEventSource())) {
             collectIV.setEnabled(false);
             collectIV.setSelected(!collectIV.isSelected());
-            CollectionUtils.getIns(getContext()).changeCollectionLine(albumBean.goodsNo, collectIV.isSelected());
+            CollectionHelper.getIns(getContext()).getCollectionLine().changeCollectionLine(albumBean.goodsNo, collectIV.isSelected());
             if (collectIV.isSelected()) {
                 CommonUtils.showToast(getResources().getString(R.string.collect_succeed));
                 setSensorsEvent(albumBean.guideId);

@@ -8,8 +8,6 @@ import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
 import com.hugboga.custom.models.city.CityConfigModel;
 import com.hugboga.custom.models.city.CityListModel;
-import com.hugboga.custom.utils.collection.CollectionUtils;
-import com.hugboga.custom.widget.city.CitySkuView;
 
 import java.util.ArrayList;
 import java.util.List;
