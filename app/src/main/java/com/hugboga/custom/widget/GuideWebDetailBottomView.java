@@ -143,20 +143,24 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
             contactTv.setTextColor(getContext().getResources().getColor(R.color.default_black));
             contactLayout.setBackgroundResource(R.drawable.shape_rounded_on_line);
             contactIv.setImageResource(getTvImage(guideExtinfoBean.accessible)); //设置司导在线状态描述
+
             contactLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
-                        return;
+                    if (CommonUtils.isLogin(getContext(), "司导详情")) {
+                        if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
+                            return;
+                        }
+                        String source = "司导个人页";
+                        if (getContext() instanceof GuideWebDetailActivity) {
+                            source = ((GuideWebDetailActivity) getContext()).getEventSource();
+                        }
+                        NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId, source);
+                        StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
                     }
-                    String source = "司导个人页";
-                    if (getContext() instanceof GuideWebDetailActivity) {
-                        source = ((GuideWebDetailActivity) getContext()).getEventSource();
-                    }
-                    NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId, source);
-                    StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
                 }
             });
+
         }
 
         if (TextUtils.isEmpty(guideExtinfoBean.localTime) || guideExtinfoBean.localTimezone == null) {
