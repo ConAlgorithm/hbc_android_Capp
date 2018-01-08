@@ -334,6 +334,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                         AlertDialog.Builder builder = new AlertDialog.Builder(EvaluateNewActivity.this).setView(rl).setNegativeButton("不要", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                hideInputMethod(commentET);
                                 finish();
                             }
                         }).setPositiveButton("好吧", new DialogInterface.OnClickListener() {
