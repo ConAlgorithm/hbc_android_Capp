@@ -20,12 +20,15 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.COLLECT_GUIDES_ID, builder = NewParamsBuilder.class)
 public class RequestCollectGuidesId extends BaseRequest {
 
+    private String guideId;
+
     public RequestCollectGuidesId(Context context, String guideId) {
         this(context, guideId, null);
     }
 
     public RequestCollectGuidesId(Context context, String guideId, String sharingUserId) {
         super(context);
+        this.guideId = guideId;
         map = new HashMap<String, Object>();
         map.put("source", Constants.REQUEST_SOURCE);
         map.put("userId", UserEntity.getUser().getUserId(context));
@@ -46,5 +49,9 @@ public class RequestCollectGuidesId extends BaseRequest {
     @Override
     public String getUrlErrorCode() {
         return "40025";
+    }
+
+    public String getGuideId() {
+        return guideId;
     }
 }

@@ -6,11 +6,10 @@ import android.os.Handler;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.bean.UserFavoriteLineList;
+import com.hugboga.custom.data.bean.UserFavoriteGuideListVo3;
 import com.hugboga.custom.data.request.FavoriteGuideSaved;
-import com.hugboga.custom.data.request.FavoriteLinesaved;
-import com.hugboga.custom.data.request.RequestCollectLineNo;
-import com.hugboga.custom.data.request.RequestUncollectLinesNo;
+import com.hugboga.custom.data.request.RequestCollectGuidesId;
+import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 
 import static com.netease.nim.uikit.impl.NimUIKitImpl.getContext;
 
@@ -73,35 +72,35 @@ public class CollectionGuide extends BaseCollection {
                 //如果服务端数据和本地数据相同，则不做同步处理
             } else {
                 if (value) {
-                    HttpRequestUtils.request(getContext(), new RequestCollectLineNo(getContext(), targetNo), this, false);
+                    HttpRequestUtils.request(getContext(), new RequestCollectGuidesId(getContext(), targetNo), this, false);
                 } else {
-                    HttpRequestUtils.request(getContext(), new RequestUncollectLinesNo(getContext(), targetNo), this, false);
+                    HttpRequestUtils.request(getContext(), new RequestUncollectGuidesId(getContext(), targetNo), this, false);
                 }
             }
         } else {
             if (value) {
-                HttpRequestUtils.request(getContext(), new RequestCollectLineNo(getContext(), targetNo), this, false);
+                HttpRequestUtils.request(getContext(), new RequestCollectGuidesId(getContext(), targetNo), this, false);
             }
         }
     }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        if (request instanceof FavoriteLinesaved) {
+        if (request instanceof FavoriteGuideSaved) {
             //查询出已收藏线路信息
             if (request.getData() != null) {
-                UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();
-                if (favoriteLine != null && favoriteLine.goodsNos != null) {
-                    serverCollections = buildMap(favoriteLine.goodsNos); //记录为服务器端数据
-                    localCollections = buildMap(favoriteLine.goodsNos); //记录为本地数据
+                UserFavoriteGuideListVo3 favoriteLine = (UserFavoriteGuideListVo3) request.getData();
+                if (favoriteLine != null && favoriteLine.guides != null) {
+                    serverCollections = buildMap(favoriteLine.guides); //记录为服务器端数据
+                    localCollections = buildMap(favoriteLine.guides); //记录为本地数据
                 }
             }
-        } else if (request instanceof RequestUncollectLinesNo) {
+        } else if (request instanceof RequestUncollectGuidesId) {
             //取消收藏提交数据成功
-            serverCollections.remove(((RequestUncollectLinesNo) request).getGoodsNo());
-        } else if (request instanceof RequestCollectLineNo) {
+            serverCollections.remove(((RequestUncollectGuidesId) request).getGuideId());
+        } else if (request instanceof RequestCollectGuidesId) {
             //收藏提交数据成功
-            serverCollections.put(((RequestCollectLineNo) request).getGoodsNo(), true);
+            serverCollections.put(((RequestCollectGuidesId) request).getGuideId(), true);
         }
     }
 }
