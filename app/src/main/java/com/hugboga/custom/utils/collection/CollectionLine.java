@@ -16,7 +16,7 @@ import org.greenrobot.eventbus.EventBus;
 import static com.netease.nim.uikit.impl.NimUIKitImpl.getContext;
 
 /**
- * 收藏内容处理
+ * 收藏线路处理
  * Created by HONGBO on 2017/12/29 18:43.
  */
 
@@ -28,9 +28,6 @@ public class CollectionLine extends BaseCollection {
 
     @Override
     public void queryFavorite() {
-        if (!EventBus.getDefault().isRegistered(CollectionLine.this)) {
-            EventBus.getDefault().register(CollectionLine.this);
-        }
         if (weakReference != null) {
             Context context = weakReference.get();
             if (UserEntity.getUser().isLogin(context)) {
@@ -42,15 +39,15 @@ public class CollectionLine extends BaseCollection {
 
     @Override
     public boolean isCollection(String targetNo) {
-        return collectionLine.containsKey(targetNo) ? collectionLine.get(targetNo) : false;
+        return localCollections.containsKey(targetNo) ? localCollections.get(targetNo) : false;
     }
 
     @Override
     public void changeCollectionLine(String targetNo, boolean isCollection) {
         if (isCollection) {
-            collectionLine.put(targetNo, true);
+            localCollections.put(targetNo, true);
         } else {
-            collectionLine.put(targetNo, false);
+            localCollections.put(targetNo, false);
         }
         new Handler().post(new Runnable() {
             @Override
@@ -97,7 +94,7 @@ public class CollectionLine extends BaseCollection {
                 UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();
                 if (favoriteLine != null && favoriteLine.goodsNos != null) {
                     serverCollections = buildMap(favoriteLine.goodsNos); //记录为服务器端数据
-                    collectionLine = buildMap(favoriteLine.goodsNos); //记录为本地数据
+                    localCollections = buildMap(favoriteLine.goodsNos); //记录为本地数据
                 }
             }
         } else if (request instanceof RequestUncollectLinesNo) {

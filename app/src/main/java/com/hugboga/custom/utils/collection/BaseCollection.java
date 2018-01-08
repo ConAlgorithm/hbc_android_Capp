@@ -9,6 +9,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.event.EventAction;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.ref.WeakReference;
@@ -25,10 +26,13 @@ public abstract class BaseCollection implements ICollection, HttpRequestListener
 
     protected WeakReference<Context> weakReference;
     Map<String, Boolean> serverCollections = new HashMap<>(); //服务器端记录收藏数据
-    Map<String, Boolean> collectionLine = new HashMap<>(); //本地收藏的数据
+    Map<String, Boolean> localCollections = new HashMap<>(); //本地收藏的数据
 
     public BaseCollection(Context context) {
         weakReference = new WeakReference<>(context);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -49,8 +53,8 @@ public abstract class BaseCollection implements ICollection, HttpRequestListener
     }
 
     protected synchronized void checkDataLine() {
-        if (collectionLine != null) {
-            Iterator<Map.Entry<String, Boolean>> entries = collectionLine.entrySet().iterator();
+        if (localCollections != null) {
+            Iterator<Map.Entry<String, Boolean>> entries = localCollections.entrySet().iterator();
             while (entries.hasNext()) {
                 Map.Entry<String, Boolean> entry = entries.next();
                 updateDataLine(entry.getKey(), serverCollections.containsKey(entry.getKey()), entry.getValue());
@@ -90,7 +94,7 @@ public abstract class BaseCollection implements ICollection, HttpRequestListener
             case CLICK_USER_LOOUT:
                 //退出后清空数据，停止同步
                 serverCollections.clear();
-                collectionLine.clear();
+                localCollections.clear();
                 break;
             case LINE_UPDATE_COLLECT:
                 break;
