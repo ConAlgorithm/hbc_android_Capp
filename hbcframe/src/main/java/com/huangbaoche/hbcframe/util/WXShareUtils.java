@@ -182,52 +182,11 @@ public class WXShareUtils {
 
                         @Override
                         public void onProgress(int id, long totalBytes, long downlaodedBytes, int progress) {
-
-
                         }
                     });
             ThinDownloadManager downloadManager;
             downloadManager = new ThinDownloadManager();
             downloadManager.add(downloadRequest);
-//            x.image().loadFile(picUrl, null, new Callback.CacheCallback<File>() {
-//                @Override
-//                public boolean onCache(File result) {
-//                    BitmapFactory.Options options = new BitmapFactory.Options();
-//                    options.inSampleSize = 2;
-//                    Bitmap bitmap= BitmapFactory.decodeFile(result.getAbsolutePath(), options);
-//
-//                    share(type,bitmap,title,content,goUrl);
-//                    return true;
-//                }
-//
-//                @Override
-//                public void onSuccess(File result) {
-//                    BitmapFactory.Options options = new BitmapFactory.Options();
-//                    options.inSampleSize = 2;
-//                    Bitmap bitmap= BitmapFactory.decodeFile(result.getAbsolutePath(), options);
-//                    share(type,bitmap,title,content,goUrl);
-//                }
-//
-//                @Override
-//                public void onError(Throwable ex, boolean isOnCallback) {
-//                    if(mContext!=null)
-//                    Toast.makeText(mContext,"图片加载失败",Toast.LENGTH_LONG).show();
-//                }
-//
-//                @Override
-//                public void onCancelled(CancelledException cex) {
-//
-//                }
-//
-//                @Override
-//                public void onFinished() {
-//
-//                }
-//
-//                });
-
-        } else {
-            ToastUtils.showToast(mContext, "未安装微信");
         }
     }
 

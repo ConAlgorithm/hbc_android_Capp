@@ -699,7 +699,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         }
         commonProblemTV.setText(R.string.chat_popup_item3);
 
-        popup = new PopupWindow(menuLayout, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        popup = new PopupWindow(menuLayout, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         popup.showAsDropDown(shadowButton);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
