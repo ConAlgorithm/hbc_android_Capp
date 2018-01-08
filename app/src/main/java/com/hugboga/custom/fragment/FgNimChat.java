@@ -305,7 +305,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         loadImList();
     }
 
-
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
@@ -413,6 +412,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                 updateUI();
                 break;
             case NIM_LOGIN_SUCCESS:
+            case ORDER_DETAIL_GUIDE_SUCCEED: //选择司导成功，刷新IM列表
                 loadImList();
                 break;
             default:
