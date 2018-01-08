@@ -298,6 +298,13 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         }
     }
 
+    /**
+     * 刷新消息列表
+     */
+    public void flushList() {
+        loadImList();
+    }
+
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
