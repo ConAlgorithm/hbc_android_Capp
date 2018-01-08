@@ -116,7 +116,6 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     navLayout.setVisibility(View.VISIBLE);
                     evaluateLayout.setVisibility(View.GONE);
                     collectLayout.setVisibility(View.GONE);
-                    collectIV.setVisibility(View.GONE);
                     chatLayout.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
                     callLayout.setVisibility(orderBean.isPhone ? View.VISIBLE : View.GONE);
                 }
@@ -140,10 +139,8 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 }
 
                 if (guideInfo.isCollected()) { //不可取消收藏
-                    collectIV.setVisibility(View.VISIBLE);
                     collectLayout.setVisibility(View.GONE);
                 } else {
-                    collectIV.setVisibility(View.GONE);
                     collectLayout.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -152,12 +149,12 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 callLayout.setVisibility(View.GONE);
                 evaluateLayout.setVisibility(View.GONE);
                 collectLayout.setVisibility(View.GONE);
-                collectIV.setVisibility(View.GONE);
                 chatLayout.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
                 break;
         }
 
         Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
+        collectIV.setVisibility(guideInfo.isCollected() ? View.VISIBLE : View.GONE);
         nameTV.setText(orderBean.getGuideName());
         if ((float)guideInfo.guideStarLevel >= 4) {
             starIV.setBackgroundResource(R.mipmap.star_level_full);

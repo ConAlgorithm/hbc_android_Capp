@@ -30,8 +30,8 @@
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_marginBottom="12dp"
            android:layout_marginTop="12dp"
+           android:layout_marginBottom="12dp"
            android:orientation="vertical">
 
            <LinearLayout
@@ -89,9 +89,23 @@
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:lines="2"
+                   android:maxLines="2"
                    android:textColor="#727272" />
            </LinearLayout>
+           <TextView
+               android:id="@+id/view_guide_item_bottom__tv"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:text="@string/guide_list_bottom_button"
+               android:layout_marginTop="15dp"
+               android:textStyle="normal"
+               android:gravity="center"
+               android:textSize="@dimen/text_size_15"
+               android:textColor="@color/black"
+               android:background="@drawable/shape_rounded_black"
+               android:visibility="gone"
+               />
        </LinearLayout>
    </LinearLayout>
 </LinearLayout>

@@ -113,6 +113,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     private int limitSize = Constants.DEFAULT_PAGESIZE;
 
     ImListBean imListBean;
+    ArrayList<ImListBean.ServiceBean> serviceBean;
 
     HbcRecyclerSingleTypeAdpater<ChatBean> adapter;
 
@@ -312,6 +313,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             imListBean = ((RequestNIMChatList) request).getData();
             reRequestTimes = 0;
             if (imListBean != null) {
+                if (imListBean.serviceBean != null) {
+                    serviceBean = imListBean.serviceBean;
+                }
                 imListBean.filterService();
             }
             syncChatData();
@@ -560,6 +564,10 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                                 if (imListBean.offset == 0) {
                                     adapter.clearData();
                                 }
+                                if (imListBean.serviceBean == null && serviceBean != null) {
+                                    imListBean.serviceBean = serviceBean;
+                                    imListBean.filterService();
+                                }
                                 for (ChatBean chatBean : imListBean.resultBean) {
                                     chatBean.setImCount(0);
                                     chatBean.setLastMsg("");
@@ -577,6 +585,16 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                                     ArrayList<ChatBean> chatBeen = new ArrayList<>();
                                     chatBeen.addAll(adapter.getDatas());
                                     chatBeen.addAll(imListBean.resultBean);
+
+                                    if (chatBeen.size() > 0 && chatBeen.get(0).getTargetType() != 3
+                                            && serviceBean != null && serviceBean.size() > 0) {
+                                        ImListBean.ServiceBean serviceItemBean = serviceBean.get(0);
+                                        ChatBean itemChatBean = new ChatBean();
+                                        itemChatBean.targetAvatar = serviceItemBean.targetAvatar;
+                                        itemChatBean.targetName = serviceItemBean.targetName;
+                                        itemChatBean.setTargetType(serviceItemBean.targetType);
+                                        chatBeen.add(0, itemChatBean);
+                                    }
                                     ImDataSyncUtils.removeRepeatData(chatBeen, limitSize);
                                     ImDataSyncUtils.recentListSync(chatBeen, list);
                                     adapter.clearData();
@@ -585,17 +603,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                                 }
                                 saveLettersToLocal();
                             }
-                        }
-
-                        if (imListBean == null || imListBean.resultBean == null || imListBean.totalSize == 0) {
-                            chatLayout.setVisibility(View.GONE);
-                            emptyTV.setVisibility(View.VISIBLE);
-                            emptyTV.setEnabled(false);
-                            emptyTV.setTextSize(12);
-                            emptyTV.setText(R.string.chat_empty_hint3);
-                        } else {
-                            emptyTV.setVisibility(View.GONE);
-                            chatLayout.setVisibility(View.VISIBLE);
                         }
                     }
                 });
@@ -636,7 +643,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                             ChatBean chatBean = (ChatBean) request.getData();
                             if (messages != null && messages.size() > 0) {
                                 for (RecentContact recentContact : messages) {
-                                    if (recentContact.getContactId().toLowerCase().equals(chatBean.getNeTargetId().toLowerCase())) {
+                                    if (!TextUtils.isEmpty(recentContact.getContactId()) && !TextUtils.isEmpty(chatBean.getNeTargetId()) && recentContact.getContactId().toLowerCase().equals(chatBean.getNeTargetId().toLowerCase())) {
                                         chatBean.setLastMsg(recentContact.getContent());
                                         chatBean.setImCount(recentContact.getUnreadCount());
                                         chatBean.setTimeStamp(recentContact.getTime());

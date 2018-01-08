@@ -698,6 +698,7 @@
     <string name="traveler_list_title">行程单</string>
     <string name="filter_sku_list_title">包车线路</string>
     <string name="guide_list_title">精选司导</string>
+    <string name="guide_list_bottom_button">找我预定</string>
     <string name="service_guide_list_title">可服务司导</string>
     <string name="choose_other_title">乘车联系人</string>
     <string name="bargain_title">邀请好友来砍价</string>
