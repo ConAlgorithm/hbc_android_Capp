@@ -309,7 +309,7 @@ public class UrlLibs {
     public static final String REMOVE_NIM_CHAT              = "communication/v3.0/c/im/chat/remove";                    // 云信私聊列表删除对话接口
     public static final String ADD_NIM_BLACK                = "communication/v3.0/c/im/black/add";                      // 云信私聊对象加入黑名单
     public static final String REMOVE_NIM_BLACK             = "communication/v3.0/c/im/black/remove";                   // 云信私聊对象移出黑名单
-    public static final String API_SINGLE_CHAT_ORDER_DETAIL = "communication/v3.0/c/im/target/info";                    // 聊天列表订单信息
+    public static final String API_SINGLE_CHAT_ORDER_DETAIL = "communication/v4.0/c/im/target/info";                    // 聊天列表订单信息
     public static final String API_IM_SERVER_INFO           = "communication/v2.0/c/im/info/kf";                        // 获取当前环境下的客服信息
     public static final String API_UPLOAD_IMANALYSIS_INFO   = "communication/v4.0/c/im/chat/upload";                    // 上传Im统计信息  161
     public static final String API_IMANALYSIS_SWITCH        = "communication/v4.0/c/im/chat/upload/switch";             // IM统计开关 162

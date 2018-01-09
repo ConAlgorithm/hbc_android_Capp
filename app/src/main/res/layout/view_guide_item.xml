@@ -50,6 +50,8 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:maxLength="30"
+                   android:layout_marginRight="@dimen/dp_10"
+                   android:textSize="@dimen/sp_12"
                    android:textColor="#727272" />
            </LinearLayout>
 
@@ -70,6 +72,8 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:maxLength="30"
+                   android:layout_marginRight="@dimen/dp_10"
+                   android:textSize="@dimen/sp_12"
                    android:textColor="#727272" />
            </LinearLayout>
 
@@ -90,10 +94,12 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:maxLines="2"
+                   android:layout_marginRight="@dimen/dp_10"
+                   android:textSize="@dimen/sp_12"
                    android:textColor="#727272" />
            </LinearLayout>
            <TextView
-               android:id="@+id/view_guide_item_bottom__tv"
+               android:id="@+id/view_guide_item_bottom_tv"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_gravity="center"
@@ -104,7 +110,6 @@
                android:textSize="@dimen/text_size_15"
                android:textColor="@color/black"
                android:background="@drawable/shape_rounded_black"
-               android:visibility="gone"
                />
        </LinearLayout>
    </LinearLayout>

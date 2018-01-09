@@ -52,6 +52,8 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
     TextView evaluateTV;
     @BindView(R.id.guide_item_include_star_tv)
     TextView starTV;
+    @BindView(R.id.view_guide_item_bottom_tv)
+    TextView bottomTV;
 
     @BindView(R.id.guide_item_include_info_layout)
     LinearLayout infoLayout;
@@ -63,6 +65,8 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
     LinearLayout labelTypeTV;
     @BindView(R.id.guide_item_include_image)
     ImageView imageView;
+
+    FilterGuideBean data;
 
 
     public GuideItemView(Context context) {
@@ -79,7 +83,7 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
 
     @Override
     public void update(Object _data) {
-        final FilterGuideBean data = (FilterGuideBean) _data;
+        data = (FilterGuideBean) _data;
         serviceTypeTV.getLayoutParams().width = UIUtils.getScreenWidth();
         Tools.showImage(avatarIV, data.avatar, R.mipmap.icon_avatar_guide);
 
@@ -90,7 +94,7 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
             FilterGuideListActivity filterGuideListActivity = (FilterGuideListActivity) getContext();
             isShowCity = filterGuideListActivity.isShowCity();
         }
-        if ("1".equals(data.decisionMaker)) {
+        if ("1".equals(data.decisionMaker) || "1".equals(data.chatAbility)) {
             imageView.setVisibility(View.VISIBLE);
             imageView.setOnClickListener(new OnClickListener() {
                 @Override
@@ -156,6 +160,17 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
             serviceTypeTV.setVisibility(View.VISIBLE);
             ((TextView) serviceTypeTV.getChildAt(1)).setText(serviceType);
         }
-
+        if (getContext() != null && (getContext() instanceof FilterGuideListActivity) && !((FilterGuideListActivity) getContext()).isGoods()) {
+            bottomTV.setVisibility(View.GONE);
+            return;
+        }
+        bottomTV.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getContext() != null && (getContext() instanceof FilterGuideListActivity)) {
+                    ((FilterGuideListActivity) getContext()).orderJumpDate(data.guideId, data.guideName);
+                }
+            }
+        });
     }
 }

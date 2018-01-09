@@ -10,20 +10,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.FilterGuideListBean;
 import com.hugboga.custom.data.bean.FilterGuideOptionsBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestFilterGuide;
+import com.hugboga.custom.data.request.RequestGoodsById;
 import com.hugboga.custom.data.request.RequestGuideFilterOptions;
 import com.hugboga.custom.fragment.GuideFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterSortFragment;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.GuideFilterLayout;
 import com.hugboga.custom.widget.GuideItemView;
@@ -33,6 +41,8 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -59,7 +69,8 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     TextView emptyHintTV;
 
     private Params paramsData;
-
+    private SkuItemBean skuItemBean;//sku详情
+    private CityBean cityBean;
     private CityActivity.Params cityParams;
     private GuideFilterFragment.GuideFilterBean guideFilterBean;
     private GuideFilterSortFragment.SortTypeBean sortTypeBean;
@@ -167,7 +178,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         });
     }
 
-    private boolean isGoods() {
+    public boolean isGoods() {
         if (paramsData != null && !TextUtils.isEmpty(paramsData.goodsNo)) {
             return true;
         } else {
@@ -229,6 +240,8 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             }
             requestData(new RequestGuideFilterOptions(this, cityHomeType, id));
         }
+        RequestGoodsById request = new RequestGoodsById(activity, paramsData.goodsNo, "");
+        HttpRequestUtils.request(activity, request, FilterGuideListActivity.this, false);
     }
 
     public boolean isShowCity() {
@@ -338,6 +351,9 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             FilterGuideOptionsBean filterGuideOptionsBean = ((RequestGuideFilterOptions) _request).getData();
             filterGuideOptionsBean.setMandarinBean();
             filterLayout.setFilterGuideOptionsBean(filterGuideOptionsBean);
+        }else  if (_request instanceof RequestGoodsById) {
+            RequestGoodsById requestGoodsById = (RequestGoodsById) _request;
+            skuItemBean = requestGoodsById.getData();
         }
     }
 
@@ -382,5 +398,38 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
                 }
             });
         }
+    }
+
+    public void orderJumpDate(String guideId, String guideName) {
+        if (skuItemBean == null) {
+
+            return;
+        }
+        if (cityBean == null) {
+            cityBean = findCityById("" + skuItemBean.depCityId);
+        }
+        SkuOrderActivity.Params params = new SkuOrderActivity.Params();
+        params.skuItemBean = skuItemBean;
+        params.cityBean = cityBean;
+        GuidesDetailData guidesDetailData = new GuidesDetailData();
+        guidesDetailData.guideId = guideId;
+        guidesDetailData.guideName = guideName;
+        params.guidesDetailData = guidesDetailData;
+        Intent intent = new Intent(activity, SkuDateActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
+        startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.CLICK_SKUDATE);
+
+    }
+
+    private CityBean findCityById(String cityId) {
+        DbManager mDbManager = new DBHelper(FilterGuideListActivity.this).getDbManager();
+        try {
+            cityBean = mDbManager.findById(CityBean.class, cityId);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return cityBean;
     }
 }
