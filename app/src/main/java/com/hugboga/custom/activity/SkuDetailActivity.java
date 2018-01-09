@@ -200,6 +200,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
                     skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
                     StatisticClickEvent.click(StatisticConstant.SHARESKU);
+                    SensorsUtils.onAppClick(getEventSource(), "分享", getIntentSource());
                 }
             }
 
@@ -365,6 +366,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
                 StatisticClickEvent.click(StatisticConstant.CLICK_SKUDATE);
+                SensorsUtils.onAppClick(getEventSource(), "直接预订", getIntentSource());
                 break;
             case R.id.sku_detail_bottom_service_layout://联系客服
                 if (skuItemBean == null) {
