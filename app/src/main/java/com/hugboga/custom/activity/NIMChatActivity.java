@@ -55,6 +55,7 @@ import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.SoftKeyboardStateHelper;
+import com.hugboga.custom.widget.CompatPopupWindow;
 import com.hugboga.custom.widget.CountryLocalTimeView;
 import com.hugboga.custom.widget.ImSendMesView;
 import com.hugboga.im.ImHelper;
@@ -151,6 +152,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @BindView(R.id.im_shadow)
     RelativeLayout imShadow;
 
+    @BindView(R.id.header_left_btn)
+    ImageView header_left_btn;
     private String userId; //用户ID
     private String targetType; //目标类型
     private int inBlack;//标识对方是否被自己拉黑，1是 0否
@@ -675,7 +678,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     /**
      * 右上角的菜单，取消订单 联系客服
      */
-    private PopupWindow popup;
+    private CompatPopupWindow popup;
     View menuLayout;
 
     public void showPopupWindow() {
@@ -683,7 +686,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             return;
         }
         if (menuLayout == null) {
-            menuLayout = LayoutInflater.from(NIMChatActivity.this).inflate(R.layout.popup_top_right_menu_im, null);
+            menuLayout = LayoutInflater.from(NIMChatActivity.this).inflate(R.layout.popup_top_right_menu, null);
         }
         TextView cancelOrderTV = (TextView) menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView) menuLayout.findViewById(R.id.menu_phone);
@@ -699,17 +702,11 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         }
         commonProblemTV.setText(R.string.chat_popup_item3);
 
-        popup = new PopupWindow(menuLayout, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        popup.showAsDropDown(shadowButton);
+        popup = new CompatPopupWindow(menuLayout, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        popup.showAsDropDown(header_left_btn);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
-        menuLayout.findViewById(R.id.bg_top_view).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popup.dismiss();
-            }
-        });
 
         menuLayout.findViewById(R.id.bg_view).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -790,6 +787,16 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                 startActivity(intent);
 
                 popup.dismiss();
+            }
+        });
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (popup.isShowing()){
+                    popup.dismiss();
+                }else{
+                    finish();
+                }
             }
         });
     }

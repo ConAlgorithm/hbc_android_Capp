@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.city.BeginnerDirectionVo;
 import com.hugboga.custom.utils.Tools;
 
@@ -68,6 +69,7 @@ public class CityBannerView extends FrameLayout {
                     Intent intent = new Intent(getContext(), WebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, beginnerDirectionVo.beginnerDirectionUrl);
                     intent.putExtra(WebInfoActivity.WEB_SHARE_BTN, true);
+                    intent.putExtra(Constants.PARAMS_SOURCE,"国家");
                     getContext().startActivity(intent);
                 }
                 break;

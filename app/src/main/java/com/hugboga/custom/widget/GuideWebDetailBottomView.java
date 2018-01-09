@@ -21,6 +21,7 @@ import com.hugboga.custom.data.bean.GuideExtinfoBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChooseGuideUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -147,14 +148,15 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
             contactLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (CommonUtils.isLogin(getContext(), "司导详情")) {
+                    if (CommonUtils.isLogin(getContext(), "司导个人页")) {
                         if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
                             return;
                         }
-                        String source = "司导个人页";
+                        String source = ((GuideWebDetailActivity)(getContext())).getEventSource();
                         if (getContext() instanceof GuideWebDetailActivity) {
                             source = ((GuideWebDetailActivity) getContext()).getEventSource();
                         }
+                        SensorsUtils.onAppClick(source, "联系我", "");
                         NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId, source);
                         StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
                     }
