@@ -85,7 +85,6 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     ImageView delete;
 
 
-
     private SharedPre sharedPre;
     private String source = "";
     String phone;
@@ -103,6 +102,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     public int getContentViewId() {
         return R.layout.fg_login_new;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +110,13 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         initView(getIntent());
         //initHeader();
         setSensorsPageViewEvent("登录页", SensorsConstant.LOGIN);
-        OrderUtils.genUserAgreeMent(this,miaoshu2);
+        OrderUtils.genUserAgreeMent(this, miaoshu2, new OrderUtils.MyCLickSpan.OnSpanClickListener() {
+            @Override
+            public void onSpanClick(View view) {
+                //点击皇包车旅行用户协议
+                SensorsUtils.onAppClick("登录", "登录", "皇包车用户协议", "我的");
+            }
+        });
         OrderUtils.genCLickSpan(this, miaoshu1, getString(R.string.login_voice_captcha_hint), getString(R.string.login_voice_captcha_hint_click), null
                 , getResources().getColor(R.color.default_highlight_blue), false, new OrderUtils.MyCLickSpan.OnSpanClickListener() {
                     @Override
@@ -125,6 +131,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                     }
                 });
     }
+
     protected void initView(Intent intent) {
         String areaCode = null;
         String phone = null;
@@ -132,7 +139,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             areaCode = intent.getStringExtra(KEY_AREA_CODE);
             phone = intent.getStringExtra(KEY_PHONE);
             source = intent.getStringExtra(Constants.PARAMS_SOURCE);
-            actionBean = (ActionBean)intent.getSerializableExtra(Constants.PARAMS_ACTION);
+            actionBean = (ActionBean) intent.getSerializableExtra(Constants.PARAMS_ACTION);
         }
         sharedPre = new SharedPre(activity);
         if (TextUtils.isEmpty(areaCode)) {
@@ -151,17 +158,17 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             this.phone = phone;
             phoneEditText.setText(phone);
         }
-        if(phone!= null){
-            if(phone.length() >0){
+        if (phone != null) {
+            if (phone.length() > 0) {
                 delete.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 delete.setVisibility(View.GONE);
             }
         }
-        if(phoneEditText!=null){
-            if(phoneEditText.getText().toString().length() >0){
+        if (phoneEditText != null) {
+            if (phoneEditText.getText().toString().length() > 0) {
                 verify.setTextColor(getResources().getColor(R.color.forget_pwd));
-            }else{
+            } else {
                 verify.setTextColor(getResources().getColor(R.color.common_font_color_gray));
             }
         }
@@ -177,11 +184,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 finish();
             }
         });
-        if(phoneEditText.getText().toString().length() == 0){
+        if (phoneEditText.getText().toString().length() == 0) {
             phoneEditText.setFocusable(true);
             phoneEditText.setFocusableInTouchMode(true);
             phoneEditText.requestFocus();
-        }else if(loginPassword.getText().toString().length() == 0){
+        } else if (loginPassword.getText().toString().length() == 0) {
             loginPassword.setFocusable(true);
             loginPassword.setFocusableInTouchMode(true);
             loginPassword.requestFocus();
@@ -212,10 +219,10 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         String phone = phoneEditText.getText().toString().trim();
         String capthca = loginPassword.getText().toString().trim();
 
-        if(phone.length() >0){
+        if (phone.length() > 0) {
             delete.setVisibility(View.VISIBLE);
             verify.setTextColor(getResources().getColor(R.color.forget_pwd));
-        }else{
+        } else {
             delete.setVisibility(View.GONE);
             verify.setTextColor(getResources().getColor(R.color.common_font_color_gray));
         }
@@ -228,10 +235,12 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         }
 
     }
+
     public void loginCheckOpenId(String code) {
         RequestLoginCheckOpenId request = new RequestLoginCheckOpenId(activity, code);
         requestData(request);
     }
+
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -276,11 +285,13 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             runnable = null;
         }
     }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         initView(intent);
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -293,8 +304,10 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         super.onStart();
         this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
+
     Integer time = 59;
     Handler handler = new Handler();
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
@@ -353,10 +366,10 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 Bundle bundle = new Bundle();
                 bundle.putString("unionid", userBean.unionid);
                 bundle.putString("source", getEventSource());
-                bundle.putString("key_phone",userBean.mobile);
-                bundle.putString("key_area_code",userBean.areaCode);
+                bundle.putString("key_phone", userBean.mobile);
+                bundle.putString("key_area_code", userBean.areaCode);
                 Intent intent = new Intent(LoginActivity.this, BindMobileActivity.class);
-                intent.putExtra(Constants.PARAMS_ACTION,actionBean);
+                intent.putExtra(Constants.PARAMS_ACTION, actionBean);
                 intent.putExtras(bundle);
                 startActivity(intent);
 
@@ -376,25 +389,26 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 CommonUtils.getAgainstDeviceId();
                 finish();
             }
-        }else if(request instanceof RequestVerity){
+        } else if (request instanceof RequestVerity) {
             CommonUtils.showToast(R.string.setting_send_verity);
             phoneEditText.setText(phone);
             time = 59;
             handler.postDelayed(runnable, 0);
         }
     }
+
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
             if (time > 0) {
-                if(verify!= null){
-                    verify.setText("   ("+String.valueOf(time--) + "s)");
+                if (verify != null) {
+                    verify.setText("   (" + String.valueOf(time--) + "s)");
                     verify.setTextColor(0xffa8a8a8);
                     verify.setEnabled(false);
                 }
                 handler.postDelayed(this, 1000);
             } else {
-                if(verify!= null){
+                if (verify != null) {
                     verify.setText(R.string.setting_get_verity);
                     verify.setTextColor(0xff24B5FF);
                     verify.setEnabled(true);
@@ -407,23 +421,24 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if(request instanceof RequestVerity){
+        if (request instanceof RequestVerity) {
             verify.setText(R.string.setting_get_verity);
             verify.setTextColor(0xff24B5FF);
             phoneEditText.setText(phone);
-        }else if(request instanceof  RequestLoginBycaptcha){
+        } else if (request instanceof RequestLoginBycaptcha) {
             //CommonUtils.showToast("验证码错误，请重新输入");
 
         }
         super.onDataRequestError(errorInfo, request);
     }
-    @OnClick({R.id.wechat_layout, R.id.login_submit, R.id.change_mobile_areacode,R.id.verify,R.id.back,R.id.delete,R.id.shouji_layout})
+
+    @OnClick({R.id.wechat_layout, R.id.login_submit, R.id.change_mobile_areacode, R.id.verify, R.id.back, R.id.delete, R.id.shouji_layout})
     public void onClick(View view) {
         Intent intent = null;
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
             case R.id.back:
-                StatisticClickEvent.click(StatisticConstant.LOGIN_CLOSE,getIntentSource());
+                StatisticClickEvent.click(StatisticConstant.LOGIN_CLOSE, getIntentSource());
                 finish();
                 break;
             case R.id.wechat_layout:
@@ -431,7 +446,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                     CommonUtils.showToast(R.string.login_wechat_uninstalled_hint);
                     return;
                 }
-                StatisticClickEvent.click(StatisticConstant.LOGIN_WEIXIN,getIntentSource());
+                StatisticClickEvent.click(StatisticConstant.LOGIN_WEIXIN, getIntentSource());
                 wxapi = WXAPIFactory.createWXAPI(this.activity, BuildConfig.WX_APP_ID);
                 wxapi.registerApp(BuildConfig.WX_APP_ID);
                 SendAuth.Req req = new SendAuth.Req();
@@ -442,7 +457,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
                 map.put("source", source);
                 MobclickAgent.onEvent(activity, "login_weixin", map);
-                SensorsUtils.onAppClick(getEventSource(),"微信登录",getIntentSource());
+                SensorsUtils.onAppClick(getEventSource(), "微信登录", getIntentSource());
                 break;
             case R.id.shouji_layout:
                 intent = new Intent(this, AccountPwdLoginActivity.class);
@@ -472,26 +487,26 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 collapseSoftInputMethod(loginPassword);
                 loginPassword.requestFocus();
                 String areaCode1 = areaCodeTextView.getText().toString();
-                if(TextUtils.isEmpty(areaCode1)){
+                if (TextUtils.isEmpty(areaCode1)) {
                     CommonUtils.showToast(R.string.login_check_areacode);
                     return;
                 }
                 areaCode1 = areaCode1.substring(1);
                 phone = phoneEditText.getText().toString();
-                if(TextUtils.isEmpty(phone)){
+                if (TextUtils.isEmpty(phone)) {
                     CommonUtils.showToast(R.string.login_check_phone);
                     return;
                 }
-                if(areaCode1.equals("86")){
-                    if(!phone.startsWith("1") || phone.length() != 11){
+                if (areaCode1.equals("86")) {
+                    if (!phone.startsWith("1") || phone.length() != 11) {
                         CommonUtils.showToast(R.string.login_check_phone_length);
                         return;
                     }
                 }
 
-                RequestVerity requestVerity = new RequestVerity(this,areaCode1,phone,4);
+                RequestVerity requestVerity = new RequestVerity(this, areaCode1, phone, 4);
                 requestData(requestVerity);
-                SensorsUtils.onAppClick(getEventSource(),"获取验证码",getIntentSource());
+                SensorsUtils.onAppClick(getEventSource(), "获取验证码", getIntentSource());
                 break;
             case R.id.delete:
                 phoneEditText.setText("");
@@ -526,11 +541,12 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             return;
         }
 
-        RequestLoginBycaptcha request = new RequestLoginBycaptcha(activity, areaCode, phone, captcha,3,1,3);
+        RequestLoginBycaptcha request = new RequestLoginBycaptcha(activity, areaCode, phone, captcha, 3, 1, 3);
         requestData(request);
 
-        StatisticClickEvent.click(StatisticConstant.LOGIN_CODE,getIntentSource());
+        StatisticClickEvent.click(StatisticConstant.LOGIN_CODE, getIntentSource());
     }
+
     @Override
     public String getEventId() {
         return StatisticConstant.LOGIN_LAUNCH;
@@ -549,6 +565,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     private void connectIM() {
         IMUtil.getInstance().connect();
     }
+
     public void onBackPressed() {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("source", source);

@@ -43,7 +43,7 @@ import java.util.List;
 
 public class OrderUtils {
 
-    private String getUserExJson(ContactUsersBean contactUsersBean){
+    private String getUserExJson(ContactUsersBean contactUsersBean) {
         StringBuffer userExJson = new StringBuffer();
         userExJson.append("[");
         if (!TextUtils.isEmpty(contactUsersBean.userPhone)) {
@@ -59,7 +59,7 @@ public class OrderUtils {
         return userExJson.toString();
     }
 
-    private String getRealUserExJson(ContactUsersBean contactUsersBean){
+    private String getRealUserExJson(ContactUsersBean contactUsersBean) {
         StringBuffer realUserExJson = new StringBuffer();
         realUserExJson.append("[");
 
@@ -70,7 +70,7 @@ public class OrderUtils {
         return realUserExJson.toString();
     }
 
-    public static int getSeat1PriceTotal(CarListBean carListBean,ManLuggageBean manLuggageBean){
+    public static int getSeat1PriceTotal(CarListBean carListBean, ManLuggageBean manLuggageBean) {
         int seat1Price = 0;
         if (null != carListBean && null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.childSeatPrice1) {
             seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
@@ -79,7 +79,7 @@ public class OrderUtils {
         return seat1PriceTotal;
     }
 
-    public static int getSeat2PriceTotal(CarAdditionalServicePrice additionalServicePrice, ManLuggageBean manLuggageBean){
+    public static int getSeat2PriceTotal(CarAdditionalServicePrice additionalServicePrice, ManLuggageBean manLuggageBean) {
         int seat2Price = 0;
 
         if (null != additionalServicePrice && null != additionalServicePrice.childSeatPrice2) {
@@ -89,7 +89,7 @@ public class OrderUtils {
         return seat2PriceTotal;
     }
 
-    public static int getSeat1PriceTotal(CarAdditionalServicePrice additionalServicePrice, ManLuggageBean manLuggageBean){
+    public static int getSeat1PriceTotal(CarAdditionalServicePrice additionalServicePrice, ManLuggageBean manLuggageBean) {
         int seat1Price = 0;
         if (null != additionalServicePrice && null != additionalServicePrice.childSeatPrice1) {
             seat1Price = Integer.valueOf(additionalServicePrice.childSeatPrice1);
@@ -98,7 +98,7 @@ public class OrderUtils {
         return seat1PriceTotal;
     }
 
-    public static int getSeat2PriceTotal(CarListBean carListBean,ManLuggageBean manLuggageBean){
+    public static int getSeat2PriceTotal(CarListBean carListBean, ManLuggageBean manLuggageBean) {
         int seat2Price = 0;
 
         if (null != carListBean && null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.childSeatPrice2) {
@@ -108,7 +108,7 @@ public class OrderUtils {
         return seat2PriceTotal;
     }
 
-    private String getChileSeatJson(CarListBean carListBean,ManLuggageBean manLuggageBean){
+    private String getChileSeatJson(CarListBean carListBean, ManLuggageBean manLuggageBean) {
         int seat1Price = 0;
         int seat2Price = 0;
         if (null != carListBean && null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.childSeatPrice1) {
@@ -128,25 +128,25 @@ public class OrderUtils {
     }
 
 
-    public static int getSeat1Count(ManLuggageBean manLuggageBean){
-        if(null == manLuggageBean){
+    public static int getSeat1Count(ManLuggageBean manLuggageBean) {
+        if (null == manLuggageBean) {
             return 0;
         }
         return (manLuggageBean.childSeats >= 1 ? 1 : 0);
     }
 
-    public static int getSeat2Count(ManLuggageBean manLuggageBean){
-        if(null == manLuggageBean){
+    public static int getSeat2Count(ManLuggageBean manLuggageBean) {
+        if (null == manLuggageBean) {
             return 0;
         }
         return (manLuggageBean.childSeats >= 1 ? (manLuggageBean.childSeats - 1) : 0);
     }
 
-    public static int getSeat1Count(int childSeats){
+    public static int getSeat1Count(int childSeats) {
         return (childSeats >= 1 ? 1 : 0);
     }
 
-    public static int getSeat2Count(int childSeats){
+    public static int getSeat2Count(int childSeats) {
         return (childSeats >= 1 ? (childSeats - 1) : 0);
     }
 
@@ -166,19 +166,19 @@ public class OrderUtils {
 
     //包车参数
     public OrderBean getDayOrderByInput(String adultNum, CarBean carBean,
-                                         String childrenNum, String endCityId,
-                                         CityBean endBean, List<OrderContact>  contact,
-                                         String serverTime, String startDate,
-                                         String endDate, int outNum, int inNum,
-                                         String serviceAddressTel,String serviceAreaCode,
-                                         CityBean startBean,boolean isHalfTravel,
-                                         String startAddress,String destAddressDetail,
-                                         String userName,String passCities,String userRemark,
-                                         String childseatNum,String luggageNum,
-                                         ContactUsersBean contactUsersBean ,
-                                         boolean dreamLeftIscheck,String travelFund,
-                                         CouponBean couponBean,MostFitBean mostFitBean,
-                                         String guideCollectId,PoiBean poiBean) {
+                                        String childrenNum, String endCityId,
+                                        CityBean endBean, List<OrderContact> contact,
+                                        String serverTime, String startDate,
+                                        String endDate, int outNum, int inNum,
+                                        String serviceAddressTel, String serviceAreaCode,
+                                        CityBean startBean, boolean isHalfTravel,
+                                        String startAddress, String destAddressDetail,
+                                        String userName, String passCities, String userRemark,
+                                        String childseatNum, String luggageNum,
+                                        ContactUsersBean contactUsersBean,
+                                        boolean dreamLeftIscheck, String travelFund,
+                                        CouponBean couponBean, MostFitBean mostFitBean,
+                                        String guideCollectId, PoiBean poiBean) {
         OrderBean orderBean = new OrderBean();//订单
         orderBean.adult = Integer.valueOf(adultNum);
         orderBean.carDesc = carBean.carDesc;
@@ -209,10 +209,10 @@ public class OrderUtils {
         orderBean.capOfPerson = carBean.capOfPerson;
         orderBean.special = carBean.special;
 
-        if(null != poiBean) {
+        if (null != poiBean) {
             orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
             orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
-        }else{
+        } else {
             orderBean.startAddress = "";
             orderBean.startAddressDetail = "";
         }
@@ -244,23 +244,23 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
+                if (null != mostFitBean && null != mostFitBean.actualPrice && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
-                }else{
+                } else {
                     orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
                 orderBean.orderPrice = carBean.price;
-                if(couponBean.actualPrice != 0) {
+                if (couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
-                }else{
+                } else {
                     orderBean.priceActual = "0";
                 }
             }
         }
-        if(!TextUtils.isEmpty(guideCollectId)) {
+        if (!TextUtils.isEmpty(guideCollectId)) {
             orderBean.guideCollectId = guideCollectId;
         }
 
@@ -272,12 +272,12 @@ public class OrderUtils {
         manLuggageBean.childs = Integer.valueOf(childrenNum);
 
 
-        if(manLuggageBean.childSeats != 0) {
+        if (manLuggageBean.childSeats != 0) {
             orderBean.orderPrice = carBean.price;
-            orderBean.priceChannel = carBean.price+"";
-            orderBean.childSeatStr = getChileSeatJson(null,manLuggageBean);
-        }else{
-            orderBean.orderPrice  = carBean.price;
+            orderBean.priceChannel = carBean.price + "";
+            orderBean.childSeatStr = getChileSeatJson(null, manLuggageBean);
+        } else {
+            orderBean.orderPrice = carBean.price;
             orderBean.childSeatStr = "";
             orderBean.priceChannel = carBean.price + "";
         }
@@ -318,13 +318,13 @@ public class OrderUtils {
         orderBean.flightDestCode = flightBean.depAirportCode;
         orderBean.flightDestName = flightBean.depAirportName;
         int pickupPrice = 0;
-        if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
+        if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
             pickupPrice = Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
             orderBean.isFlightSign = isCheckIn ? "1" : "0";
-        }else{
+        } else {
             orderBean.isFlightSign = "0";
         }
-        orderBean.priceFlightBrandSign = pickupPrice+"";
+        orderBean.priceFlightBrandSign = pickupPrice + "";
 
         orderBean.flightBrandSign = pickName;//pickName.getText().toString();
         orderBean.adult = Integer.valueOf(adultNum);
@@ -368,51 +368,51 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
+                if (null != mostFitBean && null != mostFitBean.actualPrice && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
-                }else{
+                } else {
                     orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
                 orderBean.orderPrice = carBean.price;
-                if(couponBean.actualPrice != 0) {
+                if (couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
-                }else{
+                } else {
                     orderBean.priceActual = "0";
                 }
             }
         }
         orderBean.expectedCompTime = carBean.expectedCompTime;
-        if(!TextUtils.isEmpty(guideCollectId)) {
+        if (!TextUtils.isEmpty(guideCollectId)) {
             orderBean.guideCollectId = guideCollectId;
         }
         orderBean.userEx = getUserExJson(contactUsersBean);
         orderBean.realUserEx = getRealUserExJson(contactUsersBean);
         if (null == carListBean.additionalServicePrice.childSeatPrice1
                 && null == carListBean.additionalServicePrice.childSeatPrice2) {
-            orderBean.orderPrice  = carBean.price;
+            orderBean.orderPrice = carBean.price;
             orderBean.childSeatStr = "";
             orderBean.priceChannel = carBean.price + "";
         } else {
-            if(manLuggageBean.childSeats != 0) {
-                orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean);
-                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean)) + "";
-                orderBean.childSeatStr = getChileSeatJson(carListBean,manLuggageBean);
-            }else{
-                orderBean.orderPrice  = carBean.price;
+            if (manLuggageBean.childSeats != 0) {
+                orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean);
+                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean)) + "";
+                orderBean.childSeatStr = getChileSeatJson(carListBean, manLuggageBean);
+            } else {
+                orderBean.orderPrice = carBean.price;
                 orderBean.childSeatStr = "";
                 orderBean.priceChannel = carBean.price + "";
             }
         }
 
         orderBean.orderPrice = isCheckIn ?
-                (carBean.price + pickupPrice) + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean)
-                : carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean);
+                (carBean.price + pickupPrice) + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean)
+                : carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean);
         orderBean.priceChannel = isCheckIn ?
-                "" + (carBean.price + pickupPrice + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean))
-                : "" + (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean));
+                "" + (carBean.price + pickupPrice + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean))
+                : "" + (carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean));
 
         if (carListBean.isSeckills) {
             orderBean.isSeckills = true;
@@ -429,19 +429,19 @@ public class OrderUtils {
 
     public OrderBean getSingleOrderByInput(String adultNum, CarBean carBean,
                                            String childrenNum, String endCityId,
-                                           String startCityId, List<OrderContact>  contact,
+                                           String startCityId, List<OrderContact> contact,
                                            String serverTime, String startCityName,
                                            String serverDate,
-                                           PoiBean startPoi,PoiBean endPoi,String distance,
-                                           String serviceAddressTel,String serviceAreaCode,
+                                           PoiBean startPoi, PoiBean endPoi, String distance,
+                                           String serviceAddressTel, String serviceAreaCode,
                                            CarListBean carListBean,
                                            ManLuggageBean manLuggageBean,
-                                           String userName,String passCities,String userRemark,
-                                           String childseatNum,String luggageNum,
-                                           ContactUsersBean contactUsersBean ,
-                                           boolean dreamLeftIscheck,String travelFund,
-                                           CouponBean couponBean,MostFitBean mostFitBean,
-                                           String guideCollectId,String userWechat) {
+                                           String userName, String passCities, String userRemark,
+                                           String childseatNum, String luggageNum,
+                                           ContactUsersBean contactUsersBean,
+                                           boolean dreamLeftIscheck, String travelFund,
+                                           CouponBean couponBean, MostFitBean mostFitBean,
+                                           String guideCollectId, String userWechat) {
         OrderBean orderBean = new OrderBean();//订单
         orderBean.orderType = 4;
         orderBean.adult = Integer.valueOf(adultNum);
@@ -503,40 +503,40 @@ public class OrderUtils {
             if (null == couponBean && null != mostFitBean) {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
-                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
+                if (null != mostFitBean && null != mostFitBean.actualPrice && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
-                }else{
+                } else {
                     orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
-                if(couponBean.actualPrice != 0) {
+                if (couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
-                }else{
+                } else {
                     orderBean.priceActual = "0";
                 }
             }
         }
         orderBean.expectedCompTime = carBean.expectedCompTime;
-        if(!TextUtils.isEmpty(guideCollectId)) {
+        if (!TextUtils.isEmpty(guideCollectId)) {
             orderBean.guideCollectId = guideCollectId;
         }
         orderBean.userEx = getUserExJson(contactUsersBean);
         orderBean.realUserEx = getRealUserExJson(contactUsersBean);
-        orderBean.orderPrice  = carBean.price;
+        orderBean.orderPrice = carBean.price;
         if (null == carListBean.additionalServicePrice.childSeatPrice1
                 && null == carListBean.additionalServicePrice.childSeatPrice2) {
-            orderBean.orderPrice  = carBean.price;
+            orderBean.orderPrice = carBean.price;
             orderBean.childSeatStr = "";
             orderBean.priceChannel = carBean.price + "";
         } else {
-            if(manLuggageBean.childSeats != 0) {
-                orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean);
-                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean)) + "";
-                orderBean.childSeatStr = getChileSeatJson(carListBean,manLuggageBean);
-            }else{
-                orderBean.orderPrice  = carBean.price;
+            if (manLuggageBean.childSeats != 0) {
+                orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean);
+                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean)) + "";
+                orderBean.childSeatStr = getChileSeatJson(carListBean, manLuggageBean);
+            } else {
+                orderBean.orderPrice = carBean.price;
                 orderBean.childSeatStr = "";
                 orderBean.priceChannel = carBean.price + "";
             }
@@ -547,22 +547,22 @@ public class OrderUtils {
     }
 
     public OrderBean getSendOrderByInput(PoiBean poiBean,
-                                         CarBean carBean,String contactName,
-                                         boolean isCheckIn,String flightNo,AirPort airPort,
-                                         CarListBean carListBean,String serverDate,
+                                         CarBean carBean, String contactName,
+                                         boolean isCheckIn, String flightNo, AirPort airPort,
+                                         CarListBean carListBean, String serverDate,
                                          boolean dreamLeftischeck,
-                                         String adultNum,String childrenNum,
-                                         String serviceAddressTel,String serviceAreaCode,String userRemark,
-                                         String serverTime,String childseatNum,String luggageNum,
+                                         String adultNum, String childrenNum,
+                                         String serviceAddressTel, String serviceAreaCode, String userRemark,
+                                         String serverTime, String childseatNum, String luggageNum,
                                          ContactUsersBean contactUsersBean,
-                                         String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
-                                         String guideCollectId,ManLuggageBean manLuggageBean,String userWechat) {
+                                         String travelFund, CouponBean couponBean, MostFitBean mostFitBean,
+                                         String guideCollectId, ManLuggageBean manLuggageBean, String userWechat) {
         OrderBean orderBean = new OrderBean();//订单
         orderBean.orderType = 2;
         orderBean.serviceAreaCode = CommonUtils.removePhoneCodeSign(serviceAreaCode);//hotelPhoneTextCodeClick.getText().toString();
         orderBean.serviceAddressTel = serviceAddressTel;//hotelPhoneText.getText().toString();
         orderBean.urgentFlag = carBean.urgentFlag;
-        if(!TextUtils.isEmpty(guideCollectId)) {
+        if (!TextUtils.isEmpty(guideCollectId)) {
             orderBean.guideCollectId = guideCollectId;
         }
         orderBean.carType = carBean.carType;
@@ -590,7 +590,7 @@ public class OrderUtils {
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
-        orderBean.distance = carListBean.distance+"";
+        orderBean.distance = carListBean.distance + "";
         orderBean.realUserName = contactUsersBean.otherName;
         orderBean.realAreaCode = CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode);
         orderBean.realMobile = contactUsersBean.otherPhone;
@@ -602,11 +602,11 @@ public class OrderUtils {
         orderBean.special = carBean.special;
 
         int checkInPrice = 0;
-        if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice){
+        if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
             checkInPrice = Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
             orderBean.isCheckin = isCheckIn ? "1" : "0";
-        }else{
-            orderBean.isCheckin =  "0";
+        } else {
+            orderBean.isCheckin = "0";
         }
         orderBean.checkInPrice = checkInPrice;
 
@@ -626,18 +626,18 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
+                if (null != mostFitBean && null != mostFitBean.actualPrice && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
-                }else{
+                } else {
                     orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
                 orderBean.orderPrice = carBean.price;
-                if(couponBean.actualPrice != 0) {
+                if (couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
-                }else{
+                } else {
                     orderBean.priceActual = "0";
                 }
             }
@@ -647,27 +647,27 @@ public class OrderUtils {
 
         if (null == carListBean.additionalServicePrice.childSeatPrice1
                 && null == carListBean.additionalServicePrice.childSeatPrice2) {
-            orderBean.orderPrice  = carBean.price;
+            orderBean.orderPrice = carBean.price;
             orderBean.childSeatStr = "";
             orderBean.priceChannel = carBean.price + "";
         } else {
-            if(manLuggageBean.childSeats != 0) {
-                orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean);
-                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean)) + "";
-                orderBean.childSeatStr = getChileSeatJson(carListBean,manLuggageBean);
-            }else{
-                orderBean.orderPrice  = carBean.price;
+            if (manLuggageBean.childSeats != 0) {
+                orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean);
+                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean)) + "";
+                orderBean.childSeatStr = getChileSeatJson(carListBean, manLuggageBean);
+            } else {
+                orderBean.orderPrice = carBean.price;
                 orderBean.childSeatStr = "";
                 orderBean.priceChannel = carBean.price + "";
             }
         }
         orderBean.orderPrice = isCheckIn ?
-                carBean.price + checkInPrice + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean)
-                : carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean);
+                carBean.price + checkInPrice + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean)
+                : carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean);
 //        orderBean.checkInPrice = isCheckIn ? Integer.valueOf(carListBean.additionalServicePrice.checkInPrice) : null;
         orderBean.priceChannel = isCheckIn ?
-                "" + (carBean.price + checkInPrice + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean))
-                : "" + (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean));
+                "" + (carBean.price + checkInPrice + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean))
+                : "" + (carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean) + getSeat2PriceTotal(carListBean, manLuggageBean));
 //        orderBean.flightAirportCode = airPort.airportCode;
         orderBean.flightAirportName = airPort.airportName;
         return orderBean;
@@ -739,18 +739,18 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
+                if (null != mostFitBean && null != mostFitBean.actualPrice && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
-                }else{
+                } else {
                     orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
                 orderBean.orderPrice = carBean.price;
-                if(couponBean.actualPrice != 0) {
+                if (couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
-                }else{
+                } else {
                     orderBean.priceActual = "0";
                 }
             }
@@ -777,18 +777,18 @@ public class OrderUtils {
 
         if (null == carListBean.additionalServicePrice || null == carListBean.additionalServicePrice.childSeatPrice1
                 && null == carListBean.additionalServicePrice.childSeatPrice2) {
-            orderBean.orderPrice  = carBean.price;
+            orderBean.orderPrice = carBean.price;
             orderBean.childSeatStr = "";
-            orderBean.priceChannel = (carBean.price + priceHotel + allGoodsOtherPrice)  + "";
+            orderBean.priceChannel = (carBean.price + priceHotel + allGoodsOtherPrice) + "";
         } else {
-            if(manLuggageBean.childSeats != 0) {
-                orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean)
-                        + getSeat2PriceTotal(carListBean,manLuggageBean);
-                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean)  + priceHotel + allGoodsOtherPrice
-                        + getSeat2PriceTotal(carListBean,manLuggageBean)) + "";
-                orderBean.childSeatStr = getChileSeatJson(carListBean,manLuggageBean);
-            }else{
-                orderBean.orderPrice  = carBean.price;
+            if (manLuggageBean.childSeats != 0) {
+                orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean)
+                        + getSeat2PriceTotal(carListBean, manLuggageBean);
+                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean, manLuggageBean) + priceHotel + allGoodsOtherPrice
+                        + getSeat2PriceTotal(carListBean, manLuggageBean)) + "";
+                orderBean.childSeatStr = getChileSeatJson(carListBean, manLuggageBean);
+            } else {
+                orderBean.orderPrice = carBean.price;
                 orderBean.childSeatStr = "";
                 orderBean.priceChannel = (carBean.price + priceHotel + allGoodsOtherPrice) + "";
             }
@@ -806,9 +806,9 @@ public class OrderUtils {
         return orderBean;
     }
 
-    public static void checkGuideCoflict(Context context,int orderType,int cityId,String guideIds,
-                                         String startTime,String endTime,String passCityId,
-                                         int totalDay,int carType,int carClass,int isSpecialCar,int carId,HttpRequestListener listener){
+    public static void checkGuideCoflict(Context context, int orderType, int cityId, String guideIds,
+                                         String startTime, String endTime, String passCityId,
+                                         int totalDay, int carType, int carClass, int isSpecialCar, int carId, HttpRequestListener listener) {
 
 //        RequestGuideConflict requestGuideConflict = new RequestGuideConflict(context,orderType,cityId,
 //                guideIds,startTime,
@@ -818,52 +818,54 @@ public class OrderUtils {
     }
 
     //确认订单协议
-    public static void genAgreeMent(final Activity activity, TextView textView,String source) {
-        genCLickSpan(activity,textView,activity.getString(R.string.commit_agree, source),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT,0xff7f7f7f, null);
+    public static void genAgreeMent(final Activity activity, TextView textView, String source) {
+        genCLickSpan(activity, textView, activity.getString(R.string.commit_agree, source), activity.getString(R.string.commit_agree_click), UrlLibs.H5_TAI_AGREEMENT, 0xff7f7f7f, null);
     }
 
     //用户协议
-    public static void genUserAgreeMent(final Activity activity, TextView textView) {
-        genCLickSpan(activity,textView,activity.getString(R.string.user_info_tip),activity.getString(R.string.user_info_tip1),UrlLibs.H5_PROTOCOL,0xffa8a8a8, null);
+    public static void genUserAgreeMent(final Activity activity, TextView textView, MyCLickSpan.OnSpanClickListener listener) {
+        genCLickSpan(activity, textView, activity.getString(R.string.user_info_tip), activity.getString(R.string.user_info_tip1), UrlLibs.H5_PROTOCOL, 0xffa8a8a8, listener);
     }
+
     //联系意向单定制师
-    public static void genUserTravelPurposeForm(final Activity activity, TextView textView,MyCLickSpan.OnSpanClickListener listener) {
-        genCLickSpan(activity,textView,activity.getString(R.string.travel_purpose_connect),activity.getString(R.string.travel_purpose_connect1),"",0xff000000, listener);
+    public static void genUserTravelPurposeForm(final Activity activity, TextView textView, MyCLickSpan.OnSpanClickListener listener) {
+        genCLickSpan(activity, textView, activity.getString(R.string.travel_purpose_connect), activity.getString(R.string.travel_purpose_connect1), "", 0xff000000, listener);
     }
+
     //常用卡支付协议
     public static void genCreditAgreeMent(final Activity activity, TextView textView) {
-        genCLickSpan(activity,textView,activity.getString(R.string.common_card_payment_protocol),activity.getString(R.string.common_card_payment_protocol),UrlLibs.H5_CREDIT_CARD_ARGEEMENT,0xff393838, null);
+        genCLickSpan(activity, textView, activity.getString(R.string.common_card_payment_protocol), activity.getString(R.string.common_card_payment_protocol), UrlLibs.H5_CREDIT_CARD_ARGEEMENT, 0xff393838, null);
     }
 
-    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click, int color, MyCLickSpan.OnSpanClickListener listener) {
-        genCLickSpan(activity, textView, agree_text, agree_text_click, null,color, listener);
+    public static void genCLickSpan(final Activity activity, TextView textView, String agree_text, String agree_text_click, int color, MyCLickSpan.OnSpanClickListener listener) {
+        genCLickSpan(activity, textView, agree_text, agree_text_click, null, color, listener);
     }
 
-    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color, MyCLickSpan.OnSpanClickListener listener) {
-        genCLickSpan(activity, textView, agree_text, agree_text_click, url,color, true, listener);
+    public static void genCLickSpan(final Activity activity, TextView textView, String agree_text, String agree_text_click, String url, int color, MyCLickSpan.OnSpanClickListener listener) {
+        genCLickSpan(activity, textView, agree_text, agree_text_click, url, color, true, listener);
     }
 
-    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color, boolean isShowLine, MyCLickSpan.OnSpanClickListener listener) {
+    public static void genCLickSpan(final Activity activity, TextView textView, String agree_text, String agree_text_click, String url, int color, boolean isShowLine, MyCLickSpan.OnSpanClickListener listener) {
         int start = agree_text.lastIndexOf(agree_text_click);
         int end = start + agree_text_click.length();
         SpannableString clickSpan = new SpannableString(agree_text);
-        clickSpan.setSpan(new MyCLickSpan(activity,url,color,isShowLine,listener), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        clickSpan.setSpan(new MyCLickSpan(activity, url, color, isShowLine, listener), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setText(clickSpan);
     }
 
-    public static class MyCLickSpan extends ClickableSpan{
+    public static class MyCLickSpan extends ClickableSpan {
         Activity activity;
         String url;
         int color = 0xff008cef;
         OnSpanClickListener listener;
         boolean isShowLine = true;
 
-        public MyCLickSpan(Activity activity,String url, int color, OnSpanClickListener listener) {
+        public MyCLickSpan(Activity activity, String url, int color, OnSpanClickListener listener) {
             this(activity, url, color, true, listener);
         }
 
-        public MyCLickSpan(Activity activity,String url, int color, boolean isShowLine, OnSpanClickListener listener) {
+        public MyCLickSpan(Activity activity, String url, int color, boolean isShowLine, OnSpanClickListener listener) {
             super();
             this.activity = activity;
             this.url = url;
@@ -884,7 +886,7 @@ public class OrderUtils {
             if (listener != null) {
                 listener.onSpanClick(widget);
             } else {
-                Intent intent = new Intent(activity,WebInfoActivity.class);
+                Intent intent = new Intent(activity, WebInfoActivity.class);
                 intent.putExtra("web_url", url);
                 activity.startActivity(intent);
             }
