@@ -5,27 +5,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.QueryCityActivity;
 import com.hugboga.custom.activity.FakeAIActivity;
+import com.hugboga.custom.activity.QueryCityActivity;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.HomeTopBean;
-import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestHomeTop;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -231,15 +226,12 @@ public class FgHome extends BaseFragment {
         if (_request instanceof RequestHome) {
             homeBean = ((RequestHome) _request).getData();
             homeAdapter.setData(homeBean);
-            requestFavoriteLinesaved();
             RequestHomeTop requestHomeTop = new RequestHomeTop(getActivity());
             requestData(requestHomeTop);
         } else if (_request instanceof RequestHomeTop) {
             List<HomeTopBean> homeTopBeanList = ((RequestHomeTop) _request).getData();
             homeRefreshHeader.update(homeTopBeanList);
             refreshLayout.setRefreshEnable(true);
-        } else if (_request instanceof FavoriteLinesaved) {
-            onRequestFavoriteLineSucceed(_request);
         }
     }
 
@@ -302,23 +294,11 @@ public class FgHome extends BaseFragment {
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
-                if (homeBean != null && homeBean.hotAlbumList != null && homeBean.hotAlbumList.size() > 0) {
-                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(), UserEntity.getUser().getUserId(getContext()));
-                    HttpRequestUtils.request(getContext(), favoriteLinesaved, this, false);
-                }
                 break;
             case CLICK_USER_LOOUT:
-                if (homeBean != null) {
-                    for (int k = 0; k < homeBean.hotAlbumList.size(); k++) {
-                        for (int m = 0; m < homeBean.hotAlbumList.get(k).albumRelItemList.size(); m++) {
-                            homeBean.hotAlbumList.get(k).albumRelItemList.get(m).isCollected = 0;
-                        }
-                    }
-                    homeAdapter.notifyDataSetChanged();
-                }
                 break;
             case LINE_UPDATE_COLLECT:
-                requestFavoriteLinesaved();
+                homeAdapter.notifyDataSetChanged();
                 break;
             case REQUEST_HOME_DATA:
                 if (homeBean == null) {
@@ -327,39 +307,4 @@ public class FgHome extends BaseFragment {
                 break;
         }
     }
-
-    // -----**  收藏功能历史遗留，我也很无奈--！，待优化 **-----
-    public void onRequestFavoriteLineSucceed(BaseRequest _request) {
-        if (homeBean == null) {
-            return;
-        }
-        for (int k = 0; k < homeBean.hotAlbumList.size(); k++) {
-            for (int m = 0; m < homeBean.hotAlbumList.get(k).albumRelItemList.size(); m++) {
-                homeBean.hotAlbumList.get(k).albumRelItemList.get(m).isCollected = 0;
-            }
-        }
-        //所有线路的收藏状态同步在此
-        if (_request.getData() instanceof UserFavoriteLineList) {
-            UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) _request.getData();
-            for (int o = 0; o < userFavoriteLineList.goodsNos.size(); o++) {
-                for (int k = 0; k < homeBean.hotAlbumList.size(); k++) {
-                    int itemSize = homeBean.hotAlbumList.get(k).albumRelItemList.size();
-                    for (int m = 0; m < itemSize; m++) {
-                        if (TextUtils.equals(userFavoriteLineList.goodsNos.get(o), homeBean.hotAlbumList.get(k).albumRelItemList.get(m).goodsNo)) {
-                            homeBean.hotAlbumList.get(k).albumRelItemList.get(m).isCollected = 1;
-                        }
-                    }
-                }
-            }
-            homeAdapter.notifyDataSetChanged();
-        }
-    }
-
-    public void requestFavoriteLinesaved() {
-        if (UserEntity.getUser().isLogin(getContext())) {
-            FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(), UserEntity.getUser().getUserId(getContext()));
-            HttpRequestUtils.request(getContext(), favoriteLinesaved, this, false);
-        }
-    }
-
 }

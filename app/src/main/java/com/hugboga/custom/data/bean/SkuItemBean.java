@@ -1,4 +1,5 @@
 package com.hugboga.custom.data.bean;
+
 import android.text.TextUtils;
 
 import java.io.Serializable;
@@ -53,7 +54,6 @@ public class SkuItemBean implements Serializable {
 
     public GoodsBookDateBean bookDateInfo;
 
-    public int favorited; //  1收藏 0 未收藏
     public static class CharacteristicLables implements Serializable {
         public String lableName;
         public int lableType;

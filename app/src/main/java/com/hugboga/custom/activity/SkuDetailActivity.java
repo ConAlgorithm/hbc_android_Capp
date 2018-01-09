@@ -42,9 +42,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.WebAgent;
-import com.hugboga.custom.data.request.RequestCollectLineNo;
 import com.hugboga.custom.data.request.RequestGoodsById;
-import com.hugboga.custom.data.request.RequestUncollectLinesNo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -56,6 +54,7 @@ import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.collection.CollectionHelper;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.ShareDialog;
@@ -342,17 +341,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     return;
                 }
                 //EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
-                mDialogUtil.showLoadingDialog();
-                BaseRequest baseRequest = null;
-                if (skuItemBean.favorited == 1) {
-                    baseRequest = new RequestUncollectLinesNo(this, skuItemBean.goodsNo);
-                } else {
-                    baseRequest = new RequestCollectLineNo(this, skuItemBean.goodsNo);
-                }
-                if (baseRequest != null) {
-                    requestData(baseRequest);
-                }
-
+                collectImg.setSelected(!collectImg.isSelected());
+                CollectionHelper.getIns(this).getCollectionLine().changeCollectionLine(skuItemBean.goodsNo, collectImg.isSelected());
+                EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, collectImg.isSelected() ? 1 : 0));
+                CommonUtils.showToast(collectImg.isSelected() ? getString(R.string.collect_succeed) : getString(R.string.collect_cancel));
                 break;
             case R.id.goto_order:
                 if (skuItemBean == null) {
@@ -648,7 +640,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             }
             if (UserEntity.getUser().isLogin(this)) {
                 if (skuItemBean != null) {
-                    collectImg.setSelected(skuItemBean.favorited == 1);
+                    collectImg.setSelected(CollectionHelper.getIns(this).getCollectionLine().isCollection(skuItemBean.goodsNo));
                 }
             }
             setBottomLayoutShow();
@@ -669,17 +661,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 loadUrl();
             }
             setSensorsEvent();
-        } else if (_request instanceof RequestUncollectLinesNo) {
-            skuItemBean.favorited = 0;
-            collectImg.setSelected(false);
-            EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, 0));
-            CommonUtils.showToast(getString(R.string.collect_cancel));
-        } else if (_request instanceof RequestCollectLineNo) {
-            skuItemBean.favorited = 1;
-            collectImg.setSelected(true);
-            EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, 1));
-            CommonUtils.showToast(getString(R.string.collect_succeed));
-            //setSensorsShareEvent(guideExtinfoBean.guideId);
         }
     }
 

@@ -1,6 +1,5 @@
 package com.hugboga.custom.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,7 +8,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
@@ -17,10 +15,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.GoodsFilterBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
-import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestGoodsFilter;
 import com.hugboga.custom.fragment.SkuScopeFilterFragment;
 import com.hugboga.custom.utils.DatabaseManager;
@@ -39,7 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class FilterSkuListActivity extends BaseActivity implements XRecyclerView.LoadingListener{
+public class FilterSkuListActivity extends BaseActivity implements XRecyclerView.LoadingListener {
 
     @BindView(R.id.filter_sku_list_filter_layout)
     SkuFilterLayout filterLayout;
@@ -165,10 +160,7 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
                 filterLayout.hideFilterView();
                 break;
             case LINE_UPDATE_COLLECT:
-                if(UserEntity.getUser().isLogin(this)){
-                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this,UserEntity.getUser().getUserId(this));
-                    HttpRequestUtils.request(this,favoriteLinesaved,this,false);
-                }
+                mAdapter.notifyDataSetChanged();
                 break;
         }
     }
@@ -263,27 +255,6 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
             }
             mRecyclerView.refreshComplete();
             mRecyclerView.setNoMore(mAdapter.getListCount() >= goodsFilterBean.listCount);
-
-            if(UserEntity.getUser().isLogin(this)){
-                FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this,UserEntity.getUser().getUserId(this));
-                HttpRequestUtils.request(this,favoriteLinesaved,this,false);
-            }
-        }else if(_request instanceof FavoriteLinesaved){
-            UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) _request.getData();
-            if(userFavoriteLineList!= null){
-                for(int i= 0;i<listData.size();i++){
-                    listData.get(i).favorited = 0;
-                }
-                for(int j=0;j<listData.size();j++){
-                    for (int k=0;k<userFavoriteLineList.goodsNos.size();k++){
-                        if(userFavoriteLineList.goodsNos.get(k).equals(listData.get(j).goodsNo)){
-                            listData.get(j).favorited = 1;
-                        }
-                    }
-                }
-
-                mAdapter.notifyDataSetChanged();
-            }
         }
     }
 
@@ -319,7 +290,7 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
                     int cityId = -1;
                     if (cityParams != null && cityParams.cityHomeType == CityActivity.CityHomeType.CITY) {
                         cityId = cityParams.id;
-                    } else if (paramsData != null && paramsData.cityHomeType == CityActivity.CityHomeType.CITY ) {
+                    } else if (paramsData != null && paramsData.cityHomeType == CityActivity.CityHomeType.CITY) {
                         cityId = paramsData.id;
                     }
                     CityBean cityBean = null;

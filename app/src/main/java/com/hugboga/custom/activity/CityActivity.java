@@ -22,12 +22,10 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.bean.city.PageQueryDestinationGoodsVo;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCity;
 import com.hugboga.custom.data.request.RequestQuerySkuList;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
@@ -104,9 +102,9 @@ public class CityActivity extends BaseActivity {
                 paramsData = (CityActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        EventBus.getDefault().register(this);
         isFromHome = getIntent().getBooleanExtra("isFromHome", false);
         isFromDestination = getIntent().getBooleanExtra("isFromDestination", false);
+        EventBus.getDefault().register(this);
 
         //初始化首页内容
         if (paramsData != null && paramsData.cityHomeType != null) {
@@ -382,29 +380,12 @@ public class CityActivity extends BaseActivity {
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
-            case LINE_UPDATE_COLLECT:
-                //查询已收藏线路
-                queryFavoriteLineList();
-                break;
-            case CLICK_USER_LOGIN:
-                queryFavoriteLineList();
-                break;
             case SKU_PUTH_MESSAGE:
                 int totalCount = (int) action.getData();
                 if (totalCount != 0) {
                     chatMessageListener(true);
                 }
                 break;
-        }
-    }
-
-    /**
-     * 查询已收藏线路数据
-     */
-    private void queryFavoriteLineList() {
-        if (UserEntity.getUser().isLogin(this)) {
-            FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this, UserEntity.getUser().getUserId(this));
-            HttpRequestUtils.request(this, favoriteLinesaved, this, false);
         }
     }
 
@@ -428,23 +409,12 @@ public class CityActivity extends BaseActivity {
                     flushSkuList();
                 }
             }
-            //初始化已收藏线路数据
-            queryFavoriteLineList();
         } else if (request instanceof RequestQuerySkuList) {
             //条件筛选玩法
             PageQueryDestinationGoodsVo vo = (PageQueryDestinationGoodsVo) request.getData();
             if (vo != null) {
                 destinationGoodsCount = vo.goodsCount;
                 flushSkuList(vo.destinationGoodsList);
-            }
-        } else if (request instanceof FavoriteLinesaved) {
-            //查询出已收藏线路信息
-            if (request.getData() != null) {
-                UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();
-                if (adapter != null && favoriteLine != null && favoriteLine.goodsNos != null) {
-                    adapter.resetFavious(favoriteLine.goodsNos);
-                    adapter.notifyDataSetChanged();
-                }
             }
         }
     }
