@@ -62,7 +62,7 @@ public class PayResultRecommendItemView extends RelativeLayout implements HbcVie
 
         cityTV.setText(String.format("%1$s%2$s日", itemBean.depCityName, "" + itemBean.daysCount));
 
-        descTV.setText(itemBean.name);
+        descTV.setText(itemBean.getGoodsName());
 
         String priceStr = String.format("¥%1$s起/人", "" + itemBean.perPrice);
         SpannableStringBuilder ssb = new SpannableStringBuilder(priceStr);

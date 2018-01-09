@@ -539,6 +539,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         if (UserEntity.getUser().isLogin(this)) {
             headerRightBtn.distinguishChatConfug();
         }
+        hideSoftInput();
     }
 
     @Override
@@ -567,8 +568,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             goodsNo = getIntent().getStringExtra(Constants.PARAMS_ID);
             guidesDetailData = (GuidesDetailData) getIntent().getSerializableExtra(Constants.PARAMS_GUIDE);
         }
-        if (skuItemBean != null && skuItemBean.arrCityId != 0) {
-            cityBean = findCityById("" + skuItemBean.arrCityId);
+        if (skuItemBean != null && skuItemBean.depCityId != 0) {
+            cityBean = findCityById("" + skuItemBean.depCityId);
         }
         isFromHome = getIntent().getBooleanExtra("isFromHome", false);
         initView();
@@ -645,7 +646,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             }
             setBottomLayoutShow();
             if (cityBean == null) {
-                cityBean = findCityById("" + skuItemBean.arrCityId);
+                cityBean = findCityById("" + skuItemBean.depCityId);
             }
             if (isPerformClick) {
                 gotoOrder.performClick();
@@ -680,7 +681,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             return;
         }
         if (cityBean == null) {
-            cityBean = findCityById("" + skuItemBean.arrCityId);
+            cityBean = findCityById("" + skuItemBean.depCityId);
         }
         SkuOrderActivity.Params params = new SkuOrderActivity.Params();
         params.skuItemBean = skuItemBean;
