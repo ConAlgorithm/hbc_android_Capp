@@ -121,7 +121,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 , getResources().getColor(R.color.default_highlight_blue), false, new OrderUtils.MyCLickSpan.OnSpanClickListener() {
                     @Override
                     public void onSpanClick(View view) {
-                        SensorsUtils.onAppClick("登录", "收不到验证码", getIntentSource());
+                        SensorsUtils.onAppClick(getEventSource(), getEventSource(), "语音验证码", getIntentSource());
                         Intent intent = new Intent(LoginActivity.this, VoiceCaptchaActivity.class);
                         intent.putExtra(KEY_PHONE, phoneEditText.getText() != null ? phoneEditText.getText().toString() : "");
                         intent.putExtra(KEY_AREA_CODE, areaCodeTextView.getText() != null ? areaCodeTextView.getText().toString() : "86");
@@ -506,7 +506,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
                 RequestVerity requestVerity = new RequestVerity(this, areaCode1, phone, 4);
                 requestData(requestVerity);
-                SensorsUtils.onAppClick(getEventSource(), "获取验证码", getIntentSource());
+                SensorsUtils.onAppClick(getEventSource(), getEventSource(), "获取验证码", getIntentSource());
                 break;
             case R.id.delete:
                 phoneEditText.setText("");
@@ -554,7 +554,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public String getEventSource() {
-        return "验证码登录";
+        return "登录";
     }
 
     @Override
