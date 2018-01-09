@@ -1,6 +1,5 @@
 package com.hugboga.custom.widget.city;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -13,11 +12,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.net.ErrorHandler;
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.AiResultActivity;
@@ -27,12 +21,11 @@ import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
-import com.hugboga.custom.data.request.RequestCollectLineNo;
-import com.hugboga.custom.data.request.RequestUncollectLinesNo;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PriceFormat;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.collection.CollectionHelper;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.tools.NetImg;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -48,7 +41,7 @@ import butterknife.OnClick;
  * Created by HONGBO on 2017/12/6 12:18.
  */
 
-public class CitySkuView extends FrameLayout implements HttpRequestListener, HbcViewBehavior{
+public class CitySkuView extends FrameLayout implements HbcViewBehavior {
 
     @BindView(R.id.city_item_root_layout)
     ConstraintLayout city_item_root_layout;
@@ -84,7 +77,7 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener, Hbc
     /**
      * 显示数据
      */
-    public void init(DestinationGoodsVo destinationGoodsVo, boolean isFavious) {
+    public void init(DestinationGoodsVo destinationGoodsVo) {
         city_item_img.getLayoutParams().height = UIUtils.getScreenWidth() - UIUtils.dip2px(20);
         this.destinationGoodsVo = destinationGoodsVo;
         Tools.showImageNotCenterCrop(city_item_img, destinationGoodsVo.goodsImageUrl, R.mipmap.home_default_route_item);
@@ -95,7 +88,7 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener, Hbc
         city_item_tip.setText(getItemTitle(destinationGoodsVo));
         city_item_tip2.setText(String.format(getContext().getString(R.string.city_sku_title2),
                 String.valueOf(destinationGoodsVo.guideCount)));
-        saveLineImg.setSelected(isFavious); //显示收藏线路信息
+        saveLineImg.setSelected(CollectionHelper.getIns(getContext()).getCollectionLine().isCollection(destinationGoodsVo.goodsNo)); //显示收藏线路信息
     }
 
     /**
@@ -118,11 +111,13 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener, Hbc
             case R.id.city_item_hear:
                 if (CommonUtils.isLogin(getContext(), getEventSource())) {
                     saveLineImg.setEnabled(false);
+                    saveLineImg.setSelected(!saveLineImg.isSelected());
+                    CollectionHelper.getIns(getContext()).getCollectionLine().changeCollectionLine(destinationGoodsVo.goodsNo, saveLineImg.isSelected());
+                    CommonUtils.showToast(getResources().getString(saveLineImg.isSelected() ? R.string.collect_succeed : R.string.collect_cancel));
                     if (saveLineImg.isSelected()) {
-                        HttpRequestUtils.request(getContext(), new RequestUncollectLinesNo(getContext(), destinationGoodsVo.goodsNo), CitySkuView.this, false);
-                    } else {
-                        HttpRequestUtils.request(getContext(), new RequestCollectLineNo(getContext(), destinationGoodsVo.goodsNo), CitySkuView.this, false);
+                        setSensorsShareEvent(destinationGoodsVo.goodsNo);
                     }
+                    saveLineImg.setEnabled(true);
                 }
                 break;
             case R.id.city_item_root_layout:
@@ -144,42 +139,6 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener, Hbc
                 getContext().startActivity(intent2);
                 break;
         }
-    }
-
-    @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        if (request instanceof RequestCollectLineNo) {
-            saveLineImg.setSelected(true);
-            if (onChangeFavious != null) {
-                onChangeFavious.onChange(destinationGoodsVo, true);
-            }
-            CommonUtils.showToast(getResources().getString(R.string.collect_succeed));
-            setSensorsShareEvent(destinationGoodsVo.goodsNo);
-        } else if (request instanceof RequestUncollectLinesNo) {
-            saveLineImg.setSelected(false);
-            if (onChangeFavious != null) {
-                onChangeFavious.onChange(destinationGoodsVo, false);
-            }
-            CommonUtils.showToast(getResources().getString(R.string.collect_cancel));
-        }
-        saveLineImg.setEnabled(true);
-    }
-
-    @Override
-    public void onDataRequestCancel(BaseRequest request) {
-
-    }
-
-    private ErrorHandler errorHandler;
-
-    @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if (errorHandler == null) {
-            errorHandler = new ErrorHandler((Activity) getContext(), this);
-        }
-        errorHandler.onDataRequestError(errorInfo, request);
-        saveLineImg.setEnabled(true);
-        saveLineImg.setSelected(!saveLineImg.isSelected());
     }
 
     public String getEventSource() {
@@ -205,23 +164,13 @@ public class CitySkuView extends FrameLayout implements HttpRequestListener, Hbc
         }
     }
 
-    private OnChangeFaviousListener onChangeFavious;
-
-    public void setOnChangeFavious(OnChangeFaviousListener onChangeFavious) {
-        this.onChangeFavious = onChangeFavious;
-    }
-
-    public interface OnChangeFaviousListener {
-        void onChange(DestinationGoodsVo destinationGoodsVo, boolean isFavious);
-    }
-
     @Override
     public void update(Object _data) {
         if (_data instanceof DestinationGoodsVo) {
             city_item_root_layout.getLayoutParams().width = UIUtils.getScreenWidth();
             city_item_img.getLayoutParams().height = UIUtils.getScreenWidth() - UIUtils.dip2px(20);
             DestinationGoodsVo bean = (DestinationGoodsVo) _data;
-            init(bean, bean.isCollected == 1);
+            init(bean);
         }
     }
 }

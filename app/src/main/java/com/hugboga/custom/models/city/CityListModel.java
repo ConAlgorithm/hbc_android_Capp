@@ -15,31 +15,23 @@ public class CityListModel extends EpoxyModel<CitySkuView> {
 
     Context mContext;
     DestinationGoodsVo destinationGoodsVo;
-    boolean isFavious = false;
     CitySkuView view;
-    CitySkuView.OnChangeFaviousListener onChangeFaviousListener; //修改收藏状态
 
-    public CityListModel(Context mContext, DestinationGoodsVo destinationGoodsVo,CitySkuView.OnChangeFaviousListener onChangeFaviousListener) {
+    public CityListModel(Context mContext, DestinationGoodsVo destinationGoodsVo) {
         this.mContext = mContext;
         this.destinationGoodsVo = destinationGoodsVo;
-        this.onChangeFaviousListener = onChangeFaviousListener;
     }
 
     @Override
     public void bind(CitySkuView view) {
         super.bind(view);
         this.view = view;
-        view.init(destinationGoodsVo, isFavious);
-        view.setOnChangeFavious(onChangeFaviousListener);
+        view.init(destinationGoodsVo);
     }
 
     @Override
     protected int getDefaultLayout() {
         return R.layout.city_list_model;
-    }
-
-    public void setFavious(boolean favious) {
-        isFavious = favious;
     }
 
     public DestinationGoodsVo getDestinationGoodsVo() {

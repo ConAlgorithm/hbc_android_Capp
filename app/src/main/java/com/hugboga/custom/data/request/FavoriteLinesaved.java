@@ -19,6 +19,7 @@ import java.util.HashMap;
  */
 @HttpRequest(path = UrlLibs.LINES_SAVED, builder = NewParamsBuilder.class)
 public class FavoriteLinesaved extends BaseRequest {
+
     public FavoriteLinesaved(Context context,String userId) {
         super(context);
         map = new HashMap<String, Object>();

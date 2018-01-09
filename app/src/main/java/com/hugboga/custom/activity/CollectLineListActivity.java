@@ -30,16 +30,18 @@ import butterknife.BindView;
  * Created by zhangqiang on 17/8/28.
  */
 
-public class CollectLineListActivity extends BaseActivity implements XRecyclerView.LoadingListener{
+public class CollectLineListActivity extends BaseActivity implements XRecyclerView.LoadingListener {
     @BindView(R.id.collect_line_list_recyclerview)
     XRecyclerView mRecyclerView;
     @BindView(R.id.collect_line_listview_empty)
     LinearLayout emptyLayout;
     private HbcRecyclerSingleTypeAdpater<CollectLineBean.CollectLineItemBean> mAdapter;
+
     @Override
     public int getContentViewId() {
         return R.layout.fg_collect_line_list;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,12 @@ public class CollectLineListActivity extends BaseActivity implements XRecyclerVi
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestCollectLineList(0, true);
+    }
+
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -90,7 +98,7 @@ public class CollectLineListActivity extends BaseActivity implements XRecyclerVi
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestCollectLineList) {
-            CollectLineBean collectLineBean = (CollectLineBean)_request.getData();
+            CollectLineBean collectLineBean = (CollectLineBean) _request.getData();
             int offset = _request.getOffset();
             List<CollectLineBean.CollectLineItemBean> collectLineItemBeanList = collectLineBean.goodsList;
             mAdapter.addData(collectLineItemBeanList, offset > 0);

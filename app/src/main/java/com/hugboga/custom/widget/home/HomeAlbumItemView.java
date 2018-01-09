@@ -1,6 +1,5 @@
 package com.hugboga.custom.widget.home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -12,10 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
@@ -24,17 +19,15 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.request.RequestCollectLineNo;
-import com.hugboga.custom.data.request.RequestUncollectLinesNo;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.collection.CollectionHelper;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import net.grobas.view.PolygonImageView;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import butterknife.BindView;
@@ -43,11 +36,11 @@ import butterknife.OnClick;
 
 /**
  * Created by qingcha on 17/11/23.
- *
+ * <p>
  * 收藏逻辑保留自旧代码
  */
 
-public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior, HttpRequestListener {
+public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
 
     @BindView(R.id.home_album_item_layout)
     LinearLayout albumItemLayout;
@@ -108,10 +101,10 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior, 
         Tools.showImage(avatarIV, albumBean.guideAvatar, R.mipmap.icon_avatar_guide);
 
         // 遗留代码
-        if (!UserEntity.getUser().isLogin(getContext())){
+        if (!UserEntity.getUser().isLogin(getContext())) {
             collectIV.setSelected(false);
         } else {
-            collectIV.setSelected(albumBean.isCollected == 1);
+            collectIV.setSelected(CollectionHelper.getIns(getContext()).getCollectionLine().isCollection(albumBean.goodsNo));
         }
     }
 
@@ -122,7 +115,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior, 
         intent.putExtra(Constants.PARAMS_ID, albumBean.goodsNo);
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         getContext().startActivity(intent);
-        SensorsUtils.onAppClick(getEventSource(),"热门专辑","首页-热门专辑");
+        SensorsUtils.onAppClick(getEventSource(), "热门专辑", "首页-热门专辑");
     }
 
     @OnClick(R.id.home_banner_avatar_iv)
@@ -146,42 +139,16 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior, 
     public void onClickCollect() {
         if (CommonUtils.isLogin(getContext(), getEventSource())) {
             collectIV.setEnabled(false);
+            collectIV.setSelected(!collectIV.isSelected());
+            CollectionHelper.getIns(getContext()).getCollectionLine().changeCollectionLine(albumBean.goodsNo, collectIV.isSelected());
             if (collectIV.isSelected()) {
-                HttpRequestUtils.request(getContext(),new RequestUncollectLinesNo(getContext(), albumBean.goodsNo), HomeAlbumItemView.this, false);
+                CommonUtils.showToast(getResources().getString(R.string.collect_succeed));
+                setSensorsEvent(albumBean.guideId);
             } else {
-                HttpRequestUtils.request(getContext(),new RequestCollectLineNo(getContext(), albumBean.goodsNo), HomeAlbumItemView.this, false);
+                CommonUtils.showToast(getResources().getString(R.string.collect_cancel));
             }
+            collectIV.setEnabled(true);
         }
-    }
-
-    @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        if (request instanceof RequestCollectLineNo) {
-            albumBean.isCollected = 1;
-            collectIV.setSelected(true);
-            CommonUtils.showToast(getResources().getString(R.string.collect_succeed));
-            setSensorsEvent(albumBean.guideId);
-        } else if(request instanceof RequestUncollectLinesNo) {
-            albumBean.isCollected = 0;
-            collectIV.setSelected(false);
-            CommonUtils.showToast(getResources().getString(R.string.collect_cancel));
-        }
-        collectIV.setEnabled(true);
-    }
-
-    @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if (errorHandler == null) {
-            errorHandler = new ErrorHandler((Activity) getContext(), this);
-        }
-        errorHandler.onDataRequestError(errorInfo, request);
-        collectIV.setEnabled(true);
-        collectIV.setSelected(!collectIV.isSelected());
-    }
-
-    @Override
-    public void onDataRequestCancel(BaseRequest request) {
-
     }
 
     //收藏司导埋点

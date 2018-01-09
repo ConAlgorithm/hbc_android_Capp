@@ -20,8 +20,11 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.UNCOLLECT_GUIDES_ID, builder = NewParamsBuilder.class)
 public class RequestUncollectGuidesId extends BaseRequest {
 
+    private String guideId;
+
     public RequestUncollectGuidesId(Context context, String guideId) {
         super(context);
+        this.guideId = guideId;
         map = new HashMap<String, Object>();
         map.put("source", Constants.REQUEST_SOURCE);
         map.put("userId", UserEntity.getUser().getUserId(context));
@@ -41,5 +44,9 @@ public class RequestUncollectGuidesId extends BaseRequest {
     @Override
     public String getUrlErrorCode() {
         return "40092";
+    }
+
+    public String getGuideId() {
+        return guideId;
     }
 }
