@@ -340,11 +340,13 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 if (skuItemBean == null || !CommonUtils.isLogin(SkuDetailActivity.this, getEventSource())) {
                     return;
                 }
-                //EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
                 collectImg.setSelected(!collectImg.isSelected());
                 CollectionHelper.getIns(this).getCollectionLine().changeCollectionLine(skuItemBean.goodsNo, collectImg.isSelected());
                 EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, collectImg.isSelected() ? 1 : 0));
                 CommonUtils.showToast(collectImg.isSelected() ? getString(R.string.collect_succeed) : getString(R.string.collect_cancel));
+                if (collectImg.isSelected()) {
+                    SensorsUtils.onAppClick(getEventSource(), "收藏", getIntentSource());
+                }
                 break;
             case R.id.goto_order:
                 if (skuItemBean == null) {
@@ -380,7 +382,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 intent1.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent1.putExtra(Constants.PARAMS_DATA, unicornServiceparams);
                 startActivity(intent1);
-                SensorsUtils.onAppClick(getEventSource(), "在线咨询", getIntentSource());
+                SensorsUtils.onAppClick(getEventSource(), "咨询行程", getIntentSource());
                 break;
             case R.id.sku_detail_empty_tv:
                 startActivity(new Intent(activity, MainActivity.class));
