@@ -61,7 +61,7 @@ public class IMUtil {
         }
 
         if(TextUtils.isEmpty(account) || TextUtils.isEmpty(token)){
-            requestNIMTokenUpdate();
+            requestNIMTokenUpdate(true);
             return;
         }
         loginNim(account,token);
@@ -102,14 +102,23 @@ public class IMUtil {
     /**
      * update token
      */
-    private void requestNIMTokenUpdate() {
+    private void requestNIMTokenUpdate(boolean isFirst) {
         if (nimReconnectHandler == null) {
             nimReconnectHandler = new NIMReconnectHandler();
         }
         if (reconnectTimes < 3) {
-            reconnectTimes++;
-            nimReconnectHandler.sendEmptyMessageDelayed(1, 5000);
+            if (isFirst && reconnectTimes == 0) {
+                reconnectTimes++;
+                nimReconnectHandler.sendEmptyMessage(1);
+            } else {
+                reconnectTimes++;
+                nimReconnectHandler.sendEmptyMessageDelayed(1, 5000);
+            }
         }
+    }
+
+    private void requestNIMTokenUpdate() {
+        requestNIMTokenUpdate(false);
     }
 
 
