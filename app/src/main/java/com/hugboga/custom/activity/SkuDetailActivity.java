@@ -335,8 +335,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     return;
                 }
                 //EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
-                mDialogUtil.showLoadingDialog();
-
                 collectImg.setSelected(!collectImg.isSelected());
                 CollectionHelper.getIns(this).getCollectionLine().changeCollectionLine(skuItemBean.goodsNo, collectImg.isSelected());
                 EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, collectImg.isSelected() ? 1 : 0));
