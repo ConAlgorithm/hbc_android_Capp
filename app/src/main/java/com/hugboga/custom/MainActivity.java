@@ -569,6 +569,18 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         receivePushMessage(intent);
     }
 
+    //Push点击
+    public static void setSensorsShareEvent(String pushID, String pushTitle) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("pushID", pushID);
+            properties.put("pushTitle", pushTitle);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("clickPush", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void receivePushMessage(Intent intent) {
         if (intent == null) {
             return;
@@ -576,6 +588,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
         if (message != null) {
             uploadPushClick(message.messageID);
+            //埋点点击事件
+            setSensorsShareEvent(message.messageID, message.title);
             ActionBean actionBean = message.getActionBean();
             if (actionBean != null && actionBean.type != null) {//走新协议
                 actionBean.source = "push调起";
