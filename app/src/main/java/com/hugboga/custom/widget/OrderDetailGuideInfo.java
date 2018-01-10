@@ -199,10 +199,10 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     return;
                 }
                 final ChatBean chatBean = orderBean.imInfo;
-                if (!IMUtil.getInstance().isLogined() || TextUtils.isEmpty(chatBean.getNeTargetId())) {
+                if (TextUtils.isEmpty(chatBean.getNeTargetId())) {
                     return;
                 }
-                NIMChatActivity.start(getContext(), chatBean.getNeTargetId(), ((OrderDetailActivity) getContext()).getEventSource());
+                NIMChatActivity.start(getContext(), chatBean.targetId, chatBean.getNeTargetId(), ((OrderDetailActivity) getContext()).getEventSource());
                 break;
             case R.id.ogi_call_layout:
                 if (orderBean == null || orderBean.orderGuideInfo == null) {

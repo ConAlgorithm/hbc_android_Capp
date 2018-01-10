@@ -100,10 +100,7 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
                 @Override
                 public void onClick(View view) {
                     if (CommonUtils.isLogin(getContext(), "精选司导")) {
-                        if (!IMUtil.getInstance().isLogined()) {
-                            return;
-                        }
-                        NIMChatActivity.start(getContext(), data.imTargetId, "精选司导");
+                        NIMChatActivity.start(getContext(), data.guideId, data.imTargetId, "精选司导");
                     }
                 }
             });

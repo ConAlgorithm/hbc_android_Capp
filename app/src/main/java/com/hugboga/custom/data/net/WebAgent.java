@@ -932,7 +932,7 @@ public class WebAgent implements HttpRequestListener {
         PushToGuideIMBeam data = gson.fromJson(params, PushToGuideIMBeam.class);
         if (data == null)
             return;
-        if (!CommonUtils.isLogin(mActivity, getEventSource()) || !IMUtil.getInstance().isLogined() || skuItemBean == null) {
+        if (!CommonUtils.isLogin(mActivity, getEventSource()) || skuItemBean == null) {
             return;
         }
         MsgSkuAttachment msgSkuAttachment = new MsgSkuAttachment(1);
@@ -940,7 +940,7 @@ public class WebAgent implements HttpRequestListener {
         msgSkuAttachment.setFrontCover(data.frontCover);
         msgSkuAttachment.setTitle(data.title);
         msgSkuAttachment.setUrl(data.url);
-        NIMChatActivity.start(mActivity, data.neUserId, getEventSource(), msgSkuAttachment);
+        NIMChatActivity.start(mActivity, data.guideId, true, data.neUserId, getEventSource(), msgSkuAttachment);
     }
 
     @JavascriptInterface
