@@ -494,7 +494,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     @Override
     public String getEventSource() {
-        return "按天包车游";
+        return "选择行程安排";
     }
 
     @Override

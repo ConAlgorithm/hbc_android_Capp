@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.widget.OrderGuidanceView;
 import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.listener.MonthChangeListener;
 import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthSwitchView;
 import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthView;
 import com.hugboga.custom.R;
@@ -40,6 +41,7 @@ import org.xutils.common.Callback;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -195,6 +197,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
         dateFormat = calendarDay.getDayString();
         checkNextBtnStatus();
         //CommonUtils.showToast(calendarDay.getDayString());
+        SensorsUtils.onAppClick(getEventSource(), "起飞日期", getIntentSource());
     }
 
     private class HistoryTextClick implements View.OnClickListener {
@@ -324,6 +327,12 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
         mMonthPagerView.setData(new CalendarDay(year, month, day), new CalendarDay(endYear, endMonth, endDay));
         mMonthPagerView.setOnDayClickListener(this);
         mMonthPagerView.setSelectDay(new CalendarDay(year, month, day));
+        mMonthPagerView.setMonthChangeListener(new MonthChangeListener() {
+            @Override
+            public void onMonthChange(Date date) {
+                SensorsUtils.onAppClick(getEventSource(), "起飞日期", getIntentSource());
+            }
+        });
         dateFormat = new CalendarDay(year, month, day).getDayString();
     }
 
