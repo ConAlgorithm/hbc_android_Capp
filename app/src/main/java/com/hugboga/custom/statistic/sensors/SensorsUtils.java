@@ -320,13 +320,14 @@ public class SensorsUtils {
 
     /**
      * 目的地Tab页线路标签点击
+     *
      * @param tagGroupName
      * @param tagName
      */
     public static void setSensorsClickTagTab(String tagGroupName, String tagName) {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("tagGroupName", null); //标签组名称,主要针对目的地tab，如果没有，为空
+            properties.put("tagGroupName", tagGroupName); //标签组名称,主要针对目的地tab，如果没有，为空
             properties.put("tagName", tagName); //玩法标签名
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("clickTag", properties);
         } catch (Exception e) {
