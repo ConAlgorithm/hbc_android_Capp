@@ -7,10 +7,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
+
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
@@ -50,6 +53,10 @@ public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavio
                 @Override
                 public void onClick(View v) {
                     EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_PAY, orderBean.orderNo));
+                    if (getContext() != null && (getContext() instanceof OrderDetailActivity)) {
+                        SensorsUtils.onAppClick(((OrderDetailActivity) getContext()).getEventSource(), "去支付",
+                                ((OrderDetailActivity) getContext()).getIntentSource());
+                    }
                 }
             });
         } else {

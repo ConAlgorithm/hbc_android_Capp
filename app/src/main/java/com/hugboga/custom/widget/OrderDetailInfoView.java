@@ -13,19 +13,22 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.InsureInfoActivity;
+import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.OrderDetailTravelerInfoActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.ButterKnife;
+
 /**
  * Created by qingcha on 16/6/2.
  */
-public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
+public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
 
     private TextView nameTV;
     private TextView editTV;
@@ -118,10 +121,18 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         }
     }
 
+    private void addSensors() {
+        if (getContext() != null && (getContext() instanceof OrderDetailActivity)) {
+            SensorsUtils.onAppClick(((OrderDetailActivity) getContext()).getEventSource(),
+                    "修改出行人信息", ((OrderDetailActivity) getContext()).getIntentSource());
+        }
+    }
+
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.order_detail_info_layout://出行人信息
+                addSensors(); //修改出行人信息埋点
                 intent = new Intent(getContext(), OrderDetailTravelerInfoActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
                 getContext().startActivity(intent);
