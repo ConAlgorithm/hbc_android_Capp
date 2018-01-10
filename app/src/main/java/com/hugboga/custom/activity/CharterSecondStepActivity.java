@@ -515,6 +515,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 return;
             }
             Intent intent = new Intent(this, CombinationOrderActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
             startActivity(intent);
 
             StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM2_R, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,

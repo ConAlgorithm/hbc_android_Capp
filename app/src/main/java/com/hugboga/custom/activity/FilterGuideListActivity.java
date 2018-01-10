@@ -228,6 +228,8 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     public void requestGuideFilterOptions() {
         if (isGoods()) {
             requestData(new RequestGuideFilterOptions(this, paramsData.goodsNo));
+            RequestGoodsById request = new RequestGoodsById(activity, paramsData.goodsNo, ""+paramsData.id);  //请求商品信息 “找我预定” 使用
+            HttpRequestUtils.request(activity, request, FilterGuideListActivity.this, false);
         } else {
             CityActivity.CityHomeType cityHomeType = null;
             String id = "";
@@ -240,8 +242,6 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             }
             requestData(new RequestGuideFilterOptions(this, cityHomeType, id));
         }
-        RequestGoodsById request = new RequestGoodsById(activity, paramsData.goodsNo, "");
-        HttpRequestUtils.request(activity, request, FilterGuideListActivity.this, false);
     }
 
     public boolean isShowCity() {
