@@ -27,7 +27,8 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
     SearchDestinationHolder searchDestinationHolder;
     String keyword;
     SearchGroupBean searchGroupBean;
-    public SearchDestinationModel(Context context,SearchGroupBean searchGroupBean,String keyword) {
+
+    public SearchDestinationModel(Context context, SearchGroupBean searchGroupBean, String keyword) {
         this.context = context;
         this.searchGroupBean = searchGroupBean;
         this.keyword = keyword;
@@ -40,8 +41,7 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
 
     @Override
     protected int getDefaultLayout() {
-        //return R.layout.search_destination;
-        return  R.layout.search_item_layou;
+        return R.layout.search_item_layou;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
         if (holder == null) {
             return;
         }
-        searchDestinationHolder =holder;
+        searchDestinationHolder = holder;
         init();
     }
 
@@ -60,6 +60,7 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
         TextView left_name;
         @BindView(R.id.right_name)
         TextView right_name;
+
         @Override
         protected void bindView(View itemView) {
             this.itemView = itemView;
@@ -67,10 +68,10 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
         }
     }
 
-    private void init(){
-        if(searchDestinationHolder!= null){
-            SpannableString leftName = SearchUtils.matcherSearchText(context,context.getResources().getColor(R.color.all_bg_yellow),CityUtils.getShowName(searchGroupBean),keyword);
-            SpannableString rightName = SearchUtils.matcherSearchText(context,context.getResources().getColor(R.color.all_bg_yellow),CityUtils.getParentName(searchGroupBean),keyword);
+    private void init() {
+        if (searchDestinationHolder != null) {
+            SpannableString leftName = SearchUtils.matcherSearchText(context, context.getResources().getColor(R.color.all_bg_yellow), CityUtils.getShowName(searchGroupBean), keyword);
+            SpannableString rightName = SearchUtils.matcherSearchText(context, context.getResources().getColor(R.color.all_bg_yellow), CityUtils.getParentName(searchGroupBean), keyword);
             searchDestinationHolder.left_name.setText(leftName);
             searchDestinationHolder.right_name.setText(rightName);
 
@@ -137,12 +138,8 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
         Intent intent = new Intent(context, CityActivity.class);
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.PARAMS_DATA, params);
-        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-        intent.putExtra("isFromHome",true);
+        intent.putExtra(Constants.PARAMS_SOURCE, "搜索结果");
+        intent.putExtra("isFromHome", true);
         context.startActivity(intent);
-    }
-
-    public String getEventSource(){
-        return "搜索";
     }
 }
