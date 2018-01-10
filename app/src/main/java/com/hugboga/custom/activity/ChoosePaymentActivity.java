@@ -20,6 +20,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.huangbaoche.imageselector.common.Constant;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
@@ -372,6 +373,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
             }
             Intent intent = new Intent(ChoosePaymentActivity.this, PayResultActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
             ChoosePaymentActivity.this.startActivity(intent);
         }
     };

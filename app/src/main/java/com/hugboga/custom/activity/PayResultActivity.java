@@ -17,7 +17,7 @@ import java.io.Serializable;
 /**
  * Created by qingcha on 16/8/4.
  */
-public class PayResultActivity extends BaseActivity{
+public class PayResultActivity extends BaseActivity {
 
     private FgPayResult fgPayResult;
     private Params params;
@@ -39,11 +39,11 @@ public class PayResultActivity extends BaseActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            params = (Params)savedInstanceState.getSerializable(Constants.PARAMS_DATA);
+            params = (Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                params = (Params)bundle.getSerializable(Constants.PARAMS_DATA);
+                params = (Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
 
@@ -55,7 +55,7 @@ public class PayResultActivity extends BaseActivity{
             }
         }
 
-        fgPayResult = (FgPayResult)getSupportFragmentManager().findFragmentById(R.id.fgPayResult);
+        fgPayResult = (FgPayResult) getSupportFragmentManager().findFragmentById(R.id.fgPayResult);
         if (params.apiType == 1) {
             fgPayResult.initCouponView(params.payResult);
         } else {
@@ -83,5 +83,10 @@ public class PayResultActivity extends BaseActivity{
             return fgPayResult.onKeyUp(keyCode, event) ? true : super.onKeyUp(keyCode, event);
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public String getEventSource() {
+        return "支付结果";
     }
 }
