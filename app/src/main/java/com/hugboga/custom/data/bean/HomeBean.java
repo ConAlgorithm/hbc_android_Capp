@@ -36,6 +36,7 @@ public class HomeBean implements Serializable {
         public String starCityName;
         public String aliasName;
         public String guideId;
+        public String sequence; //本地序列
 
         public String getGuideName() {
             if (!TextUtils.isEmpty(guideName)) {

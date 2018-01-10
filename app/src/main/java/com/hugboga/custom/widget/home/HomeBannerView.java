@@ -14,7 +14,6 @@ import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.recyclerviewpager.AutoLoopRecyclerViewPager;
-import com.hugboga.custom.widget.recyclerviewpager.LoopRecyclerViewPager;
 import com.hugboga.custom.widget.recyclerviewpager.RVViewUtils;
 import com.hugboga.custom.widget.recyclerviewpager.RecyclerViewPager;
 
@@ -51,7 +50,7 @@ public class HomeBannerView extends LinearLayout implements HbcViewBehavior {
 
         final int marginLeft = context.getResources().getDimensionPixelOffset(R.dimen.home_margin_left);
         int bannerWidth = UIUtils.getScreenWidth() - marginLeft;
-        int desplayHeight = (int)(HomeBannerItemView.DESPLAY_IMG_RATIO * bannerWidth);
+        int desplayHeight = (int) (HomeBannerItemView.DESPLAY_IMG_RATIO * bannerWidth);
         bannerHeight = desplayHeight + UIUtils.dip2px(50) + UIUtils.dip2px(80);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, bannerHeight);
         mViewPager.setLayoutParams(params);
@@ -70,6 +69,7 @@ public class HomeBannerView extends LinearLayout implements HbcViewBehavior {
     @Override
     public void update(Object _data) {
         itemList = (ArrayList<HomeBean.BannerBean>) _data;
+        itemList = reflushData(itemList);
         if (itemList == null || itemList.size() <= 0) {
             this.setVisibility(View.GONE);
             return;
@@ -86,6 +86,16 @@ public class HomeBannerView extends LinearLayout implements HbcViewBehavior {
         }
         indicatorView.setItemCount(itemList.size());
         mViewPager.startAutoScroll();
+    }
+
+    private ArrayList<HomeBean.BannerBean> reflushData(ArrayList<HomeBean.BannerBean> data) {
+        ArrayList<HomeBean.BannerBean> result = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            HomeBean.BannerBean bean = data.get(i);
+            bean.sequence = String.valueOf(i);
+            result.add(bean);
+        }
+        return result;
     }
 
     public int getBannerLayoutHeight() {
