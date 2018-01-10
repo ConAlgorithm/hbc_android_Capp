@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -63,6 +62,7 @@ import com.hugboga.im.custom.CustomAttachment;
 import com.hugboga.im.custom.attachment.MsgOrderAttachment;
 import com.hugboga.im.custom.attachment.MsgSkuAttachment;
 import com.hugboga.im.custom.attachment.MsgTravelAttachment;
+import com.hugboga.tools.HLog;
 import com.netease.nim.uikit.business.session.constant.Extras;
 import com.netease.nim.uikit.business.session.fragment.MessageFragment;
 import com.netease.nim.uikit.support.permission.MPermission;
@@ -315,7 +315,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                                     }
                                 });
                             } else {
-                                Toast.makeText(NIMChatActivity.this, "data.firstChat=" + data.firstChat, Toast.LENGTH_LONG).show();
+                                HLog.d("NIMChatActivity.this，data.firstChat=" + data.firstChat);
                             }
                         }
 
