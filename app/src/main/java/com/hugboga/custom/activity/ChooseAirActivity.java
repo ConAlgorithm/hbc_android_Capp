@@ -14,9 +14,12 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.CsDialog;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 
 /**
@@ -53,6 +56,7 @@ public class ChooseAirActivity extends BaseActivity {
             guidanceParams = (GuidanceOrderActivity.Params) getIntent().getSerializableExtra(GuidanceOrderActivity.PARAMS_GUIDANCE);
             sourceTag = getIntent().getStringExtra(Constants.PARAMS_TYPE);
         }
+        setSensorsBuyFlightEvent();
     }
 
     public void initHeader() {
@@ -139,5 +143,16 @@ public class ChooseAirActivity extends BaseActivity {
     @Override
     public String getEventSource() {
         return "选择航班";
+    }
+
+    //来到选航班页
+    private void setSensorsBuyFlightEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(this).track("buy_flight");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

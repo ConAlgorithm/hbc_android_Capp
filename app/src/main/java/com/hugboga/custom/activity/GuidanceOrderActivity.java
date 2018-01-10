@@ -14,6 +14,9 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.GuidanceBottomView;
 import com.hugboga.custom.widget.ScrollViewWrapper;
 import com.hugboga.custom.widget.title.TitleBar;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -200,6 +203,8 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
         imgIV4Params.bottomMargin = UIUtils.dip2px(50);
         imgIV4Params.leftMargin = UIUtils.dip2px(22);
         imgIV4.setLayoutParams(imgIV4Params);
+
+        setSensorsViewIntroEvent();
     }
 
     @Override
@@ -247,5 +252,32 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
             }
         }
         return super.getEventSource();
+    }
+
+    private void setSensorsViewIntroEvent() {
+        try {
+            String hbcSkuType = null;
+            switch (params.orderType) {
+                case 1:
+                    hbcSkuType = "接机";
+                    break;
+                case 2:
+                    hbcSkuType = "送机";
+                    break;
+                case 3:
+                case 888:
+                    hbcSkuType = "按天包车游";
+                    break;
+                case 4:
+                    hbcSkuType = "单次";
+                    break;
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_refer", getIntentSource());
+            properties.put("hbc_sku_type", hbcSkuType);
+            SensorsDataAPI.sharedInstance(this).track("viewIntro");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

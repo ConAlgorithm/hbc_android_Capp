@@ -203,7 +203,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         } else {
             isExtraStartBean = false;
         }
-        setSensorsEvent();
+
+        setSensorsBuyRouteEvent();
     }
 
     @OnClick({R.id.charter_first_city_layout})
@@ -621,23 +622,23 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         }
     }
 
-    //神策统计_初始页浏览
-    private void setSensorsEvent() {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("hbc_refer", getIntentSource());
-            properties.put("hbc_sku_type", "按天包车游");
-            SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     //神策统计_下单-有操作
     private void setSensorsOnOperated() {
         if (isOperated) {
             isOperated = false;
             SensorsUtils.onOperated(getIntentSource(), getEventSource());
+        }
+    }
+
+    //神策统计_来到填行程页
+    private void setSensorsBuyRouteEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_refer", getIntentSource());
+            properties.put("hbc_sku_type", "按天包车游");
+            SensorsDataAPI.sharedInstance(this).track("buy_route", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

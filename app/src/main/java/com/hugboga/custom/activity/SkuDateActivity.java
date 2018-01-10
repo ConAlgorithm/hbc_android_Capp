@@ -84,6 +84,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
         }
 
         setSensorsShowEvent();
+        setSensorsSkuBuyEvent();
     }
 
     @Override
@@ -140,7 +141,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("routename", params.skuItemBean.getGoodsName());
         MobclickAgent.onEventValue(this, "chose_route", map, CommonUtils.getCountInteger(params.skuItemBean.goodsMinPrice));
-        setSensorsOnClickEvent();
+        setSensorsSkuConfirmEvent();
     }
 
     @OnClick({R.id.sku_date_out_side_view, R.id.sku_date_display_iv})
@@ -184,13 +185,31 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
         }
     }
 
-    //神策统计_商品进入下单
-    private void setSensorsOnClickEvent() {
+    //神策统计_点击日历浮层上的开始预订，进入选车提交订单页
+    private void setSensorsSkuConfirmEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_id", params.skuItemBean.goodsNo);
+            if (params.guidesDetailData != null) {
+                properties.put("hbc_guide_id", params.guidesDetailData.guideId);
+            }
+            SensorsDataAPI.sharedInstance(this).track("sku_confirm", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    //神策统计_商品线路详情页，点击预订
+    private void setSensorsSkuBuyEvent() {
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_sku_id", params.skuItemBean.goodsNo);
             properties.put("hbc_sku_name", params.skuItemBean.getGoodsName());
             properties.put("hbc_sku_type", params.skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
+            if (params.guidesDetailData != null) {
+                properties.put("hbc_guide_id", params.guidesDetailData.guideId);
+            }
             SensorsDataAPI.sharedInstance(this).track("sku_buy", properties);
         } catch (Exception e) {
             e.printStackTrace();
@@ -222,7 +241,6 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
 
     @Override
     public void onLoadViewShow(boolean isShow) {
-        Log.i("aa", "onLoadViewShow " + isShow);
         calendarLoadingLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 

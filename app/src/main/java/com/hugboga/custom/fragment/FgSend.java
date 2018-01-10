@@ -217,7 +217,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         updateConponsTipView();
 
         setUmengEvent();
-        setSensorsEvent();
+        setSensorsBuyRouteEvent();
     }
 
     @Override
@@ -619,19 +619,6 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         MobClickUtils.onEvent(getEventId(), map);
     }
 
-    //神策统计_初始页浏览
-    private void setSensorsEvent() {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "送机");
-            properties.put("hbc_refer", source);
-            SensorsDataAPI.sharedInstance(getActivity()).track("buy_view", properties);
-            SensorsUtils.setPageEvent("送机", null, source);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     //神策统计_确认行程
     private void setSensorsConfirmEvent() {
         try {
@@ -661,5 +648,17 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     //神策统计_展示报价
     private void setSensorsPriceEvent(boolean isHavePrice) {
         SensorsUtils.setSensorsPriceEvent("" + ORDER_TYPE, guidesDetailData != null, isHavePrice);
+    }
+
+    //神策统计_来到填行程页
+    private void setSensorsBuyRouteEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_refer", source);
+            properties.put("hbc_sku_type", "送机");
+            SensorsDataAPI.sharedInstance(getContext()).track("buy_route", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

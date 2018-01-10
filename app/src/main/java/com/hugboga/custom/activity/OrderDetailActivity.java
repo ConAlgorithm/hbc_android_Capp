@@ -312,7 +312,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 intent = new Intent(this, SkuDetailActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
                 intent.putExtra(Constants.PARAMS_ID, orderBean.goodsNo);
-                intent.putExtra(Constants.PARAMS_SOURCE, source);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 if (orderBean.orderGoodsType == 3) {//固定线路
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, "订单详情页");
