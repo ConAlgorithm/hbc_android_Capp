@@ -64,6 +64,7 @@ import butterknife.BindView;
 public class OrderDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final int EVALUATE_TYPE = 1000;
+    public static final String SOURCE_CLASS = "source_class";
 
     @BindView(R.id.order_detail_title_layout)
     OrderDetailTitleBar titleBar;
@@ -467,6 +468,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public String getEventSource() {
+        if (getIntent() != null && !TextUtils.isEmpty(getIntent().getStringExtra(SOURCE_CLASS))) {
+            if (NIMChatActivity.class.getSimpleName().equals(getIntent().getStringExtra(SOURCE_CLASS))) {
+                return "行程单";
+            }
+        }
         return "订单详情";
     }
 
