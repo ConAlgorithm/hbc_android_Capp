@@ -595,18 +595,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 actionBean.source = "push调起";
                 ActionController actionFactory = ActionController.getInstance();
                 actionFactory.doAction(this, actionBean);
-            } else {//
+            } else {
                 if ("IM".equals(message.type)) {
                     gotoChatList();
-//                } else if ("888".equals(message.orderType)) {
-//                    if (getFragmentList().size() > 3) {
-//                        for (int i = getFragmentList().size() - 1; i >= 3; i--) {
-//                            getFragmentList().get(i).finish();
-//                        }
-//                    }
-//                    if (mViewPager != null) {
-//                        mViewPager.setCurrentItem(2);
-//                    }
                 } else if (message.orderNo != null) {//其中之一 type = C13 提醒用户选司导
                     gotoOrder(message);
                 } else {
