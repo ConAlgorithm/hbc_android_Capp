@@ -118,10 +118,12 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
                             destinationViewHolder.cityMoreTV.setText("点击收起");
                             destinationViewHolder.cityMoreIV.setBackgroundResource(R.mipmap.share_withdraw);
                             //点击展开更多埋点
-                            SensorsUtils.onAppClick("目的地", "目的地", "展开更多", "");
+                            SensorsUtils.onAppClick("目的地", "展开更多", "");
                         } else {
                             destinationViewHolder.cityMoreTV.setText("展开更多");
                             destinationViewHolder.cityMoreIV.setBackgroundResource(R.mipmap.share_unfold);
+                            //点击展开更多埋点
+                            SensorsUtils.onAppClick("目的地", "点击收起", "");
                         }
                         setDestinationData(destinationViewHolder.cityGridView, lineGroup.destinationList, isUnfoldMoreDestination);
                     }

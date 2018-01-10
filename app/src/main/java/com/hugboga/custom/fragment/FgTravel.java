@@ -300,7 +300,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
+                SensorsUtils.onAppClick(getEventSource(), "客服", "");
                 csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
