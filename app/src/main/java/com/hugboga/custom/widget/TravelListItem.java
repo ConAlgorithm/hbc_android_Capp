@@ -161,20 +161,14 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 mTypeStr.setText(spannable);
                 chexing.setVisibility(GONE);
                 endAddressLayout.setVisibility(View.GONE);
-                //startAddressLayout.setVisibility(View.GONE);
-
             } else {
                 mTypeStr.setText("线路包车游");
-
                 if (TextUtils.isEmpty(orderBean.carDesc)) {
                     endAddressLayout.setVisibility(View.GONE);
                     chexing.setVisibility(GONE);
                 } else {
                     chexing.setVisibility(VISIBLE);
-                    //chexing.setBackgroundResource(R.mipmap.home_story_img_2);
                     endAddressLayout.setVisibility(View.VISIBLE);
-                    //startAddressIV.setBackgroundResource(R.mipmap.order_car);
-                    //startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
                     endAddressTV.setText(orderBean.lineSubject);
                 }
             }
@@ -187,8 +181,6 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 xianlu_iv.setVisibility(GONE);
             } else {
                 startAddressLayout.setVisibility(View.VISIBLE);
-                //endAddressIV.setBackgroundResource(R.mipmap.trip)
-                //startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
                 String dailyPlace = orderBean.serviceCityName;
                 if (!TextUtils.isEmpty(orderBean.serviceEndCityName)) {
                     dailyPlace += " - " + orderBean.serviceEndCityName;
@@ -638,7 +630,6 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                     v.getContext().startActivity(intent);
                     break;
                 case R.id.travel_item_btn_pay:
-                    MLog.e("立即支付 " + mOrderBean.orderNo);
                     //立即支付，进入订单详情
                     OrderDetailActivity.Params params = new OrderDetailActivity.Params();
                     params.orderType = mOrderBean.orderType;
@@ -673,10 +664,6 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                     }
                     GuideWebDetailActivity.Params guideDetailParams = new GuideWebDetailActivity.Params();
                     guideDetailParams.guideId = mOrderBean.orderGuideInfo.guideID;
-//                    guideDetailParams.guideCarId = mOrderBean.orderGuideInfo.guideCarId;
-//                    guideDetailParams.guideAgencyDriverId = mOrderBean.guideAgencyDriverId;
-//                    guideDetailParams.isSelectedService = mOrderBean.guideAgencyType == 3;
-
                     intent = new Intent(v.getContext(), GuideWebDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, guideDetailParams);
                     intent.putExtra(Constants.PARAMS_SOURCE, "订单列表");

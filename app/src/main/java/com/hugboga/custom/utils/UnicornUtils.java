@@ -56,13 +56,13 @@ public class UnicornUtils {
 
     public static void initUnicorn() {
         try {
-            if(!Unicorn.init(MyApplication.getAppContext(), UNICORN_APPKEY, getDefaultOptions(), new UnicornImageLoaderRealize())){
+            if (!Unicorn.init(MyApplication.getAppContext(), UNICORN_APPKEY, getDefaultOptions(), new UnicornImageLoaderRealize())) {
                 HLog.e("七鱼初始化失败");
                 uploadQiyuInitError("");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             String errorMsg = "七鱼初始化失败";
-            if(e!=null && !TextUtils.isEmpty(e.getMessage())){
+            if (e != null && !TextUtils.isEmpty(e.getMessage())) {
                 errorMsg = e.getMessage();
             }
             uploadQiyuInitError(errorMsg);
@@ -71,16 +71,16 @@ public class UnicornUtils {
     }
 
     public static void openServiceActivity(final Context context, final int sourceType, final OrderBean orderBean, final SkuItemBean skuItemBean) {
-        if(!Unicorn.isServiceAvailable()){
+        if (!Unicorn.isServiceAvailable()) {
             initUnicorn();
             CommonUtils.showToast("连接客服失败，请稍候重试");
             return;
         }
         if ((sourceType == UnicornServiceActivity.SourceType.TYPE_LINE && skuItemBean == null)
-                || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null) ) {
+                || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null)) {
             return;
         }
-        if (!CommonUtils.isLogin(context,"客服")) {
+        if (!CommonUtils.isLogin(context, "客服")) {
             return;
         }
         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
@@ -89,18 +89,20 @@ public class UnicornUtils {
         params.skuItemBean = skuItemBean;
         Intent intent = new Intent(context, ServiceQuestionActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra(Constants.PARAMS_SOURCE, "客服IM");
         context.startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
     }
 
     public static void openServiceActivity(Context context, int sourceType) {
-        if (!CommonUtils.isLogin(context,"客服")) {
+        if (!CommonUtils.isLogin(context, "客服")) {
             return;
         }
         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
         params.sourceType = sourceType;
         Intent intent = new Intent(context, ServiceQuestionActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra(Constants.PARAMS_SOURCE, "客服IM");
         context.startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
     }
@@ -248,18 +250,18 @@ public class UnicornUtils {
         }
     }
 
-    public static void uploadQiyuInitError(String errorMsg){
-        if(isGranted(Manifest.permission.READ_PHONE_STATE,MyApplication.getAppContext())){
-            ApiFeedbackUtils.requestIMFeedback(23001, "23001",TextUtils.isEmpty(errorMsg)?"七鱼客服初始化失败":errorMsg);
+    public static void uploadQiyuInitError(String errorMsg) {
+        if (isGranted(Manifest.permission.READ_PHONE_STATE, MyApplication.getAppContext())) {
+            ApiFeedbackUtils.requestIMFeedback(23001, "23001", TextUtils.isEmpty(errorMsg) ? "七鱼客服初始化失败" : errorMsg);
 
         }
     }
 
-    public static boolean isGranted(String permission,Context context) {
-        return !isMarshmallow() || isGranted_(permission,context);
+    public static boolean isGranted(String permission, Context context) {
+        return !isMarshmallow() || isGranted_(permission, context);
     }
 
-    private static boolean isGranted_(String permission,Context context) {
+    private static boolean isGranted_(String permission, Context context) {
         int checkSelfPermission = ActivityCompat.checkSelfPermission(context, permission);
         return checkSelfPermission == PackageManager.PERMISSION_GRANTED;
     }
