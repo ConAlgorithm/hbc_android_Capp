@@ -2,6 +2,7 @@ package com.hugboga.custom.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.Sensor;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -223,7 +224,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             intent.putExtras(bundle);
             startActivity(intent);
         }
-        SensorsUtils.onAppClick(getEventSource(),"开始城市",getIntentSource());
+        SensorsUtils.onAppClick(getEventSource(),"下一步",getIntentSource());
         overridePendingTransition(R.anim.push_bottom_in, 0);
     }
 
@@ -454,6 +455,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                     , getString(R.string.dialog_btn_back), getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    SensorsUtils.onAppClick(getEventSource(),"帮我规划",getIntentSource());
                     if (UserEntity.getUser().isLogin(CharterFirstStepActivity.this)
                             && !TextUtils.isEmpty(UserEntity.getUser().getPhone(CharterFirstStepActivity.this))) {
                         showIntentionDialog(String.format(getString(R.string.daily_first_purpose_service), UserEntity.getUser().getPhone(CharterFirstStepActivity.this)));
@@ -473,12 +475,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    SensorsUtils.onAppClick(getEventSource(),"确认离开",getIntentSource());
                     dialog.dismiss();
                     CharterFirstStepActivity.this.finish();
                 }
             }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    SensorsUtils.onAppClick(getEventSource(),"取消",getIntentSource());
                     dialog.dismiss();
                 }
             });

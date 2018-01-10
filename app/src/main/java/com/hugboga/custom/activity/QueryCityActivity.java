@@ -444,7 +444,7 @@ public class QueryCityActivity extends BaseActivity {
 
     @Override
     public String getEventSource() {
-        return "目的地搜索";
+        return "搜索";
     }
 
     //搜索埋点
@@ -536,5 +536,4 @@ public class QueryCityActivity extends BaseActivity {
             }
         }
     };
-
 }

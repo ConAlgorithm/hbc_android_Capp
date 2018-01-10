@@ -10,6 +10,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.QueryCityActivity;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.IntentUtils;
 
 import butterknife.BindView;
@@ -85,20 +87,25 @@ public class SearchShortcut extends FrameLayout {
         switch (view.getId()) {
             case R.id.search_shortcut_daily1: //按天包车游
             case R.id.search_shortcut_daily2: //按天包车游
-                IntentUtils.intentCharterActivity(getContext(), getEventSource());
+                IntentUtils.intentCharterActivity(getContext(), (((QueryCityActivity) getContext()).getEventSource()));
+                SensorsUtils.onAppClick((((QueryCityActivity) getContext()).getEventSource()),
+                        (((QueryCityActivity) getContext()).getEventSource()), "按天包车游",
+                        (((QueryCityActivity) getContext()).getIntentSource()));
                 break;
             case R.id.search_shortcut_send1: //接送机
             case R.id.search_shortcut_send2: //接送机
-                IntentUtils.intentPickupActivity(getContext(), getEventSource());
+                IntentUtils.intentPickupActivity(getContext(), (((QueryCityActivity) getContext()).getEventSource()));
+                SensorsUtils.onAppClick((((QueryCityActivity) getContext()).getEventSource()),
+                        (((QueryCityActivity) getContext()).getEventSource()), "接送机",
+                        (((QueryCityActivity) getContext()).getIntentSource()));
                 break;
             case R.id.search_shortcut_rent1: //单次接送
             case R.id.search_shortcut_rent2: //单次接送
-                IntentUtils.intentSingleActivity(getContext(), getEventSource());
+                IntentUtils.intentSingleActivity(getContext(), (((QueryCityActivity) getContext()).getEventSource()));
+                SensorsUtils.onAppClick((((QueryCityActivity) getContext()).getEventSource()),
+                        (((QueryCityActivity) getContext()).getEventSource()), "单次接送",
+                        (((QueryCityActivity) getContext()).getIntentSource()));
                 break;
         }
-    }
-
-    public String getEventSource() {
-        return getContext().getResources().getString(R.string.destiation_search);
     }
 }

@@ -59,7 +59,7 @@ import butterknife.BindView;
 /**
  * Created by on 16/10/13.
  */
-public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener,ImObserverHelper.OnUserStatusListener{
+public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener, ImObserverHelper.OnUserStatusListener {
 
     @BindView(R.id.fg_space_listview)
     ListView listView;
@@ -183,7 +183,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     public void refreshUserInfo() {
         if (UserEntity.getUser().isLogin(getContext())) {
             HttpRequestUtils.request(getContext(), new RequestUserInfo(getContext()), this, false);
-        }else{
+        } else {
             setShowPoint(false);
             resetData();
         }
@@ -222,7 +222,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         }
     }
 
-    private void resetData(){
+    private void resetData() {
         tv_login.setVisibility(View.VISIBLE);
         my_icon_head.setVisibility(View.GONE);
         tv_nickname.setVisibility(View.GONE);
@@ -278,15 +278,15 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 break;
             case 5://服务规则
                 intent = new Intent(getContext(), ServicerCenterActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 SensorsUtils.onAppClick(getEventSource(), "服务规则","");
                 break;
             case 6://设置
-                intent = new Intent(getContext(),SettingActivity.class);
+                intent = new Intent(getContext(), SettingActivity.class);
                 intent.putExtra("needInitPwd", UserEntity.getUser().getNeedInitPwd(getContext()));
-                if(TextUtils.isEmpty(this.mobile)){
-                    intent.putExtra("isMobileBinded",false);
+                if (TextUtils.isEmpty(this.mobile)) {
+                    intent.putExtra("isMobileBinded", false);
                 }
                 startActivity(intent);
                 SensorsUtils.onAppClick(getEventSource(), "设置","");
@@ -297,6 +297,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     }
 
     Intent intent;
+
     @Override
     public void onClick(View v) {
         Intent intent = null;
@@ -308,13 +309,15 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     intent = new Intent(getContext(), PersonInfoActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
+                } else {
+                    SensorsUtils.onAppClick("登录", "登录", "登录", getEventSource());
                 }
                 break;
             case R.id.slidemenu_header_coupon_layout://我的优惠券
                 if (isLogin("个人中心-优惠券")) {
                     intent = new Intent(getContext(), CouponActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    intent.putExtra("isFromMyspace",true);
+                    intent.putExtra("isFromMyspace", true);
                     startActivity(intent);
                     UserEntity.getUser().setHasNewCoupon(false);
                 }
@@ -367,7 +370,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             UserEntity.getUser().setUserName(getContext(), user.name);
             UserEntity.getUser().setTravelFund(getContext(), user.travelFund);
             UserEntity.getUser().setCoupons(getContext(), user.coupons);
-            UserEntity.getUser().setNeedInitPwd(getContext(),user.needInitPwd);
+            UserEntity.getUser().setNeedInitPwd(getContext(), user.needInitPwd);
             this.mobile = user.mobile;
             couponTV.setText("" + user.coupons);
             travelFundTV.setText("" + user.travelFund);

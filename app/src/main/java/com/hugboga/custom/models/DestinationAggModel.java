@@ -3,7 +3,6 @@ package com.hugboga.custom.models;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import com.hugboga.custom.data.bean.DestinationHotItemBean;
 import com.hugboga.custom.data.bean.DestinationTabItemBean;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -45,12 +45,12 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     private DestinationTabItemBean lineGroup;
     int position = 0;
 
-    public DestinationAggModel(List<DestinationHotItemBean> hotCity,int position) {
+    public DestinationAggModel(List<DestinationHotItemBean> hotCity, int position) {
         this.hotCitys = hotCity;
         this.position = position;
     }
 
-    public DestinationAggModel(DestinationTabItemBean lineGroup,int position) {
+    public DestinationAggModel(DestinationTabItemBean lineGroup, int position) {
         this.lineGroup = lineGroup;
         this.position = position;
     }
@@ -69,9 +69,9 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     public void bind(EpoxyHolder holder) {
         super.bind(holder);
         DestinationViewHolder destinationViewHolder = (DestinationViewHolder) holder;
-        if(this.position == 0){
+        if (this.position == 0) {
             destinationViewHolder.destinationServiceview.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             destinationViewHolder.destinationServiceview.setVisibility(View.GONE);
         }
         if (hotCitys != null) {
@@ -117,6 +117,8 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
                         if (isUnfoldMoreDestination) {
                             destinationViewHolder.cityMoreTV.setText("点击收起");
                             destinationViewHolder.cityMoreIV.setBackgroundResource(R.mipmap.share_withdraw);
+                            //点击展开更多埋点
+                            SensorsUtils.onAppClick("目的地", "目的地", "展开更多", "");
                         } else {
                             destinationViewHolder.cityMoreTV.setText("展开更多");
                             destinationViewHolder.cityMoreIV.setBackgroundResource(R.mipmap.share_unfold);
@@ -182,11 +184,12 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
         }
     }
 
-    private void handlerCountryGridView(GridView countryGridView){
+    private void handlerCountryGridView(GridView countryGridView) {
         setCountryGridParams(countryGridView, lineGroup.countryList);
     }
 
     boolean isUnfoldMoreTag;
+
     private void setTagData(LinearLayout containeLayout, List<DestinationTabItemBean.TagBean> topTagGroupList, boolean isUnfoldMoreTag) {
         this.isUnfoldMoreTag = isUnfoldMoreTag;
         if (containeLayout.getChildCount() != topTagGroupList.size()) {
@@ -209,6 +212,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
 
     CityAdapter destinationAdapter;
     boolean isUnfoldMoreDestination;
+
     private void setDestinationData(GridView gridView, List<DestinationHotItemBean> cities, boolean isUnfoldMoreDestination) {
         this.isUnfoldMoreDestination = isUnfoldMoreDestination;
         if (destinationAdapter == null) {
@@ -230,7 +234,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     }
 
     private void setCountryGridParams(GridView gridView, List<DestinationTabItemBean.CountryItemBean> countries) {
-        CountryAdapter countryAdapter = new CountryAdapter(countries,gridView.getContext());
+        CountryAdapter countryAdapter = new CountryAdapter(countries, gridView.getContext());
         int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(6 * 2 + 15 * 2)) / 3;
         gridView.setColumnWidth(gridWidth);
         gridView.setNumColumns(3);
@@ -284,7 +288,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
         private List<DestinationHotItemBean> hotCityList;
         private Context mContext;
 
-        public CityAdapter(List<DestinationHotItemBean> hotCityList,Context context) {
+        public CityAdapter(List<DestinationHotItemBean> hotCityList, Context context) {
             this.hotCityList = hotCityList;
             this.mContext = context;
         }
@@ -347,15 +351,15 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bundle bundle=new Bundle();
+                    Bundle bundle = new Bundle();
                     CityActivity.Params params = new CityActivity.Params();
                     Intent intent = new Intent(v.getContext(), CityActivity.class);
-                    bundle.putSerializable(Constants.PARAMS_SOURCE,"目的地");
+                    bundle.putSerializable(Constants.PARAMS_SOURCE, "目的地");
                     params.cityHomeType = CityActivity.CityHomeType.getNew(hotCity.destinationType);
-                    params.titleName= hotCity.destinationName;
-                    params.id=hotCity.destinationId;
-                    intent.putExtra(Constants.PARAMS_DATA,params);
-                    intent.putExtra(Constants.PARAMS_SOURCE,"目的地");
+                    params.titleName = hotCity.destinationName;
+                    params.id = hotCity.destinationId;
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "目的地");
                     mContext.startActivity(intent);
                     StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "目的地");
                 }
@@ -433,7 +437,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
                     params.titleName = hotCountry.countryName;
                     Intent intent = new Intent(v.getContext(), CityActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
-                    intent.putExtra("source","目的地");
+                    intent.putExtra("source", "目的地");
                     v.getContext().startActivity(intent);
                 }
             });

@@ -214,6 +214,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         bottomView.getBookTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SensorsUtils.onAppClick(getEventSource(),"分享",getIntentSource());
                 webAgent.callBack("goToNext", "");
             }
         });
@@ -402,6 +403,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         if (guideExtinfoBean == null) {
             return;
         }
+        SensorsUtils.onAppClick(getEventSource(),"分享",getIntentSource());
         String title = String.format("去%1$s，推荐你找当地华人司导%2$s开车带你玩！", guideExtinfoBean.cityName, guideExtinfoBean.guideName);
         String desc = TextUtils.isEmpty(guideExtinfoBean.homeDesc) ? "我可以为您规划行程、陪同翻译和向导，让您舒舒服服坐车玩！" : guideExtinfoBean.homeDesc;
         CommonUtils.shareDialog(this, guideExtinfoBean.avatarUrl, title, desc, getLoadUrl(),
