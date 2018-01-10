@@ -257,7 +257,7 @@ public class FgHome extends BaseFragment {
         intent.putExtra("source", getEventSource());
         startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, getEventSource());
-        SensorsUtils.onAppClick("首页", "全局搜索","");
+        SensorsUtils.onAppClick("首页", "搜索","");
     }
 
     @OnClick({R.id.homed_titlebar_ai_iv})

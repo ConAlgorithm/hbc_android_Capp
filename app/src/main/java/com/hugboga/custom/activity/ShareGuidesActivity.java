@@ -34,7 +34,7 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 16/8/4.
  */
-public class ShareGuidesActivity extends BaseActivity{
+public class ShareGuidesActivity extends BaseActivity {
 
     //@BindView(R.id.share_evaluate_description_tv1)
     //TextView descriptionTV1;
@@ -49,6 +49,7 @@ public class ShareGuidesActivity extends BaseActivity{
     private Params params;
     private boolean shareSucceed = false;
     private boolean isReturnMoney = true;
+
     public static class Params implements Serializable {
         public EvaluateData evaluateData;
         public String orderNo;
@@ -131,16 +132,16 @@ public class ShareGuidesActivity extends BaseActivity{
         if (TextUtils.isEmpty(commentTipParam)) {
             descriptionTV2.setVisibility(View.GONE);
         }
-        String description = getString(R.string.share_evaluate_description_3,commentTipParam);
+        String description = getString(R.string.share_evaluate_description_3, commentTipParam);
         SpannableString msp = new SpannableString(description);
         msp.setSpan(new ForegroundColorSpan(0xFFFF6633), 11, 11 + commentTipParam.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         msp.setSpan(new ForegroundColorSpan(0xFFFF6633), description.length() - 4, description.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         descriptionTV2.setText(msp);
-        if(!isReturnMoney){
+        if (!isReturnMoney) {
             des.setVisibility(View.GONE);
             evaluateIcon.setBackgroundResource(R.mipmap.evaluate_successful_picture);
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) evaluateIcon.getLayoutParams();
-            lp.setMargins(0, UIUtils.dip2px(88),0,0);
+            lp.setMargins(0, UIUtils.dip2px(88), 0, 0);
             evaluateIcon.setLayoutParams(lp);
         }
     }
@@ -156,23 +157,23 @@ public class ShareGuidesActivity extends BaseActivity{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.share_evaluate_wechat_layout:
-                    setShare(1);
-                    break;
+                setShare(1);
+                break;
             case R.id.share_evaluate_moments_layout:
-                    setShare(2);
-                    break;
+                setShare(2);
+                break;
         }
     }
 
     /**
      * 1:好友,2:朋友圈；
-     * */
+     */
     private void setShare(int type) {
         final EvaluateData evaluateData = params.evaluateData;
         if (evaluateData == null || TextUtils.isEmpty(evaluateData.wechatShareUrl)) {
             return;
         }
-        String shareUrl = CommonUtils.getBaseUrl(params.evaluateData.wechatShareUrl) + "orderNo=" +  params.orderNo + "&userId=" + UserEntity.getUser().getUserId(this);
+        String shareUrl = CommonUtils.getBaseUrl(params.evaluateData.wechatShareUrl) + "orderNo=" + params.orderNo + "&userId=" + UserEntity.getUser().getUserId(this);
         WXShareUtils wxShareUtils = WXShareUtils.getInstance(this);
         wxShareUtils.share(type
                 , evaluateData.wechatShareHeadSrc
@@ -180,7 +181,7 @@ public class ShareGuidesActivity extends BaseActivity{
                 , evaluateData.wechatShareContent
                 , shareUrl);
         MobClickUtils.onEvent(new EventEvaluateShare(params.orderType, getEventSource(), "" + type));
-        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", getEventSource(),params.goodsNo,params.guideId);
+        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", "评价", params.goodsNo, params.guideId);
     }
 
     @Override

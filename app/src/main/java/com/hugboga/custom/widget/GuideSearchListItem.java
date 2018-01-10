@@ -134,6 +134,6 @@ public class GuideSearchListItem extends LinearLayout implements HbcViewBehavior
         this.activity = activity;
     }
     public String getEventSource(){
-        return "全局搜索";
+        return "搜索";
     }
 }

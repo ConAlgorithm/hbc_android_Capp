@@ -412,7 +412,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
                     @Override
                     public void onShare(int type) {
                         StatisticClickEvent.clickShare(StatisticConstant.SHAREG_TYPE, type == 1 ? "微信好友" : "朋友圈");
-                        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", getEventSource(),null,paramsData.guideId);
+                        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", "司导",null,paramsData.guideId);
                     }
                 });
     }
@@ -420,7 +420,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
     @Override
     public String getEventSource() {
         if(isFromHome){//从首页搜索进来的司导详情页
-            return "全局搜索";
+            return "搜索";
         }
         return "司导个人页";
     }
