@@ -54,7 +54,7 @@ public class FilterGuideBean implements Serializable {
         } else if (serviceJsc == 1) {
             result += "接送机、单次接送";
         }
-        if ("1".equals(decisionMaker)) {
+        if ("1".equals(decisionMaker) || "1".equals(chatAbility)) {
             result += "、行程规划";
         }
         return result;
