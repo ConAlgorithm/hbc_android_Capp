@@ -452,7 +452,7 @@ public class BargainActivity extends BaseActivity {
 
     @Override
     public String getEventSource() {
-       return  "砍价";
+       return  "发起砍价";
     }
 
     //是否显示过填写姓名popup

@@ -159,4 +159,9 @@ public class InsureInfoActivity extends BaseActivity {
         }
         return super.onKeyUp(keyCode, event);
     }
+
+    @Override
+    public String getEventSource() {
+        return "投保信息";
+    }
 }

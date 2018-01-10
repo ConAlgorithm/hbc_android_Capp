@@ -135,6 +135,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
                 addSensors(); //修改出行人信息埋点
                 intent = new Intent(getContext(), OrderDetailTravelerInfoActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 getContext().startActivity(intent);
                 break;
             case R.id.order_detail_insurance_add_tv:
@@ -145,18 +146,25 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
                     insureBundle.putSerializable("orderBean", orderBean);
                     intent = new Intent(getContext(), InsureActivity.class);
                     intent.putExtras(insureBundle);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     getContext().startActivity(intent);
                 } else {//投保人list
                     intent = new Intent(getContext(), InsureInfoActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, orderBean);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     getContext().startActivity(intent);
                 }
                 break;
             case R.id.order_detail_insurance_explain_iv:
                 intent = new Intent(getContext(), WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 getContext().startActivity(intent);
                 break;
         }
+    }
+
+    public String getEventSource() {
+        return "订单详情";
     }
 }

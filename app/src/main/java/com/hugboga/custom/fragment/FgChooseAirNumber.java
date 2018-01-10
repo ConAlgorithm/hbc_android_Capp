@@ -593,7 +593,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
     private void setSensorsBuyFlightEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("refer", getIntentSource());
+            properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(getContext()).track("buy_flight");
         } catch (Exception e) {
             e.printStackTrace();

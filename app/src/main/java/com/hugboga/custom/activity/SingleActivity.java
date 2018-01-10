@@ -694,7 +694,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     private void setSensorsBuyRouteEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("refer", getIntentSource());
+            properties.put("hbc_refer", getIntentSource());
             properties.put("hbc_sku_type", "单次");
             SensorsDataAPI.sharedInstance(this).track("buy_route", properties);
         } catch (Exception e) {

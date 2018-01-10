@@ -403,7 +403,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
 
     @Override
     public String getEventSource() {
-        return "常用投保人";
+        return "添加投保人";
     }
 
     @Override

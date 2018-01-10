@@ -654,7 +654,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     private void setSensorsBuyRouteEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("refer", source);
+            properties.put("hbc_refer", source);
             properties.put("hbc_sku_type", "送机");
             SensorsDataAPI.sharedInstance(getContext()).track("buy_route", properties);
         } catch (Exception e) {

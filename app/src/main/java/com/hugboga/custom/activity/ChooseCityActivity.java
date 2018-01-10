@@ -1109,7 +1109,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     private void setSensorsBuyCityEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("refer", getIntentSource());
+            properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("buy_city");
         } catch (Exception e) {
             e.printStackTrace();
