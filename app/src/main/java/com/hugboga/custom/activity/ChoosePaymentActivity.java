@@ -229,6 +229,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.choose_payment_alipay_layout://支付宝支付
+                SensorsUtils.onAppClick(getEventSource(), "支付宝", getIntentSource());
                 DefaultSSLSocketFactory.resetSSLSocketFactory(this);
                 sendRequest(Constants.PAY_STATE_ALIPAY);
                 break;
@@ -236,11 +237,13 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
                 if (isFinishing() || !WXShareUtils.getInstance(this).isInstallOf(this, true)) {
                     return;
                 }
+                SensorsUtils.onAppClick(getEventSource(), "微信", getIntentSource());
                 DefaultSSLSocketFactory.resetSSLSocketFactory(this);
                 sendRequest(Constants.PAY_STATE_WECHAT);
                 break;
             case R.id.choose_payment_add_credit_card_layout:
                 //国内信用卡支付
+                SensorsUtils.onAppClick(getEventSource(), "国内信用卡", getIntentSource());
                 if (requestParams != null) {
                     Intent intent = new Intent(this, DomesticCreditCardActivity.class);
                     intent.putExtra(PAY_PARAMS, requestParams);
@@ -249,6 +252,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
                 sendRequest(Constants.PAY_STATE_BANK);//仅仅只用于埋点
                 break;
             case R.id.choose_payment_abrod_credit_layout:
+                SensorsUtils.onAppClick(getEventSource(), "境外信用卡", getIntentSource());
                 if (requestParams != null) {
                     RequestAbroadCreditPayment requestAbroadCreditPayment = new RequestAbroadCreditPayment(this, requestParams.shouldPay, requestParams.orderId, 2);
                     requestData(requestAbroadCreditPayment, true);

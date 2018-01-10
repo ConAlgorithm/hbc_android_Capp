@@ -72,6 +72,7 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
         if (params == null || params.orderType == 0) {
             finish();
         }
+        setSensorsDefaultEvent(); //BasicActivity中事件由于执行时params为空，所以需要获取params后再次执行
         init();
     }
 
@@ -147,7 +148,7 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
 
                 imgIV4Width = (int) (UIUtils.getScreenWidth() * (472 / 750f));
                 imgIV4Height = (int) ((444 / 472f) * imgIV4Width);
-              break;
+                break;
             case 3:
             case 888:
                 imgIV1.setBackgroundResource(R.drawable.charter_order_picture_a);
@@ -240,9 +241,9 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
                     return "接送机引导页";
                 case 3:
                 case 888:
-                    return "包车引导页";
+                    return "按天包车引导页";
                 case 4:
-                    return "单次引导页";
+                    return "单次接送引导页";
             }
         }
         return super.getEventSource();
