@@ -464,13 +464,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 SensorsUtils.onAppClick("登录", "微信登录", getIntentSource());
                 break;
             case R.id.shouji_layout:
+                SensorsUtils.onAppClick(getEventSource(), "账号密码登录", getIntentSource());
                 intent = new Intent(this, AccountPwdLoginActivity.class);
                 intent.putExtra(Constants.PARAMS_ACTION, actionBean);
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
-                /*overridePendingTransition(R.anim.enter_from_right,
-                        0);*/
-                //StatisticClickEvent.click(StatisticConstant.LOGIN_PHONE,getIntentSource());
                 break;
             case R.id.login_submit:
                 //登录
