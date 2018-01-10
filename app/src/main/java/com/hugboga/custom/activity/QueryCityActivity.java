@@ -447,20 +447,6 @@ public class QueryCityActivity extends BaseActivity {
         return "搜索";
     }
 
-    //搜索埋点
-    public static void setSensorsShareEvent(String keyWord, boolean isHistory, boolean isRecommend, boolean hasResult) {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("keyWord", keyWord);
-            properties.put("isHistory", isHistory);
-            properties.put("isRecommend", isRecommend);
-            properties.put("hasResult", hasResult);
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("searchResult", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void hideSoft(String searchStr) {
         headSearch.setText(searchStr);
         hideInputMethod(headSearch);
@@ -491,13 +477,6 @@ public class QueryCityActivity extends BaseActivity {
                 searchHistoryView.showHistorySearchResult(dataList);
             }
         }
-    }
-
-    /**
-     * 关联本地结果埋点
-     */
-    public void addPoint(boolean isHasResult) {
-        setSensorsShareEvent(headSearch.getText().toString(), false, false, isHasResult);
     }
 
     /**
