@@ -18,7 +18,7 @@ public class ChatBean extends HbcLogicImBean implements Serializable{
 
     public String targetAvatar; //头像地址
     public String targetName; //用户名  页面上展示的用户名字
-    public String targetId; //目标ID
+    public String targetId; //目标ID 司导ID
     public String userId; //用户ID
     public int userType; //用户类型
     public List<ChatOrderBean> orderInfo; //私信显示订单

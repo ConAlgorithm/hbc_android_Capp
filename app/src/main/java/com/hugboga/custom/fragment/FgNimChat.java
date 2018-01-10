@@ -443,10 +443,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             SensorsUtils.onAppClick(getEventSource(), "旅行小管家", "");
         } else if (chatBean.getTargetType() == 1) {
             SensorsUtils.onAppClick(getEventSource(),"联系司导","");
-            if (!IMUtil.getInstance().isLogined()) {
-                return;
-            }
-            NIMChatActivity.start(getContext(), chatBean.getNeTargetId(), getEventSource());
+            NIMChatActivity.start(getContext(), chatBean.targetId, false, chatBean.getNeTargetId(), getEventSource(), null);
         } else {
             MLog.e("目标用户不是客服，也不是司导");
         }

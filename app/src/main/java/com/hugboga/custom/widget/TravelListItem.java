@@ -654,7 +654,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                     if(mOrderBean.imInfo!=null){
                         String imId = mOrderBean.imInfo.getNeTargetId();
                         if(!TextUtils.isEmpty(imId)){
-                            gotoChatView(imId);
+                            gotoChatView(mOrderBean.imInfo.targetId, imId);
                         }else{
                             if(mOrderBean.orderGuideInfo!=null){
                                 requestImChatId(mOrderBean.orderGuideInfo);
@@ -699,7 +699,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 Object object = request.getData();
                 if(object instanceof ImChatInfo){
                     ImChatInfo imChatInfo = (ImChatInfo)object;
-                    gotoChatView(imChatInfo.neTargetId);
+                    gotoChatView(imChatInfo.targetId, imChatInfo.neTargetId);
                 }
             }
 
@@ -713,11 +713,8 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
         });
     }
 
-    private void gotoChatView(String imChatId) {
-        if(!IMUtil.getInstance().isLogined()){
-            return;
-        }
-        NIMChatActivity.start(getContext(),imChatId,"订单列表");
+    private void gotoChatView(String guideId, String imChatId) {
+        NIMChatActivity.start(getContext(), guideId, imChatId,"订单列表");
     }
     /**
      * 设置聊一聊未读个数小红点

@@ -38,10 +38,12 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatBean;
+import com.hugboga.custom.data.bean.ChatJudgeBean;
 import com.hugboga.custom.data.bean.ImShadowBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.request.RequestChatJudge;
 import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestImFirstChat;
@@ -103,15 +105,43 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     private String sessionId;
 
-    public static void start(Context context, String contactId, String source) {
-        start(context, contactId, source, null);
+    public static void start(final Context context, String guideId, final String contactId, final String source) {
+        start(context, guideId,true, contactId, source,null);
     }
 
-    /**
-     * @param context
-     * @param contactId
-     */
-    public static void start(Context context, String contactId, String source, CustomAttachment customAttachment) {
+    public static void start(final Context context, String guideId, boolean isCheck, final String contactId, final String source, final CustomAttachment customAttachment) {
+        if (context == null || !UserEntity.getUser().isLogin(context) || !IMUtil.getInstance().isLogined()) {
+            return;
+        }
+        if (isCheck && !TextUtils.isEmpty(guideId)) {
+            RequestChatJudge requestCars = new RequestChatJudge(context, guideId);
+            HttpRequestUtils.request(context, requestCars, new HttpRequestListener() {
+                @Override
+                public void onDataRequestSucceed(BaseRequest _request) {
+                    ChatJudgeBean chatJudgeBean = ((RequestChatJudge)_request).getData();
+                    if (chatJudgeBean.canChat) {
+                        start(context, contactId, source, customAttachment);
+                    } else {
+                        CommonUtils.showToast(chatJudgeBean.forbiddenReason);
+                    }
+                }
+
+                @Override
+                public void onDataRequestCancel(BaseRequest request) {
+
+                }
+
+                @Override
+                public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                    CommonUtils.showToast("网络异常，请重试");
+                }
+            },true);
+        } else {
+            start(context, contactId, source, customAttachment);
+        }
+    }
+
+    private static void start(Context context, String contactId, String source, CustomAttachment customAttachment) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
         intent.putExtra(Constants.PARAMS_SOURCE, source);
