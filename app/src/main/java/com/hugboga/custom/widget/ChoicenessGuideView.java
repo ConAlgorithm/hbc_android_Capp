@@ -22,7 +22,6 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MainActivity;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
@@ -33,14 +32,13 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.GuideItemUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +46,7 @@ import butterknife.ButterKnife;
 /**
  * Created by qingcha on 17/4/14.
  */
-public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior,HttpRequestListener{
+public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior, HttpRequestListener {
 
     @BindView(R.id.choiceness_guide_bg_iv)
     ImageView bgIV;
@@ -73,13 +71,15 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
     @BindView(R.id.save_guild)
     ImageView saveGuild;
     Activity activity;
+
     public ChoicenessGuideView(Context context) {
         this(context, null);
     }
 
-    public void setActivity(Activity activity){
+    public void setActivity(Activity activity) {
         this.activity = activity;
     }
+
     public ChoicenessGuideView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         View view = inflate(context, R.layout.view_choiceness_guide, this);
@@ -91,37 +91,39 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         setPadding(0, padding, 0, 0);
 
         int imageWidth = UIUtils.getScreenWidth() - padding * 2;
-        int imageHeight = (int)((400/690.0f) * imageWidth);
+        int imageHeight = (int) ((400 / 690.0f) * imageWidth);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(imageWidth, imageHeight);
         bgIV.setLayoutParams(params);
     }
+
     FilterGuideBean data = null;
+
     @Override
     public void update(Object _data) {
         data = (FilterGuideBean) _data;
         Tools.showImage(bgIV, data.guideCover, R.drawable.home_guide_dafault);
 
-        if(!UserEntity.getUser().isLogin(getContext())){
+        if (!UserEntity.getUser().isLogin(getContext())) {
             saveGuild.setSelected(false);
-        }else if(data.isCollected == 1){
+        } else if (data.isCollected == 1) {
             saveGuild.setSelected(true);
 
-        }else if(data.isCollected == 0){
+        } else if (data.isCollected == 0) {
             saveGuild.setSelected(false);
         }
         saveGuild.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(CommonUtils.isLogin(activity,getEventSource())) {
+                if (CommonUtils.isLogin(activity, getEventSource())) {
                     saveGuild.setEnabled(false);
-                    if(saveGuild.isSelected()){
+                    if (saveGuild.isSelected()) {
                         data.isCollected = 0;
                         saveGuild.setSelected(false);
-                        HttpRequestUtils.request(getContext(),new RequestUncollectGuidesId(getContext(), data.guideId),ChoicenessGuideView.this,false);
-                    }else{
+                        HttpRequestUtils.request(getContext(), new RequestUncollectGuidesId(getContext(), data.guideId), ChoicenessGuideView.this, false);
+                    } else {
                         //saveGuild.setSelected(true);
                         //data.isCollected= 1;
-                        HttpRequestUtils.request(getContext(),new RequestCollectGuidesId(getContext(), data.guideId),ChoicenessGuideView.this,false);
+                        HttpRequestUtils.request(getContext(), new RequestCollectGuidesId(getContext(), data.guideId), ChoicenessGuideView.this, false);
                     }
                 }
             }
@@ -140,10 +142,10 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
             levelTV.setTextSize(12);
             levelTV.setTextColor(0xFF929292);
         } else {
-            String services = serviceStar+"星";
+            String services = serviceStar + "星";
             SpannableString spannableString = new SpannableString(services);
-            spannableString.setSpan(new AbsoluteSizeSpan(30), services.length()-1, services.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.guildsaved)), services.length()-1, services.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new AbsoluteSizeSpan(30), services.length() - 1, services.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.guildsaved)), services.length() - 1, services.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             levelTV.setTextColor(0xffffc100);
             levelTV.setTextSize(16);
             levelTV.setText(spannableString);
@@ -157,7 +159,7 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         if (!TextUtils.isEmpty(data.cityName)) {
             if (getContext() instanceof MainActivity) {
                 isShowCity = true;
-            } else if (getContext() instanceof CityActivity && ((CityActivity)getContext()).isShowCity()) {
+            } else if (getContext() instanceof CityActivity && ((CityActivity) getContext()).isShowCity()) {
                 isShowCity = true;
             }
         }
@@ -220,13 +222,13 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        if(request instanceof RequestCollectGuidesId){
+        if (request instanceof RequestCollectGuidesId) {
             saveGuild.setSelected(true);
-            data.isCollected= 1;
+            data.isCollected = 1;
             CommonUtils.showToast("收藏成功");
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 1));
-            setSensorsShareEvent(data.guideId);
-        }else if(request instanceof RequestUncollectGuidesId){
+            SensorsUtils.setSensorsFavorite("司导", "", data.guideId);
+        } else if (request instanceof RequestUncollectGuidesId) {
             CommonUtils.showToast("已取消收藏");
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 0));
         }
@@ -237,28 +239,19 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
     public void onDataRequestCancel(BaseRequest request) {
 
     }
+
     private ErrorHandler errorHandler;
+
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if(request instanceof RequestCollectGuidesId){
+        if (request instanceof RequestCollectGuidesId) {
             saveGuild.setSelected(false);
-            data.isCollected= 0;
+            data.isCollected = 0;
             if (errorHandler == null) {
                 errorHandler = new ErrorHandler(activity, this);
             }
             errorHandler.onDataRequestError(errorInfo, request);
         }
         saveGuild.setEnabled(true);
-    }
-    //收藏司导埋点
-    public static void setSensorsShareEvent(String guideId) {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("guideId", guideId);
-            properties.put("favoriteType", "司导");
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("favorite", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

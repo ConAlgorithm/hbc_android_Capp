@@ -338,4 +338,22 @@ public class SensorsUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 收藏埋点
+     * @param favoriteType
+     * @param goodsNo
+     * @param guideId
+     */
+    public static void setSensorsFavorite(String favoriteType, String goodsNo, String guideId) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("favoriteType", favoriteType);
+            properties.put("goodsNo", goodsNo);
+            properties.put("guideId", guideId);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("favorite", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

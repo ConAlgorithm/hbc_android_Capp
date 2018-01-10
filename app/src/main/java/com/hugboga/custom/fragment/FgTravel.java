@@ -123,18 +123,6 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
     TravelListDoing travelListDoing;
     TravelListUnevaludate travelListUnevaludate;
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    //进行中订单部分
-    ZListPageView fgTravelRunning;
-    NewOrderAdapter runningAdapter;
-    //已完成订单部分
-    ZListPageView fgTravelFinish;
-    NewOrderAdapter finishAdapter;
-    //已取消订单部分
-    ZListPageView fgTravelCancel;
-    NewOrderAdapter cancelAdapter;
-
-    ZListPageView fgTravelEvaluate;
-    NewOrderAdapter evaluateAdapter;
 
     HashMap<Integer, Boolean> needRefreshMap = new HashMap<>();
 

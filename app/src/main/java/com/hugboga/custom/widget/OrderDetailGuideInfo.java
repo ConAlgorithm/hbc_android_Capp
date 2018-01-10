@@ -25,9 +25,9 @@ import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
 
@@ -129,7 +129,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 if (orderBean.isEvaluated()) {
                     evaluateIV.setVisibility(View.VISIBLE);
                     if (orderBean.appraisement != null) {
-                        evaluateTV.setText((int)orderBean.appraisement.totalScore + CommonUtils.getString(R.string.order_detail_star_comment));
+                        evaluateTV.setText((int) orderBean.appraisement.totalScore + CommonUtils.getString(R.string.order_detail_star_comment));
                     } else {
                         evaluateTV.setText(R.string.order_detail_commented);
                     }
@@ -156,7 +156,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
         Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
         collectIV.setVisibility(guideInfo.isCollected() ? View.VISIBLE : View.GONE);
         nameTV.setText(orderBean.getGuideName());
-        if ((float)guideInfo.guideStarLevel >= 4) {
+        if ((float) guideInfo.guideStarLevel >= 4) {
             starIV.setBackgroundResource(R.mipmap.star_level_full);
         } else {
             starIV.setBackgroundResource(R.mipmap.star_level_half);
@@ -191,8 +191,8 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 intent = new Intent(getContext(), EvaluateNewActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
                 intent.putExtra(Constants.PARAMS_SOURCE, ((OrderDetailActivity) getContext()).getEventSource());
-                intent.putExtra("isFromOrderDetail",true);
-                ((OrderDetailActivity) getContext()).startActivityForResult(intent,OrderDetailActivity.EVALUATE_TYPE);
+                intent.putExtra("isFromOrderDetail", true);
+                ((OrderDetailActivity) getContext()).startActivityForResult(intent, OrderDetailActivity.EVALUATE_TYPE);
                 break;
             case R.id.ogi_chat_layout:
                 if (orderBean == null || orderBean.imInfo == null) {
@@ -232,6 +232,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
     public void onDataRequestSucceed(BaseRequest request) {
         ApiReportHelper.getInstance().addReport(request);
         if (request instanceof RequestCollectGuidesId) {//收藏
+            SensorsUtils.setSensorsFavorite("司导", "", orderBean.orderGuideInfo.guideID);
             orderBean.orderGuideInfo.storeStatus = 1;
             if (orderBean.orderGuideInfo.isCollected()) {
                 collectLayout.setVisibility(View.GONE);
