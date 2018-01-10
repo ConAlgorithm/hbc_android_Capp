@@ -7,7 +7,6 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +23,7 @@ import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.recyclerviewpager.AutoLoopRecyclerViewPager;
 import com.hugboga.custom.widget.recyclerviewpager.RVViewUtils;
 import com.hugboga.custom.widget.recyclerviewpager.RecyclerViewPager;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -50,13 +50,13 @@ public class HomeExcitedActivityView extends LinearLayout implements HbcViewBeha
     public HomeExcitedActivityView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setOrientation(HORIZONTAL);
-        setPadding(0,0,0,UIUtils.dip2px(45));
+        setPadding(0, 0, 0, UIUtils.dip2px(45));
         inflate(context, R.layout.view_home_excited_activity, this);
         ButterKnife.bind(this);
 
         final int marginLeft = context.getResources().getDimensionPixelOffset(R.dimen.home_margin_left);
         int bannerWidth = UIUtils.getScreenWidth() - marginLeft;
-        int bannerHeight = (int)((400 / 670.0f) * bannerWidth);
+        int bannerHeight = (int) ((400 / 670.0f) * bannerWidth);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, bannerHeight);
         mViewPager.setLayoutParams(params);
 
@@ -104,7 +104,7 @@ public class HomeExcitedActivityView extends LinearLayout implements HbcViewBeha
         }
     }
 
-    private static class ItemImageView extends AppCompatImageView implements HbcViewBehavior, OnClickListener{
+    private static class ItemImageView extends AppCompatImageView implements HbcViewBehavior, OnClickListener {
 
         private HomeBean.ExcitedActivityBean itemData;
 
@@ -145,7 +145,7 @@ public class HomeExcitedActivityView extends LinearLayout implements HbcViewBeha
                 }
             } else {
                 ActionController actionFactory = ActionController.getInstance();
-                itemData.pushScheme.source = itemData.pushScheme.url;
+                itemData.pushScheme.source = "首页";
                 actionFactory.doAction(getContext(), itemData.pushScheme);
             }
         }
