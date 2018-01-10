@@ -162,7 +162,7 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
 
 
     private String getEventSource() {
-        return "首页";
+        return "BANNER";
     }
 
 }

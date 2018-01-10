@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HomeAlbumItemAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -72,8 +72,9 @@ public class HomeAlbumView extends LinearLayout {
         intent.putExtra("web_url", hotAlbumBean.albumLinkUrl);
         intent.putExtra(WebInfoActivity.WEB_SHARE_BTN, true);
         intent.putExtra(WebInfoActivity.IS_SHOW_TITLE_NAME, false);
+        intent.putExtra(Constants.PARAMS_SOURCE, "专辑");
         getContext().startActivity(intent);
-        SensorsUtils.onAppClick("首页","查看更多","");
+        SensorsUtils.onAppClick("首页", "查看更多", "专辑");
     }
 
     public void setDate(HomeBean.HotAlbumBean _hotAlbumBean) {
