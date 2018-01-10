@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.GuidanceOrderActivity;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +67,7 @@ public class GuidanceBottomView extends LinearLayout {
                 infoView.setTitle(getContext().getResources().getString(R.string.guidance_pickup_hint_title));
                 infoView.setHintText(getContext().getResources().getString(R.string.guidance_pickup_hint_subtitle));
                 isPickup = true;
+                SensorsUtils.onAppClick(getEventSource(), "接机", getIntentSource());
                 break;
             case R.id.guidance_bottom_switch_send_tv:
                 switchPickupTV.setBackgroundColor(0x00000000);
@@ -74,6 +77,7 @@ public class GuidanceBottomView extends LinearLayout {
                 infoView.setTitle(getContext().getResources().getString(R.string.guidance_send_hint_title));
                 infoView.setHintText(getContext().getResources().getString(R.string.guidance_send_hint_subtitle));
                 isPickup = false;
+                SensorsUtils.onAppClick(getEventSource(), "送机", getIntentSource());
                 break;
         }
     }
@@ -113,5 +117,21 @@ public class GuidanceBottomView extends LinearLayout {
 
     public void setOnInfoViewClickListener(OnInfoViewClickListener listener) {
         this.listener = listener;
+    }
+
+    public String getIntentSource() {
+        if (getContext() instanceof GuidanceOrderActivity) {
+            return ((GuidanceOrderActivity) getContext()).getIntentSource();
+        } else {
+          return "";
+        }
+    }
+
+    public String getEventSource() {
+        if (getContext() instanceof GuidanceOrderActivity) {
+            return ((GuidanceOrderActivity) getContext()).getEventSource();
+        } else {
+            return "";
+        }
     }
 }

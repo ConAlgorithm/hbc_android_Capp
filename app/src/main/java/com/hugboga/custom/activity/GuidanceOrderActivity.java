@@ -97,11 +97,13 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
                         intent = new Intent(GuidanceOrderActivity.this, ChooseAirActivity.class);
                         intent.putExtra(Constants.PARAMS_TYPE, TAG);
                         intent.putExtra(PARAMS_GUIDANCE, params);
+                        intent.putExtra(Constants.PARAMS_SOURCE, params.source);
                         startActivity(intent);
                         break;
                     case 2:
                         intent = new Intent(GuidanceOrderActivity.this, ChooseAirPortActivity.class);
                         intent.putExtra(PARAMS_GUIDANCE, params);
+                        intent.putExtra(Constants.PARAMS_SOURCE, params.source);
                         startActivity(intent);
                         break;
                     case 3:
@@ -229,4 +231,20 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
         }
     }
 
+    @Override
+    public String getEventSource() {
+        if (params != null) {
+            switch (params.orderType) {
+                case 1:
+                case 2:
+                    return "接送机引导页";
+                case 3:
+                case 888:
+                    return "包车引导页";
+                case 4:
+                    return "单次引导页";
+            }
+        }
+        return super.getEventSource();
+    }
 }

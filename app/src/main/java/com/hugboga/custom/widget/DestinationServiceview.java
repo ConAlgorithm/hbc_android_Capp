@@ -46,7 +46,6 @@ public class DestinationServiceview extends LinearLayout implements HbcViewBehav
             case R.id.picksend_id:
                 IntentUtils.intentPickupActivity(getContext(), getEventSource());
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_J);
-
                 break;
             case R.id.single_id:
                 IntentUtils.intentSingleActivity(getContext(), getEventSource());
