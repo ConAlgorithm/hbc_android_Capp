@@ -143,7 +143,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
             CollectionHelper.getIns(getContext()).getCollectionLine().changeCollectionLine(albumBean.goodsNo, collectIV.isSelected());
             if (collectIV.isSelected()) {
                 CommonUtils.showToast(getResources().getString(R.string.collect_succeed));
-                setSensorsEvent(albumBean.guideId);
+                setSensorsEvent(albumBean.guideId, albumBean.goodsNo);
             } else {
                 CommonUtils.showToast(getResources().getString(R.string.collect_cancel));
             }
@@ -152,11 +152,12 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
     }
 
     //收藏司导埋点
-    public static void setSensorsEvent(String guideId) {
+    public static void setSensorsEvent(String guideId, String goodsNo) {
         try {
             JSONObject properties = new JSONObject();
             properties.put("guideId", guideId);
             properties.put("favoriteType", "司导");
+            properties.put("goodsNo", goodsNo);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("favorite", properties);
         } catch (Exception e) {
             e.printStackTrace();

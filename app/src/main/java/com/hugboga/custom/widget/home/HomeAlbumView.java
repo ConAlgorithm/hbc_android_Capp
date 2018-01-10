@@ -73,7 +73,7 @@ public class HomeAlbumView extends LinearLayout {
         intent.putExtra(WebInfoActivity.WEB_SHARE_BTN, true);
         intent.putExtra(WebInfoActivity.IS_SHOW_TITLE_NAME, false);
         getContext().startActivity(intent);
-        SensorsUtils.onAppClick("首页", "热门专辑", "首页-热门专辑");
+        SensorsUtils.onAppClick("首页","查看更多","");
     }
 
     public void setDate(HomeBean.HotAlbumBean _hotAlbumBean) {

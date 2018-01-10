@@ -26,6 +26,7 @@ import com.hugboga.custom.data.request.RequestHomeTop;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.home.HomeRefreshHeader;
@@ -256,6 +257,7 @@ public class FgHome extends BaseFragment {
         intent.putExtra("source", getEventSource());
         startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, getEventSource());
+        SensorsUtils.onAppClick("首页", "全局搜索","");
     }
 
     @OnClick({R.id.homed_titlebar_ai_iv})

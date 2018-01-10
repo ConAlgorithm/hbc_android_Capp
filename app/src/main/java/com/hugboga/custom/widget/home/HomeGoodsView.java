@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HomeGoodsAdapter;
 import com.hugboga.custom.models.home.HomeGoodsModel;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SpaceItemDecoration;
@@ -85,8 +86,10 @@ public class HomeGoodsView<T> extends LinearLayout {
             case R.id.home_album_title_layout:
                 if (type == HomeGoodsModel.TYPE_TRANSFER) {
                     IntentUtils.intentPickupActivity(getContext(), "首页");
+                    SensorsUtils.onAppClick("首页", "境外中文接送机","");
                 } else {
                     IntentUtils.intentCharterActivity(getContext(), "首页");
+                    SensorsUtils.onAppClick("首页", "按天包车畅游","");
                 }
                 break;
         }

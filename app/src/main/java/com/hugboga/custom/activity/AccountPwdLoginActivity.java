@@ -32,6 +32,7 @@ import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
@@ -297,6 +298,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
         requestData(request);
 
         StatisticClickEvent.click(StatisticConstant.LOGIN_PHONE,getIntentSource());
+        SensorsUtils.onAppClick("登录", "账号密码登录", getIntentSource());
     }
 
     @Override

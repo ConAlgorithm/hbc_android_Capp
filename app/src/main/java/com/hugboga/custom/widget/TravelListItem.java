@@ -35,6 +35,7 @@ import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestImChatId;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
@@ -644,8 +645,9 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                     params.orderId = mOrderBean.orderNo;
                     intent = new Intent(v.getContext(), OrderDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
-                    intent.putExtra(Constants.PARAMS_SOURCE,"行程");
+                    intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
                     v.getContext().startActivity(intent);
+                    SensorsUtils.onAppClick(getEventSource(),"立即支付","");
                     break;
                 case R.id.travel_item_btn_chat:
                     MLog.e("进入聊天" + mOrderBean.orderNo);
@@ -729,5 +731,9 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
 //            chatNumTextView.setVisibility(View.GONE);
 //        }
         chatNumTextView.setVisibility(View.GONE);
+    }
+
+    public String getEventSource() {
+        return "行程";
     }
 }
