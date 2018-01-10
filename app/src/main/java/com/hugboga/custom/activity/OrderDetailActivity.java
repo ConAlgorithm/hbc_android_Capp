@@ -64,6 +64,7 @@ import butterknife.BindView;
 public class OrderDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final int EVALUATE_TYPE = 1000;
+    public static final String SOURCE_CLASS = "source_class";
 
     @BindView(R.id.order_detail_title_layout)
     OrderDetailTitleBar titleBar;
@@ -98,6 +99,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     private boolean isAppointGuideSucceed = false;
     CsDialog csDialog;
+
     public static class Params implements Serializable {
         public String orderId;
         public String source;
@@ -130,8 +132,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         requestData();
 
         Map map = new HashMap();
-        map.put(Constants.PARAMS_SOURCE,source);
-        MobClickUtils.onEvent(getEventId(),map);
+        map.put(Constants.PARAMS_SOURCE, source);
+        MobClickUtils.onEvent(getEventId(), map);
     }
 
     @Override
@@ -310,11 +312,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 intent = new Intent(this, SkuDetailActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
                 intent.putExtra(Constants.PARAMS_ID, orderBean.goodsNo);
-                intent.putExtra(Constants.PARAMS_SOURCE,source);
+                intent.putExtra(Constants.PARAMS_SOURCE, source);
                 startActivity(intent);
-                if(orderBean.orderGoodsType == 3) {//固定线路
+                if (orderBean.orderGoodsType == 3) {//固定线路
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, "订单详情页");
-                }else {
+                } else {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RT, "订单详情页");
                 }
                 break;
@@ -362,8 +364,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     /*
-    * 记录子单发单信息
-    * */
+     * 记录子单发单信息
+     * */
     public DeliverInfoBean getDeliverInfoBean() {
         return deliverInfoBean;
     }
@@ -382,8 +384,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         if (menuLayout == null) {
             menuLayout = LayoutInflater.from(this).inflate(R.layout.popup_top_right_menu, null);
         }
-        TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
-        TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
+        TextView cancelOrderTV = (TextView) menuLayout.findViewById(R.id.cancel_order);
+        TextView commonProblemTV = (TextView) menuLayout.findViewById(R.id.menu_phone);
         commonProblemTV.setText(R.string.order_detail_problem);
         if (orderBean.orderStatus.code <= 5) {
             cancelOrderTV.setVisibility(View.VISIBLE);
@@ -413,10 +415,10 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         cancelOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SensorsUtils.onAppClick(getEventSource(), "取消订单", getIntentSource());
                 mDialogUtil = DialogUtil.getInstance(OrderDetailActivity.this);
                 //如果此订单不能取消，直接进行提示
                 popup.dismiss();
-
                 if (orderBean.cancelable) {//cancelable是否能取消
                     String tip = "";
                     if (orderBean.orderStatus == OrderStatus.INITSTATE) {
@@ -454,6 +456,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         commonProblemTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SensorsUtils.onAppClick(getEventSource(), "常见问题", getIntentSource());
                 Intent intent = new Intent(OrderDetailActivity.this, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
                 intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
@@ -465,6 +468,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public String getEventSource() {
+        if (getIntent() != null && !TextUtils.isEmpty(getIntent().getStringExtra(SOURCE_CLASS))) {
+            if (NIMChatActivity.class.getSimpleName().equals(getIntent().getStringExtra(SOURCE_CLASS))) {
+                return "行程单";
+            }
+        }
         return "订单详情";
     }
 
@@ -540,8 +548,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == EVALUATE_TYPE){
-            if(resultCode == Constants.EVALUATE_OK){
+        if (requestCode == EVALUATE_TYPE) {
+            if (resultCode == Constants.EVALUATE_OK) {
                 finish();
             }
         }

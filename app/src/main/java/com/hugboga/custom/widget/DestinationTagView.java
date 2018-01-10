@@ -55,6 +55,7 @@ public class DestinationTagView extends LinearLayout {
             @Override
             public void onTagClick(View view, int position) {
                 DestinationTabItemBean.TagItemBean tagItemBean = tagList.get(position);
+                SensorsUtils.onAppClick("目的地", tagItemBean.tagName, "");
                 Intent intent = new Intent(getContext(), DestinationListActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, tagItemBean);
                 intent.putExtra(Constants.PARAMS_SOURCE, "目的地");

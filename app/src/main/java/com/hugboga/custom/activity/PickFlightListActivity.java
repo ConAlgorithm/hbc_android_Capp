@@ -26,9 +26,11 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.CsDialog;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.db.Selector;
@@ -215,6 +217,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
             }
 
         }
+        setSensorsFlightSearchEvent(count > 0);
         /*try {
             String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
             if (count != 0) {
@@ -325,4 +328,14 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
 
     }
 
+    //接机点击选航班后，出现航班列表浮层
+    private void setSensorsFlightSearchEvent(boolean hasResult) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hasResult", hasResult);//是否有结果
+            SensorsDataAPI.sharedInstance(this).track("flight_search");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

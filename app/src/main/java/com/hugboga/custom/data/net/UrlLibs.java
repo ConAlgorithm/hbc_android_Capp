@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 205
+    //current urlErrorCode 206
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -282,6 +282,7 @@ public class UrlLibs {
     public static final String API_CHOICE_COMMENTS          = "supplier/v1.0/c/index/comments";                         // 精选司导筛选条件 174
     public static final String API_CHECK_SKU                = "supplier/v2.0/c/guides/check/sku";                       // 商品下单指定司导校验 176
     public static final String API_GOODS_GUIDE_SEARCH       = "supplier/v1.0/c/search/guide?";                          // 搜索司导 178
+    public static final String API_CHAT_JUDGE               = "supplier/v1.0/c/chat/judge";                             // 根据司导和用户信息，判断当前该司导针对该用户是否可聊 206
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String UPDATE_DEVICE_INFO           = "passport/v1.0/updateDeviceInfo";                         // 更新设备信息接口144

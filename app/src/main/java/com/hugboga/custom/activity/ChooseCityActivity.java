@@ -38,8 +38,10 @@ import com.hugboga.custom.widget.ChooseCityTabLayout;
 import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.SideBar;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.db.Selector;
 import org.xutils.db.sqlite.WhereBuilder;
@@ -334,6 +336,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         }
         doInBackground();
         requestData();
+        setSensorsBuyCityEvent();
     }
 
     private void resetTab(){
@@ -1100,5 +1103,16 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                 break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    //来到选城市页
+    private void setSensorsBuyCityEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(this).track("buy_city");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

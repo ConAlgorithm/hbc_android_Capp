@@ -10,8 +10,7 @@ import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCollectLineNo;
 import com.hugboga.custom.data.request.RequestUncollectLinesNo;
-
-import org.greenrobot.eventbus.EventBus;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
 import static com.netease.nim.uikit.impl.NimUIKitImpl.getContext;
 
@@ -46,6 +45,7 @@ public class CollectionLine extends BaseCollection {
     public void changeCollectionLine(String targetNo, boolean isCollection) {
         if (isCollection) {
             localCollections.put(targetNo, true);
+            SensorsUtils.setSensorsFavorite("商品", targetNo, "");
         } else {
             localCollections.put(targetNo, false);
         }

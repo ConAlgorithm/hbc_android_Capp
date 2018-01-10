@@ -273,7 +273,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     @Override
     public String getEventSource() {
         if (isFromHome) {
-            return "全局搜索";
+            return "搜索";
         }
         return "线路详情";
     }
@@ -399,7 +399,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     @Override
                     public void onShare(int _type) {
                         EventUtil.onShareSkuEvent(StatisticConstant.SHARESKU_TYPE, "" + _type, getCityName());
-                        SensorsUtils.setSensorsShareEvent(_type == 1 ? "微信好友" : "朋友圈", getEventSource(), goodsNo, null);
+                        SensorsUtils.setSensorsShareEvent(_type == 1 ? "微信好友" : "朋友圈", "商品", goodsNo, null);
                     }
                 });
     }

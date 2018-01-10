@@ -1,6 +1,7 @@
 package com.hugboga.custom.action;
 
 import android.content.Context;
+
 import com.hugboga.custom.action.data.ActionBean;
 
 /**
@@ -10,10 +11,12 @@ public abstract class ActionPageBase implements ActionPageBehavior {
 
     protected String vcidType;
     private Context context;
+    protected ActionBean actionBean;
 
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         this.context = context;
+        this.actionBean = actionBean;
     }
 
     @Override

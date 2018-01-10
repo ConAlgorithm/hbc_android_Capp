@@ -149,7 +149,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
                 @Override
                 public void onClick(View v) {
                     if (CommonUtils.isLogin(getContext(), "司导个人页")) {
-                        if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
+                        if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId)) {
                             return;
                         }
                         String source = ((GuideWebDetailActivity)(getContext())).getEventSource();
@@ -157,7 +157,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
                             source = ((GuideWebDetailActivity) getContext()).getEventSource();
                         }
                         SensorsUtils.onAppClick(source, "联系我", "");
-                        NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId, source);
+                        NIMChatActivity.start(getContext(), guideExtinfoBean.guideId, guideExtinfoBean.neUserId, source);
                         StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
                     }
                 }

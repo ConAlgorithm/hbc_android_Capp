@@ -10,6 +10,9 @@ import java.io.Serializable;
 
 public class ActionImChatBean implements Serializable {
 
+    @SerializedName("g")
+    public String guideId;
+
     @SerializedName("t")
     public String tid;
 

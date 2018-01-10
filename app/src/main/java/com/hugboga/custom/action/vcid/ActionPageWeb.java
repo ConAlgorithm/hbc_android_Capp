@@ -51,6 +51,8 @@ public class ActionPageWeb extends ActionPageBase {
         }
         if (pushId != null) {
             intent.putExtra(Constants.PARAMS_SOURCE, "push" + pushId);
+        } else {
+            intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
         }
         getContext().startActivity(intent);
     }

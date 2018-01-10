@@ -18,6 +18,7 @@ import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -102,6 +103,7 @@ public class HomeGoodsItemView extends LinearLayout implements HbcViewBehavior, 
             intent.putExtra(Constants.PARAMS_DATA, params);
             intent.putExtra(Constants.PARAMS_SOURCE, "首页");
             getContext().startActivity(intent);
+            SensorsUtils.setSensorsBuyViewEvent("接机", "首页");
         } else if (data instanceof HomeBean.CharteredBean) {
             HomeBean.CharteredBean charteredBean = (HomeBean.CharteredBean) data;
             Intent intent = new Intent(getContext(), CharterFirstStepActivity.class);
@@ -110,6 +112,7 @@ public class HomeGoodsItemView extends LinearLayout implements HbcViewBehavior, 
                 intent.putExtra(Constants.PARAMS_START_CITY_BEAN, DatabaseManager.getCityBean("" + charteredBean.starCityId));
             }
             getContext().startActivity(intent);
+            SensorsUtils.setSensorsBuyViewEvent("按天包车游", "首页");
         }
     }
 }

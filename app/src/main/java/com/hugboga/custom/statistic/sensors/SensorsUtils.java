@@ -110,16 +110,20 @@ public class SensorsUtils {
 
             }
             JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", skuType);
+            properties.put("payMethod", payMethod);//支付方式
             properties.put("orderNo", eventPayBean.orderId);
+            properties.put("isSuccess", payResult);
+            properties.put("hbc_sku_type", skuType);
             properties.put("hbc_is_appoint_guide", eventPayBean.isSelectedGuide);//指定司导下单
             properties.put("hbc_price_total", eventPayBean.shouldPay);//费用总计
+            properties.put("orderChannel", eventPayBean.shouldPay);//费用总计
+            properties.put("priceChannel", eventPayBean.shouldPay);//实际支付金额
             properties.put("hbc_price_coupon", "" + eventPayBean.couponPrice);//使用优惠券
             properties.put("hbc_price_tra_fund", eventPayBean.travelFundPrice);//使用旅游基金
             properties.put("hbc_price_actually", eventPayBean.actualPay);//实际支付金额
-            properties.put("payMethod", payMethod);//支付方式
-            properties.put("isSuccess", payResult);
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("pay_result", properties);
+            properties.put("priceActual", eventPayBean.actualPay);//实际支付金额
+            properties.put("userId", UserEntity.getUser().getUserId(MyApplication.getAppContext()));
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("payResult", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -320,15 +324,46 @@ public class SensorsUtils {
 
     /**
      * 目的地Tab页线路标签点击
+     *
      * @param tagGroupName
      * @param tagName
      */
     public static void setSensorsClickTagTab(String tagGroupName, String tagName) {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("tagGroupName", null); //标签组名称,主要针对目的地tab，如果没有，为空
+            properties.put("tagGroupName", tagGroupName); //标签组名称,主要针对目的地tab，如果没有，为空
             properties.put("tagName", tagName); //玩法标签名
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("clickTag", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_下单-初始页浏览
+    public static void setSensorsBuyViewEvent(String type, String refer) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_type", type);
+            properties.put("hbc_refer", refer);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("buy_view", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * 收藏埋点
+     * @param favoriteType
+     * @param goodsNo
+     * @param guideId
+     */
+    public static void setSensorsFavorite(String favoriteType, String goodsNo, String guideId) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("favoriteType", favoriteType);
+            properties.put("goodsNo", goodsNo);
+            properties.put("guideId", guideId);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("favorite", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

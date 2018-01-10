@@ -616,7 +616,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     if(mOrderBean.imInfo!=null){
                         String imId = mOrderBean.imInfo.getNeTargetId();
                         if(!TextUtils.isEmpty(imId)){
-                            gotoChatView(imId);
+                            gotoChatView(mOrderBean.imInfo.targetId, imId);
                         }else{
                             if(mOrderBean.orderGuideInfo!=null){
                                 requestImChatId(mOrderBean.orderGuideInfo);
@@ -660,7 +660,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 Object object = request.getData();
                 if(object instanceof ImChatInfo){
                     ImChatInfo imChatInfo = (ImChatInfo)object;
-                    gotoChatView(imChatInfo.neTargetId);
+                    gotoChatView(imChatInfo.targetId, imChatInfo.neTargetId);
                 }
             }
 
@@ -674,15 +674,12 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         });
     }
 
-    private void gotoChatView(String imChatId) {
-        if(!IMUtil.getInstance().isLogined()){
-            return;
-        }
+    private void gotoChatView(String guideId, String imChatId) {
         String source = "订单列表";
         if (context instanceof NewOrderActivity) {
             source = ((NewOrderActivity) context).getEventSource();
         }
-        NIMChatActivity.start(context,imChatId,source);
+        NIMChatActivity.start(context,guideId,imChatId,source);
     }
 
 }

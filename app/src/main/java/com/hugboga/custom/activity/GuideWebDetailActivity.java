@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CanServiceGuideBean;
@@ -62,7 +61,7 @@ import javax.net.ssl.SSLHandshakeException;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
+public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener {
 
     @BindView(R.id.guide_web_detail_titlebar)
     RelativeLayout titlebar;
@@ -83,6 +82,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
     private Params paramsData;
     private GuideExtinfoBean guideExtinfoBean;
     boolean isFromHome;
+
     public static class Params implements Serializable {
         public String guideId;
         public boolean isChooseGuide = false;
@@ -106,13 +106,13 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
                 paramsData = (GuideWebDetailActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        isFromHome = getIntent().getBooleanExtra("isFromHome",false);
+        isFromHome = getIntent().getBooleanExtra("isFromHome", false);
         EventBus.getDefault().register(this);
         initView();
         setSensorsDefaultEvent();
     }
 
-    protected boolean isDefaultEvent(){
+    protected boolean isDefaultEvent() {
         return false;
     }
 
@@ -214,7 +214,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         bottomView.getBookTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SensorsUtils.onAppClick(getEventSource(),"分享",getIntentSource());
+                SensorsUtils.onAppClick(getEventSource(), "分享", getIntentSource());
                 webAgent.callBack("goToNext", "");
             }
         });
@@ -358,10 +358,10 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             }
             shareIV.setEnabled(true);
             collectIV.setEnabled(true);
-                bottomView.update(guideExtinfoBean);
-                if (guideExtinfoBean.isCollected != null) {
-                    collectIV.setSelected(guideExtinfoBean.isCollected == 1);
-                }
+            bottomView.update(guideExtinfoBean);
+            if (guideExtinfoBean.isCollected != null) {
+                collectIV.setSelected(guideExtinfoBean.isCollected == 1);
+            }
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             guideExtinfoBean.isCollected = 0;
             collectIV.setSelected(false);
@@ -372,7 +372,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             collectIV.setSelected(true);
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 1));
             CommonUtils.showToast(getString(R.string.collect_succeed));
-            setSensorsShareEvent(guideExtinfoBean.guideId);
+            SensorsUtils.setSensorsFavorite("司导", "", guideExtinfoBean.guideId);
         }
     }
 
@@ -383,7 +383,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
     @OnClick({R.id.titlebar_detail_right_1_btn})
     public void onCollect() {
-        if (guideExtinfoBean == null || !CommonUtils.isLogin(GuideWebDetailActivity.this,getEventSource())) {
+        if (guideExtinfoBean == null || !CommonUtils.isLogin(GuideWebDetailActivity.this, getEventSource())) {
             return;
         }
         EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
@@ -395,7 +395,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             baseRequest = new RequestCollectGuidesId(this, guideExtinfoBean.guideId);
         }
         requestData(baseRequest);
-        SensorsUtils.onAppClick(getEventSource(),"收藏",getIntentSource());
+        SensorsUtils.onAppClick(getEventSource(), "收藏", getIntentSource());
     }
 
     @OnClick({R.id.titlebar_detail_right_2_btn})
@@ -403,7 +403,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         if (guideExtinfoBean == null) {
             return;
         }
-        SensorsUtils.onAppClick(getEventSource(),"分享",getIntentSource());
+        SensorsUtils.onAppClick(getEventSource(), "分享", getIntentSource());
         String title = String.format("去%1$s，推荐你找当地华人司导%2$s开车带你玩！", guideExtinfoBean.cityName, guideExtinfoBean.guideName);
         String desc = TextUtils.isEmpty(guideExtinfoBean.homeDesc) ? "我可以为您规划行程、陪同翻译和向导，让您舒舒服服坐车玩！" : guideExtinfoBean.homeDesc;
         CommonUtils.shareDialog(this, guideExtinfoBean.avatarUrl, title, desc, getLoadUrl(),
@@ -412,15 +412,15 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
                     @Override
                     public void onShare(int type) {
                         StatisticClickEvent.clickShare(StatisticConstant.SHAREG_TYPE, type == 1 ? "微信好友" : "朋友圈");
-                        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", getEventSource(),null,paramsData.guideId);
+                        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", "司导", null, paramsData.guideId);
                     }
                 });
     }
 
     @Override
     public String getEventSource() {
-        if(isFromHome){//从首页搜索进来的司导详情页
-            return "全局搜索";
+        if (isFromHome) {//从首页搜索进来的司导详情页
+            return "搜索";
         }
         return "司导个人页";
     }
@@ -450,18 +450,6 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             properties.put("cityName", guideExtinfoBean.cityName);
             properties.put("cityId", guideExtinfoBean.cityId);
             SensorsDataAPI.sharedInstance(this).trackTimerEnd("viewGuide", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //收藏司导埋点
-    public static void setSensorsShareEvent(String guideId) {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("guideId", guideId);
-            properties.put("favoriteType", "司导");
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("favorite", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

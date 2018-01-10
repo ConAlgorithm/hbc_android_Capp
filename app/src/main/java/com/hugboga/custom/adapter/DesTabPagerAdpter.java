@@ -38,7 +38,6 @@ public class DesTabPagerAdpter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         homePager = new DesPager(context);//pagerList.get(position);
         homePager.initData(simpleLineGroupVo.get(position),position);
-        //homePager.selectDestionTab(position,currentGroundId);
         container.addView(homePager,0);
         return homePager;
     }

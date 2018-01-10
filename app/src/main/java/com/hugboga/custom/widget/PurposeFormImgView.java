@@ -137,19 +137,6 @@ public class PurposeFormImgView extends LinearLayout implements HbcViewBehavior 
         }
     }
 
-    public void onDestroyHandler() {
-        if (cutHandler != null && cutRunnable != null) {
-            cutHandler.removeCallbacks(cutRunnable);
-        }
-    }
-
-    public void onStartChange() {
-        if (cutHandler != null && cutRunnable != null) {
-            cutHandler.removeCallbacks(cutRunnable);
-            cutHandler.postDelayed(cutRunnable, getCutTime());
-        }
-    }
-
     protected int getCutTime() {
         return BANNER_SWITCH_TIME_DEFAULT;
     }

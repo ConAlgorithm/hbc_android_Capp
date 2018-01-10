@@ -15,6 +15,9 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.GuidanceBottomView;
 import com.hugboga.custom.widget.ScrollViewWrapper;
 import com.hugboga.custom.widget.title.TitleBar;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -73,6 +76,7 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
         if (params == null || params.orderType == 0) {
             finish();
         }
+        setSensorsDefaultEvent(); //BasicActivity中事件由于执行时params为空，所以需要获取params后再次执行
         init();
     }
 
@@ -98,11 +102,13 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
                         intent = new Intent(GuidanceOrderActivity.this, ChooseAirActivity.class);
                         intent.putExtra(Constants.PARAMS_TYPE, TAG);
                         intent.putExtra(PARAMS_GUIDANCE, params);
+                        intent.putExtra(Constants.PARAMS_SOURCE, params.source);
                         startActivity(intent);
                         break;
                     case 2:
                         intent = new Intent(GuidanceOrderActivity.this, ChooseAirPortActivity.class);
                         intent.putExtra(PARAMS_GUIDANCE, params);
+                        intent.putExtra(Constants.PARAMS_SOURCE, params.source);
                         startActivity(intent);
                         break;
                     case 3:
@@ -147,7 +153,7 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
 
                 imgIV4Width = (int) (UIUtils.getScreenWidth() * (472 / 750f));
                 imgIV4Height = (int) ((444 / 472f) * imgIV4Width);
-              break;
+                break;
             case 3:
             case 888:
                 imgIV1.setBackgroundResource(R.drawable.charter_order_picture_a);
@@ -199,6 +205,8 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
         imgIV4Params.bottomMargin = UIUtils.dip2px(50);
         imgIV4Params.leftMargin = UIUtils.dip2px(22);
         imgIV4.setLayoutParams(imgIV4Params);
+
+        setSensorsViewIntroEvent();
     }
 
     @Override
@@ -231,4 +239,47 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
         }
     }
 
+    @Override
+    public String getEventSource() {
+        if (params != null) {
+            switch (params.orderType) {
+                case 1:
+                case 2:
+                    return "接送机引导页";
+                case 3:
+                case 888:
+                    return "按天包车引导页";
+                case 4:
+                    return "单次接送引导页";
+            }
+        }
+        return super.getEventSource();
+    }
+
+    private void setSensorsViewIntroEvent() {
+        try {
+            String hbcSkuType = null;
+            switch (params.orderType) {
+                case 1:
+                    hbcSkuType = "接机";
+                    break;
+                case 2:
+                    hbcSkuType = "送机";
+                    break;
+                case 3:
+                case 888:
+                    hbcSkuType = "按天包车游";
+                    break;
+                case 4:
+                    hbcSkuType = "单次";
+                    break;
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("refer", getIntentSource());
+            properties.put("hbc_sku_type", hbcSkuType);
+            SensorsDataAPI.sharedInstance(this).track("viewIntro");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

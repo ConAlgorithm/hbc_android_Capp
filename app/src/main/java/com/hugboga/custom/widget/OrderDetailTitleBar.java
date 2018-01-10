@@ -10,9 +10,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -20,7 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by qingcha on 16/6/2.
  */
-public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
+public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
 
     private TextView titleTV;
     private ImageView serviceIV, otherIV;
@@ -35,12 +37,12 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         super(context, attrs);
         inflate(context, R.layout.include_header_detail, this);
 
-        titleTV = (TextView)findViewById(R.id.header_detail_title_tv);
+        titleTV = (TextView) findViewById(R.id.header_detail_title_tv);
         titleTV.setText(getString(R.string.order_detail_title_default));
 
         findViewById(R.id.header_detail_back_btn).setOnClickListener(this);
 
-        serviceIV = (ImageView)findViewById(R.id.header_detail_right_2_btn);
+        serviceIV = (ImageView) findViewById(R.id.header_detail_right_2_btn);
         serviceIV.setImageResource(R.mipmap.topbar_cs);
         serviceIV.setPadding(0, 0, 0, 0);
         serviceIV.setOnClickListener(this);
@@ -49,7 +51,7 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         serviceIVParams.addRule(RelativeLayout.CENTER_VERTICAL);
         serviceIV.setLayoutParams(serviceIVParams);
 
-        otherIV = (ImageView)findViewById(R.id.header_detail_right_1_btn);
+        otherIV = (ImageView) findViewById(R.id.header_detail_right_1_btn);
         otherIV.setPadding(UIUtils.dip2px(10), UIUtils.dip2px(10), UIUtils.dip2px(10), UIUtils.dip2px(10));
         otherIV.setImageResource(R.mipmap.topbar_more);
         otherIV.setOnClickListener(this);
@@ -101,8 +103,16 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
                 break;
             case R.id.header_detail_right_2_btn:
                 type = EventType.ORDER_DETAIL_CALL;
+                addSensors("客服");
                 break;
         }
         EventBus.getDefault().post(new EventAction(type, orderNo));
+    }
+
+    private void addSensors(String content) {
+        if (getContext() != null && (getContext() instanceof OrderDetailActivity)) {
+            SensorsUtils.onAppClick(((OrderDetailActivity) getContext()).getEventSource(), content,
+                    ((OrderDetailActivity) getContext()).getIntentSource());
+        }
     }
 }

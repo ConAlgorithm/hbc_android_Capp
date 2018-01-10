@@ -38,7 +38,7 @@ import butterknife.OnClick;
  * Created by zhangqiang on 17/7/11.
  */
 
-public class FgDestination extends FgBaseTravel implements HttpRequestListener,DataVisibleLister {
+public class FgDestination extends FgBaseTravel implements HttpRequestListener, DataVisibleLister {
 
     @BindView(R.id.vp_view)
     ViewPager mViewPager;
@@ -48,13 +48,12 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
     RelativeLayout search;
     @BindView(R.id.city_list_empty_layout)
     LinearLayout emptyLayout;
-    //ArrayList<DesPager> pagerList =  new ArrayList<DesPager>();
-    //ArrayList<String> titleTextList = new ArrayList<>();
+
     int currentPosition = 0;
     int currentGroundId = 0;
     boolean isNetworkAvailable = true;
     DesTabPagerAdpter mAdapter;
-    boolean fromEmptyWifi = false;
+
     @Override
     public int getContentViewId() {
         return R.layout.fg_destination;
@@ -83,11 +82,11 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
 
     @Override
     protected void loadData() {
-        if(mAdapter!= null && mAdapter.homePager!= null && (mAdapter.homePager.homeHotCityVos != null || mAdapter.homePager.lineGroupAgg != null)){
+        if (mAdapter != null && mAdapter.homePager != null && (mAdapter.homePager.homeHotCityVos != null || mAdapter.homePager.lineGroupAgg != null)) {
             visible();
-        }else{
+        } else {
             DestinationTab destinationTab = new DestinationTab(getContext());
-            HttpRequestUtils.request(getContext(),destinationTab,this,false);
+            HttpRequestUtils.request(getContext(), destinationTab, this, false);
         }
 
     }
@@ -99,18 +98,20 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
 
     @OnClick({R.id.search})
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.search:
                 goChooseCity();
                 break;
         }
 
     }
+
     private void goChooseCity() {
         Intent intent = new Intent(this.getContext(), QueryCityActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         this.getContext().startActivity(intent);
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -119,14 +120,14 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
-        if(request instanceof DestinationTab){
+        if (request instanceof DestinationTab) {
             final ArrayList<SimpleLineGroupVo> simpleLineGroupVo = (ArrayList<SimpleLineGroupVo>) request.getData();
-            if(simpleLineGroupVo!= null){
+            if (simpleLineGroupVo != null) {
 
                 SimpleLineGroupVo simpleLineGroupVo1 = new SimpleLineGroupVo();
                 simpleLineGroupVo1.setGroupName("热门");
-                simpleLineGroupVo.add(0,simpleLineGroupVo1);
-                mAdapter = new DesTabPagerAdpter(simpleLineGroupVo,getContext());
+                simpleLineGroupVo.add(0, simpleLineGroupVo1);
+                mAdapter = new DesTabPagerAdpter(simpleLineGroupVo, getContext());
 
                 mViewPager.setAdapter(mAdapter);
                 mTabLayout.setupWithViewPager(mViewPager);
@@ -143,8 +144,8 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
                     public void onPageSelected(final int position) {
                         currentPosition = position;
                         String title = simpleLineGroupVo.get(position).getGroupName();
-                        for(int i=0;i<simpleLineGroupVo.size();i++){
-                            if(simpleLineGroupVo.get(i).getGroupName().equals(title)){
+                        for (int i = 0; i < simpleLineGroupVo.size(); i++) {
+                            if (simpleLineGroupVo.get(i).getGroupName().equals(title)) {
                                 currentGroundId = simpleLineGroupVo.get(i).getGroupId();
                             }
                         }
@@ -161,25 +162,11 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
     }
 
     @Override
-    protected void stopLoad() {
-        super.stopLoad();
-        /*if(mViewPager!= null){
-            mViewPager.removeAllViews();
-        }*/
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        //super.onDataRequestError(errorInfo, request);
         isNetworkAvailable = NetWork.isNetworkAvailable(getContext());
-        if(request instanceof DestinationTab){
+        if (request instanceof DestinationTab) {
             isNetworkAvailable = NetWork.isNetworkAvailable(getContext());
-            if(!isNetworkAvailable){
+            if (!isNetworkAvailable) {
                 CommonUtils.showToast(R.string.destination_network_available);
                 EventBus.getDefault().post(new EventAction(EventType.SHOW_EMPTY_WIFI_BY_TAB));
                 return;
@@ -190,7 +177,7 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
 
     @Override
     public void visible() {
-        if(mTabLayout != null && mViewPager != null) {
+        if (mTabLayout != null && mViewPager != null) {
             mTabLayout.setVisibility(View.VISIBLE);
             mViewPager.setVisibility(View.VISIBLE);
             emptyLayout.setVisibility(View.GONE);
@@ -207,8 +194,7 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
                 emptyLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //fromEmptyWifi = true;
-                       if(mAdapter!= null && mAdapter.homePager!= null){
+                        if (mAdapter != null && mAdapter.homePager != null) {
                             mAdapter.homePager.selectDestionTab(currentPosition, currentGroundId);
                         }
                     }
@@ -221,9 +207,8 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
                 emptyLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //fromEmptyWifi = true;
                         DestinationTab destinationTab = new DestinationTab(getContext());
-                        HttpRequestUtils.request(getContext(),destinationTab,FgDestination.this,false);
+                        HttpRequestUtils.request(getContext(), destinationTab, FgDestination.this, false);
                     }
                 });
                 break;

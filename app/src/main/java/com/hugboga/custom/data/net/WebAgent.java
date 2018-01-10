@@ -725,6 +725,7 @@ public class WebAgent implements HttpRequestListener {
                         intent.putExtra(Constants.PARAMS_DATA, params);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
+                        SensorsUtils.setSensorsBuyViewEvent("接机", getEventSource());
                         break;
                     case 2://2：单次接送
                         intent = new Intent(mActivity, SingleActivity.class);
@@ -733,12 +734,14 @@ public class WebAgent implements HttpRequestListener {
                         intent.putExtra(Constants.PARAMS_DATA, singleParams);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
+                        SensorsUtils.setSensorsBuyViewEvent("单次", getEventSource());
                         break;
                     case 3://3：包车
                         intent = new Intent(mActivity, CharterFirstStepActivity.class);
                         intent.putExtra(Constants.PARAMS_GUIDE, guidesDetailData);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
+                        SensorsUtils.setSensorsBuyViewEvent("按天包车游", getEventSource());
                         break;
                     case 4://4：线路
                         intent = new Intent(mActivity, SkuDetailActivity.class);
@@ -868,10 +871,12 @@ public class WebAgent implements HttpRequestListener {
                     Intent intent = new Intent(mActivity, CharterFirstStepActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     mActivity.startActivity(intent);
+                    SensorsUtils.setSensorsBuyViewEvent("按天包车游", getEventSource());
                 } else if (orderType == 1) {
                     Intent intent = new Intent(mActivity, PickSendActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     mActivity.startActivity(intent);
+                    SensorsUtils.setSensorsBuyViewEvent("接机", getEventSource());
                 }
             }
         }, new DialogInterface.OnClickListener() {
@@ -932,7 +937,7 @@ public class WebAgent implements HttpRequestListener {
         PushToGuideIMBeam data = gson.fromJson(params, PushToGuideIMBeam.class);
         if (data == null)
             return;
-        if (!CommonUtils.isLogin(mActivity, getEventSource()) || !IMUtil.getInstance().isLogined() || skuItemBean == null) {
+        if (!CommonUtils.isLogin(mActivity, getEventSource()) || skuItemBean == null) {
             return;
         }
         MsgSkuAttachment msgSkuAttachment = new MsgSkuAttachment(1);
@@ -940,7 +945,7 @@ public class WebAgent implements HttpRequestListener {
         msgSkuAttachment.setFrontCover(data.frontCover);
         msgSkuAttachment.setTitle(data.title);
         msgSkuAttachment.setUrl(data.url);
-        NIMChatActivity.start(mActivity, data.neUserId, getEventSource(), msgSkuAttachment);
+        NIMChatActivity.start(mActivity, data.guideId, true, data.neUserId, getEventSource(), msgSkuAttachment);
     }
 
     @JavascriptInterface

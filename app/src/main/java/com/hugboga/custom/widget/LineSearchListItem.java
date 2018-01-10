@@ -119,7 +119,7 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
     }
 
     public String getEventSource() {
-        return "全局搜索";
+        return "搜索";
     }
 
     /**

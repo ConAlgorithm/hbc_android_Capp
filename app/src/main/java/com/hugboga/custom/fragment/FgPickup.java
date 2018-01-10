@@ -178,8 +178,10 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 setFlightBean(params.flightBean);
             } else if (params.airPortBean != null) {//航班信息为空，默认显示送机机场所在城市
                 setGuidanceLayout("" +  params.airPortBean.cityId, params.airPortBean.cityName);
+                setSensorsBuyRouteEvent();
             } else if (!TextUtils.isEmpty(params.cityId) && !TextUtils.isEmpty(params.cityName)) {
                 setGuidanceLayout("" +  params.cityId, params.cityName);
+                setSensorsBuyRouteEvent();
             }
         }
         carTypeView.setOnSelectedCarListener(this);
@@ -209,7 +211,6 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         });
 
         setUmengEvent();
-        setSensorsEvent();
     }
 
     @Override
@@ -270,6 +271,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fg_pickup_fragment_choose_air);
             ft.remove(fragment);
             ft.commitAllowingStateLoss();
+            setSensorsBuyRouteEvent();
         }
 
         flightBean = _flightBean;
@@ -676,19 +678,6 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         MobClickUtils.onEvent(getEventId(), map);
     }
 
-    //神策统计_初始页浏览
-    private void setSensorsEvent() {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "接机");
-            properties.put("hbc_refer", source);
-            SensorsDataAPI.sharedInstance(getActivity()).track("buy_view", properties);
-            SensorsUtils.setPageEvent("接机", null, source);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     //神策统计_确认行程
     private void setSensorsConfirmEvent() {
         try {
@@ -719,5 +708,17 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     //神策统计_展示报价
     private void setSensorsPriceEvent(boolean isHavePrice) {
         SensorsUtils.setSensorsPriceEvent("" + ORDER_TYPE, guidesDetailData != null, isHavePrice);
+    }
+
+    //神策统计_来到填行程页
+    private void setSensorsBuyRouteEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("refer", source);
+            properties.put("hbc_sku_type", "接机");
+            SensorsDataAPI.sharedInstance(getContext()).track("buy_route", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

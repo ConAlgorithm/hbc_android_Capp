@@ -129,4 +129,9 @@ public class DestinationListActivity extends BaseActivity implements XRecyclerVi
     public void onLoadMore() {
         requestList(adapter.getListCount(), false);
     }
+
+    @Override
+    public String getEventSource() {
+        return "玩法标签结果";
+    }
 }

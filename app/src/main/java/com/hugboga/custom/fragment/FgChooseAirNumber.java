@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.widget.OrderGuidanceView;
 import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.listener.MonthChangeListener;
 import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthSwitchView;
 import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthView;
 import com.hugboga.custom.R;
@@ -33,13 +34,16 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.calendar.CalendarUtils;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -195,6 +199,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
         dateFormat = calendarDay.getDayString();
         checkNextBtnStatus();
         //CommonUtils.showToast(calendarDay.getDayString());
+        SensorsUtils.onAppClick(getEventSource(), "起飞日期", getIntentSource());
     }
 
     private class HistoryTextClick implements View.OnClickListener {
@@ -324,6 +329,12 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
         mMonthPagerView.setData(new CalendarDay(year, month, day), new CalendarDay(endYear, endMonth, endDay));
         mMonthPagerView.setOnDayClickListener(this);
         mMonthPagerView.setSelectDay(new CalendarDay(year, month, day));
+        mMonthPagerView.setMonthChangeListener(new MonthChangeListener() {
+            @Override
+            public void onMonthChange(Date date) {
+                SensorsUtils.onAppClick(getEventSource(), "起飞日期", getIntentSource());
+            }
+        });
         dateFormat = new CalendarDay(year, month, day).getDayString();
     }
 
@@ -574,6 +585,18 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
                 }
                 guidanceLayout.setData(cityId, cityName);
             }
+            setSensorsBuyFlightEvent();
+        }
+    }
+
+
+    private void setSensorsBuyFlightEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(getContext()).track("buy_flight");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -38,8 +38,10 @@ import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.SideBar;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.db.Selector;
@@ -173,6 +175,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         if (getIntent() != null) {
             guidanceParams = (GuidanceOrderActivity.Params) getIntent().getSerializableExtra(GuidanceOrderActivity.PARAMS_GUIDANCE);
         }
+        setSensorsBuyAirportEvent();
     }
 
     @Override
@@ -624,5 +627,16 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         sourceDateList = airPorts;
         inflateContent();
         initSideBar();
+    }
+
+    //来到选机场页
+    private void setSensorsBuyAirportEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(this).track("buy_airport");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

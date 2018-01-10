@@ -14,19 +14,15 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -38,10 +34,12 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatBean;
+import com.hugboga.custom.data.bean.ChatJudgeBean;
 import com.hugboga.custom.data.bean.ImShadowBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.request.RequestChatJudge;
 import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestImFirstChat;
@@ -53,20 +51,20 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.SoftKeyboardStateHelper;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CompatPopupWindow;
 import com.hugboga.custom.widget.CountryLocalTimeView;
 import com.hugboga.custom.widget.ImSendMesView;
 import com.hugboga.im.ImHelper;
 import com.hugboga.im.ImObserverHelper;
-import com.hugboga.im.Utils;
 import com.hugboga.im.callback.HbcCustomMsgClickListener;
 import com.hugboga.im.callback.HbcSessionCallback;
 import com.hugboga.im.custom.CustomAttachment;
 import com.hugboga.im.custom.attachment.MsgOrderAttachment;
 import com.hugboga.im.custom.attachment.MsgSkuAttachment;
 import com.hugboga.im.custom.attachment.MsgTravelAttachment;
+import com.hugboga.tools.HLog;
 import com.netease.nim.uikit.business.session.constant.Extras;
 import com.netease.nim.uikit.business.session.fragment.MessageFragment;
 import com.netease.nim.uikit.support.permission.MPermission;
@@ -103,15 +101,43 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     private String sessionId;
 
-    public static void start(Context context, String contactId, String source) {
-        start(context, contactId, source, null);
+    public static void start(final Context context, String guideId, final String contactId, final String source) {
+        start(context, guideId,true, contactId, source,null);
     }
 
-    /**
-     * @param context
-     * @param contactId
-     */
-    public static void start(Context context, String contactId, String source, CustomAttachment customAttachment) {
+    public static void start(final Context context, String guideId, boolean isCheck, final String contactId, final String source, final CustomAttachment customAttachment) {
+        if (context == null || !UserEntity.getUser().isLogin(context) || !IMUtil.getInstance().isLogined()) {
+            return;
+        }
+        if (isCheck && !TextUtils.isEmpty(guideId)) {
+            RequestChatJudge requestCars = new RequestChatJudge(context, guideId);
+            HttpRequestUtils.request(context, requestCars, new HttpRequestListener() {
+                @Override
+                public void onDataRequestSucceed(BaseRequest _request) {
+                    ChatJudgeBean chatJudgeBean = ((RequestChatJudge)_request).getData();
+                    if (chatJudgeBean.canChat) {
+                        start(context, contactId, source, customAttachment);
+                    } else {
+                        CommonUtils.showToast(chatJudgeBean.forbiddenReason);
+                    }
+                }
+
+                @Override
+                public void onDataRequestCancel(BaseRequest request) {
+
+                }
+
+                @Override
+                public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                    CommonUtils.showToast("网络异常，请重试");
+                }
+            },true);
+        } else {
+            start(context, contactId, source, customAttachment);
+        }
+    }
+
+    private static void start(Context context, String contactId, String source, CustomAttachment customAttachment) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
         intent.putExtra(Constants.PARAMS_SOURCE, source);
@@ -252,6 +278,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                         params.source = getEventSource();
                         Intent intent2 = new Intent(NIMChatActivity.this, OrderDetailActivity.class);
                         intent2.putExtra(Constants.PARAMS_DATA, params);
+                        intent2.putExtra(Constants.PARAMS_SOURCE, "私聊");
+                        intent2.putExtra(OrderDetailActivity.SOURCE_CLASS, getClass().getSimpleName());
                         NIMChatActivity.this.startActivity(intent2);
                         break;
                 }
@@ -317,7 +345,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                                     }
                                 });
                             } else {
-                                Toast.makeText(NIMChatActivity.this, "data.firstChat=" + data.firstChat, Toast.LENGTH_LONG).show();
+                                HLog.d("NIMChatActivity.this，data.firstChat=" + data.firstChat);
                             }
                         }
 
@@ -792,9 +820,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (popup.isShowing()){
+                if (popup.isShowing()) {
                     popup.dismiss();
-                }else{
+                } else {
                     finish();
                 }
             }
