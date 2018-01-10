@@ -139,13 +139,13 @@ public class HomeExcitedActivityView extends LinearLayout implements HbcViewBeha
             if (itemData.pushScheme == null) {
                 if (!TextUtils.isEmpty(itemData.urlAddress)) {
                     Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, "首页");
+                    intent.putExtra(Constants.PARAMS_SOURCE, "活动位");
                     intent.putExtra(WebInfoActivity.WEB_URL, itemData.urlAddress);
                     v.getContext().startActivity(intent);
                 }
             } else {
                 ActionController actionFactory = ActionController.getInstance();
-                itemData.pushScheme.source = "首页";
+                itemData.pushScheme.source = "活动位";
                 actionFactory.doAction(getContext(), itemData.pushScheme);
             }
         }
