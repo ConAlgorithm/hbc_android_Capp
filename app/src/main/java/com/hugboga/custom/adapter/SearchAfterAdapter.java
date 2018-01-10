@@ -70,7 +70,6 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
             for(int i = 0; i<list.size() ; i++){
                 searchDestinationModel = new SearchDestinationModel(context,list.get(i),keyword);
                 searchDestinationModels.add(searchDestinationModel);
-                //addModel(searchDestinationModel);
             }
             addModels(searchDestinationModels);
         }

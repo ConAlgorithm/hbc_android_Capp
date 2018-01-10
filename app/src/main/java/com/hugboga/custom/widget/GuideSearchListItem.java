@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.QueryCityActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
+import com.hugboga.custom.activity.QueryCityActivity;
 import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGuideBean;
@@ -44,8 +44,9 @@ public class GuideSearchListItem extends LinearLayout implements HbcViewBehavior
     Activity activity;
     String keyword;
     SearchGuideBean.GuideSearchItemBean guideSearchItemBean;
+
     public GuideSearchListItem(Context context) {
-        this(context,null);
+        this(context, null);
         this.context = context;
     }
 
@@ -57,69 +58,69 @@ public class GuideSearchListItem extends LinearLayout implements HbcViewBehavior
 
     @Override
     public void update(Object _data) {
-        if(_data!= null && _data instanceof SearchGuideBean.GuideSearchItemBean){
+        if (_data != null && _data instanceof SearchGuideBean.GuideSearchItemBean) {
             guideSearchItemBean = (SearchGuideBean.GuideSearchItemBean) _data;
-            if(keyword!= null){
+            if (keyword != null) {
                 guideSearchItemBean.keyword = keyword;
             }
         }
         final String allLocation = guideSearchItemBean.cityName + "-" + guideSearchItemBean.countryName;
         StringBuilder allLabel = new StringBuilder();
-        CharSequence finallabel=null;
-        if(guideSearchItemBean.guideLabelList!= null){
-            for(int i= 0;i<guideSearchItemBean.guideLabelList.size();i++){
+        CharSequence finallabel = null;
+        if (guideSearchItemBean.guideLabelList != null) {
+            for (int i = 0; i < guideSearchItemBean.guideLabelList.size(); i++) {
                 allLabel.append(guideSearchItemBean.guideLabelList.get(i)).append("·");
             }
-            if(allLabel.charAt(allLabel.length()-1) == '·'){
-                finallabel = allLabel.subSequence(0,allLabel.length()-1);
+            if (allLabel.charAt(allLabel.length() - 1) == '·') {
+                finallabel = allLabel.subSequence(0, allLabel.length() - 1);
             }
         }
 
-        if(guideSearchItemBean.keyword != null && guideSearchItemBean.keyword.toString().length() >0){
-            if(guideSearchItemBean.guideLabelList!= null){
-                SpannableString tempName = SearchUtils.matcherSearchText(context,getResources().getColor(R.color.all_bg_yellow),guideSearchItemBean.guideName,guideSearchItemBean.keyword);
-                SpannableString tempLocation = SearchUtils.matcherSearchText(context,getResources().getColor(R.color.all_bg_yellow),allLocation,guideSearchItemBean.keyword);
-                SpannableString tempLabel = SearchUtils.matcherSearchText(context,getResources().getColor(R.color.all_bg_yellow),finallabel.toString(),guideSearchItemBean.keyword);
+        if (guideSearchItemBean.keyword != null && guideSearchItemBean.keyword.toString().length() > 0) {
+            if (guideSearchItemBean.guideLabelList != null) {
+                SpannableString tempName = SearchUtils.matcherSearchText(context, getResources().getColor(R.color.all_bg_yellow), guideSearchItemBean.guideName, guideSearchItemBean.keyword);
+                SpannableString tempLocation = SearchUtils.matcherSearchText(context, getResources().getColor(R.color.all_bg_yellow), allLocation, guideSearchItemBean.keyword);
+                SpannableString tempLabel = SearchUtils.matcherSearchText(context, getResources().getColor(R.color.all_bg_yellow), finallabel.toString(), guideSearchItemBean.keyword);
                 name.setText(tempName);
                 location.setText(tempLocation);
                 label.setText(tempLabel);
-            }else{
-                SpannableString tempName = SearchUtils.matcherSearchText(context,getResources().getColor(R.color.all_bg_yellow),guideSearchItemBean.guideName,guideSearchItemBean.keyword);
-                SpannableString tempLocation = SearchUtils.matcherSearchText(context,getResources().getColor(R.color.all_bg_yellow),allLocation,guideSearchItemBean.keyword);
+            } else {
+                SpannableString tempName = SearchUtils.matcherSearchText(context, getResources().getColor(R.color.all_bg_yellow), guideSearchItemBean.guideName, guideSearchItemBean.keyword);
+                SpannableString tempLocation = SearchUtils.matcherSearchText(context, getResources().getColor(R.color.all_bg_yellow), allLocation, guideSearchItemBean.keyword);
                 name.setText(tempName);
                 location.setText(tempLocation);
                 label.setText("");
             }
 
 
-        }else{
-            if(guideSearchItemBean.guideLabelList!= null){
+        } else {
+            if (guideSearchItemBean.guideLabelList != null) {
                 name.setText(guideSearchItemBean.guideName);
                 location.setText(allLocation);
                 label.setText(allLabel);
-            }else{
+            } else {
                 name.setText(guideSearchItemBean.guideName);
                 location.setText(allLocation);
                 label.setText("");
             }
         }
-        Tools.showImage(avatar_guide,guideSearchItemBean.avatar,R.mipmap.icon_avatar_guide);
-        if(guideSearchItemBean.gender == 1){
-           gender.setImageResource(R.mipmap.icon_man);
-        }else if(guideSearchItemBean.gender == 2){
+        Tools.showImage(avatar_guide, guideSearchItemBean.avatar, R.mipmap.icon_avatar_guide);
+        if (guideSearchItemBean.gender == 1) {
+            gender.setImageResource(R.mipmap.icon_man);
+        } else if (guideSearchItemBean.gender == 2) {
             gender.setImageResource(R.mipmap.icon_woman);
         }
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if((activity instanceof SearchDestinationGuideLineActivity)
-                        || (activity instanceof QueryCityActivity)){
+                if ((activity instanceof SearchDestinationGuideLineActivity)
+                        || (activity instanceof QueryCityActivity)) {
                     GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
                     params.guideId = guideSearchItemBean.guideId;
                     Intent intent = new Intent(activity, GuideWebDetailActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, "搜索结果");
                     intent.putExtra(Constants.PARAMS_DATA, params);
-                    intent.putExtra("isFromHome",true);
+                    intent.putExtra("isFromHome", true);
                     activity.startActivity(intent);
                 }
 
@@ -127,13 +128,11 @@ public class GuideSearchListItem extends LinearLayout implements HbcViewBehavior
         });
     }
 
-    public void setkeyWord(String keyword){
+    public void setkeyWord(String keyword) {
         this.keyword = keyword;
     }
-    public void setActivity(Activity activity){
+
+    public void setActivity(Activity activity) {
         this.activity = activity;
-    }
-    public String getEventSource(){
-        return "搜索";
     }
 }

@@ -29,6 +29,7 @@ import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestLoginBycaptcha;
 import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
 import com.hugboga.custom.data.request.RequestVerity;
@@ -115,6 +116,9 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             public void onSpanClick(View view) {
                 //点击皇包车旅行用户协议
                 SensorsUtils.onAppClick("登录", "登录", "皇包车用户协议", "我的");
+                Intent intent = new Intent(activity, WebInfoActivity.class);
+                intent.putExtra("web_url", UrlLibs.H5_PROTOCOL);
+                activity.startActivity(intent);
             }
         });
         OrderUtils.genCLickSpan(this, miaoshu1, getString(R.string.login_voice_captcha_hint), getString(R.string.login_voice_captcha_hint_click), null
@@ -460,13 +464,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 SensorsUtils.onAppClick("登录", "微信登录", getIntentSource());
                 break;
             case R.id.shouji_layout:
+                SensorsUtils.onAppClick(getEventSource(), "账号密码登录", getIntentSource());
                 intent = new Intent(this, AccountPwdLoginActivity.class);
                 intent.putExtra(Constants.PARAMS_ACTION, actionBean);
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
-                /*overridePendingTransition(R.anim.enter_from_right,
-                        0);*/
-                //StatisticClickEvent.click(StatisticConstant.LOGIN_PHONE,getIntentSource());
                 break;
             case R.id.login_submit:
                 //登录

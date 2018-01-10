@@ -17,6 +17,7 @@ import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.SimpleViewSwitcher;
@@ -30,6 +31,7 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
     private SimpleViewSwitcher progressCon;
     private TextView mText;
     LayoutInflater inflater;
+
     public TravelLoadingMoreFooter(Context context) {
         super(context);
     }
@@ -38,9 +40,11 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
         super(context, attrs);
 
     }
-    public void setCustomlayout(LayoutInflater inflater){
+
+    public void setCustomlayout(LayoutInflater inflater) {
         this.inflater = inflater;
     }
+
     @Override
     public void initView() {
         setGravity(Gravity.CENTER_HORIZONTAL);
@@ -58,7 +62,7 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
         mText.setTextColor(0xffB5B5B5);
         mText.setText("正在加载...");
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(UIUtils.dip2px(8), 0, 0, 0 );
+        layoutParams.setMargins(UIUtils.dip2px(8), 0, 0, 0);
 
         mText.setLayoutParams(layoutParams);
         addView(mText);
@@ -71,7 +75,7 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
         if (style == ProgressStyle.SysProgress) {
             progressCon.setView(new ProgressBar(getContext(), null, android.R.attr.progressBarStyle));
         } else {
-            AVLoadingIndicatorView progressView = new  AVLoadingIndicatorView(this.getContext());
+            AVLoadingIndicatorView progressView = new AVLoadingIndicatorView(this.getContext());
             progressView.setIndicatorColor(0xffB5B5B5);
             progressView.setIndicatorId(style);
             progressCon.setView(progressView);
@@ -80,7 +84,7 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
 
     @Override
     public void setState(int state) {
-        switch(state) {
+        switch (state) {
             case STATE_LOADING:
                 progressCon.setVisibility(View.VISIBLE);
                 mText.setText("正在加载...");
@@ -99,25 +103,24 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
         }
     }
 
-    protected View getFooterView(LayoutInflater inflater){
+    protected View getFooterView(LayoutInflater inflater) {
         View footerView = inflater.inflate(R.layout.view_travel_footer, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         footerView.setLayoutParams(params);
         intentTravelFundActivity(footerView.findViewById(R.id.travel_footer_get_layout));
         return footerView;
     }
+
     protected void intentTravelFundActivity(View view) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SensorsUtils.onAppClick("行程", "旅游基金-点击领取", "");
                 Intent intent = new Intent(getContext(), TravelFundActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, "行程");
                 getContext().startActivity(intent);
                 MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);
             }
         });
-    }
-    public String getEventSource(){
-        return "";
     }
 }
