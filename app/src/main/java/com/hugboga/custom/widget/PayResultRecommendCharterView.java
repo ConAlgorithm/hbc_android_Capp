@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.Tools;
@@ -51,6 +52,7 @@ public class PayResultRecommendCharterView extends RelativeLayout {
                     intent.putExtra(Constants.PARAMS_START_CITY_BEAN, DatabaseManager.getCityBean("" + cityId));
                 }
                 getContext().startActivity(intent);
+                SensorsUtils.setSensorsBuyViewEvent("按天包车游", getContext().getString(R.string.par_result_title));
             }
         });
     }

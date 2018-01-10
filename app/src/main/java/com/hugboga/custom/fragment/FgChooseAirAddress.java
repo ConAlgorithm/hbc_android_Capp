@@ -33,9 +33,11 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 
 import java.lang.reflect.Type;
@@ -575,6 +577,17 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
                 }
                 guidanceLayout.setData(cityId, cityName);
             }
+            setSensorsBuyFlightEvent();
+        }
+    }
+
+    private void setSensorsBuyFlightEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(getContext()).track("buy_flight");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -214,8 +214,9 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 IntentUtils.intentCharterActivity(SingleActivity.this, getEventSource());
             }
         });
-        setSensorsEvent();
         updateConponsTipView();
+
+        setSensorsBuyRouteEvent();
     }
 
     @OnClick({R.id.single_city_layout, R.id.single_time_layout})
@@ -656,18 +657,6 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         return StatisticConstant.LAUNCH_C;
     }
 
-    //神策统计_初始页浏览
-    private void setSensorsEvent() {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "单次");
-            properties.put("hbc_refer", getIntentSource());
-            SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     //神策统计_确认行程
     private void setSensorsConfirmEvent() {
         try {
@@ -699,5 +688,17 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     //神策统计_展示报价
     private void setSensorsPriceEvent(boolean isHavePrice) {
         SensorsUtils.setSensorsPriceEvent("" + ORDER_TYPE, guidesDetailData != null, isHavePrice);
+    }
+
+    //神策统计_来到填行程页
+    private void setSensorsBuyRouteEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("refer", getIntentSource());
+            properties.put("hbc_sku_type", "单次");
+            SensorsDataAPI.sharedInstance(this).track("buy_route", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

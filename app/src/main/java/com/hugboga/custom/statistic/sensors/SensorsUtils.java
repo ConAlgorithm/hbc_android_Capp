@@ -333,4 +333,16 @@ public class SensorsUtils {
             e.printStackTrace();
         }
     }
+
+    //神策统计_下单-初始页浏览
+    public static void setSensorsBuyViewEvent(String type, String refer) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_type", type);
+            properties.put("hbc_refer", refer);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("buy_view", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

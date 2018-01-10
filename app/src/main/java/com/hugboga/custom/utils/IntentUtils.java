@@ -12,6 +12,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.SeckillsBean;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
 /**
  * Created by qingcha on 17/12/8.
@@ -46,6 +47,7 @@ public class IntentUtils {
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             context.startActivity(intent);
         }
+        SensorsUtils.setSensorsBuyViewEvent("按天包车游", source);
     }
 
     public static void intentSingleActivity(Context context, String source) {
@@ -67,6 +69,7 @@ public class IntentUtils {
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             context.startActivity(intent);
         }
+        SensorsUtils.setSensorsBuyViewEvent("单次", source);
     }
 
     public static void intentPickupActivity(Context context, String source) {
@@ -90,6 +93,7 @@ public class IntentUtils {
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             context.startActivity(intent);
         }
+        SensorsUtils.setSensorsBuyViewEvent("接机", source);
     }
 
     public static void intentSendActivity(Context context, String source) {
@@ -113,5 +117,7 @@ public class IntentUtils {
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             context.startActivity(intent);
         }
+        SensorsUtils.setSensorsBuyViewEvent("送机", source);
     }
+
 }
