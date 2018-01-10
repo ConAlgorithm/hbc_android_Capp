@@ -295,4 +295,9 @@ public class ServiceQuestionActivity extends BaseActivity{
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String getEventSource() {
+        return "客服IM";
+    }
 }

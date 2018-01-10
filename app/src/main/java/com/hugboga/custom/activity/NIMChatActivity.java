@@ -14,19 +14,15 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -55,20 +51,20 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.SoftKeyboardStateHelper;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CompatPopupWindow;
 import com.hugboga.custom.widget.CountryLocalTimeView;
 import com.hugboga.custom.widget.ImSendMesView;
 import com.hugboga.im.ImHelper;
 import com.hugboga.im.ImObserverHelper;
-import com.hugboga.im.Utils;
 import com.hugboga.im.callback.HbcCustomMsgClickListener;
 import com.hugboga.im.callback.HbcSessionCallback;
 import com.hugboga.im.custom.CustomAttachment;
 import com.hugboga.im.custom.attachment.MsgOrderAttachment;
 import com.hugboga.im.custom.attachment.MsgSkuAttachment;
 import com.hugboga.im.custom.attachment.MsgTravelAttachment;
+import com.hugboga.tools.HLog;
 import com.netease.nim.uikit.business.session.constant.Extras;
 import com.netease.nim.uikit.business.session.fragment.MessageFragment;
 import com.netease.nim.uikit.support.permission.MPermission;
@@ -282,6 +278,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                         params.source = getEventSource();
                         Intent intent2 = new Intent(NIMChatActivity.this, OrderDetailActivity.class);
                         intent2.putExtra(Constants.PARAMS_DATA, params);
+                        intent2.putExtra(Constants.PARAMS_SOURCE, "私聊");
+                        intent2.putExtra(OrderDetailActivity.SOURCE_CLASS, getClass().getSimpleName());
                         NIMChatActivity.this.startActivity(intent2);
                         break;
                 }
@@ -347,7 +345,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                                     }
                                 });
                             } else {
-                                Toast.makeText(NIMChatActivity.this, "data.firstChat=" + data.firstChat, Toast.LENGTH_LONG).show();
+                                HLog.d("NIMChatActivity.this，data.firstChat=" + data.firstChat);
                             }
                         }
 
@@ -822,9 +820,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (popup.isShowing()){
+                if (popup.isShowing()) {
                     popup.dismiss();
-                }else{
+                } else {
                     finish();
                 }
             }

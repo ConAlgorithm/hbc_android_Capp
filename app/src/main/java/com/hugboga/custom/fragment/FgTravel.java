@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -23,19 +22,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter.OnItemClickListener;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
-import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.TravelListAllBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -279,7 +275,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 getContext().startActivity(intent);
                 MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);
-                SensorsUtils.onAppClick(getEventSource(), "旅游基金-点击领取","");
+                SensorsUtils.onAppClick(getEventSource(), "旅游基金-点击领取", "");
             }
         });
     }
@@ -364,7 +360,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
         Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.putExtra("source", getEventSource());
         startActivity(intent);
-        SensorsUtils.onAppClick(getEventSource(), elementContent,"");
+        SensorsUtils.onAppClick(getEventSource(), elementContent, "");
     }
 
     @Override
@@ -460,72 +456,9 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
         }
     }
 
-
-    class TravelOnItemClickListener implements ZBaseAdapter.OnItemClickListener {
-
-        View view;
-
-        public TravelOnItemClickListener(View view) {
-            this.view = view;
-        }
-
-        @Override
-        public void onItemClick(View v, int position) {
-            MLog.e("view = " + view);
-            OrderBean bean = null;
-            if (view == fgTravelRunning) {
-                bean = runningAdapter.getDatas().get(position);
-            } else if (view == fgTravelFinish) {
-                bean = finishAdapter.getDatas().get(position);
-            } else if (view == fgTravelCancel) {
-                bean = cancelAdapter.getDatas().get(position);
-            } else if (view == fgTravelEvaluate) {
-                bean = evaluateAdapter.getDatas().get(position);
-            }
-            OrderDetailActivity.Params params = new OrderDetailActivity.Params();
-            params.orderType = bean.orderType;
-            params.orderId = bean.orderNo;
-            params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
-            Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
-            intent.putExtra(Constants.PARAMS_DATA, params);
-            intent.putExtra(Constants.PARAMS_SOURCE, params.source);
-            getActivity().startActivity(intent);
-        }
-    }
-
     @Override
     public void onItemClick(View view, int position) {
 
-    }
-
-    class OrderPageAdapter extends PagerAdapter {
-
-        private List<RelativeLayout> listViews;
-
-        public OrderPageAdapter(List<RelativeLayout> listViews) {
-            this.listViews = listViews;
-        }
-
-        @Override
-        public int getCount() {
-            return listViews.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(listViews.get(position));
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            container.addView(listViews.get(position));
-            return listViews.get(position);
-        }
     }
 
     /**
@@ -547,17 +480,12 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
 
     @Subscribe
     public void onEventMainThread(EventAction action) {
-        MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
             case FGTRAVEL_UPDATE:
                 contentLayout.setVisibility(View.VISIBLE);
                 logoutLayout.setVisibility(View.GONE);
                 requestData();
-                //获取行程评价信息
-                //push过来及时更新已评价界面,同时也是已评价的最新更新数据  orderBean.orderNo 为push过来的
-                //RequestEvaluateComments requestEvaluateComments = new RequestEvaluateComments(getContext(), orderBean.orderNo);
-                //requestData(requestEvaluateComments);
                 break;
             case CLICK_USER_LOOUT:
                 contentLayout.setVisibility(View.GONE);
@@ -584,7 +512,6 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
                 if (travelListAllBean != null) {
                     setTravelCount(requestType, travelListAllBean);
                 }
-
                 break;
             case REFRESH_TRAVEL_DATA:
                 viewPager.setCurrentItem(3);
@@ -594,26 +521,6 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
                 break;
         }
     }
-
-    private void cleanListData() {
-        try {
-            /*if(travelListAll!= null){
-                travelListAll.finish();
-            }
-            if(travelListUnpay!= null){
-                travelListUnpay.finish();
-            }
-            if(travelListDoing!= null){
-                travelListDoing.finish();
-            }
-            if(travelListUnevaludate!= null){
-                travelListUnevaludate.finish();
-            }*/
-        } catch (Exception e) {
-
-        }
-    }
-
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 

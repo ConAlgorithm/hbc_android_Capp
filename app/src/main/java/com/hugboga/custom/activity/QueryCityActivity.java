@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.SearchCityAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -32,7 +31,6 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -40,10 +38,8 @@ import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.QueryHotCity;
 import com.hugboga.custom.widget.search.SearchHistoryView;
 import com.hugboga.custom.widget.search.SearchShortcut;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -438,27 +434,13 @@ public class QueryCityActivity extends BaseActivity {
         Intent intent = new Intent(this, CityActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.PARAMS_DATA, params);
-        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        intent.putExtra(Constants.PARAMS_SOURCE, "搜索结果");
         startActivity(intent);
     }
 
     @Override
     public String getEventSource() {
         return "搜索";
-    }
-
-    //搜索埋点
-    public static void setSensorsShareEvent(String keyWord, boolean isHistory, boolean isRecommend, boolean hasResult) {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("keyWord", keyWord);
-            properties.put("isHistory", isHistory);
-            properties.put("isRecommend", isRecommend);
-            properties.put("hasResult", hasResult);
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("searchResult", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void hideSoft(String searchStr) {
@@ -491,13 +473,6 @@ public class QueryCityActivity extends BaseActivity {
                 searchHistoryView.showHistorySearchResult(dataList);
             }
         }
-    }
-
-    /**
-     * 关联本地结果埋点
-     */
-    public void addPoint(boolean isHasResult) {
-        setSensorsShareEvent(headSearch.getText().toString(), false, false, isHasResult);
     }
 
     /**

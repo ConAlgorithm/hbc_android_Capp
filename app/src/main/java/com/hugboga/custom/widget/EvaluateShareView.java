@@ -87,7 +87,6 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
                 , appraisement.wechatShareTitle
                 , appraisement.wechatShareContent
                 , shareUrl);
-//        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", "评价");
         setSensorsShare(type);
     }
 

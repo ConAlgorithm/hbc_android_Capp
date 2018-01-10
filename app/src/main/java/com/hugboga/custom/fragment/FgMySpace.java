@@ -153,12 +153,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         travelFundTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_tv);//旅游基金
         couponUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_unit_tv);
         travelFundUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_unit_tv);
-        //travelFundHintIV = (ImageView) header.findViewById(R.id.travel_fund_hint_iv);
-        //if (new SharedPre(getContext()).isShowTravelFundHint()) {
-        //    travelFundHintIV.setVisibility(View.VISIBLE);
-        //} else {
-        //    travelFundHintIV.setVisibility(View.GONE);
-        // }
         header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
         header.findViewById(R.id.slidemenu_header_travelfund_layout).setOnClickListener(this);
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
@@ -246,7 +240,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     Intent intent = new Intent(getContext(), InsureActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
-                    SensorsUtils.onAppClick(getEventSource(), "常用投保人","");
+                    SensorsUtils.onAppClick(getEventSource(), "常用投保人", "");
                 }
                 break;
             case 2://收藏司导
@@ -254,7 +248,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     Intent intent = new Intent(getContext(), CollectGuideListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
-                    SensorsUtils.onAppClick(getEventSource(), "我收藏的司导","");
+                    SensorsUtils.onAppClick(getEventSource(), "我收藏的司导", "");
                 }
                 break;
             case 3://收藏线路
@@ -262,7 +256,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     Intent intent = new Intent(getContext(), CollectLineListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
-                    SensorsUtils.onAppClick(getEventSource(), "我收藏的线路","");
+                    SensorsUtils.onAppClick(getEventSource(), "我收藏的线路", "");
                 }
                 break;
             case 4://联系客服
@@ -274,13 +268,13 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                         }
                     }
                 });
-                SensorsUtils.onAppClick(getEventSource(), "联系客服","");
+                SensorsUtils.onAppClick(getEventSource(), "联系客服", "");
                 break;
             case 5://服务规则
                 intent = new Intent(getContext(), ServicerCenterActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
-                SensorsUtils.onAppClick(getEventSource(), "服务规则","");
+                SensorsUtils.onAppClick(getEventSource(), "服务规则", "");
                 break;
             case 6://设置
                 intent = new Intent(getContext(), SettingActivity.class);
@@ -289,7 +283,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     intent.putExtra("isMobileBinded", false);
                 }
                 startActivity(intent);
-                SensorsUtils.onAppClick(getEventSource(), "设置","");
+                SensorsUtils.onAppClick(getEventSource(), "设置", "");
                 break;
             default:
                 break;
@@ -324,11 +318,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 break;
             case R.id.slidemenu_header_travelfund_layout://旅游基金
                 if (isLogin("个人中心-旅游基金")) {
-                    /*SharedPre sharedPre= new SharedPre(getContext());
-                    if (sharedPre.isShowTravelFundHint()) {
-                        sharedPre.setTravelFundHintIsShow(false);
-                        travelFundHintIV.setVisibility(View.GONE);
-                    }*/
                     intent = new Intent(getContext(), TravelFundActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);

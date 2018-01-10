@@ -98,7 +98,6 @@ public class SearchHistoryView extends LinearLayout {
             showUI();
             List<SearchGroupBean> list = CityUtils.search(mActivity, searchStr);
             showLocalResult(list, searchStr); //展示关联词结果
-            mActivity.addPoint(list != null && list.size() > 0); //添加埋点
         } else {
             initResetUI();
         }
