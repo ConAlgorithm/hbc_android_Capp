@@ -514,7 +514,7 @@ public class CityActivity extends BaseActivity {
 
     @Override
     public String getEventSource() {
-        String result = "";
+        String result = "目的地";
         if (paramsData != null) {
             switch (paramsData.cityHomeType) {
                 case CITY:
