@@ -130,7 +130,7 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
                 }
             } else {
                 ActionController actionFactory = ActionController.getInstance();
-                bannerBean.pushScheme.source = bannerBean.pushScheme.url;
+                bannerBean.pushScheme.source = getEventSource();
                 if (bannerBean.bannerType == 1) {
                     //活动需要增加分享查询参数
                     bannerBean.pushScheme.exam = getActionExam(bannerBean);
