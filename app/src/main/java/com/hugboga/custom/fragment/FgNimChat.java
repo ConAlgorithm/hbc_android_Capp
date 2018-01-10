@@ -373,6 +373,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.putExtra("source", getEventSource());
         startActivity(intent);
+        SensorsUtils.onAppClick(getEventSource(),"登录","");
     }
 
     @Override
@@ -439,8 +440,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             Intent intent = new Intent(getContext(), UnicornServiceActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
             startActivity(intent);
-            SensorsUtils.onAppClick(getEventSource(), getEventSource(), "旅行小管家", "首页");
+            SensorsUtils.onAppClick(getEventSource(), "旅行小管家", "");
         } else if (chatBean.getTargetType() == 1) {
+            SensorsUtils.onAppClick(getEventSource(),"联系司导","");
             if (!IMUtil.getInstance().isLogined()) {
                 return;
             }

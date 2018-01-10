@@ -304,10 +304,6 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
         /*if (orderBean == null) {
             return;
         }*/
-        if(UserEntity.getUser().backFlag == 0){
-            commentET.setHint(getResources().getString(R.string.evaluate_et_hint2));
-            banarBelow.setVisibility(View.GONE);
-        }
         if(UserEntity.getUser().backFlag == 1){
             commentET.setHint(getResources().getString(R.string.evaluate_et_hint2) + "(" + UserEntity.getUser().contentCnt + "个字上带图评价可返钱哦)");
             banarBelow.setVisibility(View.VISIBLE);
@@ -319,6 +315,9 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                     startActivity(intent);
                 }
             });
+        } else {
+            commentET.setHint(getResources().getString(R.string.evaluate_et_hint2));
+            banarBelow.setVisibility(View.GONE);
         }
         //没有推送,才判断isEvaluated(),否则更笨不需要判断,不需要走准备评价逻辑,直接进入评价详情
         if(actionOrderId == null || actionOrderId.equals("")) {

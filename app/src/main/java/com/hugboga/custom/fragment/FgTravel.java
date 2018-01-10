@@ -44,6 +44,7 @@ import com.hugboga.custom.data.parser.ParserTravel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CsDialog;
@@ -217,7 +218,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
         msp.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                gotoLogin();
+                gotoLogin("管理你的行程");
             }
 
             @Override
@@ -278,6 +279,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 getContext().startActivity(intent);
                 MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);
+                SensorsUtils.onAppClick(getEventSource(), "旅游基金-点击领取","");
             }
         });
     }
@@ -351,17 +353,18 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
                 viewPager.setCurrentItem(3);
                 break;
             case R.id.travel_login_btn:
-                gotoLogin();
+                gotoLogin("登录");
                 break;
             default:
                 break;
         }
     }
 
-    private void gotoLogin() {
+    private void gotoLogin(String elementContent) {
         Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.putExtra("source", getEventSource());
         startActivity(intent);
+        SensorsUtils.onAppClick(getEventSource(), elementContent,"");
     }
 
     @Override

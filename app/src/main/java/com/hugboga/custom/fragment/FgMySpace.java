@@ -246,6 +246,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     Intent intent = new Intent(getContext(), InsureActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
+                    SensorsUtils.onAppClick(getEventSource(), "常用投保人","");
                 }
                 break;
             case 2://收藏司导
@@ -253,6 +254,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     Intent intent = new Intent(getContext(), CollectGuideListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
+                    SensorsUtils.onAppClick(getEventSource(), "我收藏的司导","");
                 }
                 break;
             case 3://收藏线路
@@ -260,6 +262,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     Intent intent = new Intent(getContext(), CollectLineListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
+                    SensorsUtils.onAppClick(getEventSource(), "我收藏的线路","");
                 }
                 break;
             case 4://联系客服
@@ -271,11 +274,13 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                         }
                     }
                 });
+                SensorsUtils.onAppClick(getEventSource(), "联系客服","");
                 break;
             case 5://服务规则
                 intent = new Intent(getContext(), ServicerCenterActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
+                SensorsUtils.onAppClick(getEventSource(), "服务规则","");
                 break;
             case 6://设置
                 intent = new Intent(getContext(), SettingActivity.class);
@@ -284,6 +289,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     intent.putExtra("isMobileBinded", false);
                 }
                 startActivity(intent);
+                SensorsUtils.onAppClick(getEventSource(), "设置","");
                 break;
             default:
                 break;

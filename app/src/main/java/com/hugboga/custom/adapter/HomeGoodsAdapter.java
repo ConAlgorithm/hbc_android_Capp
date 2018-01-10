@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.models.home.HomeGoodsModel;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.home.HomeGoodsItemView;
@@ -72,8 +73,10 @@ public class HomeGoodsAdapter<T> extends RecyclerView.Adapter<HomeGoodsAdapter.M
                 public void onClick(View v) {
                     if (type == HomeGoodsModel.TYPE_TRANSFER) {
                         IntentUtils.intentPickupActivity(mContext, "首页");
+                        SensorsUtils.onAppClick("首页", "境外中文接送机-立即预订","");
                     } else {
                         IntentUtils.intentCharterActivity(mContext, "首页");
+                        SensorsUtils.onAppClick("首页", "按天包车畅游-立即预订","");
                     }
                 }
             });

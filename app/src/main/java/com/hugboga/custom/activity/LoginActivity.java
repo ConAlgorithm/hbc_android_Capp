@@ -457,12 +457,12 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
                 map.put("source", source);
                 MobclickAgent.onEvent(activity, "login_weixin", map);
-                SensorsUtils.onAppClick(getEventSource(), "微信登录", getIntentSource());
+                SensorsUtils.onAppClick("登录", "微信登录", getIntentSource());
                 break;
             case R.id.shouji_layout:
                 intent = new Intent(this, AccountPwdLoginActivity.class);
                 intent.putExtra(Constants.PARAMS_ACTION, actionBean);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
                 /*overridePendingTransition(R.anim.enter_from_right,
                         0);*/
@@ -545,6 +545,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         requestData(request);
 
         StatisticClickEvent.click(StatisticConstant.LOGIN_CODE, getIntentSource());
+        SensorsUtils.onAppClick("登录", "验证码登录", getIntentSource());
     }
 
     @Override
