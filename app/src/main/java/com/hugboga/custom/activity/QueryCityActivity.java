@@ -31,6 +31,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.IntentUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -511,4 +512,8 @@ public class QueryCityActivity extends BaseActivity {
             }
         }
     };
+
+    public void addQueryResultView(String eventSource, String pageTitle, String intentSource) {
+        SensorsUtils.setPageEvent(eventSource, pageTitle, intentSource);
+    }
 }

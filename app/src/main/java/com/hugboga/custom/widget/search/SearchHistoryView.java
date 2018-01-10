@@ -93,10 +93,16 @@ public class SearchHistoryView extends LinearLayout {
     }
 
     public void searchText(String searchStr) {
-        clearAdapter();
         if (!TextUtils.isEmpty(searchStr)) {
+            // 埋点-增加显示搜索结果埋点
+            if (getContext() != null && (getContext() instanceof QueryCityActivity)
+                    && (searchAdapter.getItemCount() == 0 || searchListLayout.getVisibility() == View.GONE)) {
+                ((QueryCityActivity) getContext()).addQueryResultView("搜索结果",
+                        "搜索结果", "搜索");
+            }
             showUI();
             List<SearchGroupBean> list = CityUtils.search(mActivity, searchStr);
+            clearAdapter();
             showLocalResult(list, searchStr); //展示关联词结果
         } else {
             initResetUI();
@@ -144,9 +150,10 @@ public class SearchHistoryView extends LinearLayout {
 
     /**
      * 标签搜索
+     *
      * @param searchStr
      */
-    private void showAfterUI2(String searchStr,boolean isHotLabel) {
+    private void showAfterUI2(String searchStr, boolean isHotLabel) {
         mActivity.hideSoft(searchStr);
         searchHistoryTagLayout.setVisibility(GONE);
         searchListLayout.setVisibility(View.VISIBLE);
@@ -258,7 +265,7 @@ public class SearchHistoryView extends LinearLayout {
                     String searchStr = dataList.get(position);
                     //热门搜索过的标签需要添加到历史记录
                     SearchUtils.addCityHistorySearch(searchStr);
-                    showAfterUI2(searchStr,true); //展示After列表
+                    showAfterUI2(searchStr, true); //展示After列表
                 }
             });
         } else {
@@ -279,7 +286,7 @@ public class SearchHistoryView extends LinearLayout {
                 @Override
                 public void onMultipleTVItemClick(View view, int position) {
                     //历史标签点击事件
-                    showAfterUI2(dataList.get(position),false); //展示After列表
+                    showAfterUI2(dataList.get(position), false); //展示After列表
                 }
             });
         } else {
