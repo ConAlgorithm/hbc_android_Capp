@@ -109,6 +109,7 @@ public class TravelFundActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_FOUNDREGUL);
+                SensorsUtils.onAppClick(getEventSource(), "查看规则", getIntentSource());
                 Intent intent = new Intent(TravelFundActivity.this, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_RAVEL_FUND_RULE);
                 startActivity(intent);
@@ -174,14 +175,15 @@ public class TravelFundActivity extends BaseActivity {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.travel_fund_invite_record_tv://邀请记录
+                SensorsUtils.onAppClick(getEventSource(), "查看邀请记录", getIntentSource());
                 intent = new Intent(this, TravelFundRecordActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent.putExtra(Constants.PARAMS_TYPE, TravelFundRecordActivity.TYPE_INVITE_FRIENDS);
                 startActivity(intent);
                 break;
             case R.id.travel_fund_used_record_layout://使用明细
                 intent = new Intent(this, TravelFundRecordActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent.putExtra(Constants.PARAMS_TYPE, TravelFundRecordActivity.TYPE_USE_Bill);
                 startActivity(intent);
                 break;
@@ -190,6 +192,7 @@ public class TravelFundActivity extends BaseActivity {
                     break;
                 }
                 MobClickUtils.onEvent(StatisticConstant.CLICK_INVITE);
+                SensorsUtils.onAppClick(getEventSource(), "立即邀请", getIntentSource());
                 setSensorsOnClickEvent();
 
                 TravelFundData.RewardFields rewardFields = travelFundData.getRewardFields();
@@ -209,7 +212,7 @@ public class TravelFundActivity extends BaseActivity {
                             @Override
                             public void onShare(int type) {
                                 EventUtil.onShareDefaultEvent(StatisticConstant.CLICK_SHAREFOUND, "" + type);
-                                SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", getEventSource(),null,null);
+                                SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", getEventSource(), null, null);
                             }
                         });
                 break;
