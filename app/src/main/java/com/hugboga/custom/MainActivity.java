@@ -712,6 +712,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
                 SensorsUtils.setPageEvent("目的地", "目的地", "");
+                setSensorsViewScreenEndEvent(); //首页不见了
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);
@@ -720,14 +721,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     fgChat.flushList();
                 }
                 SensorsUtils.setPageEvent("私聊", "私聊", "");
+                setSensorsViewScreenEndEvent(); //首页不见了
                 break;
             case R.id.tab_text_4:
                 mViewPager.setCurrentItem(3);
                 SensorsUtils.setPageEvent("行程", "行程", "");
+                setSensorsViewScreenEndEvent(); //首页不见了
                 break;
             case R.id.tab_text_5:
                 mViewPager.setCurrentItem(4);
                 SensorsUtils.setPageEvent("我的", "我的", "");
+                setSensorsViewScreenEndEvent(); //首页不见了
         }
     }
 
@@ -1197,4 +1201,19 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         client.connect();
     }
     // ---  华为push end ---
+
+    /**
+     * 首页结束埋点
+     */
+    private void setSensorsViewScreenEndEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("pageName", getEventSource());
+            properties.put("pageTitle", getEventSource());
+            properties.put("refer", "");
+            SensorsDataAPI.sharedInstance(this).trackTimerEnd("AppViewScreen", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

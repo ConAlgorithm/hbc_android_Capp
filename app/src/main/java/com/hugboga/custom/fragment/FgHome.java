@@ -100,12 +100,6 @@ public class FgHome extends BaseFragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        setSensorsViewScreenEndEvent();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
@@ -275,18 +269,6 @@ public class FgHome extends BaseFragment {
     private void setSensorsViewScreenBeginEvent() {
         try {
             SensorsDataAPI.sharedInstance(getContext()).trackTimerBegin("AppViewScreen");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setSensorsViewScreenEndEvent() {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("pageName", getEventSource());
-            properties.put("pageTitle", getEventSource());
-            properties.put("refer", "");
-            SensorsDataAPI.sharedInstance(getContext()).trackTimerEnd("AppViewScreen", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
