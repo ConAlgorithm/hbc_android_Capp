@@ -573,7 +573,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public static void setSensorsShareEvent(String pushID, String pushTitle) {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("pushID", pushID);
+            properties.put("pushId", pushID);
             properties.put("pushTitle", pushTitle);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("clickPush", properties);
         } catch (Exception e) {
