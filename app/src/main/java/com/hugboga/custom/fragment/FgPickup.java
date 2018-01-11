@@ -591,6 +591,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             StatisticClickEvent.pickClick(StatisticConstant.CONFIRM_J, source, carBean.desc + "");
         }
         setSensorsConfirmEvent();
+        SensorsUtils.onAppClick(getEventSource(), "下一步", source);
     }
 
     private void checkGuideCoflict() {

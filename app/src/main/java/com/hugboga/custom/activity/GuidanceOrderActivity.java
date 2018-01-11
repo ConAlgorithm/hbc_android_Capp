@@ -238,6 +238,11 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
     }
 
     @Override
+    protected boolean isDefaultEvent() {
+        return false;
+    }
+
+    @Override
     public String getEventSource() {
         if (params != null) {
             switch (params.orderType) {

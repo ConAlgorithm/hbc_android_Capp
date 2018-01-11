@@ -712,10 +712,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     private void onUnfoldMap(boolean isUnfold) {
-        SensorsUtils.onAppClick(getEventSource(), "展开地图", getIntentSource());
         this.isUnfoldMap = isUnfold;
         final int mapTopMargin = getMapTopMargin();
         if (isUnfold) {
+            SensorsUtils.onAppClick(getEventSource(), "展开地图", getIntentSource());
             unfoldMapLayout.setVisibility(View.GONE);
             bottomView.setVisibility(View.GONE);
             ObjectAnimator anim = ObjectAnimator.ofFloat(topLayout, "translationY", -mapTopMargin);
