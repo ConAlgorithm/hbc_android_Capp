@@ -114,16 +114,16 @@ public class SensorsUtils {
             properties.put("orderNo", eventPayBean.orderId);
             properties.put("isSuccess", payResult);
             properties.put("hbc_sku_type", skuType);
-            properties.put("hbc_is_appoint_guide", eventPayBean.isSelectedGuide);//指定司导下单
-            properties.put("hbc_price_total", eventPayBean.shouldPay);//费用总计
-            properties.put("orderChannel", eventPayBean.shouldPay);//费用总计
-            properties.put("priceChannel", eventPayBean.shouldPay);//实际支付金额
-            properties.put("hbc_price_coupon", "" + eventPayBean.couponPrice);//使用优惠券
-            properties.put("hbc_price_tra_fund", eventPayBean.travelFundPrice);//使用旅游基金
-            properties.put("hbc_price_actually", eventPayBean.actualPay);//实际支付金额
-            properties.put("priceActual", eventPayBean.actualPay);//实际支付金额
-            properties.put("userId", UserEntity.getUser().getUserId(MyApplication.getAppContext()));
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("payResult", properties);
+//            properties.put("hbc_is_appoint_guide", eventPayBean.isSelectedGuide);//指定司导下单
+//            properties.put("hbc_price_total", eventPayBean.shouldPay);//费用总计
+//            properties.put("orderChannel", eventPayBean.shouldPay + "");//费用总计
+//            properties.put("priceChannel", eventPayBean.shouldPay);//实际支付金额
+//            properties.put("hbc_price_coupon", "" + eventPayBean.couponPrice);//使用优惠券
+//            properties.put("hbc_price_tra_fund", eventPayBean.travelFundPrice);//使用旅游基金
+//            properties.put("hbc_price_actually", eventPayBean.actualPay);//实际支付金额
+//            properties.put("priceActual", eventPayBean.actualPay);//实际支付金额
+//            properties.put("userId", UserEntity.getUser().getUserId(MyApplication.getAppContext()));
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("pay_result", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -365,7 +365,7 @@ public class SensorsUtils {
         try {
             JSONObject properties = new JSONObject();
             properties.put("bannerUrl", bannerUrl);
-            properties.put("bannerNo", bannerNo);
+            properties.put("bannerNo", CommonUtils.getCountInteger(bannerNo));
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("clickBanner", properties);
         } catch (Exception e) {
             e.printStackTrace();

@@ -181,7 +181,7 @@ android {
 
                 flavor.buildConfigField('String', 'WX_APP_ID', '"wxc5e385ba83a4f64e"')
                 flavor.manifestPlaceholders(JPUSH_PKGNAME: "com.hugboga.custom.gp", JPUSH_APPKEY: "be9b3f0366947883c7cbc337", JPUSH_CHANNEL: "hbc"
-                        , APP_CHANNEL: "" + flavor.name, AMAP_KEY: "c106e6b2b66ce872680891131ae7701b", HUAWEI_APPID: "10335147"
+                        , APP_CHANNEL: "" + flavor.name, AMAP_KEY: "c106e6b2b66ce872680891131ae7701b", HUAWEI_APPID: "100174333"
                         , GETUI_APP_ID: "510Bzmrn3F8G1iHg07th35", GETUI_APP_KEY: "q4EMEWNf1J8dSlTfpNQEw8", GETUI_APP_SECRET: "y1pRKqxrryAFWjI31EQyu9")
 
 //                //正式环境srart

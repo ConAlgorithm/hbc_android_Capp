@@ -113,7 +113,6 @@ public class CityActivity extends BaseActivity {
         }
 
         //初始化埋点
-        setSensorsViewCityBeginEvent();
         SensorsUtils.setPageEvent(getEventSource(), null, getIntentSource());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //展示线路数据
@@ -168,6 +167,18 @@ public class CityActivity extends BaseActivity {
                 HLog.e("CityActivity:添加客服监听失败");
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setSensorsViewCityBeginEvent();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        setSensorsViewCityEndEvent();
     }
 
     private int scrolledDistance = 0; //滚动距离
@@ -247,7 +258,6 @@ public class CityActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        setSensorsViewCityEndEvent();
     }
 
     CityFilterContentView.FilterConSelect filterConSelect1 = new CityFilterContentView.FilterConSelect() {
