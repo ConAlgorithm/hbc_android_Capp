@@ -142,9 +142,14 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
+                addCookies();
+                loadUrl();
                 if (!paramsData.isChooseGuide) {
                     sendRequest();
                 }
+                break;
+            case CLICK_USER_LOOUT:
+                CommonUtils.removeAllCookies();
                 break;
             case SHOW_GUIDE_DETAIL_BAR:
                 int isShow = (int) action.getData();
@@ -185,20 +190,8 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         }
         mDialogUtil = DialogUtil.getInstance(activity);
 
-        if (UserEntity.getUser().isLogin(this)) {
-            try {
-                CommonUtils.synCookies(getLoadUrl(), "capp_user=" + webAgent.getUserInfoJson());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            CommonUtils.removeAllCookies();
-        }
-
+        addCookies();
         loadUrl();
-
-        //开发者模式，设置特殊cookies
-        CommonUtils.synDebugCookies(getLoadUrl());
 
         if (paramsData.isChooseGuide) {
             shareIV.setVisibility(View.GONE);
@@ -220,6 +213,21 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         });
 
         sendRequest();
+    }
+
+    private void addCookies() {
+        if (UserEntity.getUser().isLogin(this)) {
+            try {
+                CommonUtils.synCookies(getLoadUrl(), "capp_user=" + webAgent.getUserInfoJson());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            CommonUtils.removeAllCookies();
+        }
+
+        //开发者模式，设置特殊cookies
+        CommonUtils.synDebugCookies(getLoadUrl());
     }
 
     public String getLoadUrl() {

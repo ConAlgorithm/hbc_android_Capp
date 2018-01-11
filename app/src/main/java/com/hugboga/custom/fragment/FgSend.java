@@ -252,6 +252,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 if (guidesDetailData != null) {
                     intent.putExtra(ChooseAirPortActivity.KEY_CITY_ID, guidesDetailData.cityId);
                 }
+                intent.putExtra(Constants.REQUEST_SOURCE, getEventSource());
                 getActivity().startActivity(intent);
                 SensorsUtils.onAppClick(getEventSource(), "送达机场", source);
                 break;

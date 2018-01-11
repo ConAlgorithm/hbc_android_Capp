@@ -21,8 +21,10 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ChooseGuideCityView;
 import com.hugboga.custom.widget.title.TitleBar;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -93,6 +95,7 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
         } else {
             requestData(new RequestGuideCrop(this, guideId));
         }
+        setSensorsBuyCityEvent();
     }
 
     @Override
@@ -151,6 +154,16 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
                 }
             }
             return cityId;
+        }
+    }
+
+    private void setSensorsBuyCityEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(this).track("buy_city", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

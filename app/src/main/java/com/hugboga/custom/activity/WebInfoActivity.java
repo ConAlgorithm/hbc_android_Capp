@@ -290,6 +290,13 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     @Subscribe
     public void onEventMainThread(final EventAction action) {
         switch (action.getType()) {
+            case CLICK_USER_LOGIN:
+                setUrlUserId();
+                addCookies();
+                if (!TextUtils.isEmpty(url)) {
+                    webView.loadUrl(url);
+                }
+                break;
             case CLICK_USER_LOOUT:
                 removeAllCookies();
                 break;
@@ -382,7 +389,16 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         isLogin = UserEntity.getUser().isLogin(this);
         url = getIntent().getStringExtra(WEB_URL);
         setUrlUserId();
+        addCookies();
 
+        if (!TextUtils.isEmpty(url)) {
+            webView.loadUrl(url);
+        }
+        MLog.e("url=" + url);
+        SensorsUtils.setSensorsShowUpWebView(webView);
+    }
+
+    private void addCookies() {
         if (isLogin) {
             try {
                 synCookies(url, "capp_user=" + webAgent.getUserInfoJson());
@@ -395,12 +411,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
         //开发者模式，设置特殊cookies
         CommonUtils.synDebugCookies(url);
-
-        if (!TextUtils.isEmpty(url)) {
-            webView.loadUrl(url);
-        }
-        MLog.e("url=" + url);
-        SensorsUtils.setSensorsShowUpWebView(webView);
     }
 
     @Override

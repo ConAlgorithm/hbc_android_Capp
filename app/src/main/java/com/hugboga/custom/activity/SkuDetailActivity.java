@@ -164,7 +164,14 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         mDialogUtil = DialogUtil.getInstance(activity);
 
         url = getLoadUrl();
+        addCookies();
+        loadUrl();
+        setSensorsDefaultEvent();
 
+        initHeaderLeftClick();
+    }
+
+    private void addCookies() {
         if (UserEntity.getUser().isLogin(this)) {
             try {
                 CommonUtils.synCookies(url, "capp_user=" + webAgent.getUserInfoJson());
@@ -174,13 +181,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         } else {
             CommonUtils.removeAllCookies();
         }
-
-        loadUrl();
-        setSensorsDefaultEvent();
         //开发者模式，设置特殊cookies
         CommonUtils.synDebugCookies(url);
-
-        initHeaderLeftClick();
     }
 
     @Override
@@ -321,7 +323,13 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
+                url = getLoadUrl();
+                addCookies();
+                loadUrl();
                 getSkuItemBean(false);
+                break;
+            case CLICK_USER_LOOUT:
+                CommonUtils.removeAllCookies();
                 break;
             case SKU_PUTH_MESSAGE:
                 int totalCount = (int) action.getData();
