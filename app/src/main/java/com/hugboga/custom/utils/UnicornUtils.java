@@ -70,7 +70,9 @@ public class UnicornUtils {
 
     }
 
-    public static void openServiceActivity(final Context context, final int sourceType, final OrderBean orderBean, final SkuItemBean skuItemBean) {
+    public static void openServiceActivity(final Context context, final int sourceType,
+                                           final OrderBean orderBean, final SkuItemBean skuItemBean,
+                                           String source) {
         if (!Unicorn.isServiceAvailable()) {
             initUnicorn();
             CommonUtils.showToast("连接客服失败，请稍候重试");
@@ -89,9 +91,18 @@ public class UnicornUtils {
         params.skuItemBean = skuItemBean;
         Intent intent = new Intent(context, ServiceQuestionActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
-        intent.putExtra(Constants.PARAMS_SOURCE, "客服IM");
+        intent.putExtra(Constants.PARAMS_SOURCE, !TextUtils.isEmpty(source) ? source : getSource(sourceType));
         context.startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
+    }
+
+    private static String getSource(int sourceType) {
+        switch (sourceType) {
+            case UnicornServiceActivity.SourceType.TYPE_ORDER:
+                return "订单详情";
+            default:
+                return "客服IM";
+        }
     }
 
     public static void openServiceActivity(Context context, int sourceType) {

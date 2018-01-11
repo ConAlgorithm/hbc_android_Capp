@@ -26,13 +26,16 @@ public class CsDialog extends Dialog implements View.OnClickListener {
     Context context;
     private CsDialog.OnCsListener listener;
     private boolean hasOnline = true;
+
     public CsDialog(Context context) {
-        this(context, R.style.ShareDialog,true);
+        this(context, R.style.ShareDialog, true);
     }
-    public CsDialog(Context context,boolean hasOnline) {
-        this(context, R.style.ShareDialog,hasOnline);
+
+    public CsDialog(Context context, boolean hasOnline) {
+        this(context, R.style.ShareDialog, hasOnline);
     }
-    public CsDialog(Context context, int themeResId,boolean hasOnline) {
+
+    public CsDialog(Context context, int themeResId, boolean hasOnline) {
         super(context, themeResId);
         this.context = context;
         setContentView(R.layout.view_cs_dialog);
@@ -53,23 +56,24 @@ public class CsDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.adroad_cs_layout).setOnClickListener(this);
         findViewById(R.id.dialog_share_cancel_tv).setOnClickListener(this);
         findViewById(R.id.dialog_share_shadow_view).setOnClickListener(this);
-        if(!hasOnline){
+        if (!hasOnline) {
             findViewById(R.id.online_cs_layout).setVisibility(View.GONE);
-            LinearLayout csLayout = (LinearLayout)findViewById(R.id.china_cs_layout);
+            LinearLayout csLayout = (LinearLayout) findViewById(R.id.china_cs_layout);
             LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) csLayout.getLayoutParams();
-            lp.setMargins(0,0,0,0);
+            lp.setMargins(0, 0, 0, 0);
             findViewById(R.id.online_cs_layout).setLayoutParams(lp);
         }
     }
 
-    public void setOnline(boolean hasOnline){
+    public void setOnline(boolean hasOnline) {
         this.hasOnline = hasOnline;
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.online_cs_layout:
-                UnicornUtils.openServiceActivity(context, mParams.sourceType, mParams.orderBean, mParams.skuItemBean);
+                UnicornUtils.openServiceActivity(context, mParams.sourceType, mParams.orderBean, mParams.skuItemBean, mParams.source);
                 if (listener != null) {
                     listener.onCs();
                 }
@@ -94,9 +98,11 @@ public class CsDialog extends Dialog implements View.OnClickListener {
                 break;
         }
     }
+
     public void setParams(CsDialog.Params params) {
         this.mParams = params;
     }
+
     public static class Params {
         String source;
         OrderBean orderBean;
