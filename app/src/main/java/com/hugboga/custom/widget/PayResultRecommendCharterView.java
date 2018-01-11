@@ -52,7 +52,7 @@ public class PayResultRecommendCharterView extends RelativeLayout {
                     intent.putExtra(Constants.PARAMS_START_CITY_BEAN, DatabaseManager.getCityBean("" + cityId));
                 }
                 getContext().startActivity(intent);
-                SensorsUtils.setSensorsBuyViewEvent("按天包车游", getContext().getString(R.string.par_result_title));
+                SensorsUtils.setSensorsBuyViewEvent("按天包车游", getContext().getString(R.string.par_result_title), "");
             }
         });
     }

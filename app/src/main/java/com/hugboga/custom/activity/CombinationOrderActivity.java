@@ -900,7 +900,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     //神策统计_展示报价
     private void setSensorsPriceEvent(boolean isHavePrice) {
-        SensorsUtils.setSensorsPriceEvent("" + orderType, charterDataUtils.guidesDetailData != null, isHavePrice);
+        String guideId = charterDataUtils.guidesDetailData != null ? charterDataUtils.guidesDetailData.guideId : "";
+        SensorsUtils.setSensorsPriceEvent("" + orderType, guideId, isHavePrice);
     }
 
     //神策统计_价格明细点击

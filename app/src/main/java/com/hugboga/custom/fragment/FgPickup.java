@@ -684,7 +684,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_sku_type", "接机");
-            properties.put("hbc_is_appoint_guide", null != guidesDetailData ? true : false);// 指定司导下单
+            properties.put("hbc_guide_id", null != guidesDetailData ? guidesDetailData.guideId : "");// 指定司导下单
             properties.put("hbc_car_type", carBean.desc);//车型选择
             properties.put("hbc_price_total", carBean.price);//费用总计
             properties.put("hbc_distance", carListBean.distance);// 全程公里数
@@ -708,7 +708,8 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
     //神策统计_展示报价
     private void setSensorsPriceEvent(boolean isHavePrice) {
-        SensorsUtils.setSensorsPriceEvent("" + ORDER_TYPE, guidesDetailData != null, isHavePrice);
+        String guideId = guidesDetailData != null ? guidesDetailData.guideId : "";
+        SensorsUtils.setSensorsPriceEvent("" + ORDER_TYPE, guideId, isHavePrice);
     }
 
     //神策统计_来到填行程页
@@ -716,6 +717,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_refer", source);
+            properties.put("hbc_guide_id", guidesDetailData != null ? guidesDetailData.guideId : "");
             properties.put("hbc_sku_type", "接机");
             SensorsDataAPI.sharedInstance(getContext()).track("buy_route", properties);
         } catch (Exception e) {

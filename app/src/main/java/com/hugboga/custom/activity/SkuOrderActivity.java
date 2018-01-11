@@ -957,6 +957,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
 
     //神策统计_展示报价
     private void setSensorsPriceEvent(boolean isHavePrice) {
-        SensorsUtils.setSensorsPriceEvent("" + orderType, guidesDetailData != null, isHavePrice);
+        String guideId = guidesDetailData != null ? guidesDetailData.guideId : "";
+        SensorsUtils.setSensorsPriceEvent("" + orderType, guideId, isHavePrice);
     }
 }

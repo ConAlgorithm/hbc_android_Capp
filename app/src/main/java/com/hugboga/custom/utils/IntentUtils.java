@@ -25,11 +25,13 @@ public class IntentUtils {
     }
 
     public static void intentCharterActivity(Context context, SeckillsBean seckillsBean, GuidesDetailData guidesDetailData, CityBean startBean, String source) {
+        String guideId = "";
         if (guidesDetailData != null || startBean != null) {//不需要进入引导页
             Intent intent = new Intent(context, CharterFirstStepActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             if (guidesDetailData != null) {
                 intent.putExtra(Constants.PARAMS_GUIDE, guidesDetailData);
+                guideId = guidesDetailData.guideId;
             }
             if (startBean != null) {
                 intent.putExtra(Constants.PARAMS_START_CITY_BEAN, startBean);
@@ -47,7 +49,7 @@ public class IntentUtils {
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             context.startActivity(intent);
         }
-        SensorsUtils.setSensorsBuyViewEvent("按天包车游", source);
+        SensorsUtils.setSensorsBuyViewEvent("按天包车游", source, guideId);
     }
 
     public static void intentSingleActivity(Context context, String source) {
@@ -55,7 +57,11 @@ public class IntentUtils {
     }
 
     public static void intentSingleActivity(Context context, SingleActivity.Params _params, String source) {
+        String guideId = "";
         if (_params != null && (_params.guidesDetailData != null || !TextUtils.isEmpty(_params.cityId))) {//不需要进入引导页
+            if (_params.guidesDetailData != null) {
+                guideId = _params.guidesDetailData.guideId;
+            }
             Intent intent = new Intent(context, SingleActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             intent.putExtra(Constants.PARAMS_DATA, _params);
@@ -69,7 +75,7 @@ public class IntentUtils {
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             context.startActivity(intent);
         }
-        SensorsUtils.setSensorsBuyViewEvent("单次", source);
+        SensorsUtils.setSensorsBuyViewEvent("单次", source, guideId);
     }
 
     public static void intentPickupActivity(Context context, String source) {
@@ -77,9 +83,13 @@ public class IntentUtils {
     }
 
     public static void intentPickupActivity(Context context, PickSendActivity.Params _params, String source) {
+        String guideId = "";
         boolean condition1 = _params != null && (_params.guidesDetailData != null || _params.flightBean != null);
         boolean condition2 =  _params != null && !TextUtils.isEmpty(_params.cityName) && !TextUtils.isEmpty(_params.cityId);
         if (condition1 || condition2) {//不需要进入引导页
+            if (_params.guidesDetailData != null) {
+                guideId = _params.guidesDetailData.guideId;
+            }
             Intent intent = new Intent(context, PickSendActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             intent.putExtra(Constants.PARAMS_DATA, _params);
@@ -93,7 +103,7 @@ public class IntentUtils {
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             context.startActivity(intent);
         }
-        SensorsUtils.setSensorsBuyViewEvent("接机", source);
+        SensorsUtils.setSensorsBuyViewEvent("接机", source, guideId);
     }
 
     public static void intentSendActivity(Context context, String source) {
@@ -101,9 +111,13 @@ public class IntentUtils {
     }
 
     public static void intentSendActivity(Context context, PickSendActivity.Params _params, String source) {
+        String guideId = "";
         boolean condition1 = _params != null && (_params.guidesDetailData != null || _params.airPortBean != null);
         boolean condition2 =  _params != null && !TextUtils.isEmpty(_params.cityName) && !TextUtils.isEmpty(_params.cityId);
         if (condition1 || condition2) {//不需要进入引导页
+            if (_params.guidesDetailData != null) {
+                guideId = _params.guidesDetailData.guideId;
+            }
             Intent intent = new Intent(context, PickSendActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             intent.putExtra(Constants.PARAMS_DATA, _params);
@@ -117,7 +131,7 @@ public class IntentUtils {
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             context.startActivity(intent);
         }
-        SensorsUtils.setSensorsBuyViewEvent("送机", source);
+        SensorsUtils.setSensorsBuyViewEvent("送机", source, guideId);
     }
 
 }

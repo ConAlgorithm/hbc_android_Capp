@@ -235,20 +235,6 @@ public class SensorsUtils {
         }
     }
 
-    //神策统计_指定司导下单
-    public static void setSensorsAppointGuide(String source, int orderType, String guideCity, String serviceCity) {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("hbc_appoint_entrance", source);
-            properties.put("hbc_appoint_type", OrderUtils.getOrderTypeStr(orderType));
-            properties.put("guide_city", guideCity);
-            properties.put("service_city", serviceCity);
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("appoint_guide", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     //神策统计_Im监控统计
     public static void setSensorsAppointImAnalysis(String event, HashMap<String, String> attributes) {
         try {
@@ -271,17 +257,17 @@ public class SensorsUtils {
     }
 
     //神策统计_展示报价
-    public static void setSensorsPriceEvent(String orderType, boolean isAppointGuide, boolean isHavePrice) {
-        setSensorsPriceEvent(orderType, orderType, isAppointGuide, isHavePrice);
+    public static void setSensorsPriceEvent(String orderType, String guideId, boolean isHavePrice) {
+        setSensorsPriceEvent(orderType, orderType, guideId, isHavePrice);
     }
 
     //神策统计_展示报价
-    public static void setSensorsPriceEvent(String orderType, String orderGoodsType, boolean isAppointGuide, boolean isHavePrice) {
+    public static void setSensorsPriceEvent(String orderType, String orderGoodsType, String guideId, boolean isHavePrice) {
         try {
             JSONObject properties = new JSONObject();
             properties.put("orderType", CommonUtils.getCountInteger(orderType));
             properties.put("orderGoodsType", orderGoodsType);
-            properties.put("isAppointGuide", isAppointGuide ? "1" : "0");
+            properties.put("hbc_guide_id", guideId);
             properties.put("isHavePrice", isHavePrice);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("seePrice", properties);
         } catch (Exception e) {
@@ -340,11 +326,12 @@ public class SensorsUtils {
     }
 
     //神策统计_下单-初始页浏览
-    public static void setSensorsBuyViewEvent(String type, String refer) {
+    public static void setSensorsBuyViewEvent(String type, String refer, String guideId) {
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_sku_type", type);
             properties.put("hbc_refer", refer);
+            properties.put("hbc_guide_id", guideId);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("buy_view", properties);
         } catch (Exception e) {
             e.printStackTrace();
