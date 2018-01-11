@@ -6,25 +6,23 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
-import com.hugboga.custom.widget.monthpicker.monthswitchpager.listener.MonthChangeListener;
-import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthSwitchView;
-import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CalendarGoodsBean;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SkuCalendarUtils;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.EffectiveShapeView;
+import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.listener.MonthChangeListener;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthSwitchView;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.umeng.analytics.MobclickAgent;
 
@@ -125,7 +123,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
 
     @OnClick(R.id.sku_date_confirm_tv)
     public void onConfirm() {
-        if (!CommonUtils.isLogin(this,getEventSource())) {
+        if (!CommonUtils.isLogin(this, getEventSource())) {
             return;
         }
         if (TextUtils.isEmpty(serverDate)) {
@@ -165,7 +163,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
     }
 
     //获取上个界面的来源
-    public String getIntentSource(){
+    public String getIntentSource() {
         String intentSource = null;
         Intent intent = getIntent();
         if (null != intent) {
