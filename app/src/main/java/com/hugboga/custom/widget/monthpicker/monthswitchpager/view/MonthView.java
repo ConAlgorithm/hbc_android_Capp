@@ -196,16 +196,11 @@ public class MonthView extends View {
 
       //Log.e(TAG, "i :  " + i + "   weekday: " + weekDay + "      rownum: " + rowNum + "   y: " + y);
       if (mSelectDay != null && mSelectDay.getDayString().equals(calendarDay.getDayString()) && calendarDay.isCanService()) {
-        Log.i("aa", "画圆圆 " );
         canvas.drawCircle(getResources().getDimension(R.dimen.activity_horizontal_margin)
                 + parentWidth / DAY_IN_WEEK * (weekDay - 1)
                 + parentWidth / DAY_IN_WEEK / 2, mRowHeight  * rowNum + mRowHeight / 2, mRowHeight * 2 / 4, mPaintSelect
         );
-      }else {
-        if (mSelectDay != null)
-        Log.i("aa", "画圆圆  选中：" + mSelectDay.getDayString() + "  calendarDay.getDayString() " + calendarDay.getDayString() + "  " + calendarDay.isCanService());
       }
-
 
       Calendar endDate = Calendar.getInstance();
       endDate.add(Calendar.MONTH, 6);

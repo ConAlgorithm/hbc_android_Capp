@@ -585,7 +585,7 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_refer", getIntentSource());
-            SensorsDataAPI.sharedInstance(getContext()).track("buy_flight");
+            SensorsDataAPI.sharedInstance(getContext()).track("buy_flight", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

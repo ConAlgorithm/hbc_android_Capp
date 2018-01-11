@@ -634,7 +634,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_refer", getIntentSource());
-            SensorsDataAPI.sharedInstance(this).track("buy_airport");
+            SensorsDataAPI.sharedInstance(this).track("buy_airport", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

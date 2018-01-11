@@ -881,7 +881,7 @@
     <string name="guide_detail_bottom_choose_guide">选TA服务</string>
     <string name="guide_detail_time">当地时间: %1$s</string>
 
-    <string name="guide_detail_contact_dialog_title">需要先下单并支付才能找Ta聊天呢</string>
+    <string name="guide_detail_contact_dialog_title">下单支付后才能聊天哦</string>
     <string name="guide_detail_contact_dialog_content">优秀司导都在服务用户的路上，预订后沟通更高效~</string>
 
     <string name="destiation_search">目的地搜索</string>
