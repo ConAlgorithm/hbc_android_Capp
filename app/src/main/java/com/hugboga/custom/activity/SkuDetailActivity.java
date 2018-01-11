@@ -363,7 +363,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 params.guidesDetailData = guidesDetailData;
                 Intent intent = new Intent(activity, SkuDateActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
-                intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 StatisticClickEvent.click(StatisticConstant.CLICK_SKUDATE);
                 SensorsUtils.onAppClick(getEventSource(), "直接预订", getIntentSource());
@@ -534,6 +534,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     public void onPause() {
         super.onPause();
         GiftController.getInstance(this).abortion();
+        setSensorsViewSkuEndEvent();
     }
 
     @Override
@@ -544,12 +545,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             headerRightBtn.distinguishChatConfug();
         }
         hideSoftInput();
+        SensorsDataAPI.sharedInstance(this).trackTimerBegin("viewSku");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        setSensorsViewSkuEndEvent();
         try {
             if (Unicorn.isServiceAvailable()) {
                 Unicorn.addUnreadCountChangeListener(headerRightBtn.listener, false);
@@ -589,8 +590,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             properties.put("hbc_web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + (skuItemBean != null ? skuItemBean.goodsNo : goodsNo));
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
-
-            SensorsDataAPI.sharedInstance(this).trackTimerBegin("viewSku");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -696,7 +695,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         params.guidesDetailData = guidesDetailData;
         Intent intent = new Intent(activity, SkuDateActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
-        intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_SKUDATE);
 
