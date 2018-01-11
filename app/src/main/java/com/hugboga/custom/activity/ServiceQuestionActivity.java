@@ -37,7 +37,7 @@ import butterknife.BindView;
 /**
  * Created by qingcha on 16/11/14.
  */
-public class ServiceQuestionActivity extends BaseActivity{
+public class ServiceQuestionActivity extends BaseActivity {
 
     @BindView(R.id.service_question_rv)
     RecyclerView mRecyclerView;
@@ -98,6 +98,7 @@ public class ServiceQuestionActivity extends BaseActivity{
                             params.questionItem = questionItem;
                             Intent intent = new Intent(ServiceQuestionActivity.this, UnicornServiceActivity.class);
                             intent.putExtra(Constants.PARAMS_DATA, params);
+                            intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                             startActivity(intent);
                             ServiceQuestionActivity.this.finish();
                             dialog.dismiss();
@@ -139,12 +140,13 @@ public class ServiceQuestionActivity extends BaseActivity{
                     return;
                 }
                 if (questionItem.type == 3) { //进客服
-                    if (!CommonUtils.isLogin(this,getEventSource())) {
+                    if (!CommonUtils.isLogin(this, getEventSource())) {
                         return;
                     }
                     params.questionItem = questionItem;
                     Intent intent = new Intent(this, UnicornServiceActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                     startActivity(intent);
                 } else {
                     ServiceQuestionBean userServiceQuestionBean = new ServiceQuestionBean();
@@ -228,11 +230,12 @@ public class ServiceQuestionActivity extends BaseActivity{
     }
 
     private void intentDefaultServiceActivity() {
-        if (!CommonUtils.isLogin(this,getEventSource())) {
+        if (!CommonUtils.isLogin(this, getEventSource())) {
             return;
         }
         Intent intent = new Intent(this, UnicornServiceActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
         startActivity(intent);
     }
 

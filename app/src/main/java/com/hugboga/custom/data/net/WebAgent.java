@@ -922,7 +922,7 @@ public class WebAgent implements HttpRequestListener {
                         params.productDetail = builder.build();
                         Intent intent = new Intent(mActivity, UnicornServiceActivity.class);
                         intent.putExtra(Constants.PARAMS_DATA, params);
-
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
                     }
                 }
