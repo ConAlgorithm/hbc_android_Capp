@@ -459,4 +459,8 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             e.printStackTrace();
         }
     }
+
+    public String getWeburl(){
+        return webView.getUrl();
+    }
 }

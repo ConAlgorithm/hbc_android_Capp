@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.data.bean.GuideExtinfoBean;
@@ -25,7 +24,6 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChooseGuideUtils;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.IMUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -152,12 +150,13 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
                         if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId)) {
                             return;
                         }
-                        String source = ((GuideWebDetailActivity)(getContext())).getEventSource();
+                        String source = ((GuideWebDetailActivity) (getContext())).getEventSource();
                         if (getContext() instanceof GuideWebDetailActivity) {
                             source = ((GuideWebDetailActivity) getContext()).getEventSource();
                         }
                         SensorsUtils.onAppClick(source, "联系我", "");
-                        NIMChatActivity.start(getContext(), guideExtinfoBean.guideId, guideExtinfoBean.neUserId, source);
+                        NIMChatActivity.start(getContext(), guideExtinfoBean.guideId, guideExtinfoBean.neUserId,
+                                ((GuideWebDetailActivity) getContext()).getWeburl());
                         StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
                     }
                 }
