@@ -150,7 +150,7 @@ public class ChooseAirActivity extends BaseActivity {
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_refer", getIntentSource());
-            SensorsDataAPI.sharedInstance(this).track("buy_flight");
+            SensorsDataAPI.sharedInstance(this).track("buy_flight", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

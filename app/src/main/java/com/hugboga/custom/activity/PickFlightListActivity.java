@@ -333,7 +333,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         try {
             JSONObject properties = new JSONObject();
             properties.put("hasResult", hasResult);//是否有结果
-            SensorsDataAPI.sharedInstance(this).track("flight_search");
+            SensorsDataAPI.sharedInstance(this).track("flight_search", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

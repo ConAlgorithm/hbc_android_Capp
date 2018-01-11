@@ -190,9 +190,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_sku_id", params.skuItemBean.goodsNo);
-            if (params.guidesDetailData != null) {
-                properties.put("hbc_guide_id", params.guidesDetailData.guideId);
-            }
+            properties.put("hbc_guide_id", params.guidesDetailData != null ? params.guidesDetailData.guideId : "");
             SensorsDataAPI.sharedInstance(this).track("sku_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
@@ -207,9 +205,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
             properties.put("hbc_sku_id", params.skuItemBean.goodsNo);
             properties.put("hbc_sku_name", params.skuItemBean.getGoodsName());
             properties.put("hbc_sku_type", params.skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
-            if (params.guidesDetailData != null) {
-                properties.put("hbc_guide_id", params.guidesDetailData.guideId);
-            }
+            properties.put("hbc_guide_id", params.guidesDetailData != null ? params.guidesDetailData.guideId : "");
             SensorsDataAPI.sharedInstance(this).track("sku_buy", properties);
         } catch (Exception e) {
             e.printStackTrace();

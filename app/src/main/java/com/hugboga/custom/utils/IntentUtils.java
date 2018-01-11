@@ -131,7 +131,7 @@ public class IntentUtils {
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             context.startActivity(intent);
         }
-        SensorsUtils.setSensorsBuyViewEvent("送机", source, guideId);
+        SensorsUtils.setSensorsBuyViewEvent("送机", source,guideId);
     }
 
 }
