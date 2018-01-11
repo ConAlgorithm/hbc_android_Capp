@@ -106,7 +106,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     }
 
     public static void start(final Context context, String guideId, boolean isCheck, final String contactId, final String source, final CustomAttachment customAttachment) {
-        if (context == null || !UserEntity.getUser().isLogin(context) || !IMUtil.getInstance().isLogined()) {
+        if (context == null || !CommonUtils.isLogin(context, source) || !IMUtil.getInstance().isLogined()) {
             return;
         }
         if (isCheck && !TextUtils.isEmpty(guideId)) {
