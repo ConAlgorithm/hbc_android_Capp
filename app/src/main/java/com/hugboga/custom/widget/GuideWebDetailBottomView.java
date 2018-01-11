@@ -118,6 +118,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
             topLineView.setVisibility(View.VISIBLE);
             contactIv.setImageResource(R.mipmap.navbar_chat_white);
             contactTv.setTextColor(0xFFFFFFFF);
+            contactOnline.setVisibility(View.GONE);
             contactLayout.setBackgroundResource(R.drawable.shape_rounded_disabled);
             contactLayout.setOnClickListener(new OnClickListener() {
                 @Override
@@ -140,6 +141,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
             hintTv.setVisibility(View.GONE);
             topLineView.setVisibility(View.GONE);
             contactTv.setTextColor(getContext().getResources().getColor(R.color.default_black));
+            contactOnline.setVisibility(View.GONE);
             contactLayout.setBackgroundResource(R.drawable.shape_rounded_on_line);
             contactIv.setImageResource(getTvImage(guideExtinfoBean.accessible)); //设置司导在线状态描述
 
