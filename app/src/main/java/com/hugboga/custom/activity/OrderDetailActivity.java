@@ -227,6 +227,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     params.extarParamsBean = getPayResultExtarParamsBean();
                     Intent intent = new Intent(OrderDetailActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "收银台");
                     startActivity(intent);
                     EventPayBean eventPayBean = new EventPayBean();
                     eventPayBean.transform(orderBean);

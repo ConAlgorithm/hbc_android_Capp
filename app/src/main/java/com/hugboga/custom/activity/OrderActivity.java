@@ -671,6 +671,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                     payParams.extarParamsBean = getPayResultExtarParamsBean();
                     Intent intent = new Intent(this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, payParams);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "收银台");
                     startActivity(intent);
                     SensorsUtils.setSensorsPayResultEvent(getChoosePaymentStatisticParams(), "支付宝", true);
                 }

@@ -94,4 +94,13 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         return super.onKeyUp(keyCode, event);
     }
 
+    @Override
+    public String getEventSource() {
+        return "支付结果";
+    }
+
+    @Override
+    public String getIntentSource() {
+        return "收银台";
+    }
 }

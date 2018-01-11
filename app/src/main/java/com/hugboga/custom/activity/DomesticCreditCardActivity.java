@@ -167,6 +167,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
         params1.payResult = true;
         params1.extarParamsBean = requestParams.extarParamsBean;
         intentSuccess.putExtra(Constants.PARAMS_DATA, params1);
+        intentSuccess.putExtra(Constants.PARAMS_SOURCE, "收银台");
         startActivity(intentSuccess);
         finish(); //支付成功关闭当前界面
     }

@@ -389,6 +389,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
                     params.orderType = orderType;
                     Intent intent = new Intent(this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "收银台");
                     startActivity(intent);
                     SensorsUtils.setSensorsPayResultEvent(getChoosePaymentStatisticParams(), "支付宝", true);
                 }

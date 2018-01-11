@@ -79,7 +79,7 @@ import butterknife.BindView;
  */
 public class CombinationOrderActivity extends BaseActivity implements SkuOrderCarTypeView.OnSelectedCarListener, SkuOrderDiscountView.DiscountOnClickListener
         , SkuOrderBottomView.OnSubmitOrderListener, SkuOrderBottomView.OnIntentPriceInfoListener, SkuOrderEmptyView.OnRefreshDataListener
-        , SkuOrderEmptyView.OnClickServicesListener, CombinationExtrasPriceView.OnAdditionalPriceChangeListener{
+        , SkuOrderEmptyView.OnClickServicesListener, CombinationExtrasPriceView.OnAdditionalPriceChangeListener {
 
     public static final String TAG = CombinationOrderActivity.class.getSimpleName();
 
@@ -133,6 +133,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     private boolean requestedSubmit = false;
     CsDialog csDialog;
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_combination_order;
@@ -215,7 +216,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         fgRightBtn.setLayoutParams(headerRightImageParams);
-        fgRightBtn.setPadding(0,0,0,0);
+        fgRightBtn.setPadding(0, 0, 0, 0);
         fgRightBtn.setImageResource(R.mipmap.topbar_cs);
         fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
@@ -376,10 +377,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 if ("travelFundPay".equals(mParser.getData()) || "couppay".equals(mParser.getData())) {
                     PayResultActivity.Params params = new PayResultActivity.Params();
                     params.payResult = true;
-                    params.orderId =  orderInfoBean.getOrderno();
+                    params.orderId = orderInfoBean.getOrderno();
                     params.orderType = orderType;
                     Intent intent = new Intent(this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "收银台");
                     startActivity(intent);
                     SensorsUtils.setSensorsPayResultEvent(getChoosePaymentStatisticParams(), "支付宝", true);
                 }
@@ -426,8 +428,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     /*
-    * 后续页面需要的统计参数
-    * */
+     * 后续页面需要的统计参数
+     * */
     private EventPayBean getChoosePaymentStatisticParams() {
         EventPayBean eventPayBean = new EventPayBean();
         eventPayBean.guideCollectId = "";
@@ -577,7 +579,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             requestCouponCount = 2;
             onBottomLoading(!carBean.isCallOnClick);
             requestCouponTag++;
-            requestCancleTipsTag ++;
+            requestCancleTipsTag++;
             requestMostFit(additionalPrice, requestCouponTag);
             requestTravelFund(additionalPrice, requestCouponTag);
         }
@@ -685,7 +687,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         if (!travelerInfoView.checkTravelerInfo()) {
             return;
         }
-        if (!CommonUtils.isLogin(this,getEventSource())) {
+        if (!CommonUtils.isLogin(this, getEventSource())) {
             return;
         }
         if (!extrasPriceView.checkFlightBrandSign()) {
@@ -724,7 +726,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     /*
      * 提交订单
-    * */
+     * */
     private void requestSubmitOrder(String requestBody) {
         if (requestedSubmit) {
             return;
@@ -736,8 +738,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     /*
-    * 获取可服务车辆列表
-    * */
+     * 获取可服务车辆列表
+     * */
     private void requestBatchPrice() {
         RequestBatchPrice request = new RequestBatchPrice(this, charterDataUtils);
         orderType = charterDataUtils.isGroupOrder ? Constants.BUSINESS_TYPE_COMBINATION : 3;
@@ -768,9 +770,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     /*
-    * 获取旅游基金
-    * @params additionalPrice 儿童座椅 + 酒店价格
-    * */
+     * 获取旅游基金
+     * @params additionalPrice 儿童座椅 + 酒店价格
+     * */
     private void requestTravelFund(double additionalPrice, int requestTag) {
         RequestDeduction requestDeduction = new RequestDeduction(this, carBean.price + additionalPrice + "");
         requestDeduction.tag = "" + requestTag;
@@ -786,8 +788,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     /*
-    * 获取退改规则
-    * */
+     * 获取退改规则
+     * */
     private void requestCancleTips(int requestTag) {
         RequestCancleTips requestCancleTips = new RequestCancleTips(this
                 , carBean
@@ -910,7 +912,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             double days = 0;
             final int travelListSize = charterDataUtils.travelList.size();
             for (int i = 0; i < travelListSize; i++) {
-                CityRouteBean.CityRouteScope  cityRouteScope = charterDataUtils.travelList.get(i);
+                CityRouteBean.CityRouteScope cityRouteScope = charterDataUtils.travelList.get(i);
                 if (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {
                     continue;
                 }
