@@ -54,6 +54,9 @@ public class PushReceiver extends BroadcastReceiver {
         if (TextUtils.isEmpty(pushMessage.message)) {
             pushMessage.message = message;
         }
+        if(TextUtils.isEmpty(pushMessage.messageID)){
+            pushMessage.messageID = msgId;
+        }
 
         PushUtils.onPushReceive(pushMessage);
     }
