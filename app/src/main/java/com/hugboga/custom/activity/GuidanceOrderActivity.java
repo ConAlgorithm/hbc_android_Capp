@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SeckillsBean;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.GuidanceBottomView;
 import com.hugboga.custom.widget.ScrollViewWrapper;
@@ -127,6 +128,7 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
                         intent.putExtra(Constants.PARAMS_SOURCE, params.source);
                         intent.putExtra(PARAMS_GUIDANCE, params);
                         startActivity(intent);
+                        SensorsUtils.onAppClick("单次接送","用车城市",getIntentSource());
                         break;
                 }
             }

@@ -41,6 +41,7 @@ import com.hugboga.custom.data.request.RequestCouponExchange;
 import com.hugboga.custom.data.request.RequestUnusedCoupon;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -329,6 +330,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
                 }
                 RequestCouponExchange requestCoupon = new RequestCouponExchange(this, couponNum);
                 requestData(requestCoupon);
+                SensorsUtils.onAppClick("优惠券","兑换",getIntentSource());
                 break;
             default:
                 break;
