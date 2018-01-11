@@ -213,6 +213,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (guidesDetailData != null) {
             Intent intent = new Intent(this, ChooseGuideCityActivity.class);
             intent.putExtra(Constants.PARAMS_ID, guidesDetailData.guideId);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
             startActivity(intent);
         } else {
             Bundle bundle = new Bundle();

@@ -60,26 +60,34 @@ public class GuidanceBottomView extends LinearLayout {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.guidance_bottom_switch_pickup_tv:
-                switchPickupTV.setBackgroundResource(R.drawable.bg_guidance_order_send);
-                switchPickupTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
-                switchSendTV.setBackgroundColor(0x00000000);
-                switchSendTV.setTextColor(0xFF7f7f7f);
-                infoView.setTitle(getContext().getResources().getString(R.string.guidance_pickup_hint_title));
-                infoView.setHintText(getContext().getResources().getString(R.string.guidance_pickup_hint_subtitle));
-                isPickup = true;
+                onClickPickup();
                 SensorsUtils.onAppClick(getEventSource(), "接机", getIntentSource());
                 break;
             case R.id.guidance_bottom_switch_send_tv:
-                switchPickupTV.setBackgroundColor(0x00000000);
-                switchPickupTV.setTextColor(0xFF7f7f7f);
-                switchSendTV.setBackgroundResource(R.drawable.bg_guidance_order_send);
-                switchSendTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
-                infoView.setTitle(getContext().getResources().getString(R.string.guidance_send_hint_title));
-                infoView.setHintText(getContext().getResources().getString(R.string.guidance_send_hint_subtitle));
-                isPickup = false;
+                onClickSend();
                 SensorsUtils.onAppClick(getEventSource(), "送机", getIntentSource());
                 break;
         }
+    }
+
+    private void onClickPickup() {
+        switchPickupTV.setBackgroundResource(R.drawable.bg_guidance_order_send);
+        switchPickupTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
+        switchSendTV.setBackgroundColor(0x00000000);
+        switchSendTV.setTextColor(0xFF7f7f7f);
+        infoView.setTitle(getContext().getResources().getString(R.string.guidance_pickup_hint_title));
+        infoView.setHintText(getContext().getResources().getString(R.string.guidance_pickup_hint_subtitle));
+        isPickup = true;
+    }
+
+    private void onClickSend() {
+        switchPickupTV.setBackgroundColor(0x00000000);
+        switchPickupTV.setTextColor(0xFF7f7f7f);
+        switchSendTV.setBackgroundResource(R.drawable.bg_guidance_order_send);
+        switchSendTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
+        infoView.setTitle(getContext().getResources().getString(R.string.guidance_send_hint_title));
+        infoView.setHintText(getContext().getResources().getString(R.string.guidance_send_hint_subtitle));
+        isPickup = false;
     }
 
     public void setOrderType(int orderType) {
@@ -87,11 +95,11 @@ public class GuidanceBottomView extends LinearLayout {
         switch (orderType) {
             case 1:
                 switchLayout.setVisibility(View.VISIBLE);
-                switchPickupTV.performClick();
+                onClickPickup();
                 break;
             case 2:
                 switchLayout.setVisibility(View.VISIBLE);
-                switchSendTV.performClick();
+                onClickSend();
                 break;
             case 3:
             case 888:

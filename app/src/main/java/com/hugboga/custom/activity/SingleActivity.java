@@ -230,6 +230,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     intent.putExtra(Constants.PARAMS_ID, guidesDetailData.guideId);
                     intent.putExtra(Constants.PARAMS_TAG, TAG);
                     intent.putExtra(Constants.PARAMS_DATA, DatabaseManager.getCityBean("" + guidesDetailData.cityId));
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 } else {
                     intent = new Intent(this, ChooseCityActivity.class);
