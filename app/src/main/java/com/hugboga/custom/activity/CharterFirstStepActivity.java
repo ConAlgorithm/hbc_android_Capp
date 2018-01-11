@@ -2,7 +2,6 @@ package com.hugboga.custom.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.hardware.Sensor;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -62,7 +61,7 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 17/2/21.
  */
-public class CharterFirstStepActivity extends BaseActivity implements CharterFirstCountView.OnOutRangeListener, TitleBar.OnTitleBarBackListener{
+public class CharterFirstStepActivity extends BaseActivity implements CharterFirstCountView.OnOutRangeListener, TitleBar.OnTitleBarBackListener {
 
     public static final String TAG = CharterFirstStepActivity.class.getSimpleName();
 
@@ -102,6 +101,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
     CsDialog csDialog;
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_charter_first;
@@ -225,7 +225,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             intent.putExtras(bundle);
             startActivity(intent);
         }
-        SensorsUtils.onAppClick(getEventSource(),"下一步",getIntentSource());
+        SensorsUtils.onAppClick(getEventSource(), "下一步", getIntentSource());
         overridePendingTransition(R.anim.push_bottom_in, 0);
     }
 
@@ -235,7 +235,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         switch (view.getId()) {
             case R.id.charter_first_bottom_service_layout:
                 //DialogUtil.showCallDialogTitle(this,getEventSource(),UnicornServiceActivity.SourceType.TYPE_CHARTERED);
-                csDialog = CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource(),false,new CsDialog.OnCsListener(){
+                csDialog = CommonUtils.csDialog(activity, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), false, new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
                         csDialog.dismiss();
@@ -244,7 +244,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 SensorsUtils.onAppClick(getEventSource(), "联系客服", getIntentSource());
                 break;
             case R.id.charter_first_bottom_online_layout:
-                UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null);
+                UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, "");
                 SensorsUtils.onAppClick(getEventSource(), "在线咨询", getIntentSource());
                 break;
         }
@@ -263,7 +263,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         intent.putExtra(DatePickerActivity.PARAM_TITLE, getString(R.string.daily_first_date_picker_title));
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
-        SensorsUtils.onAppClick(getEventSource(),"包车日期",getIntentSource());
+        SensorsUtils.onAppClick(getEventSource(), "包车日期", getIntentSource());
     }
 
     @OnClick({R.id.charter_first_bottom_next_tv})
@@ -271,7 +271,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
         //开始城市、开始日期改变了清除全部数据
         boolean isChangeDate = (charterDataUtils.chooseDateBean != null && !chooseDateBean.start_date.equals(charterDataUtils.chooseDateBean.start_date));
-        boolean isChangeCity  = charterDataUtils.getStartCityBean(1) != null && startBean.cityId != charterDataUtils.getStartCityBean(1).cityId;
+        boolean isChangeCity = charterDataUtils.getStartCityBean(1) != null && startBean.cityId != charterDataUtils.getStartCityBean(1).cityId;
         if (isChangeDate || isChangeCity) {
             charterDataUtils.onDestroy();
         }
@@ -452,41 +452,41 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     private boolean isShowSaveDialog() {
         if ((startBean != null && !isExtraStartBean) || chooseDateBean != null) {
-            AlertDialogUtils.showAlertDialog(CharterFirstStepActivity.this, getString(R.string.hint), getString(R.string.daily_first_purpose_desc),getString(R.string.daily_first_purpose_confirm)
+            AlertDialogUtils.showAlertDialog(CharterFirstStepActivity.this, getString(R.string.hint), getString(R.string.daily_first_purpose_desc), getString(R.string.daily_first_purpose_confirm)
                     , getString(R.string.dialog_btn_back), getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    SensorsUtils.onAppClick(getEventSource(),"帮我规划",getIntentSource());
-                    if (UserEntity.getUser().isLogin(CharterFirstStepActivity.this)
-                            && !TextUtils.isEmpty(UserEntity.getUser().getPhone(CharterFirstStepActivity.this))) {
-                        showIntentionDialog(String.format(getString(R.string.daily_first_purpose_service), UserEntity.getUser().getPhone(CharterFirstStepActivity.this)));
-                    } else {
-                        Intent intent = new Intent(CharterFirstStepActivity.this, TravelPurposeFormActivity.class);
-                        intent.putExtra("cityName", startBean != null ? startBean.name : "");
-                        intent.putExtra("cityId", startBean != null ? startBean.cityId : 0);
-                        intent.putExtra("startDate", chooseDateBean != null ? chooseDateBean.start_date : "");
-                        intent.putExtra("days", chooseDateBean != null ?chooseDateBean.dayNums : 0);
-                        intent.putExtra("adultNum", countLayout.getAdultValue());
-                        intent.putExtra("childNum", countLayout.getChildValue());
-                        intent.putExtra("isFromOrder", true);
-                        startActivity(intent);
-                    }
-                    dialog.dismiss();
-                }
-            }, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    SensorsUtils.onAppClick(getEventSource(),"确认离开",getIntentSource());
-                    dialog.dismiss();
-                    CharterFirstStepActivity.this.finish();
-                }
-            }, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    SensorsUtils.onAppClick(getEventSource(),"取消",getIntentSource());
-                    dialog.dismiss();
-                }
-            });
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SensorsUtils.onAppClick(getEventSource(), "帮我规划", getIntentSource());
+                            if (UserEntity.getUser().isLogin(CharterFirstStepActivity.this)
+                                    && !TextUtils.isEmpty(UserEntity.getUser().getPhone(CharterFirstStepActivity.this))) {
+                                showIntentionDialog(String.format(getString(R.string.daily_first_purpose_service), UserEntity.getUser().getPhone(CharterFirstStepActivity.this)));
+                            } else {
+                                Intent intent = new Intent(CharterFirstStepActivity.this, TravelPurposeFormActivity.class);
+                                intent.putExtra("cityName", startBean != null ? startBean.name : "");
+                                intent.putExtra("cityId", startBean != null ? startBean.cityId : 0);
+                                intent.putExtra("startDate", chooseDateBean != null ? chooseDateBean.start_date : "");
+                                intent.putExtra("days", chooseDateBean != null ? chooseDateBean.dayNums : 0);
+                                intent.putExtra("adultNum", countLayout.getAdultValue());
+                                intent.putExtra("childNum", countLayout.getChildValue());
+                                intent.putExtra("isFromOrder", true);
+                                startActivity(intent);
+                            }
+                            dialog.dismiss();
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SensorsUtils.onAppClick(getEventSource(), "确认离开", getIntentSource());
+                            dialog.dismiss();
+                            CharterFirstStepActivity.this.finish();
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SensorsUtils.onAppClick(getEventSource(), "取消", getIntentSource());
+                            dialog.dismiss();
+                        }
+                    });
             return true;
         } else {
             return false;
@@ -574,7 +574,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 ApiReportHelper.getInstance().addReport(request);
-                ArrayList<GuideCarBean> guideCarBeanList = ((RequestNewCars)request).getData();
+                ArrayList<GuideCarBean> guideCarBeanList = ((RequestNewCars) request).getData();
                 if (guideCarBeanList == null) {
                     CommonUtils.showToast(R.string.daily_guide_cars_null);
                     return;

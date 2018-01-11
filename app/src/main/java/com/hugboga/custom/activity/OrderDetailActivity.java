@@ -259,7 +259,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 showPopupWindow();
                 break;
             case ORDER_DETAIL_CALL://联系客服
-                //DialogUtil.showServiceDialog(this, null, UnicornServiceActivity.SourceType.TYPE_ORDER, orderBean, null, getEventSource());
                 csDialog = CommonUtils.csDialog(this, orderBean, null, null, UnicornServiceActivity.SourceType.TYPE_ORDER, getEventSource(), new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {

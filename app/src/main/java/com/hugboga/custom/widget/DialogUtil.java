@@ -131,7 +131,8 @@ public class DialogUtil implements DialogUtilInterface {
                 mLoadingDialog.show();
 
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         return mLoadingDialog;
     }
 
@@ -142,10 +143,11 @@ public class DialogUtil implements DialogUtilInterface {
      * @date 2012-6-13 上午09:37:05
      */
     public void dismissLoadingDialog() {
-        if (!mContext.isFinishing() && mLoadingDialog != null&&mLoadingDialog.isShowing())
+        if (!mContext.isFinishing() && mLoadingDialog != null && mLoadingDialog.isShowing())
             try {
                 mLoadingDialog.dismiss();
-            } catch (Exception e){}
+            } catch (Exception e) {
+            }
     }
 
     public void dismissDialog() {
@@ -207,17 +209,18 @@ public class DialogUtil implements DialogUtilInterface {
         return settingDialog;
     }
 
-    public void  dismissSettingDialog(){
-        if (settingDialog != null ) {
-            if(settingDialog.isShowing()){
+    public void dismissSettingDialog() {
+        if (settingDialog != null) {
+            if (settingDialog.isShowing()) {
                 return;
-            }else{
+            } else {
                 settingDialog.dismiss();
                 settingDialog = null;
             }
         }
 
     }
+
     /**
      * @return void    返回类型
      * @throws
@@ -423,9 +426,9 @@ public class DialogUtil implements DialogUtilInterface {
         return customDialog;
     }
 
-    public void showUpdateDialog(boolean hasUpdate,boolean force, String content, final String url, OnClickListener positiveClick, OnClickListener negativeClick) {
-        MLog.e("版本检测 hasUpdate="+hasUpdate+" force="+force);
-        if (TextUtils.isEmpty(url)||!hasUpdate) {
+    public void showUpdateDialog(boolean hasUpdate, boolean force, String content, final String url, OnClickListener positiveClick, OnClickListener negativeClick) {
+        MLog.e("版本检测 hasUpdate=" + hasUpdate + " force=" + force);
+        if (TextUtils.isEmpty(url) || !hasUpdate) {
             if (negativeClick != null)
                 negativeClick.onClick(null, 0);
             return;
@@ -448,7 +451,7 @@ public class DialogUtil implements DialogUtilInterface {
     }
 
     public void showUpdateDialog(boolean hasUpdate, boolean force, String content, final String url) {
-        if (TextUtils.isEmpty(url)||!hasUpdate) {
+        if (TextUtils.isEmpty(url) || !hasUpdate) {
             return;
         }
         //新版本推送
@@ -548,28 +551,28 @@ public class DialogUtil implements DialogUtilInterface {
 
     public static AlertDialog showServiceDialog(final Context _context, final String _title, final int sourceType, final OrderBean orderBean, final SkuItemBean skuItemBean, final String source) {
         if ((sourceType == UnicornServiceActivity.SourceType.TYPE_LINE && skuItemBean == null)
-                || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null) ) {
+                || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null)) {
             return showDefaultServiceDialog(_context, source);
         }
         /*String title = _title;
         if (TextUtils.isEmpty(title)) {
             title = "咨询小助手";
         }*/
-        String [] str = {"在线咨询", "境内用户客服热线", "境外用户客服专线","取消"};
+        String[] str = {"在线咨询", "境内用户客服热线", "境外用户客服专线", "取消"};
         AlertDialog dialog = new AlertDialog.Builder(_context)
                 //.setTitle(title)
-                .setItems(str,new DialogInterface.OnClickListener(){
+                .setItems(str, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            UnicornUtils.openServiceActivity(_context, sourceType, orderBean, skuItemBean);
+                            UnicornUtils.openServiceActivity(_context, sourceType, orderBean, skuItemBean, source);
                         } else if (which == 1) {
                             PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_IN);
                             StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
-                        } else if(which ==2){
+                        } else if (which == 2) {
                             PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_OUT);
                             StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
-                        }else if(which == 3){
+                        } else if (which == 3) {
                             dialog.dismiss();
                         }
                         SensorsUtils.setSensorsServiceEvent(sourceType, source, which);
