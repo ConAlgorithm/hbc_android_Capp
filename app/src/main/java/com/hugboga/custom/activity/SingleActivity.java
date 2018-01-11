@@ -663,7 +663,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             double total = carBean.price;
             JSONObject properties = new JSONObject();
             properties.put("hbc_sku_type", "单次");
-            properties.put("hbc_is_appoint_guide", null != guidesDetailData ? true : false);// 指定司导下单
+            properties.put("hbc_is_appoint_guide", null != guidesDetailData ? guidesDetailData.guideId : "");// 指定司导下单
             properties.put("hbc_car_type", carBean.desc);//车型选择
             properties.put("hbc_price_total", total);//费用总计
             properties.put("hbc_distance", carListBean.distance);// 全程公里数
@@ -687,7 +687,8 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
     //神策统计_展示报价
     private void setSensorsPriceEvent(boolean isHavePrice) {
-        SensorsUtils.setSensorsPriceEvent("" + ORDER_TYPE, guidesDetailData != null, isHavePrice);
+        String guideId = guidesDetailData != null ? guidesDetailData.guideId : "";
+        SensorsUtils.setSensorsPriceEvent("" + ORDER_TYPE, guideId, isHavePrice);
     }
 
     //神策统计_来到填行程页
@@ -696,6 +697,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             JSONObject properties = new JSONObject();
             properties.put("hbc_refer", getIntentSource());
             properties.put("hbc_sku_type", "单次");
+            properties.put("hbc_guide_id", guidesDetailData != null ? guidesDetailData.guideId : "");
             SensorsDataAPI.sharedInstance(this).track("buy_route", properties);
         } catch (Exception e) {
             e.printStackTrace();

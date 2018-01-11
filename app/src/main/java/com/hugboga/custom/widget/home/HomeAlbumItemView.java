@@ -137,6 +137,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
 
     @OnClick(R.id.home_album_collect_iv)
     public void onClickCollect() {
+        SensorsUtils.onAppClick("首页", "收藏线路", "");
         if (CommonUtils.isLogin(getContext(), getEventSource())) {
             collectIV.setEnabled(false);
             collectIV.setSelected(!collectIV.isSelected());

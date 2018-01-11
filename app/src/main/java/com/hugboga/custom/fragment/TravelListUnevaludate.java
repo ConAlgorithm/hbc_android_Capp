@@ -31,6 +31,7 @@ import com.hugboga.custom.data.request.RequestEvaluateReturnMoney;
 import com.hugboga.custom.data.request.RequestOrderListUnevaludate;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.TravelListItem;
@@ -111,6 +112,7 @@ public class TravelListUnevaludate extends FgBaseTravel {
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 getContext().startActivity(intent);
                 MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);
+                SensorsUtils.onAppClick(getEventSource(), "旅游基金-点击领取", "");
             }
         });
         //hbcRecyclerSingleTypeAdpater.addFooterView(getFooterView(inflater));

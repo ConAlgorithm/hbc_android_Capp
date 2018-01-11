@@ -215,7 +215,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
             if (isAppointGuideSucceed && orderBean.orderGuideInfo != null) {
                 isAppointGuideSucceed = false;
-                SensorsUtils.setSensorsAppointGuide("选择已收藏司导下单", orderBean.orderType, orderBean.orderGuideInfo.cityName, "");
             }
         } else if (_request instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) _request;

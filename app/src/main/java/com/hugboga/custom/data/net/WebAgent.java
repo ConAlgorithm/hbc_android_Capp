@@ -725,7 +725,7 @@ public class WebAgent implements HttpRequestListener {
                         intent.putExtra(Constants.PARAMS_DATA, params);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
-                        SensorsUtils.setSensorsBuyViewEvent("接机", getEventSource());
+                        SensorsUtils.setSensorsBuyViewEvent("接机", getEventSource(), data.guideId);
                         break;
                     case 2://2：单次接送
                         intent = new Intent(mActivity, SingleActivity.class);
@@ -734,14 +734,14 @@ public class WebAgent implements HttpRequestListener {
                         intent.putExtra(Constants.PARAMS_DATA, singleParams);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
-                        SensorsUtils.setSensorsBuyViewEvent("单次", getEventSource());
+                        SensorsUtils.setSensorsBuyViewEvent("单次", getEventSource(), data.guideId);
                         break;
                     case 3://3：包车
                         intent = new Intent(mActivity, CharterFirstStepActivity.class);
                         intent.putExtra(Constants.PARAMS_GUIDE, guidesDetailData);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
-                        SensorsUtils.setSensorsBuyViewEvent("按天包车游", getEventSource());
+                        SensorsUtils.setSensorsBuyViewEvent("按天包车游", getEventSource(), data.guideId);
                         break;
                     case 4://4：线路
                         intent = new Intent(mActivity, SkuDetailActivity.class);
@@ -752,7 +752,6 @@ public class WebAgent implements HttpRequestListener {
                         mActivity.startActivity(intent);
                         break;
                 }
-                SensorsUtils.setSensorsAppointGuide("司导个人页", data.orderType, data.guideCityId, null);
             }
         });
     }
@@ -871,12 +870,12 @@ public class WebAgent implements HttpRequestListener {
                     Intent intent = new Intent(mActivity, CharterFirstStepActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     mActivity.startActivity(intent);
-                    SensorsUtils.setSensorsBuyViewEvent("按天包车游", getEventSource());
+                    SensorsUtils.setSensorsBuyViewEvent("按天包车游", getEventSource(), "");
                 } else if (orderType == 1) {
                     Intent intent = new Intent(mActivity, PickSendActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     mActivity.startActivity(intent);
-                    SensorsUtils.setSensorsBuyViewEvent("接机", getEventSource());
+                    SensorsUtils.setSensorsBuyViewEvent("接机", getEventSource(),"");
                 }
             }
         }, new DialogInterface.OnClickListener() {
