@@ -177,6 +177,7 @@ public class FakeAIActivity extends BaseActivity {
                         if (CommonUtils.isLogin(FakeAIActivity.this, "AI界面")) {//判断是否登陆
                             intent = new Intent(FakeAIActivity.this, UnicornServiceActivity.class);
                             intent.putExtra(Constants.PARAMS_DATA, getParams());
+                            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                             startActivity(intent);
                             SensorsUtils.onAppClick(getEventSource(), getEventSource(), "和旅行小管家继续沟通", getIntentSource());
                             finish();

@@ -407,14 +407,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void initAdapterContent() {
-        //fgHome = new FgHome();
         fgHome = new FgHome();
         fgDestination = new FgDestination();
         fgTravel = new FgTravel();
         fgChat = new FgNimChat();
         fgMySpace = new FgMySpace();
         addFragment(fgHome);
-        //addFragment(fgHomePage);
         addFragment(fgDestination);
         addFragment(fgChat);
         addFragment(fgTravel);
@@ -571,6 +569,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     //Push点击
     public static void setSensorsShareEvent(String pushID, String pushTitle) {
+        if (TextUtils.isEmpty(pushID)) {
+            return;
+        }
         try {
             JSONObject properties = new JSONObject();
             properties.put("pushId", pushID);
@@ -589,7 +590,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         if (message != null) {
             uploadPushClick(message.messageID);
             //埋点点击事件
-            setSensorsShareEvent(message.messageID, message.title);
+            setSensorsShareEvent(message.messageID, message.message);
             ActionBean actionBean = message.getActionBean();
             if (actionBean != null && actionBean.type != null) {//走新协议
                 actionBean.source = "push调起";
