@@ -43,6 +43,7 @@ public final class Constants {
     public static final String PARAMS_TYPE = "type";
     public static final String PARAMS_TAG = "tag";
     public static final String PARAMS_SOURCE = "source";
+    public static final String SOURCE_CLASS = "source_class";
     public static final String PARAMS_SOURCE_DETAIL = "source_detail";
     public static final String PARAMS_ORDER_NO = "orderNo";
     public static final String PARAMS_ORDER_TYPE = "orderType";

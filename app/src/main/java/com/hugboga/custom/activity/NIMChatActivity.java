@@ -268,6 +268,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                         MsgTravelAttachment msgTravelAttachment = (MsgTravelAttachment) customAttachment;
                         Intent intent1 = new Intent(activity, WebInfoActivity.class);
                         intent1.putExtra(WebInfoActivity.WEB_URL, msgTravelAttachment.getUrl());
+                        intent1.putExtra(Constants.PARAMS_SOURCE, "司导IM");
+                        intent1.putExtra(Constants.SOURCE_CLASS, NIMChatActivity.class.getSimpleName());
                         startActivity(intent1);
                         break;
                     case CustomAttachment.VALUE_ORDER_TYPE:
@@ -279,7 +281,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                         Intent intent2 = new Intent(NIMChatActivity.this, OrderDetailActivity.class);
                         intent2.putExtra(Constants.PARAMS_DATA, params);
                         intent2.putExtra(Constants.PARAMS_SOURCE, "私聊");
-                        intent2.putExtra(OrderDetailActivity.SOURCE_CLASS, getClass().getSimpleName());
+                        intent2.putExtra(OrderDetailActivity.SOURCE_CLASS, NIMChatActivity.class.getSimpleName());
                         NIMChatActivity.this.startActivity(intent2);
                         break;
                 }

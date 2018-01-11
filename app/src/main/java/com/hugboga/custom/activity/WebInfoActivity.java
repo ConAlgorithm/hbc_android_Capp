@@ -405,6 +405,11 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
     @Override
     public String getEventSource() {
+        if (getIntent() != null && !TextUtils.isEmpty(getIntent().getStringExtra(Constants.SOURCE_CLASS))) {
+            if (NIMChatActivity.class.getSimpleName().equals(getIntent().getStringExtra(Constants.SOURCE_CLASS))) {
+                return "订单详情";
+            }
+        }
         return TextUtils.isEmpty(url) ? "web页面" : url;
     }
 
