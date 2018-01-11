@@ -207,7 +207,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         bottomView.getBookTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SensorsUtils.onAppClick(getEventSource(), "分享", getIntentSource());
+                SensorsUtils.onAppClick(getEventSource(), getString(R.string.guide_list_bottom_button), getIntentSource());
                 webAgent.callBack("goToNext", "");
             }
         });
