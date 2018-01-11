@@ -180,15 +180,4 @@ public class PurposeFormImgView extends LinearLayout implements HbcViewBehavior 
         }
     }
 
-    //首页bannar
-    public static void setSensorsShareEvent(String bannerUrl, int position) {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("bannerUrl", bannerUrl);
-            properties.put("bannerNo", position);
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("clickBanner", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

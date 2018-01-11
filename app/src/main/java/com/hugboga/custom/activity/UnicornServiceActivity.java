@@ -134,7 +134,7 @@ public class UnicornServiceActivity extends BaseActivity {
 
     @Override
     public String getEventSource() {
-        return "客服自助问答";
+        return "客服IM";
     }
 
     public static class SourceType {

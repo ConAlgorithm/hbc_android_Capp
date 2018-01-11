@@ -298,6 +298,6 @@ public class ServiceQuestionActivity extends BaseActivity{
 
     @Override
     public String getEventSource() {
-        return "客服IM";
+        return "客服自助问答";
     }
 }

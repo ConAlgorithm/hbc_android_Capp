@@ -355,4 +355,20 @@ public class SensorsUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 首页顶部Banner埋点
+     * @param bannerUrl
+     * @param bannerNo
+     */
+    public static void setSensorsClickBanner(String bannerUrl, String bannerNo) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("bannerUrl", bannerUrl);
+            properties.put("bannerNo", bannerNo);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("clickBanner", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

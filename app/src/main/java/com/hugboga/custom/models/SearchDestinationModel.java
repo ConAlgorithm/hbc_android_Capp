@@ -136,7 +136,6 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
             }
         }
         Intent intent = new Intent(context, CityActivity.class);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra(Constants.PARAMS_SOURCE, "搜索结果");
         intent.putExtra("isFromHome", true);
