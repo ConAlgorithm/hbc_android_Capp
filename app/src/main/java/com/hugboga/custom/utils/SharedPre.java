@@ -65,6 +65,7 @@ public class SharedPre {
 	public static String QY_GROUP_ID = "qy_group_id";
 	public static String IM_CHAT_COUNT = "im_chat_count";//im司导总聊天数
 
+	public static String IM_THE_FIRST_TIME_CHAT = "the_first_time_chat";//判断当前账号是否是第一次聊天
 	public SharedPre(Context ctx) {
 		this.ctx = ctx;
 	}
