@@ -688,7 +688,7 @@ public class WebAgent implements HttpRequestListener {
         if (mActivity instanceof WebInfoActivity) {
             source = ((WebInfoActivity) mActivity).getEventSource();
         } else if (mActivity instanceof GuideWebDetailActivity) {
-            source = ((GuideWebDetailActivity) mActivity).getEventSource();
+            source = ((GuideWebDetailActivity) mActivity).getLoadUrl();
         } else if (mActivity instanceof SkuDetailActivity) {
             source = ((SkuDetailActivity) mActivity).getEventSource();
         }
