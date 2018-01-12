@@ -641,7 +641,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
                     intent = new Intent(v.getContext(), GuideWebDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, guideDetailParams);
-                    intent.putExtra(Constants.PARAMS_SOURCE, "订单列表");
+                    intent.putExtra(Constants.PARAMS_SOURCE, "行程");
                     v.getContext().startActivity(intent);
                     break;
             }
@@ -675,7 +675,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
     }
 
     private void gotoChatView(String guideId, String imChatId) {
-        String source = "订单列表";
+        String source = "行程";
         if (context instanceof NewOrderActivity) {
             source = ((NewOrderActivity) context).getEventSource();
         }
