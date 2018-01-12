@@ -666,7 +666,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                     guideDetailParams.guideId = mOrderBean.orderGuideInfo.guideID;
                     intent = new Intent(v.getContext(), GuideWebDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, guideDetailParams);
-                    intent.putExtra(Constants.PARAMS_SOURCE, "订单列表");
+                    intent.putExtra(Constants.PARAMS_SOURCE, "行程");
                     v.getContext().startActivity(intent);
                     break;
             }
@@ -701,7 +701,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
     }
 
     private void gotoChatView(String guideId, String imChatId) {
-        NIMChatActivity.start(getContext(), guideId, imChatId,"订单列表");
+        NIMChatActivity.start(getContext(), guideId, imChatId,"行程");
     }
     /**
      * 设置聊一聊未读个数小红点
