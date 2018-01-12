@@ -37,7 +37,7 @@ public class RequestChatJudge extends BaseRequest<ChatJudgeBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40206";
+        return "40205";
     }
 
 }

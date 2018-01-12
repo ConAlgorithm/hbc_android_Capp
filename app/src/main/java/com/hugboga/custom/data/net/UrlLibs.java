@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 206
+    //current urlErrorCode 205
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -282,7 +282,7 @@ public class UrlLibs {
     public static final String API_CHOICE_COMMENTS          = "supplier/v1.0/c/index/comments";                         // 精选司导筛选条件 174
     public static final String API_CHECK_SKU                = "supplier/v2.0/c/guides/check/sku";                       // 商品下单指定司导校验 176
     public static final String API_GOODS_GUIDE_SEARCH       = "supplier/v1.0/c/search/guide?";                          // 搜索司导 178
-    public static final String API_CHAT_JUDGE               = "supplier/v1.0/c/chat/judge";                             // 根据司导和用户信息，判断当前该司导针对该用户是否可聊 206
+    public static final String API_CHAT_JUDGE               = "supplier/v1.0/c/chat/judge";                             // 根据司导和用户信息，判断当前该司导针对该用户是否可聊 205
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String UPDATE_DEVICE_INFO           = "passport/v1.0/updateDeviceInfo";                         // 更新设备信息接口144
@@ -317,8 +317,7 @@ public class UrlLibs {
     public static final String API_CAPTCHA                  = "communication/v1.0/c/voice/captcha";                     // 获取语音验证码 187
     public static final String API_PUSH_DEVICE              = "communication/v1.0/c/push/device";                       // push用户设备注册 202
     public static final String API_PUSH_DEVICE_LOGIN        = "communication/v1.0/c/push/device/login";                 // 用户设备登录 203
-    public static final String API_PUSH_DEVICE_LOGOUT       = "communication/v1.0/c/push/device/logout";                // 用户设备注销 204
-    public static final String IM_FIRST_TALKED              = "communication/v4.0/c/im/first/chat";                     //IM首次聊天蒙层判断205
+    public static final String API_PUSH_DEVICE_LOGOUT       = "communication/v1.0/c/push/device/logout";                // 用户设备注销 204F20
 
     public static final String API_SERVICE_QUESTION_LIST    = "crm/v1.0/c/advice/source";                               // 客服常见问题
     public static final String API_CREATE_TRAVEL_FORM       = "crm/v1.0/c/workorderthird/create";                       // 创建旅行意向单125

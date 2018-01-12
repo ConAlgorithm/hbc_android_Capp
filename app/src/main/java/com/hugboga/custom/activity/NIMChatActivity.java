@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,14 +34,12 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatJudgeBean;
-import com.hugboga.custom.data.bean.ImShadowBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestChatJudge;
 import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestIMOrder;
-import com.hugboga.custom.data.request.RequestImFirstChat;
 import com.hugboga.custom.data.request.RequestNIMBlackMan;
 import com.hugboga.custom.data.request.RequestNIMUnBlackMan;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -64,7 +61,6 @@ import com.hugboga.im.custom.CustomAttachment;
 import com.hugboga.im.custom.attachment.MsgOrderAttachment;
 import com.hugboga.im.custom.attachment.MsgSkuAttachment;
 import com.hugboga.im.custom.attachment.MsgTravelAttachment;
-import com.hugboga.tools.HLog;
 import com.netease.nim.uikit.business.session.constant.Extras;
 import com.netease.nim.uikit.business.session.fragment.MessageFragment;
 import com.netease.nim.uikit.support.permission.MPermission;
@@ -102,7 +98,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private String sessionId;
 
     public static void start(final Context context, String guideId, final String contactId, final String source) {
-        start(context, guideId,true, contactId, source,null);
+        start(context, guideId, true, contactId, source, null);
     }
 
     public static void start(final Context context, String guideId, boolean isCheck, final String contactId, final String source, final CustomAttachment customAttachment) {
@@ -114,7 +110,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             HttpRequestUtils.request(context, requestCars, new HttpRequestListener() {
                 @Override
                 public void onDataRequestSucceed(BaseRequest _request) {
-                    ChatJudgeBean chatJudgeBean = ((RequestChatJudge)_request).getData();
+                    ChatJudgeBean chatJudgeBean = ((RequestChatJudge) _request).getData();
                     if (chatJudgeBean.canChat) {
                         start(context, contactId, source, customAttachment);
                     } else {
@@ -131,7 +127,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                 public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
                     CommonUtils.showToast("网络异常，请重试");
                 }
-            },true);
+            }, true);
         } else {
             start(context, contactId, source, customAttachment);
         }
@@ -326,42 +322,23 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         softKeyboardStateHelper.addSoftKeyboardStateListener(new SoftKeyboardStateHelper.SoftKeyboardStateListener() {
             @Override
             public void onSoftKeyboardOpened(int keyboardHeightInPx) {
-                if (first) {
-                    RequestImFirstChat requestImFirstChat = new RequestImFirstChat(NIMChatActivity.this, UserEntity.getUser().getUserId(NIMChatActivity.this), userId);
-                    HttpRequestUtils.request(NIMChatActivity.this, requestImFirstChat, new HttpRequestListener() {
+                if (first && UserEntity.getUser().getUserId(NIMChatActivity.this) != null && !UserEntity.getUser().getUserId(NIMChatActivity.this).equals(SharedPre.getString(SharedPre.IM_THE_FIRST_TIME_CHAT, ""))
+                        ) {
+                    SharedPre.setString(SharedPre.IM_THE_FIRST_TIME_CHAT, UserEntity.getUser().getUserId(NIMChatActivity.this));
+                    imShadow.setVisibility(View.VISIBLE);
+                    imShadow.setOnTouchListener(new View.OnTouchListener() {
                         @Override
-                        public void onDataRequestSucceed(BaseRequest request) {
-                            ImShadowBean data = ((RequestImFirstChat) request).getData();
-                            if (data.firstChat == 1) {
-                                imShadow.setVisibility(View.VISIBLE);
-                                imShadow.setOnTouchListener(new View.OnTouchListener() {
-                                    @Override
-                                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                                        return true;
-                                    }
-                                });
-                                shadowButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        imShadow.setVisibility(View.GONE);
-                                    }
-                                });
-                            } else {
-                                HLog.d("NIMChatActivity.this，data.firstChat=" + data.firstChat);
-                            }
+                        public boolean onTouch(View view, MotionEvent motionEvent) {
+                            return true;
                         }
-
+                    });
+                    shadowButton.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onDataRequestCancel(BaseRequest request) {
-
+                        public void onClick(View view) {
+                            imShadow.setVisibility(View.GONE);
                         }
+                    });
 
-                        @Override
-                        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                            Log.d("MMM", "errorInfo=" + errorInfo + "  request=" + request);
-                        }
-                    }, false);
-                    first = false;
                 }
             }
 
