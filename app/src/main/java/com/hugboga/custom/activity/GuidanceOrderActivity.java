@@ -282,7 +282,7 @@ public class GuidanceOrderActivity extends BaseActivity implements ScrollViewWra
             JSONObject properties = new JSONObject();
             properties.put("hbc_refer", getIntentSource());
             properties.put("hbc_sku_type", hbcSkuType);
-            SensorsDataAPI.sharedInstance(this).track("viewIntro");
+            SensorsDataAPI.sharedInstance(this).track("viewIntro", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

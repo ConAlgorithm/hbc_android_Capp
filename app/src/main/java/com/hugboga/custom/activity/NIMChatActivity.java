@@ -304,8 +304,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             }
         });
 
-        if (SharedPre.getBoolean("im_show_tip", true)) {
-            SharedPre.setBoolean("im_show_tip", false);
+        if (!TextUtils.isEmpty(sessionId) && SharedPre.getBoolean("nim_sessionid=" + sessionId, true)) {
+            SharedPre.setBoolean("nim_sessionid=" + sessionId, false);
             IMMessage msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.P2P);
             msg.setStatus(MsgStatusEnum.success);
             msg.setContent("请您使用皇包车旅行APP和当地司导沟通，皇包车旅行只认可APP内的聊天记录");
