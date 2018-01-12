@@ -88,7 +88,7 @@
             android:layout_below="@+id/shadow_text1"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
-            android:text="请您使用皇包车APP与当地人沟通，皇包车只接"
+            android:text="请您使用皇包车APP与司导沟通，皇包车只接"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/text_size_14" />
         <TextView
