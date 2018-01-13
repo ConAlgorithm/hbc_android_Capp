@@ -698,6 +698,7 @@
     <string name="traveler_list_title">行程单</string>
     <string name="filter_sku_list_title">包车线路</string>
     <string name="guide_list_title">精选司导</string>
+    <string name="guide_list_bottom_button">找我预定</string>
     <string name="service_guide_list_title">可服务司导</string>
     <string name="choose_other_title">乘车联系人</string>
     <string name="bargain_title">邀请好友来砍价</string>
@@ -1010,7 +1011,14 @@
     <string name="city_filter_tab2">出发城市</string>
     <string name="city_filter_tab3">游玩天数</string>
 
+    <!--Guide list-->
+    <string name="guide_state_on_line">在线</string>
+    <string name="guide_state_rest">休息</string>
+    <string name="guide_state_busy">忙碌</string>
+
     <!--AI text-->
     <string name="ai_result_title">为您推荐</string>
     <string name="ai_result_sku_more_title">查看%s全部玩法</string>
+    <string name="ai_requirements">我的出去行需求</string>
+    <string name="ai_details">点击查看详情</string>
 </resources>
