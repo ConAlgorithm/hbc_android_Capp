@@ -881,7 +881,7 @@
     <string name="guide_detail_bottom_choose_guide">選TA服務</string>
     <string name="guide_detail_time">當地時間: %1$s</string>
 
-    <string name="guide_detail_contact_dialog_title">下单支付后才能聊天哦</string>
+    <string name="guide_detail_contact_dialog_title">下單支付後才能聊天哦</string>
     <string name="guide_detail_contact_dialog_content">優秀司導都在服務用戶的路上，預訂後溝通更高效~</string>
 
     <string name="destiation_search">目的地搜索</string>
@@ -1019,6 +1019,6 @@
     <!--AI text-->
     <string name="ai_result_title">為您推薦</string>
     <string name="ai_result_sku_more_title">查看%s全部玩法</string>
-    <string name="ai_requirements">我的出行需求</string>
+    <string name="ai_requirements">我的出去行需求</string>
     <string name="ai_details">點擊查看詳情</string>
 </resources>

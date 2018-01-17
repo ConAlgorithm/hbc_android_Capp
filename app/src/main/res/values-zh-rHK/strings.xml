@@ -1019,6 +1019,6 @@
     <!--AI text-->
     <string name="ai_result_title">為您推薦</string>
     <string name="ai_result_sku_more_title">查看%s全部玩法</string>
-    <string name="ai_requirements">我的出行需求</string>
+    <string name="ai_requirements">我的出去行需求</string>
     <string name="ai_details">點擊查看詳情</string>
 </resources>
