@@ -52,7 +52,6 @@ import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
@@ -288,11 +287,15 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         MLog.e("isLogin=" + UserEntity.getUser().isLogin(getActivity()));
         if (!UserEntity.getUser().isLogin(getActivity())) {
             needHttpRequest = true;
-            emptyLayout.setVisibility(View.VISIBLE);
+            if (emptyLayout != null) {
+                emptyLayout.setVisibility(View.VISIBLE);
+            }
             chatLogoutView.setLooper(true);
             chatLayout.setVisibility(View.GONE);
         } else {
-            emptyLayout.setVisibility(View.GONE);
+            if (emptyLayout != null) {
+                emptyLayout.setVisibility(View.GONE);
+            }
             chatLogoutView.setLooper(false);
             chatLayout.setVisibility(View.VISIBLE);
             sendRequest(0, true);
@@ -373,7 +376,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.putExtra("source", getEventSource());
         startActivity(intent);
-        SensorsUtils.onAppClick(getEventSource(),"登录","");
+        SensorsUtils.onAppClick(getEventSource(), "登录", "");
     }
 
     @Override
@@ -443,7 +446,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             startActivity(intent);
             SensorsUtils.onAppClick(getEventSource(), "旅行小管家", "");
         } else if (chatBean.getTargetType() == 1) {
-            SensorsUtils.onAppClick(getEventSource(),"联系司导","");
+            SensorsUtils.onAppClick(getEventSource(), "联系司导", "");
             NIMChatActivity.start(getContext(), chatBean.targetId, false, chatBean.getNeTargetId(), getEventSource(), null);
         } else {
             MLog.e("目标用户不是客服，也不是司导");

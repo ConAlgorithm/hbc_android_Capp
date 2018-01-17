@@ -208,7 +208,7 @@ public class SearchHotCity extends LinearLayout {
 
     private void addLastSingleLinear(final int row) {
         if (cityList != null && cityList.size() > 0 && row < cityList.size()) {
-            ConstraintLayout view = (ConstraintLayout) inflater.inflate(R.layout.query_hot_search_item, null, false);
+            ConstraintLayout view = (ConstraintLayout) inflater.inflate(R.layout.hot_search_textview, null, false);
             TextView text1 = (TextView) view.findViewById(R.id.text1);
             text1.setText(getName(row, cityList.get(row).flag));
             text1.setOnClickListener(new OnClickListener() {
