@@ -49,7 +49,7 @@ public class CityUtils {
      *
      * @param groupId
      */
-    public static List<CityBean> requestHotDate(Activity activity, int groupId,int cityId, String from) {
+    public static List<CityBean> requestHotDate(Activity activity, int groupId, int cityId, String from) {
         List<CityBean> sourceDateList = new ArrayList<CityBean>();//全部城市数据
         DbManager mDbManager = new DBHelper(activity).getDbManager();
         Selector selector = null;
@@ -65,7 +65,7 @@ public class CityUtils {
         } else {
             selector.and("group_id", "=", groupId);
         }
-        if (("lastCity".equals(from) || ChooseCityActivity.GROUP_OUTTOWN.equals(from)) && cityId != -1){
+        if (("lastCity".equals(from) || ChooseCityActivity.GROUP_OUTTOWN.equals(from)) && cityId != -1) {
             selector.and("city_id", "<>", cityId);
         }
 
@@ -104,7 +104,7 @@ public class CityUtils {
             cityBean = hotCitys.get(i);
             if (i == (size - 1) || i == 19) {
                 stringBuffer.append(cityBean.name);
-                if(i == 19) {
+                if (i == 19) {
                     stringBuffer.append("等");
                     return stringBuffer.toString();
                 }
@@ -171,7 +171,7 @@ public class CityUtils {
                 List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
                 if (modelList != null && modelList.size() > 0) {
                     final int listsize = modelList.size();
-                    for (int modelindex = 0; modelindex <listsize; modelindex++) {
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
                         DbModel model = modelList.get(modelindex);
                         if (model != null) {
                             LineGroupBean searchGroupBean = new LineGroupBean();
@@ -206,7 +206,7 @@ public class CityUtils {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select * from line_group where parent_type=2 and parent_id=" + sub_place_id +" order by hot_weight desc";
+            String sql = "select * from line_group where parent_type=2 and parent_id=" + sub_place_id + " order by hot_weight desc";
 
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
@@ -216,7 +216,7 @@ public class CityUtils {
                 List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
                 if (modelList != null && modelList.size() > 0) {
                     int listsize = modelList.size();
-                    for (int modelindex = 0; modelindex <listsize; modelindex++) {
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
                         DbModel model = modelList.get(modelindex);
                         if (model != null) {
                             LineGroupBean searchGroupBean = new LineGroupBean();
@@ -265,12 +265,12 @@ public class CityUtils {
     }
 
 
-//搜索一级线路下面的line
-    public static List<SearchGroupBean> getLevel1Line(Activity activity,String parent_id){
+    //搜索一级线路下面的line
+    public static List<SearchGroupBean> getLevel1Line(Activity activity, String parent_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select * from line_group where parent_id="+parent_id;
+            String sql = "select * from line_group where parent_id=" + parent_id;
 
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
@@ -280,7 +280,7 @@ public class CityUtils {
                 List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
                 if (modelList != null && modelList.size() > 0) {
                     final int listsize = modelList.size();
-                    for (int modelindex = 0; modelindex <listsize; modelindex++) {
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
                         DbModel model = modelList.get(modelindex);
                         if (model != null) {
                             LineGroupBean searchGroupBean = new LineGroupBean();
@@ -318,22 +318,22 @@ public class CityUtils {
             List<SearchGroupBean> lineList = getLevel1Line(activity, bean.group_id + "");
 
             if (null != lineList && lineList.size() > 0) {
-                if(lineList.size() >= max_line_num){
-                    for(int i = 0;i< max_line_num;i++){
+                if (lineList.size() >= max_line_num) {
+                    for (int i = 0; i < max_line_num; i++) {
                         list.add(lineList.get(i));
                     }
-                }else {
+                } else {
                     list.addAll(lineList);
                 }
             }
 
             List<SearchGroupBean> level2List = getType1City(activity, bean.group_id);
-            if(list.size() < max_line_num) {
+            if (list.size() < max_line_num) {
                 if (null != level2List && level2List.size() > 0) {
                     int hasSize = list.size();
-                    if((max_line_num - hasSize) > level2List.size()){
+                    if ((max_line_num - hasSize) > level2List.size()) {
                         list.addAll(level2List);
-                    }else {
+                    } else {
                         for (int i = 0; i < max_line_num - hasSize; i++) {
                             list.add(level2List.get(i));
                         }
@@ -363,11 +363,11 @@ public class CityUtils {
                 cityListTmp.addAll(type3List);
             }
 
-            if(cityListTmp.size() > max_city_num){
-                for(int i =0;i< max_city_num;i++){
+            if (cityListTmp.size() > max_city_num) {
+                for (int i = 0; i < max_city_num; i++) {
                     cityList.add(cityListTmp.get(i));
                 }
-            }else{
+            } else {
                 cityList.addAll(cityListTmp);
             }
 
@@ -385,12 +385,12 @@ public class CityUtils {
             List<SearchGroupBean> lineList = getCountrySearch(activity, bean.sub_place_id);
             List<SearchGroupBean> lineListTmp = new ArrayList<>();
 
-            if(lineList.size() < max_line_num) {
+            if (lineList.size() < max_line_num) {
                 if (null != lineList && lineList.size() > 0) {
                     int hasSize = list.size();
-                    if((max_line_num - hasSize) > lineList.size()){
+                    if ((max_line_num - hasSize) > lineList.size()) {
                         lineListTmp.addAll(lineList);
-                    }else {
+                    } else {
                         for (int i = 0; i < max_line_num - hasSize; i++) {
                             lineListTmp.add(lineList.get(i));
                         }
@@ -408,17 +408,15 @@ public class CityUtils {
             }
 
 
-
-
             List<SearchGroupBean> cityList = getType4City(activity, bean.sub_place_id);
             List<SearchGroupBean> cityListTmp = new ArrayList<>();
 
             if (null != cityList && cityList.size() > 0) {
-                if(cityList.size() > max_city_num){
-                    for(int i = 0;i< max_city_num;i++){
+                if (cityList.size() > max_city_num) {
+                    for (int i = 0; i < max_city_num; i++) {
                         cityListTmp.add(cityList.get(i));
                     }
-                }else{
+                } else {
                     cityListTmp.addAll(cityList);
                 }
 
@@ -555,7 +553,7 @@ public class CityUtils {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select * from line_group where parent_type=1 and parent_id="+group_id+" order by hot_weight";
+            String sql = "select * from line_group where parent_type=1 and parent_id=" + group_id + " order by hot_weight";
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
 
@@ -604,7 +602,7 @@ public class CityUtils {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select * from line_group_item where type=2 and group_id="+group_id +" and sub_place_name != '中国' and sub_place_name != '中国大陆' order by hot_weight desc";
+            String sql = "select * from line_group_item where type=2 and group_id=" + group_id + " and sub_place_name != '中国' and sub_place_name != '中国大陆' order by hot_weight desc";
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
 
@@ -654,7 +652,7 @@ public class CityUtils {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select * from line_group_item where type=3 and group_id="+group_id;
+            String sql = "select * from line_group_item where type=3 and group_id=" + group_id;
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
 
@@ -701,16 +699,13 @@ public class CityUtils {
     }
 
 
-
-
-
     //    -- 城市
 //    select * from line_group_item where type=3 and group_id=#{选择的组ID};
     public static List<SearchGroupBean> getType3City(Activity activity, int group_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select gi.* from line_group_item as gi join city on(gi.sub_city_id=city.city_id) where gi.type=3 and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) and gi.group_id="+group_id+" and gi.sub_place_name!='中国' AND gi.sub_place_name!='中国大陆' order by gi.hot_weight desc";
+            String sql = "select gi.* from line_group_item as gi join city on(gi.sub_city_id=city.city_id) where gi.type=3 and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) and gi.group_id=" + group_id + " and gi.sub_place_name!='中国' AND gi.sub_place_name!='中国大陆' order by gi.hot_weight desc";
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
 
@@ -926,7 +921,7 @@ public class CityUtils {
         } else {
 
             if (list.size() > 10) {
-                for (int i = 0; i < (list.size() -10); i++) {
+                for (int i = 0; i < (list.size() - 10); i++) {
                     list.remove(i);
                 }
             }
@@ -961,7 +956,7 @@ public class CityUtils {
                             list.remove(i);
                         }
                     }
-                }else if(searchGroupBean.flag == 1){//1,线路
+                } else if (searchGroupBean.flag == 1) {//1,线路
                     if (searchGroupBean.group_id == list.get(i).group_id && TextUtils.isEmpty(list.get(i).sub_city_name) && TextUtils.isEmpty(list.get(i).sub_place_name)) {
                         list.remove(i);
                     }
@@ -1055,7 +1050,7 @@ public class CityUtils {
                 List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
                 if (modelList != null && modelList.size() > 0) {
                     final int listsize = modelList.size();
-                    for (int modelindex = 0; modelindex <listsize; modelindex++) {
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
                         DbModel model = modelList.get(modelindex);
                         if (model != null) {
                             CityBean searchGroupBean = new CityBean();
@@ -1214,50 +1209,49 @@ public class CityUtils {
     public static List<SearchGroupBean> search(Activity activity, String key) {
         List<SearchGroupBean> list = new ArrayList<>();
 
-        List<SearchGroupBean> cityList = searchCity(activity, key);
         List<SearchGroupBean> lineList = searchLine(activity, key);
         List<SearchGroupBean> countryList = searchCountry(activity, key);
+        List<SearchGroupBean> cityList = searchCity(activity, key);
 
-        List<SearchGroupBean> firstCityList = new ArrayList<>();
         List<SearchGroupBean> firstLineList = new ArrayList<>();
         List<SearchGroupBean> firstCountryList = new ArrayList<>();
+        List<SearchGroupBean> firstCityList = new ArrayList<>();
 
-        List<SearchGroupBean> afterCityList = new ArrayList<>();
         List<SearchGroupBean> afterLineList = new ArrayList<>();
         List<SearchGroupBean> afterCountryList = new ArrayList<>();
+        List<SearchGroupBean> afterCityList = new ArrayList<>();
+
         //找到首个匹配内容
-        for(int i= 0;i<cityList.size();i++){
-            String leftName = CityUtils.getShowName(cityList.get(i));
-            if(leftName.startsWith(key)){
-                firstCityList.add(cityList.get(i));
-            }else{
-                afterCityList.add(cityList.get(i));
-            }
-        }
-        for(int j= 0;j<lineList.size();j++){
+        for (int j = 0; j < lineList.size(); j++) {
             String leftName = CityUtils.getShowName(lineList.get(j));
-            if(leftName.startsWith(key)){
+            if (leftName.startsWith(key)) {
                 firstLineList.add(lineList.get(j));
-            }else{
+            } else {
                 afterLineList.add(lineList.get(j));
             }
         }
-        for(int k=0;k<countryList.size();k++){
+        for (int k = 0; k < countryList.size(); k++) {
             String leftName = CityUtils.getShowName(countryList.get(k));
-            if(leftName.startsWith(key)){
+            if (leftName.startsWith(key)) {
                 firstCountryList.add(countryList.get(k));
-            }else {
+            } else {
                 afterCountryList.add(countryList.get(k));
             }
         }
-
-        list.addAll(firstCityList);
-        list.addAll(firstCountryList);
-        list.addAll(firstLineList);
-
-        list.addAll(afterCityList);
-        list.addAll(afterCountryList);
-        list.addAll(afterLineList);
+        for (int i = 0; i < cityList.size(); i++) {
+            String leftName = CityUtils.getShowName(cityList.get(i));
+            if (leftName.startsWith(key)) {
+                firstCityList.add(cityList.get(i));
+            } else {
+                afterCityList.add(cityList.get(i));
+            }
+        }
+        list.addAll(firstLineList); //添加首字母匹配线路圈
+        list.addAll(afterLineList); //添加非首字母匹配线路圈
+        list.addAll(firstCountryList); //添加首字母匹配国家
+        list.addAll(afterCountryList); //添加非首字母匹配国家
+        list.addAll(firstCityList); //添加首字母匹配城市
+        list.addAll(afterCityList); //添加非首字母匹配城市
         return list;
     }
 
@@ -1274,11 +1268,11 @@ public class CityUtils {
     }
 
 
-    public static LineGroupBean getLineGroupBean(Activity activity,String place_id){
+    public static LineGroupBean getLineGroupBean(Activity activity, String place_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select * from line_group_item where sub_place_id="+place_id;
+            String sql = "select * from line_group_item where sub_place_id=" + place_id;
 
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);

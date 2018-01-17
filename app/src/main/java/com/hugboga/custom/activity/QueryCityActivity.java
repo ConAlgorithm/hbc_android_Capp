@@ -185,7 +185,7 @@ public class QueryCityActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String searchStr = headSearch.getText().toString();
+                String searchStr = headSearch.getText().toString().trim();
                 if (searchHistoryView != null) {
                     searchHistoryView.searchText(searchStr);
                 }

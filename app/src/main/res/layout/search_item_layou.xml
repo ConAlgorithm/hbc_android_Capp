@@ -1,50 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
-    android:gravity="center_vertical"
     android:layout_height="50dp"
     android:background="@color/allbg_white"
-    android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+    android:gravity="center_vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/search_location"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"/>
 
-        <TextView
-            android:id="@+id/left_name"
-            android:textSize="14sp"
-            android:textColor="#000000"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="大阪"/>
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/search_location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/left_name"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/right_name"
-            android:textSize="12sp"
-            android:textColor="#7f7f7f"
-            android:layout_marginLeft="5dp"
-            android:gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="日本"/>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/left_name"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center_vertical"
+        android:text="大阪"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/right_name"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:gravity="center_vertical"
+        android:text="日本"
+        android:textColor="#7f7f7f"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/left_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:src="@mipmap/item_menu_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <View
-        android:layout_width="match_parent"
+        android:id="@+id/view3"
+        android:layout_width="0dp"
         android:layout_height="0.5dp"
-        android:layout_gravity="bottom"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
         android:background="#dbdbdb"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
-</LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+</android.support.constraint.ConstraintLayout>
