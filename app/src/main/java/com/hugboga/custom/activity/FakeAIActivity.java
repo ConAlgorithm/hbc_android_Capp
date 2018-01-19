@@ -225,6 +225,9 @@ public class FakeAIActivity extends BaseActivity {
             if (dataList.askDuoDuoSessionID != null) {
                 info.askDuoDuoSessionID = dataList.askDuoDuoSessionID;
             }
+            if(dataList.questionId!=null){
+                info.questionId = dataList.questionId;
+            }
             if (dataList.userSaidList != null) {
                 info.userSaidList = dataList.userSaidList;
             }
