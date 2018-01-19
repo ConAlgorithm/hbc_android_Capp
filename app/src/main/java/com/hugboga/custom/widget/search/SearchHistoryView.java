@@ -236,6 +236,16 @@ public class SearchHistoryView extends LinearLayout {
         searchHistoryFirstList.setLayoutManager(layoutManager);
         searchHistoryFirstList.setHasFixedSize(true);
         searchHistoryFirstList.setAdapter(searchAdapter);
+        searchHistoryFirstList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                //滑动页面则关闭键盘
+                if (dy != 0) {
+                    mActivity.removeQuery();
+                }
+            }
+        });
     }
 
     public void initSearchAfterAdapter() {
@@ -253,6 +263,7 @@ public class SearchHistoryView extends LinearLayout {
                 //滑动页面则关闭键盘
                 if (dy != 0) {
                     mActivity.hideSoftInput();
+                    mActivity.removeQuery();
                 }
             }
         });

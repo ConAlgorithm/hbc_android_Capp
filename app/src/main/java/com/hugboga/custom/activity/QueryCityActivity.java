@@ -40,7 +40,6 @@ import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.QueryHotCity;
 import com.hugboga.custom.widget.search.SearchHistoryView;
 import com.hugboga.custom.widget.search.SearchShortcut;
-import com.hugboga.tools.HLog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -234,6 +233,13 @@ public class QueryCityActivity extends BaseActivity {
         if (searchStr.length() >= QUERY_TXT_LENGTH_LIMIT) {
             queryHander.postDelayed(queryRunnable, QUERY_DELAY_MILLIS);
         }
+    }
+
+    /**
+     * 移除自动搜索
+     */
+    public void removeQuery() {
+        queryHander.removeCallbacks(queryRunnable);
     }
 
     /**
