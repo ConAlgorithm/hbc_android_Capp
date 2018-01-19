@@ -213,14 +213,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (guidesDetailData != null) {
             Intent intent = new Intent(this, ChooseGuideCityActivity.class);
             intent.putExtra(Constants.PARAMS_ID, guidesDetailData.guideId);
-            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+            intent.putExtra(Constants.PARAMS_SOURCE, getReferH5EventSource(getEventSource()));
             startActivity(intent);
         } else {
             Bundle bundle = new Bundle();
             bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.PARAM_TYPE_START);
             bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
             bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterFirstStepActivity.TAG);
-            bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
+            bundle.putString(Constants.PARAMS_SOURCE, getReferH5EventSource(getEventSource()));
             Intent intent = new Intent(this, ChooseCityActivity.class);
             intent.putExtra("fromInterCity", true);
             intent.putExtras(bundle);

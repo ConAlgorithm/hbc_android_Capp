@@ -54,7 +54,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
+import static android.os.Build.*;
 import static android.view.View.GONE;
+import static android.view.View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS;
 
 /**
  * Created by on 16/8/3.
@@ -228,6 +230,15 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
     boolean fromDaily = false;//包车选城市
     private void initView() {
+
+        /* java.lang.IllegalStateException
+         * Handling non empty state of parent class is not implemented
+         * https://github.com/emilsjolander/StickyListHeaders/issues/477
+         */
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            mListview.setImportantForAutofill(IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
+        }
+
 //        setProgressState(0);
         fromDaily = this.getIntent().getBooleanExtra("fromDaily",false);
         if (fromDaily) {

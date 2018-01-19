@@ -707,7 +707,7 @@
     <string name="choice_comment_title">游客说</string>
     <string name="choose_air_title">选择航班</string>
     <string name="choose_city_new_hint">请输入目的地名称</string>
-    <string name="query_city_input_hint">搜索目的地、司导、线路</string>
+    <string name="query_city_input_hint">搜索目的地、司导、玩法</string>
     <string name="search_line_title">相关线路</string>
     <string name="search_guide_title">相关司导</string>
     <string name="search_destination_head_hint">搜索目的地、司导、线路</string>
@@ -746,7 +746,7 @@
     <string name="choose_city_gps_dialog">没有开启GPS定位,请到设置里开启</string>
 
     <string name="destination_network_available">当前网络不可用</string>
-    <string name="destination_search_title">搜索国家或城市</string>
+    <string name="destination_search_title">搜索目的地，司导，玩法</string>
     <string name="destination_network_retry">似乎与网络断开，点击屏幕重试</string>
 
     <string name="send_check_airport_hint">请先选择机场</string>
@@ -911,6 +911,7 @@
     <string name="home_goodes_type1">已认证</string>
     <string name="home_goodes_type2">活动</string>
     <string name="home_goodes_type3">广告</string>
+    <string name="home_goodes_type4">精选</string>
     <string name="home_goodes_price">¥%1$s起/人</string>
     <string name="home_book">立即预订</string>
     <string name="home_goodes_price_car">¥%1$s起/车</string>

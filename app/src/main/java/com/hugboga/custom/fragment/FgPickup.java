@@ -238,6 +238,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("flightBean",flightBean);
                 intent.putExtra("flightBean",bundle);
+                intent.putExtra(Constants.PARAMS_SOURCE, getReferH5EventSource());
                 getActivity().startActivity(intent);
                 break;
             case R.id.pickup_city_layout:
@@ -245,7 +246,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                     CommonUtils.showToast(R.string.pick_flight);
                 } else {
                     intent = new Intent(getActivity(), PoiSearchActivity.class);
-                    intent.putExtra(Constants.REQUEST_SOURCE, getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, getReferH5EventSource());
                     intent.putExtra(PoiSearchActivity.KEY_CITY_ID, flightBean.arrCityId);
                     intent.putExtra(PoiSearchActivity.KEY_LOCATION, flightBean.arrLocation);
                     intent.putExtra(PoiSearchActivity.PARAM_BUSINESS_TYPE, ORDER_TYPE);
@@ -654,6 +655,15 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     @Override
     public String getEventSource() {
         return "接机";
+    }
+
+    public String getReferH5EventSource() {
+        String eventSource = getEventSource();
+        if (getContext() instanceof PickSendActivity) {
+            return ((PickSendActivity)getContext()).getReferH5EventSource(eventSource);
+        } else {
+            return eventSource;
+        }
     }
 
     @Override

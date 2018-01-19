@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +53,8 @@ import butterknife.OnClick;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.hugboga.custom.constants.Constants.QUERY_DELAY_MILLIS;
+import static com.hugboga.custom.constants.Constants.QUERY_TXT_LENGTH_LIMIT;
 
 public class QueryCityActivity extends BaseActivity {
 
@@ -185,11 +188,12 @@ public class QueryCityActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String searchStr = headSearch.getText().toString();
+                String searchStr = headSearch.getText().toString().trim();
                 if (searchHistoryView != null) {
                     searchHistoryView.searchText(searchStr);
                 }
                 headSearchClean.setVisibility(TextUtils.isEmpty(searchStr) ? View.GONE : View.VISIBLE);
+                startQueryForTxtChange(searchStr); //进入触发搜索流程
             }
         });
 
@@ -200,10 +204,7 @@ public class QueryCityActivity extends BaseActivity {
                     switch (keyEvent.getAction()) {
                         case KeyEvent.ACTION_DOWN:
                             hideInputMethod(headSearch);
-                            if (searchHistoryView != null) {
-                                String searchStr = headSearch.getText().toString().trim();
-                                searchHistoryView.showResultQuery(searchStr);
-                            }
+                            startQuery();
                             break;
                     }
                     return true;
@@ -211,6 +212,44 @@ public class QueryCityActivity extends BaseActivity {
                 return false;
             }
         });
+    }
+
+    Handler queryHander = new Handler();
+    Runnable queryRunnable = new Runnable() {
+        @Override
+        public void run() {
+//            HLog.d("满足字符大于等于2并且等待了1s，开始执行搜索任务");
+            startQuery();
+        }
+    };
+
+    /**
+     * 触发搜索流程
+     *
+     * @param searchStr
+     */
+    private void startQueryForTxtChange(String searchStr) {
+        queryHander.removeCallbacks(queryRunnable);
+        if (searchStr.length() >= QUERY_TXT_LENGTH_LIMIT) {
+            queryHander.postDelayed(queryRunnable, QUERY_DELAY_MILLIS);
+        }
+    }
+
+    /**
+     * 移除自动搜索
+     */
+    public void removeQuery() {
+        queryHander.removeCallbacks(queryRunnable);
+    }
+
+    /**
+     * 开始进行搜索
+     */
+    private void startQuery() {
+        if (searchHistoryView != null) {
+            String searchStr = headSearch.getText().toString().trim();
+            searchHistoryView.showResultQuery(searchStr);
+        }
     }
 
     public void initView() {

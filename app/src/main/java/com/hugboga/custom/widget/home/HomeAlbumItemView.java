@@ -66,7 +66,6 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
     TextView descTV;
 
     private HomeBean.AlbumBean albumBean;
-    private ErrorHandler errorHandler;
 
     public HomeAlbumItemView(Context context) {
         this(context, null);
@@ -137,7 +136,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
 
     @OnClick(R.id.home_album_collect_iv)
     public void onClickCollect() {
-        SensorsUtils.onAppClick("首页", "收藏线路", "");
+        SensorsUtils.onAppClick("首页", "收藏", "");
         if (CommonUtils.isLogin(getContext(), getEventSource())) {
             collectIV.setEnabled(false);
             collectIV.setSelected(!collectIV.isSelected());

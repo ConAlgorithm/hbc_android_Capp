@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/destination_search_title"
+                android:text="@string/query_city_input_hint"
                 android:textColor="#ff929292"
                 android:textSize="14sp" />
         </LinearLayout>

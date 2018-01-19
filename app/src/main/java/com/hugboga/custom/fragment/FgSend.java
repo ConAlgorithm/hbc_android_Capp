@@ -252,7 +252,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 if (guidesDetailData != null) {
                     intent.putExtra(ChooseAirPortActivity.KEY_CITY_ID, guidesDetailData.cityId);
                 }
-                intent.putExtra(Constants.REQUEST_SOURCE, getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getReferH5EventSource());
                 getActivity().startActivity(intent);
                 SensorsUtils.onAppClick(getEventSource(), "送达机场", source);
                 break;
@@ -261,7 +261,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                     CommonUtils.showToast(R.string.send_check_airport_hint);
                 } else {
                     intent = new Intent(getActivity(), PoiSearchActivity.class);
-                    intent.putExtra(Constants.REQUEST_SOURCE, getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(PoiSearchActivity.KEY_CITY_ID, airPortBean.cityId);
                     intent.putExtra(PoiSearchActivity.KEY_LOCATION, airPortBean.location);
                     intent.putExtra(PoiSearchActivity.PARAM_BUSINESS_TYPE, ORDER_TYPE);
@@ -599,6 +599,15 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     @Override
     public String getEventSource() {
         return "送机";
+    }
+
+    public String getReferH5EventSource() {
+        String eventSource = getEventSource();
+        if (getContext() instanceof PickSendActivity) {
+            return ((PickSendActivity)getContext()).getReferH5EventSource(eventSource);
+        } else {
+            return eventSource;
+        }
     }
 
     @Override

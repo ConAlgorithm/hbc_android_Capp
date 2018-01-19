@@ -13,7 +13,7 @@ public class CollectionHelper {
 
     private WeakReference<Context> weakReference;
 
-    private static CollectionHelper instance;
+    private static volatile CollectionHelper instance;
 
     private CollectionLine collectionLine; //收藏线路
     private CollectionGuide collectionGuide; //收藏司导

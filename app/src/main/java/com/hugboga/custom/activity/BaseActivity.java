@@ -147,6 +147,14 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         return intentSource;
     }
 
+    public String getReferH5EventSource(String eventSource) {
+        intentSource = getIntentSource();
+        if (!TextUtils.isEmpty(intentSource) && (intentSource.contains("http") || intentSource.contains("HTTP"))) {
+            return intentSource;
+        }
+        return eventSource;
+    }
+
     protected void initDefaultTitleBar() {
         fgTitle = (TextView) findViewById(R.id.header_title);
         fgLeftBtn = findViewById(R.id.header_left_btn);

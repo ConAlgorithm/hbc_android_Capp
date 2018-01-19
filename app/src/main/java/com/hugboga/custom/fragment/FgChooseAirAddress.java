@@ -556,6 +556,7 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
 
     public void setGuidanceLayout() {
         if (getContext() instanceof PickSendActivity) {
+            setSensorsBuyFlightEvent();
             PickSendActivity.Params params = ((PickSendActivity) getContext()).getParams();
             if (params == null || params.guidesDetailData != null) {
                 guidanceLayout.setVisibility(View.GONE);
@@ -577,7 +578,6 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
                 }
                 guidanceLayout.setData(cityId, cityName);
             }
-            setSensorsBuyFlightEvent();
         }
     }
 

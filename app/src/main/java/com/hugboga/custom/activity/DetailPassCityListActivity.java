@@ -50,6 +50,7 @@ public class DetailPassCityListActivity extends Activity {
 
         if (orderBean == null || orderBean.passByCity == null) {
             finish();
+            return;
         }
 
         titleTV.setText(CommonUtils.getString(R.string.order_detail_item_travel) + orderBean.orderIndex);
