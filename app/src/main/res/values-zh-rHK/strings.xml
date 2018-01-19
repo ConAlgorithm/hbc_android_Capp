@@ -707,7 +707,7 @@
     <string name="choice_comment_title">游客說</string>
     <string name="choose_air_title">選擇航班</string>
     <string name="choose_city_new_hint">請輸入目的地名稱</string>
-    <string name="query_city_input_hint">搜索目的地、司導、線路</string>
+    <string name="query_city_input_hint">搜索目的地、司導、玩法</string>
     <string name="search_line_title">相關線路</string>
     <string name="search_guide_title">相關司導</string>
     <string name="search_destination_head_hint">搜索目的地、司導、線路</string>
