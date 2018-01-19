@@ -746,7 +746,7 @@
     <string name="choose_city_gps_dialog">沒有開啟GPS定位,請到設置里開啟</string>
 
     <string name="destination_network_available">當前網絡不可用</string>
-    <string name="destination_search_title">搜索國家或城市</string>
+    <string name="destination_search_title">搜索目的地，司導，玩法</string>
     <string name="destination_network_retry">似乎與網絡斷開，點擊屏幕重試</string>
 
     <string name="send_check_airport_hint">請先選擇機場</string>
@@ -911,6 +911,7 @@
     <string name="home_goodes_type1">已認證</string>
     <string name="home_goodes_type2">活動</string>
     <string name="home_goodes_type3">廣告</string>
+    <string name="home_goodes_type4">精選</string>
     <string name="home_goodes_price">¥%1$s起/人</string>
     <string name="home_book">立即預訂</string>
     <string name="home_goodes_price_car">¥%1$s起/車</string>

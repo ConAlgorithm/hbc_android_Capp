@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -57,6 +58,10 @@ public class FgHome extends BaseFragment {
     RecyclerView homeRecyclerView;
     @BindView(R.id.homed_titlebar_ai_iv)
     ImageView titlebarAiIV;
+    @BindView(R.id.home_titlebar_search_hint_tv)
+    TextView searchHintTV;
+    @BindView(R.id.home_titlebar_search_bottom_line)
+    View searchBottomLineView;
 
     HomeRefreshHeader homeRefreshHeader;
 
@@ -159,13 +164,23 @@ public class FgHome extends BaseFragment {
                     float progress = ((scrollY - (bannerHeight - region)) / region);
                     homeAdapter.homeAiModel.homeAIView.setProgress(progress);
                     titlebarAiIV.setVisibility(View.GONE);
+                    searchHintTV.setVisibility(View.VISIBLE);
+                    searchBottomLineView.setVisibility(View.VISIBLE);
+                    searchHintTV.setTextColor(UIUtils.getColorWithAlpha(1 - progress,0xFF929292));
+                    searchBottomLineView.setBackgroundColor(UIUtils.getColorWithAlpha(1 - progress,0xFFE6E6E6));
                 } else if (firstVisibleItemPosition > 1) {
                     titlebarAiIV.setVisibility(View.VISIBLE);
+                    searchHintTV.setVisibility(View.GONE);
+                    searchBottomLineView.setVisibility(View.GONE);
                 } else {
                     titlebarAiIV.setVisibility(View.GONE);
                 }
                 if (firstVisibleItemPosition == 0 && scrollY < bannerHeight - region - UIUtils.dip2px(20)) {
                     homeAdapter.homeAiModel.homeAIView.setProgress(0);
+                    searchHintTV.setVisibility(View.VISIBLE);
+                    searchBottomLineView.setVisibility(View.VISIBLE);
+                    searchHintTV.setTextColor(0xFF929292);
+                    searchBottomLineView.setBackgroundColor(0xFFE6E6E6);
                 }
             }
 
@@ -243,7 +258,7 @@ public class FgHome extends BaseFragment {
         requestData(requestHome);
     }
 
-    @OnClick({R.id.homed_titlebar_search_iv})
+    @OnClick({R.id.homed_titlebar_search_iv, R.id.home_titlebar_search_hint_tv})
     public void intentSearchActivity() {
         Intent intent = new Intent(this.getContext(), QueryCityActivity.class);
         intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
