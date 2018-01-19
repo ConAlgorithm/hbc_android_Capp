@@ -236,7 +236,7 @@ public class FakeAIActivity extends BaseActivity {
             if (dataList.serviceTypeReqList != null) {
                 Message message = handler.obtainMessage();
                 message.obj = dataList.serviceTypeReqList;
-                handler.sendMessageDelayed(message, 200);
+                handler.sendMessageDelayed(message, 150);
             }
 
         } else if (request instanceof RequestFakeAIChange) {
