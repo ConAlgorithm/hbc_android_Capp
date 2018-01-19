@@ -18,6 +18,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -25,6 +26,7 @@ import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FakeAIAdapter;
+import com.hugboga.custom.data.bean.ai.ServiceType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.qiyukf.unicorn.api.ProductDetail;
@@ -56,6 +58,7 @@ import butterknife.OnClick;
 import tk.hongbo.label.adapter.FilterAdapter;
 
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT;
+import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT_TITLE;
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT_TO_SERVICE;
 
 /**
@@ -102,26 +105,20 @@ public class FakeAIActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        info = new AiRequestInfo();
-        info.distinctId = SensorsDataAPI.sharedInstance(FakeAIActivity.this).getAnonymousId();
         initView();
         requestHotSearch();
     }
 
     private void initView() {
         headerTitleCenter.setText(R.string.fake_ai_head);
+        info = new AiRequestInfo();
+        info.distinctId = SensorsDataAPI.sharedInstance(FakeAIActivity.this).getAnonymousId();
         fakeAIAdapter = new FakeAIAdapter();
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(fakeAIAdapter);
-        //第一次点击输入EditText时调用
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-            }
-        });
-        //点击了退出软件盘调用。。。没效果
+        //点击了退出软件盘调用
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -150,7 +147,7 @@ public class FakeAIActivity extends BaseActivity {
 
     public void fakeData(List hotDestinationReqList) {
 
-        if (hotDestinationReqList.size() > 0) {
+        if (hotDestinationReqList != null && hotDestinationReqList.size() > 0) {
             addScrollViewItem(hotDestinationReqList);
         }
     }
@@ -236,8 +233,15 @@ public class FakeAIActivity extends BaseActivity {
                 fakeData(dataList.hotDestinationReqList);
                 initServiceMessage(dataList.duoDuoSaid);
             }
+            if (dataList.serviceTypeReqList != null) {
+                Message message = handler.obtainMessage();
+                message.obj = dataList.serviceTypeReqList;
+                handler.sendMessageDelayed(message, 200);
+            }
+
         } else if (request instanceof RequestFakeAIChange) {
             FakeAIQuestionsBean data = ((RequestFakeAIChange) request).getData();
+            fakeAIAdapter.settingCardClick(true);
             if (data.recommendationDestinationHome != null) {
                 //有推荐结果
                 initServiceMessage(data.duoDuoSaid);
@@ -245,7 +249,7 @@ public class FakeAIActivity extends BaseActivity {
                 message.obj = data;
                 handler.sendMessageDelayed(message, 2000);
             } else {
-
+                info.setData(data);
                 if (data.customServiceStatus != null) {
                     skipDialogue(data.customServiceStatus);
                 } else if (data.durationReqList != null && data.durationReqList.size() != 0) {
@@ -258,31 +262,20 @@ public class FakeAIActivity extends BaseActivity {
                     fakeData(data.hotDestinationReqList);
                 }
                 if (data.userSaidList != null) {
-                    info.userSaidList = data.userSaidList;
                     strings.clear();
                     for (int i = 0; i < data.userSaidList.size(); i++) {
                         strings.add(data.userSaidList.get(i).saidContent);
                     }
                 }
-                if (data.regardsList != null) {
-                    info.regardsList = data.regardsList;
-                }
-                if (data.chooseDestinationId != null) {
-                    info.destinationId = data.chooseDestinationId;
-                }
-                if (data.chooseDestinationType != null) {
-                    info.destinationType = data.chooseDestinationType;
-                }
-                if (data.chooseDurationId != null) {
-                    info.durationOptId = data.chooseDurationId;
-                }
-                if (data.chooseAccompanyId != null) {
-                    info.accompanyOptId = data.chooseAccompanyId;
-                }
                 if (data.customServiceId != null) {
                     customServiceId = data.customServiceId;
                 }
-
+                if ("1".equals(data.chooseServiceTypeOption)) {
+                    Message message = handler.obtainMessage();
+                    message.obj = data.chooseServiceTypeList;
+                    handler.sendMessage(message);
+                    fakeAIAdapter.clearWaitView();
+                }
                 initServiceMessage(data.duoDuoSaid);
             }
         }
@@ -315,32 +308,24 @@ public class FakeAIActivity extends BaseActivity {
             if (msg.obj instanceof FakeAIQuestionsBean) {
                 Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
                 DestinationHomeVo destinationHomeVo = (DestinationHomeVo) ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome;
-                if (destinationHomeVo.destinationGoodsList != null && destinationHomeVo.destinationGoodsList.size() > 3) {
-                    List<DestinationGoodsVo> destinationGoodsList = new ArrayList<DestinationGoodsVo>();
-
-                    for (int i = 0; i < destinationHomeVo.destinationGoodsList.size(); i++) {
-                        if (i >= 3) {
-                            break;
-                        } else {
-                            destinationGoodsList.add(destinationHomeVo.destinationGoodsList.get(i));
-                        }
-                    }
-                    destinationHomeVo.destinationGoodsList = null;
-                    destinationHomeVo.destinationGoodsList = destinationGoodsList;
-                }
-
+                String recommendationInfo = ((FakeAIQuestionsBean) msg.obj).recommendationGoodsInfo;
                 intent.putExtra(KEY_AI_RESULT, destinationHomeVo);
+                intent.putExtra(KEY_AI_RESULT_TITLE, recommendationInfo);
                 intent.putExtra(KEY_AI_RESULT_TO_SERVICE, getParams());
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 finish();
+            } else if (msg.obj instanceof List) {
+                List<ServiceType> serviceTypes = (List) msg.obj;
+                fakeAIAdapter.addServerCard(serviceTypes);
+            } else if (msg.obj instanceof DuoDuoSaid) {
+                fakeAIAdapter.addServerMessage(((DuoDuoSaid) msg.obj).questionValue);
             }
             recyclerView.scrollToPosition(fakeAIAdapter.getItemCount() - 1);
         }
     };
 
-    class BuildMessageTask extends AsyncTask<Object, Object, DuoDuoSaid> {
-
+    class BuildMessageTask extends AsyncTask<Object, DuoDuoSaid, DuoDuoSaid> {
         @Override
         protected DuoDuoSaid doInBackground(Object[] objects) {
             if (objects.length == 0) {
@@ -348,8 +333,12 @@ public class FakeAIActivity extends BaseActivity {
             }
             List<DuoDuoSaid> duoDuoSaid = (List<DuoDuoSaid>) objects[0];
             for (DuoDuoSaid bean : duoDuoSaid) {
-                fakeAIAdapter.addServerMessage(bean.questionValue);
-                handler.sendEmptyMessage(0);
+                Message message = handler.obtainMessage();
+                message.obj = bean;
+                handler.sendMessage(message);
+                if (bean.questionId != null) {
+                    info.questionId = bean.questionId;
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -362,9 +351,6 @@ public class FakeAIActivity extends BaseActivity {
         @Override
         protected void onPostExecute(DuoDuoSaid o) {
             super.onPostExecute(o);
-            if (o.questionId != null) {
-                info.questionId = o.questionId;
-            }
             editTextExist();
         }
     }
@@ -441,6 +427,14 @@ public class FakeAIActivity extends BaseActivity {
 
     }
 
+    /**
+     * 点击包车玩法卡片
+     */
+    public void clickCharteredBus() {
+        editTextOver();
+        info.serviceTypeId = "3";
+        requestSelf(null, null);
+    }
 
     private void skipDialogue(String str) {
         String buttonContent;
@@ -479,7 +473,7 @@ public class FakeAIActivity extends BaseActivity {
         if (!TextUtils.isEmpty(str)) {
             info.userWant = str;
         }
-
+        fakeAIAdapter.settingCardClick(false);
         RequestFakeAIChange requsetFakeAIChange = new RequestFakeAIChange(this, info);
         HttpRequestUtils.request(this, requsetFakeAIChange, this, false);
     }

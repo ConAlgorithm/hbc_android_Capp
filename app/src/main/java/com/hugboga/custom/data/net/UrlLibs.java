@@ -203,8 +203,8 @@ public class UrlLibs {
     public static final String API_EPOS_SMS_SEND            = "trade/v1.0/c/epos/verifycodereceive";                    // 易宝获取验证码 191
     public static final String API_EPOS_SMS_VERIFY          = "trade/v1.0/c/epos/verifysale";                           // 易宝短信验证 192
     public static final String API_EPOS_BIND_LIST           = "trade/v1.0/c/epos/bindlist";                             // 国内信用卡绑定列表  193
-    public static final String API_IP_FAKE_AI_GET           = "trade/v1.0/c/ai/askready?";                              // AI数据GET  197
-    public static final String API_IP_FAKE_AI_POST          = "trade/v1.0/c/ai/askDuoDuo?";                             // AI数据POST 196
+    public static final String API_IP_FAKE_AI_GET           = "trade/v1.1/c/ai/askready?";                              // AI数据GET  197
+    public static final String API_IP_FAKE_AI_POST          = "trade/v1.1/c/ai/askDuoDuo?";                             // AI数据POST 196
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机

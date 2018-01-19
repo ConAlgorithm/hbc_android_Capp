@@ -1,10 +1,16 @@
 package com.hugboga.custom.models;
 
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2017/12/2.
@@ -12,6 +18,8 @@ import com.hugboga.custom.R;
 
 public class FakeAIItemOneModel extends EpoxyModel<RelativeLayout> {
 
+    @BindView(R.id.fake_item1_text)
+    TextView fakeItem1Text;
     private String fakeAIBean;
 
     @Override
@@ -22,8 +30,24 @@ public class FakeAIItemOneModel extends EpoxyModel<RelativeLayout> {
     @Override
     public void bind(RelativeLayout view) {
         super.bind(view);
-        TextView textView = (TextView) view.findViewById(R.id.fake_item1_text);
-        textView.setText(fakeAIBean);
+        ButterKnife.bind(this, view);
+        if (fakeAIBean != null) {
+            fakeItem1Text.setText(fakeAIBean);
+        }
+        fakeItem1Text.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        fakeItem1Text.setSelected(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        fakeItem1Text.setSelected(false);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     public void setData(String fakeAIBean) {

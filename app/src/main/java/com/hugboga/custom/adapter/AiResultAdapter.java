@@ -25,7 +25,7 @@ public class AiResultAdapter extends SkuAdapter {
         super(mContext);
     }
 
-    public void showAiResult(DestinationHomeVo vo, UnicornServiceActivity.Params params) {
+    public void showAiResult(DestinationHomeVo vo, UnicornServiceActivity.Params params, String destinationTitle) {
         this.data = vo;
         //快速了解目的地,添加广告条，新手指引
         if (vo.beginnerDirection != null) {
@@ -34,7 +34,7 @@ public class AiResultAdapter extends SkuAdapter {
         }
         // 按照您的行程旅行小管家建议,添加推荐玩法结果
         if (vo.destinationGoodsList != null && vo.destinationGoodsList.size() > 0) {
-            addModel(new AiResultTitleModel(mContext.getString(R.string.ai_result_banner_title_sku)));
+            addModel(new AiResultTitleModel(destinationTitle == null ? mContext.getString(R.string.ai_result_banner_title_sku) : destinationTitle));
             addGoods(vo.destinationGoodsList);
             // 添加查看全部玩法Banner
             addModel(new AiResultSkuMoreModel(mContext, vo));

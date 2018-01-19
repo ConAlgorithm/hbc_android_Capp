@@ -16,6 +16,7 @@ import butterknife.OnClick;
 public class AiResultActivity extends BaseActivity {
 
     public static final String KEY_AI_RESULT = "key_ai_result";
+    public static final String KEY_AI_RESULT_TITLE = "key_ai_result_title";
     public static final String KEY_AI_RESULT_TO_SERVICE = "key_ai_result_two";
 
     @BindView(R.id.header_title_center)
@@ -25,6 +26,7 @@ public class AiResultActivity extends BaseActivity {
 
     AiResultAdapter adapter;
     public DestinationHomeVo destinationHomeVo; //推荐结果显示
+    public String destinationTitle; //推荐结果标题
     public UnicornServiceActivity.Params params;
 
     @Override
@@ -43,6 +45,7 @@ public class AiResultActivity extends BaseActivity {
             Bundle bundle = this.getIntent().getExtras();
             if (bundle != null) {
                 destinationHomeVo = bundle.getParcelable(KEY_AI_RESULT);
+                destinationTitle = bundle.getParcelable(KEY_AI_RESULT_TITLE);
                 params = (UnicornServiceActivity.Params) bundle.getSerializable(KEY_AI_RESULT_TO_SERVICE);
             }
         }
@@ -51,7 +54,7 @@ public class AiResultActivity extends BaseActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new AiResultAdapter(this);
         recyclerView.setAdapter(adapter);
-        adapter.showAiResult(destinationHomeVo, params);
+        adapter.showAiResult(destinationHomeVo, params, destinationTitle);
     }
 
     @Override

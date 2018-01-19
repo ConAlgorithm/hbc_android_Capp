@@ -70,11 +70,7 @@ public class AiTagView extends FrameLayout {
                 type = AIGETDATA_ACCOMPANY;
             }
         }
-
-
         ai_tag_layout_title.setText(bean.destinationName);
-
-
     }
 
     public FakeAIArrayBean getBean() {
