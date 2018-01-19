@@ -25,7 +25,28 @@
                 android:layout_marginLeft="@dimen/home_margin_left"
                 android:scaleType="centerCrop"
                 android:background="@mipmap/home_hbc_logo_icon" />
-
+            <TextView
+                android:id="@+id/home_titlebar_search_hint_tv"
+                android:layout_toRightOf="@id/home_titlebar_app_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:text="@string/destination_search_title"
+                android:textColor="#ff929292"
+                android:textSize="14sp" />
+            <View
+                android:id="@+id/home_titlebar_search_bottom_line"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_line_height"
+                android:layout_marginTop="2dp"
+                android:layout_alignLeft="@id/home_titlebar_search_hint_tv"
+                android:layout_below="@id/home_titlebar_search_hint_tv"
+                android:layout_marginRight="14dp"
+                android:background="#e6e6e6"
+                />
             <ImageView
                 android:id="@+id/homed_titlebar_search_iv"
                 android:layout_width="40dp"

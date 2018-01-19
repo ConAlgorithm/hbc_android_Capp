@@ -77,9 +77,21 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
         Resources resources = getContext().getResources();
         bannerBean = (HomeBean.BannerBean) _data;
         Tools.showImage(desplayIV, bannerBean.bannerPicture);
-        if (bannerBean.bannerType == 1 || bannerBean.bannerType == 3) {//1活动、3广告
+        if (bannerBean.bannerType == 1 || bannerBean.bannerType == 3 || bannerBean.bannerType == 4) {//1活动、3广告、4精选
             titleTV.setText(bannerBean.bannerName);
-            typeTV.setText(resources.getString(bannerBean.bannerType == 1 ? R.string.home_goodes_type2 : R.string.home_goodes_type3));
+            int typeStringId = 0;
+            switch (bannerBean.bannerType) {
+                case 1:
+                    typeStringId = R.string.home_goodes_type2;
+                    break;
+                case 3:
+                    typeStringId = R.string.home_goodes_type3;
+                    break;
+                case 4:
+                    typeStringId = R.string.home_goodes_type4;
+                    break;
+            }
+            typeTV.setText(resources.getString(typeStringId));
             typeTV.setBackgroundColor(getContext().getResources().getColor(R.color.default_yellow));
             guideNameTV.setVisibility(GONE);
             descTV.setVisibility(View.GONE);
@@ -123,20 +135,17 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
                     Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(WebInfoActivity.WEB_URL, bannerBean.bannerAddress);
-                    if (bannerBean.bannerType == 1) {
-                        //活动需要增加分享查询参数
-                        intent.putExtra(WebInfoActivity.WEB_SHARE_BTN, true);
-                        intent.putExtra(WebInfoActivity.WEB_SHARE_NO, String.valueOf(bannerBean.bannerSettingId));
-                    }
+
+                    //增加分享查询参数
+                    intent.putExtra(WebInfoActivity.WEB_SHARE_BTN, true);
+                    intent.putExtra(WebInfoActivity.WEB_SHARE_NO, String.valueOf(bannerBean.bannerSettingId));
+
                     v.getContext().startActivity(intent);
                 }
             } else {
                 ActionController actionFactory = ActionController.getInstance();
                 bannerBean.pushScheme.source = getEventSource();
-                if (bannerBean.bannerType == 1) {
-                    //活动需要增加分享查询参数
-                    bannerBean.pushScheme.exam = getActionExam(bannerBean);
-                }
+                bannerBean.pushScheme.exam = getActionExam(bannerBean);//增加分享查询参数
                 actionFactory.doAction(getContext(), bannerBean.pushScheme);
             }
         }

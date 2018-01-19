@@ -66,7 +66,6 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
     TextView descTV;
 
     private HomeBean.AlbumBean albumBean;
-    private ErrorHandler errorHandler;
 
     public HomeAlbumItemView(Context context) {
         this(context, null);

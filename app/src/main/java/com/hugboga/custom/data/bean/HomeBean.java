@@ -37,6 +37,7 @@ public class HomeBean implements Serializable {
         public String aliasName;
         public String guideId;
         public String sequence; //本地序列
+        public String showName;
 
         public String getGuideName() {
             if (!TextUtils.isEmpty(guideName)) {
@@ -48,7 +49,9 @@ public class HomeBean implements Serializable {
         }
 
         public String getGoodsName() {
-            if (!TextUtils.isEmpty(aliasName)) {
+            if (!TextUtils.isEmpty(showName)) {
+                return showName;
+            } else if (!TextUtils.isEmpty(aliasName)) {
                 return aliasName;
             } else if (!TextUtils.isEmpty(bannerName)) {
                 return bannerName;
