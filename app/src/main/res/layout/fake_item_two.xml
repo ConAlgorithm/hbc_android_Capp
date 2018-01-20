@@ -10,7 +10,7 @@
         android:layout_alignParentRight="true"
         android:layout_gravity="center"
         android:layout_marginLeft="100dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="6dp"
         android:background="@drawable/ai_user_backgrund"
         android:maxWidth="400dp"
         android:paddingBottom="18dp"

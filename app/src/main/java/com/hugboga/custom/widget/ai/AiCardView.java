@@ -38,7 +38,6 @@ public class AiCardView extends FrameLayout implements View.OnClickListener {
         this(context, null);
     }
 
-
     public AiCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         View view = inflate(context, R.layout.fake_item_card_item, this);

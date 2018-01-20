@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="105dp"
-    android:layout_marginTop="13dp"
-    android:layout_marginLeft="13dp"
-    android:layout_marginBottom="13dp"
-    android:layout_height="150dp"
-    android:background="@drawable/shape_fake_ai_item_card"
-    android:elevation="5dp">
+    android:layout_height="140dp"
+    android:background="@drawable/ai_dav"
+    >
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="11dp"
         android:src="@mipmap/search_aeroplane_icon"
          />
 
@@ -23,11 +20,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="推荐包车玩法"
         android:textColor="@color/black"
-        android:textSize="12.5sp" />
+        android:textSize="11.5sp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -35,8 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
-        android:text="按您的要求智能推荐"
-        android:textSize="10.5sp" />
+        android:text="按要求智能推荐"
+        android:textSize="9sp" />
 </RelativeLayout>
