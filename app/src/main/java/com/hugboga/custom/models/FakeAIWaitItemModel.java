@@ -1,3 +1,4 @@
+
 package com.hugboga.custom.models;
 
 import android.content.Context;
@@ -27,10 +28,22 @@ public class FakeAIWaitItemModel extends EpoxyModel<RelativeLayout> {
     ImageView aiWaitImage2;
     @BindView(R.id.ai_wait_image3)
     ImageView aiWaitImage3;
-    ImageView[] imageViews;
-    public FakeAIWaitItemModel() {
+    ImageView imageViews[];
+    boolean aBoolean = false;
+    int count = 1;
 
-    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (aBoolean && msg.what == 1) {
+                return;
+            }
+            upData();
+            aBoolean = true;
+        }
+    };
 
     protected int getDefaultLayout() {
         return R.layout.fake_item_wait;
@@ -40,8 +53,34 @@ public class FakeAIWaitItemModel extends EpoxyModel<RelativeLayout> {
     public void bind(RelativeLayout view) {
         super.bind(view);
         ButterKnife.bind(this, view);
+        initView();
     }
 
+    private void initView() {
+        ImageView[] imageViews = {aiWaitImage1, aiWaitImage2, aiWaitImage3};
+        this.imageViews = imageViews;
+        handler.sendEmptyMessage(1);
+    }
+
+    private void upData() {
+        for (int i = 0; i < imageViews.length; i++) {
+            if (count % imageViews.length == i) {
+                imageViews[i].setImageResource(R.mipmap.ai_wait_icon_one);
+            } else {
+                imageViews[i].setImageResource(R.mipmap.ai_wait_icon_two);
+            }
+
+        }
+        count++;
+        handler.sendEmptyMessageDelayed(2, 100);
+    }
+
+    @Override
+    public EpoxyModel<RelativeLayout> reset() {
+        aBoolean = false;
+        handler = null;
+        return super.reset();
+    }
 }
 
 
