@@ -14,6 +14,7 @@ import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.data.bean.ai.ServiceType;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.IntentUtils;
 
 import butterknife.BindView;
@@ -87,10 +88,12 @@ public class AiCardView extends FrameLayout implements View.OnClickListener {
             case "1":
                 IntentUtils.intentPickupActivity(getContext(), getEventSource());
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_J);
+                SensorsUtils.onAppClick(getEventSource(),"接送机",((FakeAIActivity) getContext()).getIntentSource());
                 break;
             case "4":
                 IntentUtils.intentSingleActivity(getContext(), getEventSource());
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_C);
+                SensorsUtils.onAppClick(getEventSource(),"单次接送",((FakeAIActivity) getContext()).getIntentSource());
                 break;
         }
 

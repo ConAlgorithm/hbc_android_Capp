@@ -419,6 +419,7 @@ public class FakeAIActivity extends BaseActivity {
      * 点击包车玩法卡片
      */
     public void clickCharteredBus() {
+        SensorsUtils.onAppClick(getEventSource(),"推荐包车玩法",getIntentSource());
         editTextOver();
         info.serviceTypeId = "3";
         requestSelf(null, null);
