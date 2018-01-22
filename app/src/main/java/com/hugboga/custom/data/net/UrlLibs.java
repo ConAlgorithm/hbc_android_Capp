@@ -206,16 +206,16 @@ public class UrlLibs {
     public static final String API_IP_FAKE_AI_GET           = "trade/v1.1/c/ai/askready?";                              // AI数据GET  197
     public static final String API_IP_FAKE_AI_POST          = "trade/v1.1/c/ai/askDuoDuo?";                             // AI数据POST 196
 
-    public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
-    public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机
-    public static final String GET_CAR_INFOS                = "price/v1.3/c/dailyPrice?";                               // 查询价格 日租包车
-    public static final String SERVER_IP_PRICE_SINGLE       = "price/v1.1/c/singlePrice?";                              // 查询价格 单次用车
-    public static final String SERVER_IP_PRICE_SKU          = "price/v1.2/c/goodsPrice?";                               // 查询价格 SKU
+    public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.5/c/airportPickupPrice?";                       // 查询价格 接机
+    public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.5/c/airportTransferPrice?";                     // 查询价格 送机
+    public static final String GET_CAR_INFOS                = "price/v1.3/c/dailyPrice?";                               // 废弃 查询价格 日租包车
+    public static final String SERVER_IP_PRICE_SINGLE       = "price/v1.5/c/singlePrice?";                              // 查询价格 单次用车
+    public static final String SERVER_IP_PRICE_SKU          = "price/v1.5/c/goodsPrice?";                               // 查询价格 SKU
     public static final String SERVER_IP_AIRPORT            = "price/v1.0/c/airports?";                                 // 机场 暂时不用，使用DB
     public static final String API_CAR_MAX_CAPACITY         = "price/v1.0/c/car/max/capacity";                          // 可服务车型最大可乘坐人数 118
     public static final String API_CAR_MAX_CAPACITY_SECKILLS= "price/v1.1/c/car/max/capacity";                          // 秒杀可服务车型最大可乘坐人数 166
     public static final String API_CITY_ROUTE               = "price/v1.0/c/queryCityRoute";                            // 查询城市行程  119
-    public static final String API_BATCH_PRICE              = "price/v1.6/c/batchPrice";                                // 组合单报价  121
+    public static final String API_BATCH_PRICE              = "price/v1.7/c/batchPrice";                                // 组合单报价  121
     public static final String API_BATCH_PRICE_CONTAINSFEE  = "price/v1.0/c/batchPriceContainsFee";                     // 组合单费用包含详细 180
 
 
