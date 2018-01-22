@@ -18,47 +18,34 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FakeAIAdapter;
 import com.hugboga.custom.data.bean.ai.ServiceType;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.qiyukf.unicorn.api.ProductDetail;
-import com.qiyukf.unicorn.api.ProductDetail.Builder;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.ServiceQuestionBean;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.ai.AiRequestInfo;
 import com.hugboga.custom.data.bean.ai.DuoDuoSaid;
 import com.hugboga.custom.data.bean.ai.FakeAIArrayBean;
 import com.hugboga.custom.data.bean.ai.FakeAIBean;
 import com.hugboga.custom.data.bean.ai.FakeAIQuestionsBean;
-import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.request.RaquestFakeAI;
 import com.hugboga.custom.data.request.RequestFakeAIChange;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ai.AiTagView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import tk.hongbo.label.adapter.FilterAdapter;
-
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT;
-import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT_TITLE;
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT_TO_SERVICE;
 
 /**
@@ -311,9 +298,7 @@ public class FakeAIActivity extends BaseActivity {
             if (msg.obj instanceof FakeAIQuestionsBean) {
                 Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
                 DestinationHomeVo destinationHomeVo = (DestinationHomeVo) ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome;
-                String recommendationInfo = ((FakeAIQuestionsBean) msg.obj).recommendationGoodsInfo;
                 intent.putExtra(KEY_AI_RESULT, destinationHomeVo);
-                intent.putExtra(KEY_AI_RESULT_TITLE, recommendationInfo);
                 intent.putExtra(KEY_AI_RESULT_TO_SERVICE, getParams());
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
@@ -434,6 +419,7 @@ public class FakeAIActivity extends BaseActivity {
      * 点击包车玩法卡片
      */
     public void clickCharteredBus() {
+        SensorsUtils.onAppClick(getEventSource(),"推荐包车玩法",getIntentSource());
         editTextOver();
         info.serviceTypeId = "3";
         requestSelf(null, null);

@@ -74,7 +74,6 @@ public class IntentUtils {
             intent.putExtra(Constants.PARAMS_DATA, params);
             intent.putExtra(Constants.PARAMS_SOURCE, source);
             context.startActivity(intent);
-            SensorsUtils.onAppClick(source,"单次接送","");
         }
         SensorsUtils.setSensorsBuyViewEvent("单次", source, guideId);
     }

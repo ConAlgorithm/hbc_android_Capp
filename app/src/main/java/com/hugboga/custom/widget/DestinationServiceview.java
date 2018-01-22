@@ -14,6 +14,7 @@ import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.IntentUtils;
 
 import butterknife.ButterKnife;
@@ -23,7 +24,7 @@ import butterknife.OnClick;
  * Created by zhangqiang on 17/7/12.
  */
 
-public class DestinationServiceview extends LinearLayout implements HbcViewBehavior{
+public class DestinationServiceview extends LinearLayout implements HbcViewBehavior {
 
 
     public DestinationServiceview(Context context) {
@@ -40,20 +41,23 @@ public class DestinationServiceview extends LinearLayout implements HbcViewBehav
         super(context, attrs, defStyleAttr);
     }
 
-    @OnClick({R.id.picksend_id,R.id.single_id,R.id.day_service})
+    @OnClick({R.id.picksend_id, R.id.single_id, R.id.day_service})
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.picksend_id:
                 IntentUtils.intentPickupActivity(getContext(), getEventSource());
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_J);
+                SensorsUtils.onAppClick(getEventSource(), "接机", "");
                 break;
             case R.id.single_id:
                 IntentUtils.intentSingleActivity(getContext(), getEventSource());
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_C);
+                SensorsUtils.onAppClick(getEventSource(), "单次接送", "");
                 break;
             case R.id.day_service:
                 IntentUtils.intentCharterActivity(getContext(), getEventSource());
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_DETAIL_R);
+                SensorsUtils.onAppClick(getEventSource(), "按天包车游", "");
                 break;
         }
 
@@ -63,6 +67,7 @@ public class DestinationServiceview extends LinearLayout implements HbcViewBehav
     public void update(Object _data) {
 
     }
+
     public String getEventSource() {
         return "目的地";
     }

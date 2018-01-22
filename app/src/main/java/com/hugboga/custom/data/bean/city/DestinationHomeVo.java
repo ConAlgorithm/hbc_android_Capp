@@ -19,6 +19,7 @@ public class DestinationHomeVo implements Parcelable {
     public int destinationGoodsCount;  //目的地关联玩法数量
     public int destinationAssociateGuideCount;  //目的地关联司导数量
     public int destinationServiceGuideCount;   //目的地服务司导数量
+    public String recommendationGoodsInfo; //推荐线路标题
     public BeginnerDirectionVo beginnerDirection;  //新手入门
     public List<DayCountVo> dayCountList;  //游玩天数列表
     public List<DestinationTagGroupVo> destinationTagGroupList;  //目的地标签列表
@@ -34,6 +35,7 @@ public class DestinationHomeVo implements Parcelable {
         destinationGoodsCount = in.readInt();
         destinationAssociateGuideCount = in.readInt();
         destinationServiceGuideCount = in.readInt();
+        recommendationGoodsInfo = in.readString();
         beginnerDirection = in.readParcelable(BeginnerDirectionVo.class.getClassLoader());
         dayCountList = in.createTypedArrayList(DayCountVo.CREATOR);
         destinationTagGroupList = in.createTypedArrayList(DestinationTagGroupVo.CREATOR);
@@ -51,12 +53,14 @@ public class DestinationHomeVo implements Parcelable {
         dest.writeInt(destinationGoodsCount);
         dest.writeInt(destinationAssociateGuideCount);
         dest.writeInt(destinationServiceGuideCount);
+        dest.writeString(recommendationGoodsInfo);
         dest.writeParcelable(beginnerDirection, flags);
         dest.writeTypedList(dayCountList);
         dest.writeTypedList(destinationTagGroupList);
         dest.writeTypedList(depCityList);
         dest.writeTypedList(destinationGoodsList);
         dest.writeTypedList(serviceConfigList);
+
     }
 
     @Override

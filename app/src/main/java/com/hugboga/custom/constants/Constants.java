@@ -155,7 +155,7 @@ public final class Constants {
      * Query目的地搜索部分
      */
     public static final int QUERY_TXT_LENGTH_LIMIT = 2; //目的地搜索部分输入字符自动搜索阈值
-    public static final long QUERY_DELAY_MILLIS = 1000; //目的地搜索部分输入字符后延迟搜索时长
+    public static final long QUERY_DELAY_MILLIS = 300; //目的地搜索部分输入字符后延迟搜索时长
 
 
     static {

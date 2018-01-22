@@ -96,6 +96,9 @@ public class QueryCityActivity extends BaseActivity {
 
     boolean isFromTravelPurposeForm = false;
 
+    private String searchStr; //上一次输入的字符用于对比
+    boolean tagInput = false; //判断内容是否标签输入
+
     @Override
     public String getEventId() {
         return StatisticConstant.SEARCH_LAUNCH;
@@ -188,7 +191,12 @@ public class QueryCityActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String searchStr = headSearch.getText().toString().trim();
+                String str = headSearch.getText().toString().trim();
+                if (TextUtils.equals(str, searchStr) || tagInput) {
+                    tagInput = false;
+                    return;
+                }
+                searchStr = str;
                 if (searchHistoryView != null) {
                     searchHistoryView.searchText(searchStr);
                 }
@@ -247,6 +255,7 @@ public class QueryCityActivity extends BaseActivity {
      */
     private void startQuery() {
         if (searchHistoryView != null) {
+            removeQuery();
             String searchStr = headSearch.getText().toString().trim();
             searchHistoryView.showResultQuery(searchStr);
         }
@@ -484,6 +493,7 @@ public class QueryCityActivity extends BaseActivity {
     }
 
     public void hideSoft(String searchStr) {
+        tagInput = true;
         headSearch.setText(searchStr);
         hideInputMethod(headSearch);
     }
