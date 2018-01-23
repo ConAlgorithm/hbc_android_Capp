@@ -4,11 +4,15 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyHolder;
+import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.FakeAIActivity;
+import com.hugboga.custom.adapter.FakeAIAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,14 +22,12 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2017/12/2.
  */
 
-public class FakeAIItemTwoModel extends EpoxyModelWithHolder<FakeAIItemTwoModel.ChatMessageVH> {
+public class FakeAIItemTwoModel extends EpoxyModel<RelativeLayout> implements FakeAIAdapter.ChatItemInterface {
 
-    String fakeStr; //内容
-
-
-    public FakeAIItemTwoModel(String fakeStr) {
-        this.fakeStr = fakeStr;
-    }
+    @BindView(R.id.fake_item2_text)
+    AppCompatTextView textView;
+    private String fakeStr; //内容
+    private boolean isPress = false;
 
     @Override
     protected int getDefaultLayout() {
@@ -33,23 +35,21 @@ public class FakeAIItemTwoModel extends EpoxyModelWithHolder<FakeAIItemTwoModel.
     }
 
     @Override
-    protected ChatMessageVH createNewHolder() {
-        return new ChatMessageVH();
-    }
-
-    @Override
-    public void bind(final ChatMessageVH holder) {
-        super.bind(holder);
-        holder.textView.setText(fakeStr);
-        holder.textView.setOnTouchListener(new View.OnTouchListener() {
+    public void bind(RelativeLayout view) {
+        super.bind(view);
+        ButterKnife.bind(this, view);
+        textView.setText(fakeStr);
+        textView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        holder.textView.setSelected(true);
+                        isPress = true;
+                        textView.setSelected(true);
                         break;
                     case MotionEvent.ACTION_UP:
-                        holder.textView.setSelected(false);
+                        isPress = false;
+                        textView.setSelected(false);
                         break;
                 }
                 return false;
@@ -57,14 +57,16 @@ public class FakeAIItemTwoModel extends EpoxyModelWithHolder<FakeAIItemTwoModel.
         });
     }
 
-    class ChatMessageVH extends EpoxyHolder {
-
-        @BindView(R.id.fake_item2_text)
-        AppCompatTextView textView;
-
-        @Override
-        protected void bindView(View itemView) {
-            ButterKnife.bind(this, itemView);
+    @Override
+    public void clearFocus() {
+        if (textView != null && isPress) {
+            textView.setSelected(false);
+            isPress = false;
         }
     }
+
+    public FakeAIItemTwoModel(String fakeStr) {
+        this.fakeStr = fakeStr;
+    }
+
 }

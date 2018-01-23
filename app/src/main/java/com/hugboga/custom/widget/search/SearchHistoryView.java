@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.QueryCityActivity;
 import com.hugboga.custom.adapter.SearchAdapter;
@@ -58,6 +57,7 @@ public class SearchHistoryView extends LinearLayout {
     SearchAfterAdapter searchAfterAdapter;
 
     QueryCityActivity mActivity;
+    boolean stopQequest = false;
 
     public SearchHistoryView(Context context) {
         this(context, null);
@@ -119,6 +119,10 @@ public class SearchHistoryView extends LinearLayout {
     }
 
     public void showMoreQuery(String searchStr) {
+        if (stopQequest) {
+            stopQequest = false;
+            return;
+        }
         showAfterUI(searchStr);
         if (!TextUtils.isEmpty(searchStr)) {
             SearchUtils.addCityHistorySearch(searchStr);
@@ -222,6 +226,7 @@ public class SearchHistoryView extends LinearLayout {
      * @param keyword
      */
     public void addAfterSearchDestinationModel(List<SearchGroupBean> list, String keyword) {
+
         if (searchHistoryAfterList.getChildCount() > 0) {
             searchHistoryAfterList.removeAllViews();
         }
@@ -238,13 +243,24 @@ public class SearchHistoryView extends LinearLayout {
         searchHistoryFirstList.setAdapter(searchAdapter);
         searchHistoryFirstList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                //滑动页面则关闭键盘
-                if (dy != 0) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    mActivity.hideSoftInput();
                     mActivity.removeQuery();
+                    stopQequest = true;
                 }
             }
+
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                //滑动页面则关闭键盘
+//                if (dy != 0) {
+//                    mActivity.hideSoftInput();
+//                    mActivity.removeQuery();
+//                }
+//            }
         });
     }
 
@@ -257,6 +273,14 @@ public class SearchHistoryView extends LinearLayout {
         searchHistoryAfterList.setHasFixedSize(true);
         searchHistoryAfterList.setAdapter(searchAfterAdapter);
         searchHistoryAfterList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    mActivity.hideSoftInput();
+                }
+            }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);

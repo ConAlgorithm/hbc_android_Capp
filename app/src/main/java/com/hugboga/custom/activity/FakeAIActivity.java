@@ -41,10 +41,13 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ai.AiTagView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT;
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT_TO_SERVICE;
 
@@ -83,6 +86,7 @@ public class FakeAIActivity extends BaseActivity {
     private int buttonType; //判断客服状态
     private ArrayList<String> strings = new ArrayList<String>();//传递给客服的客户对话
     private String customServiceId;
+    private boolean isSkipService = false; //判断是否展示过底部Button
 
     @Override
     public int getContentViewId() {
@@ -105,6 +109,13 @@ public class FakeAIActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(fakeAIAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                fakeAIAdapter.clearMessageBackground();
+            }
+        });
         //点击了退出软件盘调用
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -129,7 +140,6 @@ public class FakeAIActivity extends BaseActivity {
                 return true;
             }
         });
-
     }
 
     public void fakeData(List hotDestinationReqList) {
@@ -212,7 +222,7 @@ public class FakeAIActivity extends BaseActivity {
             if (dataList.askDuoDuoSessionID != null) {
                 info.askDuoDuoSessionID = dataList.askDuoDuoSessionID;
             }
-            if(dataList.questionId!=null){
+            if (dataList.questionId != null) {
                 info.questionId = dataList.questionId;
             }
             if (dataList.userSaidList != null) {
@@ -367,7 +377,7 @@ public class FakeAIActivity extends BaseActivity {
             });
             scrollViewLinearLayout.addView(view);
         }
-
+        continueDialogue();
     }
 
     private void scrollViewButtonClick(FakeAIArrayBean bean, int type) {
@@ -419,7 +429,7 @@ public class FakeAIActivity extends BaseActivity {
      * 点击包车玩法卡片
      */
     public void clickCharteredBus() {
-        SensorsUtils.onAppClick(getEventSource(),"推荐包车玩法",getIntentSource());
+        SensorsUtils.onAppClick(getEventSource(), "推荐包车玩法", getIntentSource());
         editTextOver();
         info.serviceTypeId = "3";
         requestSelf(null, null);
@@ -437,7 +447,15 @@ public class FakeAIActivity extends BaseActivity {
         button.setVisibility(View.VISIBLE);
         fakeAIAdapter.clearWaitView();
         handler.sendEmptyMessageDelayed(1, 200);
+        isSkipService = true;
+    }
 
+    private void continueDialogue() {
+        if (isSkipService) {
+            editText.setVisibility(View.VISIBLE);
+            button.setVisibility(View.GONE);
+            isSkipService = false;
+        }
     }
 
     /**
