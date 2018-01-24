@@ -112,7 +112,6 @@ public class SkuOrderBottomView extends LinearLayout {
         }
     }
 
-
     public void setHintData(int orderType, boolean isGuides, boolean isSeckills, int reconfirmFlag, String reconfirmTip) {
         this.orderType = orderType;
         this.isGuides = isGuides;
@@ -141,21 +140,21 @@ public class SkuOrderBottomView extends LinearLayout {
 
         boolean isDaily = orderType == 3 || orderType == 888 || orderType == 5 || orderType == 6;
 
-        if (isSeckills) {
+        if (isSeckills) {//秒杀
             if (isDaily) {
                 showText = hint2;
             } else {
                 showText = null;
             }
         } else {
-            if (reconfirmFlag == 1 && !TextUtils.isEmpty(reconfirmTip)) {
+            if (reconfirmFlag == 1 && !TextUtils.isEmpty(reconfirmTip)) {//二次确认订单
                 showText = reconfirmTip;
                 bgColor = 0xFFF56363;
-            } else if (isGuides) {
+            } else if (isGuides) {//指定司导
                 showText = isShowHint1 ? hint1 : null;
-            } else if (isDaily) {
+            } else if (isDaily) {//包车
                 showText = hint2;
-            } else {
+            } else {//接送次
                 showText = isShowHint1 ? hint1 : null;
             }
         }
