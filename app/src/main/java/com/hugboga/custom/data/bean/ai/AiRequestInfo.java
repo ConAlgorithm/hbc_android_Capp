@@ -20,8 +20,8 @@ public class AiRequestInfo {
     public String accompanyOptId;
     public String userWant;
     public String distinctId;
-    public List<UserSaid> regardsList;
-    public List<UserSaid> userSaidList;
+    public Object regardsList;
+    public Object userSaidList;
     public String questionId;
     public String askDuoDuoSessionID;
 

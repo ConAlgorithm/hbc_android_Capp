@@ -35,7 +35,6 @@ public class UnicornServiceActivity extends BaseActivity {
         public OrderBean orderBean;
         public SkuItemBean skuItemBean;
         public ServiceQuestionBean.QuestionItem questionItem;
-        public String aiChatRecords;
         public int groupId;
         public ProductDetail productDetail;
     }
@@ -64,10 +63,6 @@ public class UnicornServiceActivity extends BaseActivity {
         fgTitle.setText(R.string.unicorn_service_title);
 
         ArrayList<UnicornUtils.ServiceUserInfo> extraList = new ArrayList<>();
-        if (!TextUtils.isEmpty(params.aiChatRecords)) {
-            extraList.add(new UnicornUtils.ServiceUserInfo("chatRecords", "与AI对话记录",  params.aiChatRecords));
-        }
-
         ProductDetail productDetail = null;
         switch (params.sourceType) {
             case SourceType.TYPE_CHARTERED:

@@ -15,7 +15,7 @@ public class FakeAIBean {
     @SerializedName("DuoDuoSaid")
     public List<DuoDuoSaid> duoDuoSaid;
     public List<ServiceType> serviceTypeReqList;
-    public List<UserSaid> userSaidList;
+    public Object userSaidList;
     public List<FakeAIArrayBean> hotDestinationReqList;
     public List<String> hiList;
 }
