@@ -195,14 +195,15 @@ public class QueryCityActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {
                 String str = headSearch.getText().toString().trim();
                 imageClean.setVisibility(TextUtils.isEmpty(str) ? View.GONE : View.VISIBLE);
-                if (searchHistoryView != null) {
-                    searchHistoryView.searchText(str);
-                }
-                if (TextUtils.equals(str, searchStr) || tagInput || str == null) {
+
+                if (TextUtils.equals(str, searchStr) || tagInput ) {
                     tagInput = false;
                     return;
                 }
                 searchStr = str;
+                if (searchHistoryView != null) {
+                    searchHistoryView.searchText(searchStr);
+                }
                 startQueryForTxtChange(searchStr); //进入触发搜索流程
             }
         });
