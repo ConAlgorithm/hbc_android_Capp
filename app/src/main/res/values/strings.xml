@@ -922,14 +922,12 @@
 
     <string name="guidance_pickup">接机</string>
     <string name="guidance_send">送机</string>
-    <string name="guidance_pickup_hint_title">您的航班号？</string>
-    <string name="guidance_pickup_hint_subtitle">请输入航班号，如CA167</string>
-    <string name="guidance_send_hint_title">送您到哪个机场?</string>
-    <string name="guidance_send_hint_subtitle">请选择送达机场</string>
+    <string name="guidance_pickup_hint_subtitle">输入航班号，如CA167</string>
+    <string name="guidance_send_hint_subtitle">选择送达机场</string>
     <string name="guidance_charter_hint_title">想去哪个城市包车?</string>
-    <string name="guidance_charter_hint_subtitle">请选择包车开始城市</string>
+    <string name="guidance_charter_hint_subtitle">选择包车开始城市</string>
     <string name="guidance_single_hint_title">从哪个地点上车?</string>
-    <string name="guidance_single_hint_subtitle">请选择用车城市</string>
+    <string name="guidance_single_hint_subtitle">选择用车城市</string>
     <string name="guidance_view_subtitle">这里有%1$s位中文司导可为您服务</string>
 
     <string name="servicer_center_item1">预订须知</string>

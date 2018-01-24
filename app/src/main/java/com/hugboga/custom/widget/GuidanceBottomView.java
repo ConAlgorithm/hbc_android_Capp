@@ -21,14 +21,14 @@ import butterknife.OnClick;
 
 public class GuidanceBottomView extends LinearLayout {
 
+    @BindView(R.id.guidance_bottom_title_tv)
+    TextView titleTV;
     @BindView(R.id.guidance_bottom_switch_pickup_tv)
     TextView switchPickupTV;
     @BindView(R.id.guidance_bottom_switch_send_tv)
     TextView switchSendTV;
-    @BindView(R.id.guidance_bottom_switch_layout)
-    LinearLayout switchLayout;
-    @BindView(R.id.guidance_bottom_info_view)
-    OrderInfoItemView infoView;
+    @BindView(R.id.guidance_bottom_confirm_tv)
+    TextView confirmTV;
 
     private OnInfoViewClickListener listener;
     private boolean isPickup;
@@ -42,7 +42,7 @@ public class GuidanceBottomView extends LinearLayout {
         super(context, attrs);
         inflate(context, R.layout.view_guidance_order_bottom, this);
         ButterKnife.bind(this);
-        infoView.setOnClickListener(new OnClickListener() {
+        confirmTV.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (listener != null) {
@@ -75,8 +75,7 @@ public class GuidanceBottomView extends LinearLayout {
         switchPickupTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
         switchSendTV.setBackgroundColor(0x00000000);
         switchSendTV.setTextColor(0xFF7f7f7f);
-        infoView.setTitle(getContext().getResources().getString(R.string.guidance_pickup_hint_title));
-        infoView.setHintText(getContext().getResources().getString(R.string.guidance_pickup_hint_subtitle));
+        confirmTV.setText(getContext().getResources().getString(R.string.guidance_pickup_hint_subtitle));
         isPickup = true;
     }
 
@@ -85,38 +84,42 @@ public class GuidanceBottomView extends LinearLayout {
         switchPickupTV.setTextColor(0xFF7f7f7f);
         switchSendTV.setBackgroundResource(R.drawable.bg_guidance_order_send);
         switchSendTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
-        infoView.setTitle(getContext().getResources().getString(R.string.guidance_send_hint_title));
-        infoView.setHintText(getContext().getResources().getString(R.string.guidance_send_hint_subtitle));
+        confirmTV.setText(getContext().getResources().getString(R.string.guidance_send_hint_subtitle));
         isPickup = false;
     }
 
     public void setOrderType(int orderType) {
         this.orderType = orderType;
+        setPickupOrSendBottomUI(orderType);
         switch (orderType) {
             case 1:
-                switchLayout.setVisibility(View.VISIBLE);
                 onClickPickup();
                 break;
             case 2:
-                switchLayout.setVisibility(View.VISIBLE);
                 onClickSend();
                 break;
             case 3:
             case 888:
-                switchLayout.setVisibility(View.GONE);
-                infoView.setTitle(getContext().getResources().getString(R.string.guidance_charter_hint_title));
-                infoView.setHintText(getContext().getResources().getString(R.string.guidance_charter_hint_subtitle));
+                titleTV.setText(getContext().getResources().getString(R.string.guidance_charter_hint_title));
+                confirmTV.setText(getContext().getResources().getString(R.string.guidance_charter_hint_subtitle));
                 break;
             case 4:
-                switchLayout.setVisibility(View.GONE);
-                infoView.setTitle(getContext().getResources().getString(R.string.guidance_single_hint_title));
-                infoView.setHintText(getContext().getResources().getString(R.string.guidance_single_hint_subtitle));
+                titleTV.setText(getContext().getResources().getString(R.string.guidance_single_hint_title));
+                confirmTV.setText(getContext().getResources().getString(R.string.guidance_single_hint_subtitle));
                 break;
         }
     }
 
-    public OrderInfoItemView getInfoView() {
-        return infoView;
+    private void setPickupOrSendBottomUI(int orderType) {
+        if (orderType == 1 || orderType == 2) {
+            titleTV.setVisibility(View.GONE);
+            switchPickupTV.setVisibility(View.VISIBLE);
+            switchSendTV.setVisibility(View.VISIBLE);
+        } else {
+            titleTV.setVisibility(View.VISIBLE);
+            switchPickupTV.setVisibility(View.GONE);
+            switchSendTV.setVisibility(View.GONE);
+        }
     }
 
     public interface OnInfoViewClickListener {
