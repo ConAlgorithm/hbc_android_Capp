@@ -18,6 +18,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -126,6 +127,12 @@ public class FakeAIActivity extends BaseActivity {
                     return true;
                 }
                 return false;
+            }
+        });
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                handler.sendEmptyMessageDelayed(0, 500);
             }
         });
         //软件盘点击确定监听
@@ -273,7 +280,7 @@ public class FakeAIActivity extends BaseActivity {
                 if ("1".equals(data.chooseServiceTypeOption)) {
                     Message message = handler.obtainMessage();
                     message.obj = data.chooseServiceTypeList;
-                    handler.sendMessage(message);
+                    handler.sendMessageDelayed(message, 150);
                     fakeAIAdapter.clearWaitView();
                 }
                 initServiceMessage(data.duoDuoSaid);
@@ -415,14 +422,14 @@ public class FakeAIActivity extends BaseActivity {
      */
 
     private void editTextExist() {
-        horizontalScrollView.setVisibility(View.VISIBLE);
+
         ObjectAnimator animator = ObjectAnimator.ofFloat(horizontalScrollView, "translationX", UIUtils.getScreenHeight(), 0);
         animator.setDuration(1000);
         animator.start();
         editText.setFocusableInTouchMode(true);
         editText.setFocusable(true);
         editText.requestFocus();
-
+        horizontalScrollView.setVisibility(View.VISIBLE);
     }
 
     /**
