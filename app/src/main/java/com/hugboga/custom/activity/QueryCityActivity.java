@@ -14,9 +14,9 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -64,6 +64,8 @@ public class QueryCityActivity extends BaseActivity {
     EditText headSearch;
     @BindView(R.id.head_search_clean)
     TextView headSearchClean;
+    @BindView(R.id.head_search_remove)
+    ImageView imageClean;
     @BindView(R.id.left_list)
     RecyclerView leftList; //左侧list
     @BindView(R.id.middle_list)
@@ -95,6 +97,9 @@ public class QueryCityActivity extends BaseActivity {
     SearchHistoryView searchHistoryView; //搜索历史部分
 
     boolean isFromTravelPurposeForm = false;
+
+    private String searchStr; //上一次输入的字符用于对比
+    boolean tagInput = false; //判断内容是否标签输入
 
     @Override
     public String getEventId() {
@@ -188,11 +193,16 @@ public class QueryCityActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String searchStr = headSearch.getText().toString().trim();
+                String str = headSearch.getText().toString().trim();
+                imageClean.setVisibility(TextUtils.isEmpty(str) ? View.GONE : View.VISIBLE);
                 if (searchHistoryView != null) {
-                    searchHistoryView.searchText(searchStr);
+                    searchHistoryView.searchText(str);
                 }
-                headSearchClean.setVisibility(TextUtils.isEmpty(searchStr) ? View.GONE : View.VISIBLE);
+                if (TextUtils.equals(str, searchStr) || tagInput || str == null) {
+                    tagInput = false;
+                    return;
+                }
+                searchStr = str;
                 startQueryForTxtChange(searchStr); //进入触发搜索流程
             }
         });
@@ -218,7 +228,7 @@ public class QueryCityActivity extends BaseActivity {
     Runnable queryRunnable = new Runnable() {
         @Override
         public void run() {
-//            HLog.d("满足字符大于等于2并且等待了1s，开始执行搜索任务");
+//            HLog.d("满足字符大于等于2并且等待了300ms，开始执行搜索任务");
             startQuery();
         }
     };
@@ -247,6 +257,7 @@ public class QueryCityActivity extends BaseActivity {
      */
     private void startQuery() {
         if (searchHistoryView != null) {
+            removeQuery();
             String searchStr = headSearch.getText().toString().trim();
             searchHistoryView.showResultQuery(searchStr);
         }
@@ -484,8 +495,10 @@ public class QueryCityActivity extends BaseActivity {
     }
 
     public void hideSoft(String searchStr) {
+        tagInput = true;
         headSearch.setText(searchStr);
         hideInputMethod(headSearch);
+        headSearch.setSelection(headSearch.getText().length());
     }
 
     private void getHotInfo() {

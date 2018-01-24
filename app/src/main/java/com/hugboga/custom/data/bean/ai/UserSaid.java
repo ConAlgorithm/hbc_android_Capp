@@ -16,4 +16,5 @@ public class UserSaid {
     public String inputContent;
     public String resultUrl;
     public String createTime;
+    public String hasInsert;
 }

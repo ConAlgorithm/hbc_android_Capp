@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.airbnb.epoxy.EpoxyAdapter;
+import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.data.bean.ai.ServiceType;
 import com.hugboga.custom.models.FakeAIHeaderModel;
 import com.hugboga.custom.models.FakeAIItemCardModel;
@@ -26,7 +27,8 @@ public class FakeAIAdapter extends EpoxyAdapter {
 
     private FakeAIHeaderModel fakeAIHeaderModel;
     private FakeAIWaitItemModel fakeAIWaitItemModel;
-    private ArrayList<FakeAIItemCardModel> fakeAIItemCardModels;
+    private ArrayList<FakeAIItemCardModel> fakeAIItemCardModels; //存储卡片Modle
+    private ArrayList<FakeAIAdapter.ChatItemInterface> fakeAIItemChatModels; //存储聊天Modle
 
     public FakeAIAdapter() {
         addHeader(); //添加头部Hi模块信息
@@ -34,6 +36,7 @@ public class FakeAIAdapter extends EpoxyAdapter {
 
     private void addHeader() {
         fakeAIItemCardModels = new ArrayList<FakeAIItemCardModel>();
+        fakeAIItemChatModels = new ArrayList<FakeAIAdapter.ChatItemInterface>();
         fakeAIHeaderModel = new FakeAIHeaderModel();
         addModel(fakeAIHeaderModel);
     }
@@ -50,6 +53,7 @@ public class FakeAIAdapter extends EpoxyAdapter {
     public void addMyselfMessage(String data_all) {
         FakeAIItemTwoModel item_twoModel = new FakeAIItemTwoModel(data_all);
         addModel(item_twoModel);
+        fakeAIItemChatModels.add(item_twoModel);
         if (fakeAIWaitItemModel == null) {
             fakeAIWaitItemModel = new FakeAIWaitItemModel();
             addModel(fakeAIWaitItemModel);
@@ -70,6 +74,7 @@ public class FakeAIAdapter extends EpoxyAdapter {
         FakeAIItemOneModel model = new FakeAIItemOneModel();
         model.setData(message);
         addModel(model);
+        fakeAIItemChatModels.add(model);
     }
 
     /**
@@ -102,4 +107,18 @@ public class FakeAIAdapter extends EpoxyAdapter {
         }
     }
 
+    /**
+     * 滑动时清除消息背景颜色
+     */
+    public void clearMessageBackground() {
+        if (fakeAIItemChatModels != null && fakeAIItemChatModels.size() != 0) {
+            for (int i = 0; i < fakeAIItemChatModels.size(); i++) {
+                fakeAIItemChatModels.get(i).clearFocus();
+            }
+        }
+    }
+
+    public interface ChatItemInterface {
+        public void clearFocus();
+    }
 }

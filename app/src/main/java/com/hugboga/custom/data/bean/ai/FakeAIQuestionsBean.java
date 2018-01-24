@@ -19,7 +19,6 @@ public class FakeAIQuestionsBean {
     public String chooseServiceTypeId;
     public String chooseDestinationCountryId;
     public String chooseDestinationCountryName;
-    public String recommendationGoodsInfo;
     public List<UserSaid> userSaidList;
     public List<UserSaid> regardsList;
     public String customServiceId;

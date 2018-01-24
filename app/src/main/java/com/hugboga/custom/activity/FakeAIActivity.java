@@ -23,28 +23,21 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FakeAIAdapter;
 import com.hugboga.custom.data.bean.ai.ServiceType;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.qiyukf.unicorn.api.ProductDetail;
-import com.qiyukf.unicorn.api.ProductDetail.Builder;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.ServiceQuestionBean;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.ai.AiRequestInfo;
 import com.hugboga.custom.data.bean.ai.DuoDuoSaid;
 import com.hugboga.custom.data.bean.ai.FakeAIArrayBean;
 import com.hugboga.custom.data.bean.ai.FakeAIBean;
 import com.hugboga.custom.data.bean.ai.FakeAIQuestionsBean;
-import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.request.RaquestFakeAI;
 import com.hugboga.custom.data.request.RequestFakeAIChange;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ai.AiTagView;
@@ -55,10 +48,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import tk.hongbo.label.adapter.FilterAdapter;
 
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT;
-import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT_TITLE;
 import static com.hugboga.custom.activity.AiResultActivity.KEY_AI_RESULT_TO_SERVICE;
 
 /**
@@ -96,6 +87,7 @@ public class FakeAIActivity extends BaseActivity {
     private int buttonType; //判断客服状态
     private ArrayList<String> strings = new ArrayList<String>();//传递给客服的客户对话
     private String customServiceId;
+    private boolean isSkipService = false; //判断是否展示过底部Button
 
     @Override
     public int getContentViewId() {
@@ -118,6 +110,13 @@ public class FakeAIActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(fakeAIAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                fakeAIAdapter.clearMessageBackground();
+            }
+        });
         //点击了退出软件盘调用
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -128,6 +127,12 @@ public class FakeAIActivity extends BaseActivity {
                     return true;
                 }
                 return false;
+            }
+        });
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                handler.sendEmptyMessageDelayed(0, 500);
             }
         });
         //软件盘点击确定监听
@@ -142,7 +147,6 @@ public class FakeAIActivity extends BaseActivity {
                 return true;
             }
         });
-
     }
 
     public void fakeData(List hotDestinationReqList) {
@@ -225,7 +229,7 @@ public class FakeAIActivity extends BaseActivity {
             if (dataList.askDuoDuoSessionID != null) {
                 info.askDuoDuoSessionID = dataList.askDuoDuoSessionID;
             }
-            if(dataList.questionId!=null){
+            if (dataList.questionId != null) {
                 info.questionId = dataList.questionId;
             }
             if (dataList.userSaidList != null) {
@@ -276,7 +280,7 @@ public class FakeAIActivity extends BaseActivity {
                 if ("1".equals(data.chooseServiceTypeOption)) {
                     Message message = handler.obtainMessage();
                     message.obj = data.chooseServiceTypeList;
-                    handler.sendMessage(message);
+                    handler.sendMessageDelayed(message, 150);
                     fakeAIAdapter.clearWaitView();
                 }
                 initServiceMessage(data.duoDuoSaid);
@@ -311,9 +315,7 @@ public class FakeAIActivity extends BaseActivity {
             if (msg.obj instanceof FakeAIQuestionsBean) {
                 Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
                 DestinationHomeVo destinationHomeVo = (DestinationHomeVo) ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome;
-                String recommendationInfo = ((FakeAIQuestionsBean) msg.obj).recommendationGoodsInfo;
                 intent.putExtra(KEY_AI_RESULT, destinationHomeVo);
-                intent.putExtra(KEY_AI_RESULT_TITLE, recommendationInfo);
                 intent.putExtra(KEY_AI_RESULT_TO_SERVICE, getParams());
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
@@ -382,7 +384,7 @@ public class FakeAIActivity extends BaseActivity {
             });
             scrollViewLinearLayout.addView(view);
         }
-
+        continueDialogue();
     }
 
     private void scrollViewButtonClick(FakeAIArrayBean bean, int type) {
@@ -420,20 +422,21 @@ public class FakeAIActivity extends BaseActivity {
      */
 
     private void editTextExist() {
-        horizontalScrollView.setVisibility(View.VISIBLE);
+
         ObjectAnimator animator = ObjectAnimator.ofFloat(horizontalScrollView, "translationX", UIUtils.getScreenHeight(), 0);
         animator.setDuration(1000);
         animator.start();
         editText.setFocusableInTouchMode(true);
         editText.setFocusable(true);
         editText.requestFocus();
-
+        horizontalScrollView.setVisibility(View.VISIBLE);
     }
 
     /**
      * 点击包车玩法卡片
      */
     public void clickCharteredBus() {
+        SensorsUtils.onAppClick(getEventSource(), "推荐包车玩法", getIntentSource());
         editTextOver();
         info.serviceTypeId = "3";
         requestSelf(null, null);
@@ -451,7 +454,15 @@ public class FakeAIActivity extends BaseActivity {
         button.setVisibility(View.VISIBLE);
         fakeAIAdapter.clearWaitView();
         handler.sendEmptyMessageDelayed(1, 200);
+        isSkipService = true;
+    }
 
+    private void continueDialogue() {
+        if (isSkipService) {
+            editText.setVisibility(View.VISIBLE);
+            button.setVisibility(View.GONE);
+            isSkipService = false;
+        }
     }
 
     /**

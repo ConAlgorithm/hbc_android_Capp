@@ -59,6 +59,7 @@
                 android:layout_alignRight="@id/head_search"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
+                android:visibility="invisible"
                 android:src="@mipmap/top_search_close" />
 
         </RelativeLayout>
