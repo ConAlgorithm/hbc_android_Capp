@@ -2,23 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_order_info_item"
+    android:layout_marginLeft="@dimen/order_padding_left"
+    android:layout_marginRight="@dimen/order_padding_left"
+    android:layout_marginBottom="20dp"
+    android:elevation="5dp"
+    android:layout_marginTop="1dp"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/guidance_bottom_switch_layout"
-        android:layout_width="116dp"
-        android:layout_height="46dp"
-        android:layout_marginLeft="@dimen/order_padding_left"
-        android:layout_marginTop="10dp"
-        android:elevation="1dp"
-        android:background="@drawable/bg_guidance_order_bottom"
-        android:orientation="horizontal"
-        android:paddingBottom="3dp"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
-        android:paddingTop="3dp">
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="14dp"
+        android:minWidth="116dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/guidance_bottom_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#676767"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/guidance_bottom_switch_pickup_tv"
@@ -29,13 +37,16 @@
             android:gravity="center"
             android:text="@string/guidance_pickup"
             android:textColor="@color/default_black"
+            android:visibility="gone"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/guidance_bottom_switch_send_tv"
             android:layout_width="1dp"
+            android:layout_marginLeft="12dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:visibility="gone"
             android:gravity="center"
             android:text="@string/guidance_send"
             android:textColor="@color/default_black"
@@ -43,24 +54,17 @@
     </LinearLayout>
 
 
-    <FrameLayout
+    <TextView
+        android:id="@+id/guidance_bottom_confirm_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/order_padding_left"
         android:layout_marginRight="@dimen/order_padding_left"
-        android:layout_marginTop="8dp"
-        android:elevation="1dp"
-        android:layout_marginBottom="23dp"
-        android:background="@drawable/bg_order_info_item"
-        android:padding="1dp">
-
-        <com.hugboga.custom.widget.OrderInfoItemView
-            android:id="@+id/guidance_bottom_info_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:hintText="@string/daily_first_city_hint"
-            app:titleText="@string/daily_first_start_city" />
-
-    </FrameLayout>
+        android:layout_marginBottom="12dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        android:background="@drawable/bg_guidance_order_bottom_btn" />
 </LinearLayout>
