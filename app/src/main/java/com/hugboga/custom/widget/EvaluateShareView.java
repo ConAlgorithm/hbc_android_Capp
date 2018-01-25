@@ -26,7 +26,7 @@ import org.json.JSONObject;
 /**
  * Created by qingcha on 16/7/15.
  */
-public class EvaluateShareView extends LinearLayout implements View.OnClickListener, HbcViewBehavior{
+public class EvaluateShareView extends LinearLayout implements View.OnClickListener, HbcViewBehavior {
 
     private ImageView drawerIV;
     private TextView drawerTV, descriptionTV, rulesTV;
@@ -80,13 +80,11 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
             MobClickUtils.onEvent(new EventEvaluateShare(orderBean.orderType, source, "" + type));
         }
         String shareUrl = CommonUtils.getBaseUrl(appraisement.wechatShareUrl) + "orderNo=" + orderNo + "&userId=" + UserEntity.getUser().getUserId(getContext());
-        WXShareUtils wxShareUtils = WXShareUtils.getInstance(getContext());
-        wxShareUtils.source = source;
-        wxShareUtils.share(type
+        CommonUtils.shareOptimize(getContext(), type
                 , appraisement.wechatShareHeadSrc
                 , appraisement.wechatShareTitle
                 , appraisement.wechatShareContent
-                , shareUrl);
+                , shareUrl, source);
         setSensorsShare(type);
     }
 

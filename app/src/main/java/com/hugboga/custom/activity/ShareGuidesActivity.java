@@ -174,12 +174,11 @@ public class ShareGuidesActivity extends BaseActivity {
             return;
         }
         String shareUrl = CommonUtils.getBaseUrl(params.evaluateData.wechatShareUrl) + "orderNo=" + params.orderNo + "&userId=" + UserEntity.getUser().getUserId(this);
-        WXShareUtils wxShareUtils = WXShareUtils.getInstance(this);
-        wxShareUtils.share(type
+        CommonUtils.shareOptimize(this, type
                 , evaluateData.wechatShareHeadSrc
                 , evaluateData.wechatShareTitle
                 , evaluateData.wechatShareContent
-                , shareUrl);
+                , shareUrl, null);
         MobClickUtils.onEvent(new EventEvaluateShare(params.orderType, getEventSource(), "" + type));
         SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", "评价", params.goodsNo, params.guideId);
     }
