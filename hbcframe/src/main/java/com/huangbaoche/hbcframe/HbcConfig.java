@@ -6,7 +6,7 @@ import com.huangbaoche.hbcframe.data.parser.ServerParser;
  * Created by admin on 2016/2/27.
  */
 public class HbcConfig {
-    public static boolean IS_DEBUG = true;
+    public static boolean IS_DEBUG = false;
     public static String PACKAGE_NAME;//包名
     public static String VERSION_NAME;//版本号
     public static int VERSION_CODE;//版本code
