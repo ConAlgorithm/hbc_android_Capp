@@ -85,7 +85,6 @@ public class FakeAIActivity extends BaseActivity {
     public static final int AIGETDATA_ACCOMPANY = 2;//伴随
     private FakeAIAdapter fakeAIAdapter;
     private int buttonType; //判断客服状态
-    private ArrayList<String> strings = new ArrayList<String>();//传递给客服的客户对话
     private String customServiceId;
     private boolean isSkipService = false; //判断是否展示过底部Button
 
@@ -114,7 +113,9 @@ public class FakeAIActivity extends BaseActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                fakeAIAdapter.clearMessageBackground();
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    fakeAIAdapter.clearMessageBackground();
+                }
             }
         });
         //点击了退出软件盘调用
@@ -129,12 +130,16 @@ public class FakeAIActivity extends BaseActivity {
                 return false;
             }
         });
+
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                handler.sendEmptyMessageDelayed(0, 500);
+                if (hasFocus) {
+                    handler.sendEmptyMessageDelayed(0, 500);
+                }
             }
         });
+
         //软件盘点击确定监听
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -186,8 +191,8 @@ public class FakeAIActivity extends BaseActivity {
                         break;
                     case 2://跳转填单页
                         intent = new Intent(FakeAIActivity.this, TravelPurposeFormActivity.class);
-                        if (info.userSaidList != null && info.userSaidList.size() >= 2) {
-                            intent.putExtra("cityName", info.userSaidList.get(0).saidContent);
+                        if (!TextUtils.isEmpty(info.destinationName)) {
+                            intent.putExtra("cityName", info.destinationName);
                         }
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         startActivity(intent);
@@ -205,9 +210,6 @@ public class FakeAIActivity extends BaseActivity {
         params.sourceType = UnicornServiceActivity.SourceType.TYPE_AI_RESULT;
         if (customServiceId != null) {
             params.groupId = Integer.parseInt(customServiceId);
-        }
-        if (strings != null && strings.size() > 0) {
-            params.aiChatRecords = strings.toString();
         }
         ProductDetail.Builder builder = new ProductDetail.Builder();
 
@@ -231,6 +233,9 @@ public class FakeAIActivity extends BaseActivity {
             }
             if (dataList.questionId != null) {
                 info.questionId = dataList.questionId;
+            }
+            if (dataList.userSaidList != null) {
+                info.userSaidList = dataList.userSaidList;
             }
             if (dataList.userSaidList != null) {
                 info.userSaidList = dataList.userSaidList;
@@ -267,12 +272,6 @@ public class FakeAIActivity extends BaseActivity {
                     fakeData(data.accompanyReqList);
                 } else if (data.hotDestinationReqList != null && data.hotDestinationReqList.size() != 0) {
                     fakeData(data.hotDestinationReqList);
-                }
-                if (data.userSaidList != null) {
-                    strings.clear();
-                    for (int i = 0; i < data.userSaidList.size(); i++) {
-                        strings.add(data.userSaidList.get(i).saidContent);
-                    }
                 }
                 if (data.customServiceId != null) {
                     customServiceId = data.customServiceId;
@@ -314,7 +313,7 @@ public class FakeAIActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             if (msg.obj instanceof FakeAIQuestionsBean) {
                 Intent intent = new Intent(FakeAIActivity.this, AiResultActivity.class);
-                DestinationHomeVo destinationHomeVo = (DestinationHomeVo) ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome;
+                DestinationHomeVo destinationHomeVo = ((FakeAIQuestionsBean) msg.obj).recommendationDestinationHome;
                 intent.putExtra(KEY_AI_RESULT, destinationHomeVo);
                 intent.putExtra(KEY_AI_RESULT_TO_SERVICE, getParams());
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -329,6 +328,12 @@ public class FakeAIActivity extends BaseActivity {
             recyclerView.scrollToPosition(fakeAIAdapter.getItemCount() - 1);
         }
     };
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            editTextExist();
+        }
+    };
 
     class BuildMessageTask extends AsyncTask<Object, DuoDuoSaid, DuoDuoSaid> {
         @Override
@@ -337,12 +342,16 @@ public class FakeAIActivity extends BaseActivity {
                 return null;
             }
             List<DuoDuoSaid> duoDuoSaid = (List<DuoDuoSaid>) objects[0];
-            for (DuoDuoSaid bean : duoDuoSaid) {
+            for (int i = 0; i < duoDuoSaid.size(); i++) {
+                DuoDuoSaid bean = duoDuoSaid.get(i);
                 Message message = handler.obtainMessage();
                 message.obj = bean;
                 handler.sendMessage(message);
                 if (bean.questionId != null) {
                     info.questionId = bean.questionId;
+                }
+                if (duoDuoSaid.size() - 1 == i) {
+                    break;
                 }
                 try {
                     Thread.sleep(1000);
@@ -356,7 +365,7 @@ public class FakeAIActivity extends BaseActivity {
         @Override
         protected void onPostExecute(DuoDuoSaid o) {
             super.onPostExecute(o);
-            editTextExist();
+            handler.postDelayed(runnable, 500);
         }
     }
 
@@ -437,6 +446,7 @@ public class FakeAIActivity extends BaseActivity {
      */
     public void clickCharteredBus() {
         SensorsUtils.onAppClick(getEventSource(), "推荐包车玩法", getIntentSource());
+        handler.removeCallbacks(runnable);
         editTextOver();
         info.serviceTypeId = "3";
         requestSelf(null, null);

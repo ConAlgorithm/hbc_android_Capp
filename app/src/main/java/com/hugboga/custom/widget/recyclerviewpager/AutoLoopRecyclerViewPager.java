@@ -15,7 +15,7 @@ import java.lang.ref.WeakReference;
 
 public class AutoLoopRecyclerViewPager extends LoopRecyclerViewPager{
 
-    private static final int DEFAULT_INTERVAL = 3000;
+    private static final int DEFAULT_INTERVAL = 5000;
     private static final int SCROLL_WHAT = 0;
 
     private MyHandler handler;
