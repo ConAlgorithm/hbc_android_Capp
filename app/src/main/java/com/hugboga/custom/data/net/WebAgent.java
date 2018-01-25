@@ -169,7 +169,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 // 调用分享操作
-                WXShareUtils.getInstance(mActivity).share(0, picUrl, title, content, goUrl);
+                CommonUtils.shareOptimize(mActivity, 0, picUrl, title, content, goUrl, null);
             }
         });
     }
@@ -184,7 +184,7 @@ public class WebAgent implements HttpRequestListener {
                 if (type == 0) {
                     CommonUtils.shareDialog(mActivity, picUrl, title, content, goUrl);
                 } else {
-                    WXShareUtils.getInstance(mActivity).share(type, picUrl, title, content, goUrl);
+                    CommonUtils.shareOptimize(mActivity, type, picUrl, title, content, goUrl, null);
                 }
 
             }
@@ -203,7 +203,7 @@ public class WebAgent implements HttpRequestListener {
                 if (shareBean.type == 0) {
                     CommonUtils.shareDialog(mActivity, shareBean.picUrl, shareBean.title, shareBean.content, shareBean.goUrl);
                 } else {
-                    WXShareUtils.getInstance(mActivity).share(shareBean.type, shareBean.picUrl, shareBean.title, shareBean.content, shareBean.goUrl);
+                    CommonUtils.shareOptimize(mActivity, shareBean.type, shareBean.picUrl, shareBean.title, shareBean.content, shareBean.goUrl, null);
                 }
             }
         });
@@ -875,7 +875,7 @@ public class WebAgent implements HttpRequestListener {
                     Intent intent = new Intent(mActivity, PickSendActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     mActivity.startActivity(intent);
-                    SensorsUtils.setSensorsBuyViewEvent("接机", getEventSource(),"");
+                    SensorsUtils.setSensorsBuyViewEvent("接机", getEventSource(), "");
                 }
             }
         }, new DialogInterface.OnClickListener() {
@@ -969,9 +969,9 @@ public class WebAgent implements HttpRequestListener {
                 if (mActivity instanceof SkuDetailActivity) {
                     int s = 0;
                     try {
-                         s = Integer.parseInt(i);
+                        s = Integer.parseInt(i);
                     } catch (NumberFormatException e) {
-                        MLog.e(getClass().getName()+"异常：\"" + i + "\"不是数字/整数...");
+                        MLog.e(getClass().getName() + "异常：\"" + i + "\"不是数字/整数...");
                         return;
                     }
                     ((SkuDetailActivity) mActivity).h5InvokingBottomLayout(s);

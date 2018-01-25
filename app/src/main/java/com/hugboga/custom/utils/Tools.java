@@ -409,6 +409,10 @@ public class Tools {
         }
     }
 
+    public static String transformImgUrl(ImageView imageView, final String url) {
+        return transformImgUrl(imageView.getWidth(), imageView.getHeight(), url);
+    }
+
     // 情况1
     // https://hbcdn.huangbaoche.com/fr-hd[-t-d]/Dtjf9B6AQA0 替换前
     // https://fr-hd.huangbaoche.com/Dtjf9B6AQA0   替换后
@@ -420,7 +424,7 @@ public class Tools {
     // 阿里云 https://help.aliyun.com/document_detail/44688.html?spm=5176.doc44701.6.939.fhSUWP
     // JS逻辑代码 http://gitlab.hbc.tech/widgets/comImg/blob/master/src/index.js#L56
 
-    public static String transformImgUrl(ImageView imageView, final String url) {
+    public static String transformImgUrl(int width, int height, final String url) {
         if (TextUtils.isEmpty(url)) {
             return url;
         }
@@ -456,8 +460,8 @@ public class Tools {
         }
 
         //指定宽高缩放
-        if (imageView.getWidth() > 0 && imageView.getHeight() > 0) {
-            String params = String.format("x-oss-process=image/resize,m_fill,h_%1$s,w_%2$s,limit_0", "" + imageView.getHeight(), "" + imageView.getWidth());
+        if (width > 0 && height > 0) {
+            String params = String.format("x-oss-process=image/resize,m_fill,h_%1$s,w_%2$s,limit_0", "" + width, "" + height);
             resultUrl = CommonUtils.getBaseUrl(resultUrl) + params;
         }
         Log.i("imgUrl", "url = " + url +" --- resultUrl = " + resultUrl);
