@@ -578,10 +578,14 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         super.onCreate(savedInstanceState);
         if (this.getIntent() != null) {
             skuItemBean = (SkuItemBean) getIntent().getSerializableExtra(WEB_SKU);
+            guidesDetailData = (GuidesDetailData) getIntent().getSerializableExtra(Constants.PARAMS_GUIDE);
             int intExtra = getIntent().getIntExtra(Constants.PARAMS_ID, 0);
             goodsNo = intExtra != 0 ? intExtra + "" : "";
-            guidesDetailData = (GuidesDetailData) getIntent().getSerializableExtra(Constants.PARAMS_GUIDE);
+            if (TextUtils.isEmpty(goodsNo)) {
+                goodsNo = getIntent().getStringExtra(Constants.PARAMS_ID);
+            }
         }
+
         if (skuItemBean != null && skuItemBean.depCityId != 0) {
             cityBean = findCityById("" + skuItemBean.depCityId);
         }
