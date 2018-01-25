@@ -160,12 +160,12 @@ public class UrlLibs {
     public static final String COLLECT_LINES_NO             = "ucenter/v1.0/c/favorite/goods";                          // 收藏线路  183
     public static final String UNCOLLECT_LINES_NO           = "ucenter/v1.0/c/unfavorite/goods";                        // 取消收藏线路  184
 
-    public static final String SERVER_IP_SUBMIT_PICKUP      = "trade/v1.3/c/order/pickup?";                             // 提交订单 接机
+    public static final String SERVER_IP_SUBMIT_PICKUP      = "trade/v1.5/c/order/pickup?";                             // 提交订单 接机
     public static final String SERVER_IP_SUBMIT_PICKUP2     = "trade/v1.4/c/order/pickup?";                             // 提交订单 秒杀接机150
-    public static final String SERVER_IP_SUBMIT_TRANSFER    = "trade/v1.3/c/order/transfer?";                           // 提交订单 送机下单
-    public static final String SERVER_IP_SUBMIT_SINGLE      = "trade/v1.3/c/order/single?";                             // 提交订单 单次用车
-    public static final String SERVER_IP_SUBMIT_DAILY12     = "trade/v1.4/c/order/daily?";                              // 提交订单 日租包车 ???? 2个
-    public static final String RECOMMENDLIN                 = "trade/v1.0/c/order/recommendline?";                      // 提交订单 推荐线路
+    public static final String SERVER_IP_SUBMIT_TRANSFER    = "trade/v1.5/c/order/transfer?";                           // 提交订单 送机下单
+    public static final String SERVER_IP_SUBMIT_SINGLE      = "trade/v1.5/c/order/single?";                             // 提交订单 单次用车
+    public static final String SERVER_IP_SUBMIT_DAILY12     = "trade/v1.5/c/order/daily?";                              // 提交订单 日租包车 ???? 2个
+    public static final String RECOMMENDLIN                 = "trade/v1.5/c/order/recommendline?";                      // 提交订单 推荐线路
     public static final String API_ORDER_EDIT               = "trade/v1.2/c/order/edit";                                // 修改订单
     public static final String SERVER_IP_ORDER_DETAIL       = "trade/v1.4/c/order/detail?";                             // 订单详情
     public static final String SERVER_IP_ORDER_CANCEL       = "trade/v1.0/c/order/cancel?";                             // 取消订单
@@ -177,7 +177,7 @@ public class UrlLibs {
     public static final String SERVER_IP_ORDER_HISTORY      = "trade/v1.0/c/order/list/history?";                       // IM中查询历史订单
     public static final String CANCLE_TIPS                  = "trade/v1.0/c/order/cancelTips";                          // 退改规则
     public static final String GUIDE_CONFLIC                = "trade/v1.1/c/order/guides/conflict";                     // 导游是否可服务 46
-    public static final String PAY_SUCCESS                  = "trade/v1.0/c/order/paysuccess";                          // 支付成功页
+    public static final String PAY_SUCCESS                  = "trade/v1.1/c/order/paysuccess";                          // 支付成功页
     public static final String QUERYBARGAIN                 = "trade/v1.0/c/queryBargain?";                             // 砍价详情查询
     public static final String DELIVER_INFO                 = "trade/v1.0/c/order/deliverInfo";                         // 订单详情页发单情况
     public static final String ACCEPT_GUIDE_LIST            = "trade/v1.0/c/order/acceptGuide";                         // 表态愿意接单的导游列表
@@ -188,7 +188,7 @@ public class UrlLibs {
     public static final String ORDER_LIST_DOING             = "trade/v1.4/c/order/list/doing";                          // 订单列表 进行中 116
     public static final String ORDER_LIST_UNEVALUDATE       = "trade/v1.4/c/order/list/unevaludate";                    // 订单列表 待评价 117
     public static final String GUIDE_CHOOSE                 = "trade/v1.0/c/order/guide/choose";                        // 指派司导接口 111
-    public static final String API_ORDER_GROUP              = "trade/v2.2/c/order/group";                               // 组合单下单c  122
+    public static final String API_ORDER_GROUP              = "trade/v1.5/c/order/group";                               // 组合单下单c  122
     public static final String API_BIND_CREDIT_CARD         = "trade/v1.0/c/yilian/bindcard";                           // 易联支付绑定卡127
     public static final String API_QUERY_CREDIT_CARD        = "trade/v1.0/c/yilian/querycard";                          // 易联支付查询已绑定的卡128
     public static final String API_QUERY_BANK_BELONG        = "trade/v1.0/c/yilian/querybank";                          // 易联查询银行卡所属银行129
