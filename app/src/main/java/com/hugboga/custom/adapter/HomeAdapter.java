@@ -73,17 +73,11 @@ public class HomeAdapter extends EpoxyAdapter {
         if (homeBannerModel != null && homeBannerModel.itemView != null) {
             homeBannerModel.itemView.stopAutoScroll();
         }
-        if (excitedActivityModel != null && excitedActivityModel.itemView != null) {
-            excitedActivityModel.itemView.stopAutoScroll();
-        }
     }
 
     public void startAutoScroll() {
         if (homeBannerModel != null && homeBannerModel.itemView != null) {
             homeBannerModel.itemView.startAutoScroll();
-        }
-        if (excitedActivityModel != null && excitedActivityModel.itemView != null) {
-            excitedActivityModel.itemView.startAutoScroll();
         }
     }
 }

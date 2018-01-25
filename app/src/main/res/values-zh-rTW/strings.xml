@@ -922,7 +922,7 @@
 
     <string name="guidance_pickup">接機</string>
     <string name="guidance_send">送機</string>
-    <string name="guidance_pickup_hint_subtitle">輸入航班號，如CA167</string>
+    <string name="guidance_pickup_hint_subtitle">選擇接機航班</string>
     <string name="guidance_send_hint_subtitle">選擇送達機場</string>
     <string name="guidance_charter_hint_title">想去哪個城市包車?</string>
     <string name="guidance_charter_hint_subtitle">選擇包車開始城市</string>
