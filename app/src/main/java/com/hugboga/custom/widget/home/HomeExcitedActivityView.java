@@ -20,7 +20,7 @@ import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HbcViewBehavior;
-import com.hugboga.custom.widget.recyclerviewpager.AutoLoopRecyclerViewPager;
+import com.hugboga.custom.widget.recyclerviewpager.LoopRecyclerViewPager;
 import com.hugboga.custom.widget.recyclerviewpager.RVViewUtils;
 import com.hugboga.custom.widget.recyclerviewpager.RecyclerViewPager;
 
@@ -38,7 +38,7 @@ public class HomeExcitedActivityView extends LinearLayout implements HbcViewBeha
     @BindView(R.id.home_excited_indicator_view)
     HomeIndicatorView indicatorView;
     @BindView(R.id.home_excited_view_pager)
-    AutoLoopRecyclerViewPager mViewPager;
+    LoopRecyclerViewPager mViewPager;
 
     private ArrayList<HomeBean.ExcitedActivityBean> itemList;
     private HbcRecyclerSingleTypeAdpater<HomeBean.ExcitedActivityBean> mAdapter;
@@ -89,19 +89,6 @@ public class HomeExcitedActivityView extends LinearLayout implements HbcViewBeha
             mViewPager.scrollToPosition(mViewPager.getMiddlePosition());
         }
         indicatorView.setItemCount(itemList.size());
-        mViewPager.startAutoScroll();
-    }
-
-    public void stopAutoScroll() {
-        if (mViewPager != null && mAdapter != null) {
-            mViewPager.stopAutoScroll();
-        }
-    }
-
-    public void startAutoScroll() {
-        if (mViewPager != null && mAdapter != null) {
-            mViewPager.startAutoScroll();
-        }
     }
 
     private static class ItemImageView extends AppCompatImageView implements HbcViewBehavior, OnClickListener {
