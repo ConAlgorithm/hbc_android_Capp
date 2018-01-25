@@ -461,7 +461,7 @@ public class Tools {
 
         //指定宽高缩放
         if (width > 0 && height > 0) {
-            String params = String.format("x-oss-process=image/resize,m_fill,h_%1$s,w_%2$s,limit_0", "" + width, "" + height);
+            String params = String.format("x-oss-process=image/resize,m_fill,h_%1$s,w_%2$s,limit_0", "" + height, "" + width);
             resultUrl = CommonUtils.getBaseUrl(resultUrl) + params;
         }
         Log.i("imgUrl", "url = " + url +" --- resultUrl = " + resultUrl);
