@@ -2,6 +2,7 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -46,8 +47,8 @@ public class SkuOrderBottomView extends LinearLayout {
     private boolean isGuides;
     private boolean isSeckills;
     private double shouldPrice;
-
-
+    public int reconfirmFlag;    // 二次确认标示 0：否 1：是
+    public String reconfirmTip;  // 二次确认提示
 
     public SkuOrderBottomView(Context context) {
         this(context, null);
@@ -111,11 +112,12 @@ public class SkuOrderBottomView extends LinearLayout {
         }
     }
 
-
-    public void setData(int orderType, boolean isGuides, boolean isSeckills) {
+    public void setHintData(int orderType, boolean isGuides, boolean isSeckills, int reconfirmFlag, String reconfirmTip) {
         this.orderType = orderType;
         this.isGuides = isGuides;
         this.isSeckills = isSeckills;
+        this.reconfirmFlag = reconfirmFlag;
+        this.reconfirmTip = reconfirmTip;
         if (isSeckills) {
             setHintTV();
         }
@@ -134,22 +136,30 @@ public class SkuOrderBottomView extends LinearLayout {
         String hint2 = CommonUtils.getString(R.string.order_bottom_hint2);
         String showText = "";
         boolean isShowHint1 = shouldPrice > 200;
+        int bgColor = 0xFFB2C0D6;
 
         boolean isDaily = orderType == 3 || orderType == 888 || orderType == 5 || orderType == 6;
 
-        if (isSeckills) {
+        if (isSeckills) {//秒杀
             if (isDaily) {
                 showText = hint2;
             } else {
                 showText = null;
             }
-        } else if (isGuides) {
-            showText = isShowHint1 ? hint1 : null;
-        } else if (isDaily) {
-            showText = hint2;
         } else {
-            showText = isShowHint1 ? hint1 : null;
+            if (reconfirmFlag == 1 && !TextUtils.isEmpty(reconfirmTip)) {//二次确认订单
+                showText = reconfirmTip;
+                bgColor = 0xFFF56363;
+            } else if (isGuides) {//指定司导
+                showText = isShowHint1 ? hint1 : null;
+            } else if (isDaily) {//包车
+                showText = hint2;
+            } else {//接送次
+                showText = isShowHint1 ? hint1 : null;
+            }
         }
+
+        selectedGuideHintTV.setBackgroundColor(bgColor);
         selectedGuideHintTV.setText(showText);
         selectedGuideHintTV.setVisibility(showText == null ? GONE : VISIBLE);
     }

@@ -91,6 +91,16 @@ import cn.iwgang.countdownview.CountdownView;
                 setVisibility(View.GONE);
             }
         }
+//        loadingView.setVisibility(View.GONE);
+//        groupLayout.setVisibility(View.VISIBLE);
+//
+//        OrderDetailDeliverItemView itemView = new OrderDetailDeliverItemView(getContext());
+//        itemView.setOrderNo(orderBean.orderNo, orderBean.orderType);
+//        DeliverInfoBean deliverInfoBean = new DeliverInfoBean();
+//        deliverInfoBean.deliverMessage = "老子就是测试一下";
+//        deliverInfoBean.deliverDetail = "一小时后该司导未应答，我们会帮您人工协调";
+//        itemView.update(deliverInfoBean);
+//        groupLayout.addView(itemView);
     }
 
     private void addDetailGuideInfoView(boolean isRemoveAllViews) {

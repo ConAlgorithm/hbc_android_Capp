@@ -160,12 +160,12 @@ public class UrlLibs {
     public static final String COLLECT_LINES_NO             = "ucenter/v1.0/c/favorite/goods";                          // 收藏线路  183
     public static final String UNCOLLECT_LINES_NO           = "ucenter/v1.0/c/unfavorite/goods";                        // 取消收藏线路  184
 
-    public static final String SERVER_IP_SUBMIT_PICKUP      = "trade/v1.3/c/order/pickup?";                             // 提交订单 接机
+    public static final String SERVER_IP_SUBMIT_PICKUP      = "trade/v1.5/c/order/pickup?";                             // 提交订单 接机
     public static final String SERVER_IP_SUBMIT_PICKUP2     = "trade/v1.4/c/order/pickup?";                             // 提交订单 秒杀接机150
-    public static final String SERVER_IP_SUBMIT_TRANSFER    = "trade/v1.3/c/order/transfer?";                           // 提交订单 送机下单
-    public static final String SERVER_IP_SUBMIT_SINGLE      = "trade/v1.3/c/order/single?";                             // 提交订单 单次用车
-    public static final String SERVER_IP_SUBMIT_DAILY12     = "trade/v1.4/c/order/daily?";                              // 提交订单 日租包车 ???? 2个
-    public static final String RECOMMENDLIN                 = "trade/v1.0/c/order/recommendline?";                      // 提交订单 推荐线路
+    public static final String SERVER_IP_SUBMIT_TRANSFER    = "trade/v1.5/c/order/transfer?";                           // 提交订单 送机下单
+    public static final String SERVER_IP_SUBMIT_SINGLE      = "trade/v1.5/c/order/single?";                             // 提交订单 单次用车
+    public static final String SERVER_IP_SUBMIT_DAILY12     = "trade/v1.5/c/order/daily?";                              // 提交订单 日租包车 ???? 2个
+    public static final String RECOMMENDLIN                 = "trade/v1.5/c/order/recommendline?";                      // 提交订单 推荐线路
     public static final String API_ORDER_EDIT               = "trade/v1.2/c/order/edit";                                // 修改订单
     public static final String SERVER_IP_ORDER_DETAIL       = "trade/v1.4/c/order/detail?";                             // 订单详情
     public static final String SERVER_IP_ORDER_CANCEL       = "trade/v1.0/c/order/cancel?";                             // 取消订单
@@ -177,7 +177,7 @@ public class UrlLibs {
     public static final String SERVER_IP_ORDER_HISTORY      = "trade/v1.0/c/order/list/history?";                       // IM中查询历史订单
     public static final String CANCLE_TIPS                  = "trade/v1.0/c/order/cancelTips";                          // 退改规则
     public static final String GUIDE_CONFLIC                = "trade/v1.1/c/order/guides/conflict";                     // 导游是否可服务 46
-    public static final String PAY_SUCCESS                  = "trade/v1.0/c/order/paysuccess";                          // 支付成功页
+    public static final String PAY_SUCCESS                  = "trade/v1.1/c/order/paysuccess";                          // 支付成功页
     public static final String QUERYBARGAIN                 = "trade/v1.0/c/queryBargain?";                             // 砍价详情查询
     public static final String DELIVER_INFO                 = "trade/v1.0/c/order/deliverInfo";                         // 订单详情页发单情况
     public static final String ACCEPT_GUIDE_LIST            = "trade/v1.0/c/order/acceptGuide";                         // 表态愿意接单的导游列表
@@ -188,7 +188,7 @@ public class UrlLibs {
     public static final String ORDER_LIST_DOING             = "trade/v1.4/c/order/list/doing";                          // 订单列表 进行中 116
     public static final String ORDER_LIST_UNEVALUDATE       = "trade/v1.4/c/order/list/unevaludate";                    // 订单列表 待评价 117
     public static final String GUIDE_CHOOSE                 = "trade/v1.0/c/order/guide/choose";                        // 指派司导接口 111
-    public static final String API_ORDER_GROUP              = "trade/v2.2/c/order/group";                               // 组合单下单c  122
+    public static final String API_ORDER_GROUP              = "trade/v1.5/c/order/group";                               // 组合单下单c  122
     public static final String API_BIND_CREDIT_CARD         = "trade/v1.0/c/yilian/bindcard";                           // 易联支付绑定卡127
     public static final String API_QUERY_CREDIT_CARD        = "trade/v1.0/c/yilian/querycard";                          // 易联支付查询已绑定的卡128
     public static final String API_QUERY_BANK_BELONG        = "trade/v1.0/c/yilian/querybank";                          // 易联查询银行卡所属银行129
@@ -206,16 +206,16 @@ public class UrlLibs {
     public static final String API_IP_FAKE_AI_GET           = "trade/v1.1/c/ai/askready?";                              // AI数据GET  197
     public static final String API_IP_FAKE_AI_POST          = "trade/v1.1/c/ai/askDuoDuo?";                             // AI数据POST 196
 
-    public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
-    public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机
-    public static final String GET_CAR_INFOS                = "price/v1.3/c/dailyPrice?";                               // 查询价格 日租包车
-    public static final String SERVER_IP_PRICE_SINGLE       = "price/v1.1/c/singlePrice?";                              // 查询价格 单次用车
-    public static final String SERVER_IP_PRICE_SKU          = "price/v1.2/c/goodsPrice?";                               // 查询价格 SKU
+    public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.5/c/airportPickupPrice?";                       // 查询价格 接机
+    public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.5/c/airportTransferPrice?";                     // 查询价格 送机
+    public static final String GET_CAR_INFOS                = "price/v1.3/c/dailyPrice?";                               // 废弃 查询价格 日租包车
+    public static final String SERVER_IP_PRICE_SINGLE       = "price/v1.5/c/singlePrice?";                              // 查询价格 单次用车
+    public static final String SERVER_IP_PRICE_SKU          = "price/v1.5/c/goodsPrice?";                               // 查询价格 SKU
     public static final String SERVER_IP_AIRPORT            = "price/v1.0/c/airports?";                                 // 机场 暂时不用，使用DB
     public static final String API_CAR_MAX_CAPACITY         = "price/v1.0/c/car/max/capacity";                          // 可服务车型最大可乘坐人数 118
     public static final String API_CAR_MAX_CAPACITY_SECKILLS= "price/v1.1/c/car/max/capacity";                          // 秒杀可服务车型最大可乘坐人数 166
     public static final String API_CITY_ROUTE               = "price/v1.0/c/queryCityRoute";                            // 查询城市行程  119
-    public static final String API_BATCH_PRICE              = "price/v1.6/c/batchPrice";                                // 组合单报价  121
+    public static final String API_BATCH_PRICE              = "price/v1.7/c/batchPrice";                                // 组合单报价  121
     public static final String API_BATCH_PRICE_CONTAINSFEE  = "price/v1.0/c/batchPriceContainsFee";                     // 组合单费用包含详细 180
 
 
@@ -227,8 +227,8 @@ public class UrlLibs {
     public static final String API_COUNTRY_GROUP            = "goods/v1.0/c/home/countryGroup";                         // 国家线路圈页 137
     public static final String API_GOODS_FILTER             = "goods/v1.0/c/home/goods/search";                         // 商品列表页筛选 139
     public static final String API_GOODS_GUIDE_INFO_LIST    = "goods/v1.1/c/goodsguideinfolist";                        // C端关联商品的可服务司导列表170
-    public static final String API_QUERY_GOODS_STOCK        = "goods/v1.0/c/queryGoodsStock";                           // 商品库存171
-    public static final String API_QUERY_GUIDE_STOCK        = "goods/v1.0/c/queryGuideGoodsStock";                      // 商品司导库存172
+    public static final String API_QUERY_GOODS_STOCK        = "goods/v1.1/c/queryGoodsStock";                           // 商品库存171
+    public static final String API_QUERY_GUIDE_STOCK        = "goods/v1.1/c/queryGuideGoodsStock";                      // 商品司导库存172
     public static final String API_GOODS_GUIDE_FILTER_OPTIONS= "goods/v1.0/c/goodsguidecondition";                      // 关联商品的可服务司导过滤条件 175
     public static final String API_GOODS_LINE_SEARCH        = "goods/v1.1/c/goodsSearch";                               // 线路搜索 177
     public static final String API_RECOMMENDED_GOODS        = "goods/v1.0/c/crossRecommendedGoods";                     // 根据订单城市交叉推荐商品列表v1.0 185

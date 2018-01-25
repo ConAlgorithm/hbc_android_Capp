@@ -11,6 +11,8 @@
         android:visibility="gone"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
+        android:paddingLeft="@dimen/sku_order_padding_left"
+        android:paddingRight="@dimen/sku_order_padding_left"
         android:text="@string/bargain_hint"
         android:textColor="#ffffff"
         android:textSize="12sp" />

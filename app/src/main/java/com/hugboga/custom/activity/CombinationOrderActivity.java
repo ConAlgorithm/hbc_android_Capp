@@ -170,7 +170,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         extrasPriceView.setOnAdditionalPriceChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
         bottomView.setOnIntentPriceInfoListener(this);
-        bottomView.setData(3, charterDataUtils.guidesDetailData != null, charterDataUtils.isSeckills());
         insuranceView.setInsuranceCount(charterDataUtils.adultCount + charterDataUtils.childCount);
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);
@@ -569,6 +568,10 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
+
+        bottomView.setHintData(3, charterDataUtils.guidesDetailData != null,
+                charterDataUtils.isSeckills(), carBean.reconfirmFlag, carBean.reconfirmTip);
+
         extrasPriceView.update(carBean, charterDataUtils);
         double additionalPrice = extrasPriceView.getAdditionalPrice();
 
