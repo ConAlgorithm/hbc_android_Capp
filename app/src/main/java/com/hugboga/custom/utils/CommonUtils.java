@@ -68,7 +68,8 @@ import cn.tongdun.android.shell.FMAgent;
  */
 public final class CommonUtils {
 
-    private CommonUtils() {}
+    private CommonUtils() {
+    }
 
     public static void showToast(int resId) {
         ToastUtils.showToast(MyApplication.getAppContext(), resId);
@@ -84,7 +85,7 @@ public final class CommonUtils {
         }
         try {
             count = Integer.valueOf(count) < 0 ? "0" : count;
-        } catch(Exception e) {
+        } catch (Exception e) {
             return "0";
         }
         return count;
@@ -97,7 +98,7 @@ public final class CommonUtils {
         int count = 0;
         try {
             count = Integer.valueOf(_count);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return 0;
         }
         return count;
@@ -110,7 +111,7 @@ public final class CommonUtils {
         long count = 0;
         try {
             count = Long.valueOf(_count);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return 0L;
         }
         return count;
@@ -123,7 +124,7 @@ public final class CommonUtils {
         double count = 0d;
         try {
             count = Double.valueOf(_count);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return 0d;
         }
         return count;
@@ -181,6 +182,7 @@ public final class CommonUtils {
                         public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
                             return false;
                         }
+
                         @Override
                         public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
                             WXShareUtils.getInstance(context).share(type, resource, title, content, shareUrl);
@@ -189,32 +191,32 @@ public final class CommonUtils {
                     })
                     .into(500, 500)
                     .get();
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
     public static CsDialog csDialog(final Context context, final OrderBean orderBean
-            , final String title, final SkuItemBean skuItemBean, final int sourceType,final String source) {
+            , final String title, final SkuItemBean skuItemBean, final int sourceType, final String source) {
         CsDialog csDialog = new CsDialog(context);
-        csDialog.setParams(new CsDialog.Params(title,sourceType,orderBean,skuItemBean,source));
+        csDialog.setParams(new CsDialog.Params(title, sourceType, orderBean, skuItemBean, source));
         csDialog.show();
         return csDialog;
     }
 
     public static CsDialog csDialog(final Context context, final OrderBean orderBean
-            , final String title, final SkuItemBean skuItemBean, final int sourceType,final String source,boolean hasOnLine) {
-        CsDialog csDialog = new CsDialog(context,hasOnLine);
-        csDialog.setParams(new CsDialog.Params(title,sourceType,orderBean,skuItemBean,source));
+            , final String title, final SkuItemBean skuItemBean, final int sourceType, final String source, boolean hasOnLine) {
+        CsDialog csDialog = new CsDialog(context, hasOnLine);
+        csDialog.setParams(new CsDialog.Params(title, sourceType, orderBean, skuItemBean, source));
         csDialog.show();
         return csDialog;
     }
 
     public static CsDialog csDialog(final Context context, final OrderBean orderBean
             , final String title, final SkuItemBean skuItemBean, final int sourceType,
-                                    final String source,CsDialog.OnCsListener listener) {
+                                    final String source, CsDialog.OnCsListener listener) {
         CsDialog csDialog = new CsDialog(context);
-        csDialog.setParams(new CsDialog.Params(title,sourceType,orderBean,skuItemBean,source));
-        if(listener!=null){
+        csDialog.setParams(new CsDialog.Params(title, sourceType, orderBean, skuItemBean, source));
+        if (listener != null) {
             csDialog.setOnCsListener(listener);
         }
         csDialog.show();
@@ -222,20 +224,22 @@ public final class CommonUtils {
     }
 
     public static CsDialog csDialog(final Context context, final OrderBean orderBean
-            , final String title, final SkuItemBean skuItemBean, final int sourceType,final String source,boolean hasOnLine,CsDialog.OnCsListener listener) {
-        CsDialog csDialog = new CsDialog(context,hasOnLine);
-        csDialog.setParams(new CsDialog.Params(title,sourceType,orderBean,skuItemBean,source));
-        if(listener!=null){
+            , final String title, final SkuItemBean skuItemBean, final int sourceType, final String source, boolean hasOnLine, CsDialog.OnCsListener listener) {
+        CsDialog csDialog = new CsDialog(context, hasOnLine);
+        csDialog.setParams(new CsDialog.Params(title, sourceType, orderBean, skuItemBean, source));
+        if (listener != null) {
             csDialog.setOnCsListener(listener);
         }
         csDialog.show();
         return csDialog;
     }
+
     public static UpPicDialog uppicDialog(final Context context) {
         UpPicDialog upPicDialog = new UpPicDialog(context);
         upPicDialog.show();
         return upPicDialog;
     }
+
     public static String getDoubleEncodedString(String str) {
         if (TextUtils.isEmpty(str)) {
             return "";
@@ -277,7 +281,7 @@ public final class CommonUtils {
 
     public static String replaceUrlValue(String url, String key, String value) {
         if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(key)) {
-            url = url.replaceAll("(" + key +"=[^&]*)", key + "=" + value);
+            url = url.replaceAll("(" + key + "=[^&]*)", key + "=" + value);
         }
         return url;
     }
@@ -349,8 +353,8 @@ public final class CommonUtils {
     public static boolean isLogin(Context context, String source) {
         if (context != null && !UserEntity.getUser().isLogin(context)) {
             CommonUtils.showToast(R.string.login_hint);
-            Intent intent= new Intent(context, LoginActivity.class);
-            intent.putExtra(Constants.PARAMS_SOURCE,source);
+            Intent intent = new Intent(context, LoginActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE, source);
             context.startActivity(intent);
             return false;
         } else {
@@ -402,7 +406,7 @@ public final class CommonUtils {
         String result = "+86";
         if (!TextUtils.isEmpty(phoneCode)) {
             if (phoneCode.contains("+")) {
-                result = phoneCode.replaceAll(" ","");
+                result = phoneCode.replaceAll(" ", "");
             } else {
                 result = "+" + phoneCode.trim();
             }
@@ -435,6 +439,7 @@ public final class CommonUtils {
 
     /**
      * 根据payType返回支付方式
+     *
      * @param payType
      * @return
      */
@@ -459,12 +464,14 @@ public final class CommonUtils {
     public static void apiErrorShowService(final Context context, ExceptionInfo errorInfo, BaseRequest request, final String source) {
         apiErrorShowService(context, errorInfo, request, source, true);
     }
+
     static CsDialog csDialog;
+
     public static void apiErrorShowService(final Context context, ExceptionInfo errorInfo, BaseRequest request, final String source, boolean isShowHint) {
         if (request.errorType == BaseRequest.ERROR_TYPE_PROCESSED) {
             return;
         }
-        String errorMessage = ErrorHandler.getErrorMessage(errorInfo, request) ;
+        String errorMessage = ErrorHandler.getErrorMessage(errorInfo, request);
         if (isShowHint) {
             errorMessage += "\n请联系客服，我们会协助您完成预订";
         }
@@ -527,7 +534,7 @@ public final class CommonUtils {
     public static String doubleTrans(double num) {
         try {
             if (num % 1.0 == 0) {
-                return String.valueOf((long)num);
+                return String.valueOf((long) num);
             }
             return String.valueOf(num);
         } catch (Exception e) {
@@ -540,7 +547,7 @@ public final class CommonUtils {
             return "";
         }
         try {
-            String regEx="[^0-9]";
+            String regEx = "[^0-9]";
             Pattern p = Pattern.compile(regEx);
             Matcher m = p.matcher(text);
             return m.replaceAll("").trim();
@@ -550,7 +557,7 @@ public final class CommonUtils {
     }
 
     public static void loginDoAction(Context context, ActionBean actionBean) {
-        if (actionBean != null && !"1".equals(actionBean.vcid) ) {
+        if (actionBean != null && !"1".equals(actionBean.vcid)) {
             ActionController actionFactory = ActionController.getInstance();
             actionFactory.doAction(context, actionBean);
         }
@@ -571,21 +578,21 @@ public final class CommonUtils {
      * @param uri
      * @return the file path or null
      */
-    public static String getRealFilePath( final Context context, final Uri uri ) {
-        if ( null == uri ) return null;
+    public static String getRealFilePath(final Context context, final Uri uri) {
+        if (null == uri) return null;
         final String scheme = uri.getScheme();
         String data = null;
-        if ( scheme == null )
+        if (scheme == null)
             data = uri.getPath();
-        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
             data = uri.getPath();
-        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
-            Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
-            if ( null != cursor ) {
-                if ( cursor.moveToFirst() ) {
-                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
-                    if ( index > -1 ) {
-                        data = cursor.getString( index );
+        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+            Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
+            if (null != cursor) {
+                if (cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                    if (index > -1) {
+                        data = cursor.getString(index);
                     }
                 }
                 cursor.close();
@@ -608,6 +615,7 @@ public final class CommonUtils {
 
     /**
      * 根据渠道初始化不同反作弊SDK，android 大渠道（例如：官方渠道）接入数美， 其他小渠道接入同盾科技
+     *
      * @return 是否是数美
      */
     public static boolean isAgainstSM() {
@@ -689,5 +697,25 @@ public final class CommonUtils {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 微信分享图片优化
+     *
+     * @param mActivity
+     * @param type      (1分享到微信好友,2分享到微信朋友圈)
+     * @param _picUrl
+     * @param title
+     * @param content
+     * @param goUrl
+     * @param source    评价来源
+     */
+    public static void shareOptimize(final Context mActivity, final int type, final String _picUrl, final String title, final String content, final String goUrl, final String source) {
+        WXShareUtils wxShareUtils = WXShareUtils.getInstance(mActivity);
+        if (!TextUtils.isEmpty(source)) {
+            wxShareUtils.source = source;
+        }
+        String picUrl = Tools.transformImgUrl(100, 100, _picUrl);
+        wxShareUtils.share(type, picUrl, title, content, goUrl);
     }
 }

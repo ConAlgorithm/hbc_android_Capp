@@ -10,11 +10,12 @@ import android.view.WindowManager;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.CommonUtils;
 
 /**
  * Created by qingcha on 16/7/15.
  */
-public class ShareDialog extends Dialog implements View.OnClickListener{
+public class ShareDialog extends Dialog implements View.OnClickListener {
 
     private Params mParams;
     private OnShareListener listener;
@@ -50,7 +51,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
 
     /**
      * 1:好友,2:朋友圈；
-     * */
+     */
     protected void setShare(int type) {
         if (getContext() instanceof Activity) {
             Activity activity = (Activity) getContext();
@@ -69,7 +70,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
         if (TextUtils.isEmpty(mParams.picUrl)) {
             wxShareUtils.share(type, mParams.resID, mParams.title, mParams.content, mParams.shareUrl);
         } else {
-            wxShareUtils.share(type, mParams.picUrl, mParams.title, mParams.content, mParams.shareUrl);
+            CommonUtils.shareOptimize(getContext(), type, mParams.picUrl, mParams.title, mParams.content, mParams.shareUrl, mParams.source);
         }
         //SensorsUtils.setSensorsShareEvent(type == 1 ? "好友" : "朋友圈", mParams.source);
         dismiss();
