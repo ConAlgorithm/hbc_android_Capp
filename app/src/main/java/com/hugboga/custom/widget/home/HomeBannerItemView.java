@@ -126,7 +126,7 @@ public class HomeBannerItemView extends LinearLayout implements HbcViewBehavior,
         if (bannerBean.bannerType == 2) {
             Intent intent = new Intent(getContext(), SkuDetailActivity.class);
             intent.putExtra(WebInfoActivity.WEB_URL, bannerBean.bannerAddress);
-            intent.putExtra(Constants.PARAMS_ID, bannerBean.bannerSettingId);
+            intent.putExtra(Constants.PARAMS_ID, bannerBean.bannerSettingId + "");
             intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
             getContext().startActivity(intent);
         } else {
