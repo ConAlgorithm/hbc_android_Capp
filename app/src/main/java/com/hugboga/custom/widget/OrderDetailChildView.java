@@ -64,25 +64,15 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
             orderDetailGuideInfo.setVisibility(View.GONE);
             childCancelTV.setVisibility(View.GONE);
             orderDetailDeliverItemView.setVisibility(View.VISIBLE);
-            DeliverInfoBean deliverInfoBean = ((OrderDetailActivity)getContext()).getDeliverInfoBean();
-            if (deliverInfoBean != null) {
-                if (orderBean.isTwiceConfirm) {
-                    orderDetailDeliverItemView.countdownLayout(deliverInfoBean);
-                    if (!orderDetailActivity.isLoopRequestdeliverInfo()) {//只开启一个轮询，所有子单共用一个发单状态
-                        orderDetailActivity.setLoopRequestdeliverInfo(true);
-                        orderDetailDeliverItemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
-                            @Override
-                            public void onUpdate(boolean isEnd) {
-                                requestDeliverInfo();
-                            }
-                        });
+            if (orderBean.isTwiceConfirm) {
+                orderDetailDeliverItemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
+                    @Override
+                    public void onUpdate(boolean isEnd) {
+                        requestDeliverInfo();
                     }
-                } else {
-                    orderDetailDeliverItemView.loadingLayout(deliverInfoBean);
-                }
-            } else {
-                requestDeliverInfo();
+                });
             }
+            requestDeliverInfo();
         } else if (orderBean.orderStatus.code > 2) {
             orderDetailDeliverItemView.setVisibility(View.GONE);
             if (orderBean.orderGuideInfo == null) {
@@ -141,15 +131,12 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
                     OrderBean parentOrderBean = orderDetailActivity.getOrderBean();
                     EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, parentOrderBean.orderNo));
                     orderDetailDeliverItemView.setOnCountdownEndListener(null);
-                    orderDetailActivity.setDeliverInfoBean(null);
-                    orderDetailActivity.setLoopRequestdeliverInfo(false);
+                    orderDetailDeliverItemView.stop();
                 } else {
                     orderDetailDeliverItemView.countdownLayout(deliverInfoBean);
-                    orderDetailActivity.setDeliverInfoBean(deliverInfoBean);
                 }
             } else {
                 orderDetailDeliverItemView.loadingLayout(deliverInfoBean);
-                orderDetailActivity.setDeliverInfoBean(deliverInfoBean);
             }
 
         }

@@ -95,8 +95,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     private Params params;
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
-    private DeliverInfoBean deliverInfoBean;//组合单所有子单共用同一个发单状态，防止过多的轮询
-    private boolean isLoopRequestdeliverInfo;//用来判断是否有子单轮询请求发单状态
 
     private boolean isAppointGuideSucceed = false;
     CsDialog csDialog;
@@ -361,25 +359,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     private boolean eventVerification(EventAction action) {
         return orderBean != null && orderBean.orderNo.equals(action.getData());
-    }
-
-    /*
-     * 记录子单发单信息
-     * */
-    public DeliverInfoBean getDeliverInfoBean() {
-        return deliverInfoBean;
-    }
-
-    public void setDeliverInfoBean(DeliverInfoBean deliverInfoBean) {
-        this.deliverInfoBean = deliverInfoBean;
-    }
-
-    public void setLoopRequestdeliverInfo(boolean isLoopRequestdeliverInfo) {
-        this.isLoopRequestdeliverInfo = isLoopRequestdeliverInfo;
-    }
-
-    public boolean isLoopRequestdeliverInfo() {
-        return this.isLoopRequestdeliverInfo;
     }
 
     /**
