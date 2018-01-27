@@ -208,6 +208,7 @@ public class OrderUtils {
         orderBean.carId = carBean.carId;
         orderBean.capOfPerson = carBean.capOfPerson;
         orderBean.special = carBean.special;
+        orderBean.urgentFlag = carBean.urgentFlag;
 
         if (null != poiBean) {
             orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
@@ -352,7 +353,7 @@ public class OrderUtils {
         orderBean.guideCarId = carBean.id;
         orderBean.capOfPerson = carBean.capOfPerson;
         orderBean.special = carBean.special;
-
+        orderBean.urgentFlag = carBean.urgentFlag;
 
         if (contactUsersBean.isForOther) {
             orderBean.isRealUser = "2";
@@ -461,6 +462,7 @@ public class OrderUtils {
         orderBean.guideCarId = carBean.id;
         orderBean.capOfPerson = carBean.capOfPerson;
         orderBean.special = carBean.special;
+        orderBean.urgentFlag = carBean.urgentFlag;
 
         orderBean.startAddress = startPoi.placeName;
         orderBean.startAddressDetail = startPoi.placeDetail;

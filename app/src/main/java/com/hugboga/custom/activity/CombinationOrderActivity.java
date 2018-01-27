@@ -569,8 +569,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
 
-        bottomView.setHintData(3, charterDataUtils.guidesDetailData != null,
-                charterDataUtils.isSeckills(), carBean.reconfirmFlag, carBean.reconfirmTip);
+        bottomView.setHintData(carBean.price, 3, charterDataUtils.guidesDetailData != null,
+                charterDataUtils.isSeckills(), carBean.reconfirmFlag, carBean.reconfirmTip, charterDataUtils.isPickupTransfer() == 1);
 
         extrasPriceView.update(carBean, charterDataUtils);
         double additionalPrice = extrasPriceView.getAdditionalPrice();
@@ -644,7 +644,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         }
         bottomView.updatePrice(actualPrice, deductionPrice);
         if (requestCouponCount == 0) {
-            bottomView.setHintTV(charterDataUtils.isPickupTransfer() == 1);
+            bottomView.setHintTV(actualPrice,charterDataUtils.isPickupTransfer() == 1);
         }
     }
 

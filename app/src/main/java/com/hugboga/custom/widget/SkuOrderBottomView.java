@@ -113,19 +113,17 @@ public class SkuOrderBottomView extends LinearLayout {
         }
     }
 
-    public void setHintData(int orderType, boolean isGuides, boolean isSeckills, int reconfirmFlag, String reconfirmTip) {
-        setHintData(orderType, isGuides, isSeckills, reconfirmFlag, reconfirmTip, false);
+    public void setHintData(double price, int orderType, boolean isGuides, boolean isSeckills, int reconfirmFlag, String reconfirmTip) {
+        setHintData(price, orderType, isGuides, isSeckills, reconfirmFlag, reconfirmTip, false);
     }
 
-    public void setHintData(int orderType, boolean isGuides, boolean isSeckills, int reconfirmFlag, String reconfirmTip, boolean isPickupTransfer) {
+    public void setHintData(double price, int orderType, boolean isGuides, boolean isSeckills, int reconfirmFlag, String reconfirmTip, boolean isPickupTransfer) {
         this.orderType = orderType;
         this.isGuides = isGuides;
         this.isSeckills = isSeckills;
         this.reconfirmFlag = reconfirmFlag;
         this.reconfirmTip = reconfirmTip;
-        if (isSeckills) {
-            setHintTV(isPickupTransfer);
-        }
+        setHintTV(price, isPickupTransfer);
         if (orderType == 3 || orderType == 888) {
             priceDetailTV.setVisibility(View.VISIBLE);
         } else {
@@ -133,19 +131,21 @@ public class SkuOrderBottomView extends LinearLayout {
         }
     }
 
-    public void setHintTV() {
-        setHintTV(false);
+    public void setHintTV(double price) {
+        setHintTV(price,false);
     }
 
-    public void setHintTV(boolean isPickupTransfer) {
+    public void setHintTV(double price, boolean isPickupTransfer) {
         if (orderType == 0) {
             selectedGuideHintTV.setVisibility(GONE);
+            return;
         }
         String hint1 = CommonUtils.getString(R.string.order_bottom_hint1);
         String hint2 = CommonUtils.getString(R.string.order_bottom_hint2);
         String showText = "";
-        boolean isShowHint1 = shouldPrice > 200;
+        boolean isShowHint1 = price > 200;
         int bgColor = 0xFFB2C0D6;
+        selectedGuideHintTV.setGravity(Gravity.CENTER);
 
         boolean isDaily = orderType == 3 || orderType == 888 || orderType == 5 || orderType == 6;
 

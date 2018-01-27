@@ -504,7 +504,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     @Override
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
-        bottomView.setHintData(orderType, params.guidesDetailData != null, false,
+        bottomView.setHintData(carBean.price, orderType, params.guidesDetailData != null, false,
                 carBean.reconfirmFlag, carBean.reconfirmTip);
         countView.update(carBean, carListBean, serverDate, params.skuItemBean);
         double additionalPrice = countView.getAdditionalPrice();
@@ -580,7 +580,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         bottomView.updatePrice(actualPrice, deductionPrice);
         sensorsActualPrice = actualPrice;
         if (requestCouponCount == 0) {
-            bottomView.setHintTV();
+            bottomView.setHintTV(actualPrice);
         }
     }
 
