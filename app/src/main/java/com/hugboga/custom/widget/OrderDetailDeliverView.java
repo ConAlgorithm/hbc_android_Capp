@@ -82,7 +82,7 @@ import cn.iwgang.countdownview.CountdownView;
                 addDetailGuideInfoView(true);
             }
         } else {// 其它订单
-            if (orderBean.orderStatus == OrderStatus.PAYSUCCESS || orderBean.isTwiceConfirm) { // 预订成功 || 二次确认
+            if (orderBean.orderStatus == OrderStatus.PAYSUCCESS || (orderBean.isTwiceConfirm && orderBean.orderStatus == OrderStatus.PAYSUCCESS)) { // 预订成功 || 二次确认
                 sendRequest(true);
             } else if (orderBean.orderType != 888 && orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
                 addDetailGuideInfoView(true);
