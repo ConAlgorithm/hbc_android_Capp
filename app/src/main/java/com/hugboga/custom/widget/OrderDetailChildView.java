@@ -60,7 +60,7 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
         OrderBean parentOrderBean = orderDetailActivity.getOrderBean();
 
         orderBean = (OrderBean) _data;
-        if (orderBean.isTwiceConfirm || (orderBean.orderStatus.code == 2 && parentOrderBean.isSeparateOrder())) {
+        if (((orderBean.orderStatus.code == 2 || orderBean.isTwiceConfirm) && parentOrderBean.isSeparateOrder())) {
             orderDetailGuideInfo.setVisibility(View.GONE);
             childCancelTV.setVisibility(View.GONE);
             orderDetailDeliverItemView.setVisibility(View.VISIBLE);
