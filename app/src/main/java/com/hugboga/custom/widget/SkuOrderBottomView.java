@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -113,13 +114,17 @@ public class SkuOrderBottomView extends LinearLayout {
     }
 
     public void setHintData(int orderType, boolean isGuides, boolean isSeckills, int reconfirmFlag, String reconfirmTip) {
+        setHintData(orderType, isGuides, isSeckills, reconfirmFlag, reconfirmTip, false);
+    }
+
+    public void setHintData(int orderType, boolean isGuides, boolean isSeckills, int reconfirmFlag, String reconfirmTip, boolean isPickupTransfer) {
         this.orderType = orderType;
         this.isGuides = isGuides;
         this.isSeckills = isSeckills;
         this.reconfirmFlag = reconfirmFlag;
         this.reconfirmTip = reconfirmTip;
         if (isSeckills) {
-            setHintTV();
+            setHintTV(isPickupTransfer);
         }
         if (orderType == 3 || orderType == 888) {
             priceDetailTV.setVisibility(View.VISIBLE);
@@ -129,6 +134,10 @@ public class SkuOrderBottomView extends LinearLayout {
     }
 
     public void setHintTV() {
+        setHintTV(false);
+    }
+
+    public void setHintTV(boolean isPickupTransfer) {
         if (orderType == 0) {
             selectedGuideHintTV.setVisibility(GONE);
         }
@@ -150,9 +159,10 @@ public class SkuOrderBottomView extends LinearLayout {
             if (reconfirmFlag == 1 && !TextUtils.isEmpty(reconfirmTip)) {//二次确认订单
                 showText = reconfirmTip;
                 bgColor = 0xFFF56363;
+                selectedGuideHintTV.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
             } else if (isGuides) {//指定司导
                 showText = isShowHint1 ? hint1 : null;
-            } else if (isDaily) {//包车
+            } else if (isDaily && !isPickupTransfer) {//包车(组合单只接机加只送机不算包车)
                 showText = hint2;
             } else {//接送次
                 showText = isShowHint1 ? hint1 : null;

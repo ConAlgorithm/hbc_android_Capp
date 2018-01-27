@@ -9,22 +9,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <cn.iwgang.countdownview.CountdownView
-        android:id="@+id/deliver_countdown_view"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_centerInParent="true"
-        app:isHideTimeBackground="true"
-        app:isShowMinute="true"
-        app:isShowSecond="true"
-        app:isShowTimeBgDivisionLine="false"
-        app:suffixGravity="bottom"
-        app:suffixLRMargin="2dp"
-        app:suffixTextColor="#191919"
-        app:suffixTextSize="14sp"
-        app:isSuffixTextBold="true"
-        app:timeTextColor="#191919"
-        app:timeTextSize="14sp"
-        app:isTimeTextBold="true"
-        />
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/order_detail_countdown_title"
+            android:textSize="12sp"
+            android:textColor="#7f7f7f"
+            />
+        <cn.iwgang.countdownview.CountdownView
+            android:id="@+id/deliver_countdown_view"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            app:isHideTimeBackground="true"
+            android:layout_marginTop="-2dp"
+            app:isAutoHideHour="true"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:isShowHour="false"
+            android:gravity="center"
+            app:isShowTimeBgDivisionLine="false"
+            app:suffixLRMargin="0dp"
+            app:suffixGravity="center"
+            app:suffixTextColor="#191919"
+            app:suffixTextSize="11sp"
+            app:suffixMinute="分"
+            app:suffixSecond="秒"
+            app:isSuffixTextBold="true"
+            app:timeTextColor="#191919"
+            app:timeTextSize="11sp"
+            app:isTimeTextBold="true"
+            app:suffixCorrectBaseline="-1.5dp"
+            />
+    </LinearLayout>
+
 </RelativeLayout>

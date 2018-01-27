@@ -55,6 +55,9 @@ public class ParserOrder extends ImplParser {
         int status = jsonObj.optInt("orderStatus");
         orderbean.orderStatus = OrderStatus.getStateByCode(status);
 
+        Integer twiceConfirm = jsonObj.optInt("twiceConfirm");
+        orderbean.isTwiceConfirm = twiceConfirm != null ? twiceConfirm == 1 : false;
+
         orderbean.payDeadTime = jsonObj.optString("payDeadTime");
         orderbean.cancelable = jsonObj.optBoolean("cancelable");
         orderbean.cancelText = jsonObj.optString("cancelText");

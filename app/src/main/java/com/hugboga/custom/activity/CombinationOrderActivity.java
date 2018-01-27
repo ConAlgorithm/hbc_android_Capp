@@ -644,7 +644,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         }
         bottomView.updatePrice(actualPrice, deductionPrice);
         if (requestCouponCount == 0) {
-            bottomView.setHintTV();
+            bottomView.setHintTV(charterDataUtils.isPickupTransfer() == 1);
         }
     }
 

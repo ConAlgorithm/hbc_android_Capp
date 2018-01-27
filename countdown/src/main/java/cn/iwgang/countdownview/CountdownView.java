@@ -56,6 +56,8 @@ public class CountdownView extends View {
     private OnCountdownIntervalListener mOnCountdownIntervalListener;
 
     private boolean isHideTimeBackground;
+    private boolean isAutoHideHour;
+    private boolean isHideHour;
     private long mPreviousIntervalCallbackTime;
     private long mInterval;
     private long mRemainTime;
@@ -73,6 +75,7 @@ public class CountdownView extends View {
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CountdownView);
         isHideTimeBackground = ta.getBoolean(R.styleable.CountdownView_isHideTimeBackground, true);
+        isAutoHideHour = ta.getBoolean(R.styleable.CountdownView_isAutoHideHour, false);
 
         mCountdown = isHideTimeBackground ? new BaseCountdown() : new BackgroundCountdown();
         mCountdown.initStyleAttr(context,ta);
@@ -308,6 +311,11 @@ public class CountdownView extends View {
         int second = (int)((ms % (1000 * 60)) / 1000);
         int millisecond = (int)(ms % 1000);
 
+        if (isAutoHideHour && hour == 0) {
+            mCountdown.isShowHour = false;
+            mCountdown.mSuffixHourTextWidth = 0;
+        }
+
         mCountdown.setTimes(day, hour, minute, second, millisecond);
 
         // interval callback
@@ -323,7 +331,12 @@ public class CountdownView extends View {
         if (mCountdown.handlerAutoShowTime() || mCountdown.handlerDayLargeNinetyNine()) {
             reLayout();
         } else {
-            invalidate();
+            if (isAutoHideHour && hour == 0 && !isHideHour) {
+                isHideHour = true;
+                reLayout();
+            } else {
+                invalidate();
+            }
         }
     }
 
@@ -341,6 +354,8 @@ public class CountdownView extends View {
      */
     public void dynamicShow(DynamicConfig dynamicConfig) {
         if (null == dynamicConfig) return;
+
+        isHideHour = false;
 
         boolean isReLayout = false;
         boolean isInvalidate = false;

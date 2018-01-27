@@ -64,6 +64,7 @@ public class OrderBean implements IBaseBean{
     public Integer orderType;       // 订单类型：1-接机、2-送机、3-包车游、4-次租(单次接送)、5-固定线路、6-推荐线路；
     public int orderGoodsType;      // 订单子类型：1-接机、2-送机、3-市内包车、4-次租（单次接送）、5-精品线路、6-小长途、7-打长途；
     public OrderStatus orderStatus; // 订单状态：1-未付款、2：已付款、3-已接单、4-已到达、5-服务中、6-未评价、7-已完成、8-已取消、9-已退款、10-客诉处理中；
+    public boolean isTwiceConfirm;  // 二次确认订单，0否，1是
 
     public String payDeadTime;              // 支付结束时间，订单未支付时有值
     public boolean cancelable;              // 是否能取消

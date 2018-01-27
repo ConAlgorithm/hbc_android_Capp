@@ -94,7 +94,14 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         if (deliverInfoBean == null) {
             return;
         }
-        //3种UI样式
+
+        //二次确认订单
+        if (deliverInfoBean.isTwiceConfirm()) {
+            countdownLayout(deliverInfoBean);
+            return;
+        }
+
+        //正常发单流程（3种UI样式）
         switch (deliverInfoBean.deliverStatus) {
             case DeliverInfoBean.DeliverStatus.INFORMED:        // 3.已通知司导
             case DeliverInfoBean.DeliverStatus.INFORMED_GUIDE:  // 6.已通知该司导
@@ -134,7 +141,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         subtitleIV.setText(deliverInfoBean.deliverDetail);
     }
 
-    private void countdownLayout(DeliverInfoBean deliverInfoBean) {
+    public void countdownLayout(DeliverInfoBean deliverInfoBean) {
         loadingView.setVisibility(View.GONE);
         countdownLayout.setVisibility(View.VISIBLE);
         avatarLayout.removeAllViews();

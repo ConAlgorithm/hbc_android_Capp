@@ -82,7 +82,7 @@ import cn.iwgang.countdownview.CountdownView;
                 addDetailGuideInfoView(true);
             }
         } else {// 其它订单
-            if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 2.预订成功
+            if (orderBean.orderStatus == OrderStatus.PAYSUCCESS || orderBean.isTwiceConfirm) { // 预订成功 || 二次确认
                 sendRequest(true);
             } else if (orderBean.orderType != 888 && orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
                 addDetailGuideInfoView(true);
@@ -91,16 +91,6 @@ import cn.iwgang.countdownview.CountdownView;
                 setVisibility(View.GONE);
             }
         }
-//        loadingView.setVisibility(View.GONE);
-//        groupLayout.setVisibility(View.VISIBLE);
-//
-//        OrderDetailDeliverItemView itemView = new OrderDetailDeliverItemView(getContext());
-//        itemView.setOrderNo(orderBean.orderNo, orderBean.orderType);
-//        DeliverInfoBean deliverInfoBean = new DeliverInfoBean();
-//        deliverInfoBean.deliverMessage = "老子就是测试一下";
-//        deliverInfoBean.deliverDetail = "一小时后该司导未应答，我们会帮您人工协调";
-//        itemView.update(deliverInfoBean);
-//        groupLayout.addView(itemView);
     }
 
     private void addDetailGuideInfoView(boolean isRemoveAllViews) {
@@ -120,6 +110,9 @@ import cn.iwgang.countdownview.CountdownView;
     }
 
     public void refreshData(boolean isShowLoadingView) {
+        if (orderBean == null || orderBean.isSeparateOrder()) {
+            return;
+        }
         if (orderBean != null && orderBean.orderStatus == OrderStatus.PAYSUCCESS) {
             sendRequest(isShowLoadingView);
         }
@@ -157,6 +150,11 @@ import cn.iwgang.countdownview.CountdownView;
             return;
         }
 
+        if (orderBean.isTwiceConfirm) {// 二次确认订单
+            setDeliverItemView(_deliverInfoBean);
+            return;
+        }
+
         if (_deliverInfoBean.deliverStatus == DeliverInfoBean.DeliverStatus.UNBILLED) { // 1.未发单
             OrderDetailDeliverUnbilledView unbilledView = new OrderDetailDeliverUnbilledView(getContext());
             unbilledView.update(_deliverInfoBean);
@@ -170,19 +168,23 @@ import cn.iwgang.countdownview.CountdownView;
         } else if (_deliverInfoBean.deliverStatus == DeliverInfoBean.DeliverStatus.IDENTIFIED) { // 8.已确定导游
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
         } else {
-            OrderDetailDeliverItemView itemView = new OrderDetailDeliverItemView(getContext());
-            itemView.setOrderNo(orderBean.orderNo, orderBean.orderType);
-            setEvent(orderBean.orderType);
-            _deliverInfoBean.refreshCount = refreshCount;
-            itemView.update(_deliverInfoBean);
-            groupLayout.addView(itemView);
-            itemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
-                @Override
-                public void onUpdate(boolean isEnd) {
-                    sendRequest(isEnd);
-                }
-            });
+            setDeliverItemView(_deliverInfoBean);
         }
+    }
+
+    private void setDeliverItemView(DeliverInfoBean _deliverInfoBean) {
+        OrderDetailDeliverItemView itemView = new OrderDetailDeliverItemView(getContext());
+        itemView.setOrderNo(orderBean.orderNo, orderBean.orderType);
+        setEvent(orderBean.orderType);
+        _deliverInfoBean.refreshCount = refreshCount;
+        itemView.update(_deliverInfoBean);
+        groupLayout.addView(itemView);
+        itemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
+            @Override
+            public void onUpdate(boolean isEnd) {
+                sendRequest(isEnd);
+            }
+        });
     }
 
     @Override

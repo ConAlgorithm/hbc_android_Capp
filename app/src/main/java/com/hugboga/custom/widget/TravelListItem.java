@@ -344,7 +344,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
      */
     private void setStatusView(final OrderBean orderBean) {
         mAssessment.setOnClickListener(null);
-        mStatus.setText(orderBean.orderStatus.name);
+        mStatus.setText(orderBean.isTwiceConfirm ? getContext().getResources().getString(R.string.order_detail_state_twiceconfirm) : orderBean.orderStatus.name);
         boolean isShowAvartarLayout = false;
         if (orderBean.orderType == 888 && orderBean.isSeparateOrder() && orderBean.orderStatus.code > 1) {
             List<String> subOrderGuideAvartar = orderBean.subOrderGuideAvartar;
@@ -403,7 +403,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 mAssessment.setVisibility(View.GONE);//评价司导
                 break;
             case PAYSUCCESS://预订成功
-                mStatus.setTextColor(0xff7f7f7f);
+                mStatus.setTextColor(orderBean.isTwiceConfirm ? 0xffff2525 : 0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mHeadLayout.setVisibility(View.GONE);

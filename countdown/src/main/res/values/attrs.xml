@@ -2,6 +2,7 @@
 <resources>
 
     <declare-styleable name="CountdownView">
+        <attr name="isAutoHideHour" format="boolean" />
         <attr name="isHideTimeBackground" format="boolean" />
         <attr name="isShowTimeBgDivisionLine" format="boolean" />
         <attr name="timeBgDivisionLineColor" format="color" />
@@ -43,6 +44,7 @@
         <attr name="suffixSecondLeftMargin" format="dimension" />
         <attr name="suffixSecondRightMargin" format="dimension" />
         <attr name="suffixMillisecondLeftMargin" format="dimension" />
+        <attr name="suffixCorrectBaseline" format="dimension" />
 
         <attr name="isShowTimeBgBorder" format="boolean" />
         <attr name="timeBgBorderColor" format="color" />

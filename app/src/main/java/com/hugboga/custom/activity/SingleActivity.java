@@ -211,7 +211,8 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         emptyLayout.setOnClickCharterListener(new SkuOrderEmptyView.OnClickCharterListener() {
             @Override
             public void onClickCharter() {
-                IntentUtils.intentCharterActivity(SingleActivity.this, getEventSource());
+                IntentUtils.intentCharterActivity(SingleActivity.this, null
+                        , params != null ? params.guidesDetailData : null, cityBean, getEventSource());
             }
         });
         updateConponsTipView();
