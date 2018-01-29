@@ -26,6 +26,7 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
 
     private long lastRemainTime = 0;
     private OnUpdateListener onUpdateListener;
+    private boolean isResetCountdownView = true;
 
     public OrderDetailDeliverCountDownView(Context context) {
         this(context, null);
@@ -46,15 +47,18 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
         float progress = 0;
         long countdownMillisecond = 0;
         if (deliverInfoBean.isTwiceConfirm()) {//二次确认订单，xx时xx分
-            DynamicConfig.BackgroundInfo backgroundInfo = new DynamicConfig.BackgroundInfo();
-            backgroundInfo.setShowTimeBgDivisionLine(false);
-            DynamicConfig dynamicConfig = new DynamicConfig.Builder()
-                    .setShowMinute(true).setShowHour(true).setShowSecond(false).setSuffixHour("时").setSuffixMinute("分")
-                    .setSuffixLRMargin(UIUtils.dip2px(0)).setSuffixGravity(1)
-                    .setSuffixTextColor(0xFF191919).setSuffixTextSize(11).setSuffixTextBold(true)
-                    .setTimeTextColor(0xFF191919).setTimeTextSize(11).setTimeTextBold(true)
-                    .setBackgroundInfo(backgroundInfo).build();
-            countdownView.dynamicShow(dynamicConfig);
+            if (isResetCountdownView) {
+                DynamicConfig.BackgroundInfo backgroundInfo = new DynamicConfig.BackgroundInfo();
+                backgroundInfo.setShowTimeBgDivisionLine(false);
+                DynamicConfig dynamicConfig = new DynamicConfig.Builder()
+                        .setShowMinute(true).setShowHour(true).setShowSecond(false).setSuffixHour("时").setSuffixMinute("分")
+                        .setSuffixLRMargin(UIUtils.dip2px(0)).setSuffixGravity(1)
+                        .setSuffixTextColor(0xFF191919).setSuffixTextSize(11).setSuffixTextBold(true)
+                        .setTimeTextColor(0xFF191919).setTimeTextSize(11).setTimeTextBold(true)
+                        .setBackgroundInfo(backgroundInfo).build();
+                countdownView.dynamicShow(dynamicConfig);
+                isResetCountdownView = false;
+            }
 
             progress =  360 - 360 * (deliverInfoBean.twiceCancelSpan / (float)deliverInfoBean.twiceCancelTotalSpan);
             countdownMillisecond = deliverInfoBean.twiceCancelSpan;
@@ -67,6 +71,7 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
         countdownView.start(countdownMillisecond);
         countdownView.setOnCountdownEndListener(this);
         setOnCountdownIntervalListener(1000, deliverInfoBean);
+        countdownView.setVisibility(View.VISIBLE);
     }
 
     private void setOnCountdownIntervalListener(long interval, final DeliverInfoBean deliverInfoBean) {
