@@ -3,6 +3,7 @@ package com.hugboga.custom.widget.home;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
@@ -51,6 +52,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
         albumBean = (HomeBean.AlbumBean) _data;
         if (home_sku_view != null) {
             home_sku_view.init(transSkuInfo(albumBean));
+            home_sku_view.line.setVisibility(View.GONE);
         }
     }
 
