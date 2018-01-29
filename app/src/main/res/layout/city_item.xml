@@ -16,6 +16,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView_abave"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#22000000"
+        app:layout_constraintBottom_toBottomOf="@+id/city_item_img"
+        app:layout_constraintEnd_toEndOf="@+id/city_item_img"
+        app:layout_constraintStart_toStartOf="@+id/city_item_img"
+        app:layout_constraintTop_toTopOf="@+id/city_item_img" />
+
     <TextView
         android:id="@+id/city_item_favor"
         android:layout_width="wrap_content"
