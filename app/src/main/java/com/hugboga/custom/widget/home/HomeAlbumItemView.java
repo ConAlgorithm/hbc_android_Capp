@@ -52,7 +52,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
         albumBean = (HomeBean.AlbumBean) _data;
         if (home_sku_view != null) {
             home_sku_view.init(transSkuInfo(albumBean));
-            home_sku_view.line.setVisibility(View.GONE);
+            home_sku_view.line.setVisibility(View.INVISIBLE);
         }
     }
 
