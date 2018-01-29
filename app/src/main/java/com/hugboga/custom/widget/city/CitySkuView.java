@@ -30,9 +30,7 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PriceFormat;
 import com.hugboga.custom.utils.Tools;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.collection.CollectionHelper;
-import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.tools.NetImg;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
@@ -47,7 +45,7 @@ import butterknife.OnClick;
  * Created by HONGBO on 2017/12/6 12:18.
  */
 
-public class CitySkuView extends FrameLayout implements HbcViewBehavior {
+public class CitySkuView extends FrameLayout {
 
     @BindView(R.id.city_item_root_layout)
     ConstraintLayout city_item_root_layout;
@@ -182,20 +180,13 @@ public class CitySkuView extends FrameLayout implements HbcViewBehavior {
         }
     }
 
-    @Override
-    public void update(Object _data) {
-        if (_data instanceof DestinationGoodsVo) {
-            city_item_root_layout.getLayoutParams().width = UIUtils.getScreenWidth();
-            city_item_img.getLayoutParams().height = UIUtils.getScreenWidth() - UIUtils.dip2px(20);
-            city_item_img.getLayoutParams().height = UIUtils.getScreenWidth() - UIUtils.dip2px(20);
-            DestinationGoodsVo bean = (DestinationGoodsVo) _data;
-            init(bean);
-        }
+    public void setCityView(int size) {
+        city_item_root_layout.getLayoutParams().width = size;
+        city_item_img.getLayoutParams().height = size;
+        city_item_img.getLayoutParams().width = size;
     }
 
     public void setDesplayViewLayoutParams(int displayImgWidth, int displayImgHeight) {
-        city_item_root_layout.getLayoutParams().width = displayImgWidth;
-        city_item_img.getLayoutParams().height = displayImgWidth;
-        city_item_img.getLayoutParams().width = displayImgWidth;
+        setCityView(displayImgWidth);
     }
 }
