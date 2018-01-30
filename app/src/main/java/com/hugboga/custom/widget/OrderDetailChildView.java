@@ -60,16 +60,19 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
         OrderBean parentOrderBean = orderDetailActivity.getOrderBean();
 
         orderBean = (OrderBean) _data;
-        if (orderBean.isSeparateOrder() && orderBean.isTwiceConfirm) {// 二次确认订单
-            if (orderBean.isTwiceCancelShowSpan) {
-                showDeliverDeliverItemView();
-            } else {
-                orderDetailDeliverItemView.setVisibility(View.GONE);
-                orderDetailGuideInfo.setVisibility(View.GONE);
-                childCancelTV.setVisibility(View.GONE);
+        if ((orderBean.orderStatus.code == 2 || orderBean.isTwiceConfirm) && parentOrderBean.isSeparateOrder()) {
+            orderDetailGuideInfo.setVisibility(View.GONE);
+            childCancelTV.setVisibility(View.GONE);
+            orderDetailDeliverItemView.setVisibility(View.VISIBLE);
+            if (orderBean.isTwiceConfirm) {
+                orderDetailDeliverItemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
+                    @Override
+                    public void onUpdate(boolean isEnd) {
+                        requestDeliverInfo();
+                    }
+                });
             }
-        } else if (orderBean.orderStatus.code == 2 && parentOrderBean.isSeparateOrder()) {
-            showDeliverDeliverItemView();
+            requestDeliverInfo();
         } else if (orderBean.orderStatus.code > 2) {
             orderDetailDeliverItemView.setVisibility(View.GONE);
             if (orderBean.orderGuideInfo == null) {
@@ -99,21 +102,6 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
         orderDetailTravelView.update(orderBean);
     }
 
-    private void showDeliverDeliverItemView() {
-        orderDetailGuideInfo.setVisibility(View.GONE);
-        childCancelTV.setVisibility(View.GONE);
-        orderDetailDeliverItemView.setVisibility(View.VISIBLE);
-        if (orderBean.isTwiceConfirm) {
-            orderDetailDeliverItemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
-                @Override
-                public void onUpdate(boolean isEnd) {
-                    requestDeliverInfo();
-                }
-            });
-        }
-        requestDeliverInfo();
-    }
-
     private void requestDeliverInfo() {
         if (getContext() instanceof Activity) {
             if (((Activity) getContext()).isFinishing()) {
@@ -138,8 +126,8 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
                 return;
             }
 
-            if (deliverInfoBean.isTwiceConfirm()) {
-                if (deliverInfoBean.isOrderStatusChanged()) {//订单状态改变
+            if (orderBean.isTwiceConfirm) {
+                if (deliverInfoBean.isOrderStatusChanged() || !deliverInfoBean.isTwiceConfirm()) {//订单状态改变
                     OrderBean parentOrderBean = orderDetailActivity.getOrderBean();
                     EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, parentOrderBean.orderNo));
                     orderDetailDeliverItemView.setOnCountdownEndListener(null);

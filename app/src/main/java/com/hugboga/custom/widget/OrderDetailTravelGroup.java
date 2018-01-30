@@ -56,10 +56,7 @@ public class OrderDetailTravelGroup extends LinearLayout implements HbcViewBehav
         travelPager.setAdapter(listAdapter);
         tabLayout.setViewPager(travelPager, orderBean, 0);
         int pagerHeight = 0;
-
-        if (orderBean.isSeparateOrder() && orderBean.isTwiceConfirm) {// 二次确认订单
-            pagerHeight = UIUtils.dip2px(orderBean.isTwiceCancelShowSpan ? 255 : 130);
-        } else if ((orderBean.orderStatus.code == 2 && orderBean.isSeparateOrder()) || orderBean.orderStatus.code > 2) {
+        if (((orderBean.orderStatus.code == 2 || orderBean.isTwiceConfirm) && orderBean.isSeparateOrder()) || orderBean.orderStatus.code > 2) {
             pagerHeight = UIUtils.dip2px(255);//125 + 130
         } else {
             pagerHeight = UIUtils.dip2px(130);

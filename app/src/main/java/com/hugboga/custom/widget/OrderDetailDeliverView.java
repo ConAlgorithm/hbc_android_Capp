@@ -83,11 +83,7 @@ import cn.iwgang.countdownview.CountdownView;
                 addDetailGuideInfoView(true);
             }
         } else if (orderBean.isTwiceConfirm) {// 二次确认订单
-            if (orderBean.isTwiceCancelShowSpan) {
-                sendRequest(true);
-            } else {
-                setVisibility(View.GONE);
-            }
+            sendRequest(true);
         } else {// 其它订单
             if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 预订成功
                 sendRequest(true);
@@ -203,7 +199,7 @@ import cn.iwgang.countdownview.CountdownView;
                 setVisibility(View.GONE);
                 return;
             }
-            if (deliverInfoBean.isOrderStatusChanged()) {//订单状态改变
+            if (deliverInfoBean.isOrderStatusChanged() || (orderBean.isTwiceConfirm && !deliverInfoBean.isTwiceConfirm())) {//订单状态改变 || 司导已接单
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
             } else {
                 resetItemView(deliverInfoBean);
