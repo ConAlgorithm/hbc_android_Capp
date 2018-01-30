@@ -83,11 +83,7 @@ import cn.iwgang.countdownview.CountdownView;
                 addDetailGuideInfoView(true);
             }
         } else if (orderBean.isTwiceConfirm) {// 二次确认订单
-            if (orderBean.isTwiceCancelShowSpan) {
-                sendRequest(true);
-            } else {
-                setVisibility(View.GONE);
-            }
+            sendRequest(true);
         } else {// 其它订单
             if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 预订成功
                 sendRequest(true);
