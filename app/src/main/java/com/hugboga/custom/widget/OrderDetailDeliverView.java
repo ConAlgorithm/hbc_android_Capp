@@ -203,7 +203,7 @@ import cn.iwgang.countdownview.CountdownView;
                 setVisibility(View.GONE);
                 return;
             }
-            if (deliverInfoBean.isOrderStatusChanged()) {//订单状态改变
+            if (deliverInfoBean.isOrderStatusChanged() || (orderBean.isTwiceConfirm && !deliverInfoBean.isTwiceConfirm())) {//订单状态改变 || 司导已接单
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
             } else {
                 resetItemView(deliverInfoBean);

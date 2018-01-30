@@ -138,8 +138,8 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
                 return;
             }
 
-            if (deliverInfoBean.isTwiceConfirm()) {
-                if (deliverInfoBean.isOrderStatusChanged()) {//订单状态改变
+            if (orderBean.isTwiceConfirm) {
+                if (deliverInfoBean.isOrderStatusChanged() || !deliverInfoBean.isTwiceConfirm()) {//订单状态改变
                     OrderBean parentOrderBean = orderDetailActivity.getOrderBean();
                     EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, parentOrderBean.orderNo));
                     orderDetailDeliverItemView.setOnCountdownEndListener(null);
