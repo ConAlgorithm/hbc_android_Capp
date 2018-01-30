@@ -70,6 +70,7 @@ import cn.iwgang.countdownview.CountdownView;
             return;
         }
         orderBean = (OrderBean) _data;
+        stop();
         if (orderBean.isSeparateOrder()) {// 是否拆单
             setVisibility(View.GONE);
             return;
@@ -81,13 +82,18 @@ import cn.iwgang.countdownview.CountdownView;
             } else {
                 addDetailGuideInfoView(true);
             }
+        } else if (orderBean.isTwiceConfirm) {// 二次确认订单
+            if (orderBean.isTwiceCancelShowSpan) {
+                sendRequest(true);
+            } else {
+                setVisibility(View.GONE);
+            }
         } else {// 其它订单
-            if (orderBean.orderStatus == OrderStatus.PAYSUCCESS || (orderBean.isTwiceConfirm && orderBean.orderStatus == OrderStatus.PAYSUCCESS)) { // 预订成功 || 二次确认
+            if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 预订成功
                 sendRequest(true);
             } else if (orderBean.orderType != 888 && orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
                 addDetailGuideInfoView(true);
             } else {
-                stop();
                 setVisibility(View.GONE);
             }
         }

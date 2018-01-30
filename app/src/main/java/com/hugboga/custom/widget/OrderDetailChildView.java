@@ -60,19 +60,16 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
         OrderBean parentOrderBean = orderDetailActivity.getOrderBean();
 
         orderBean = (OrderBean) _data;
-        if (((orderBean.orderStatus.code == 2 || orderBean.isTwiceConfirm) && parentOrderBean.isSeparateOrder())) {
-            orderDetailGuideInfo.setVisibility(View.GONE);
-            childCancelTV.setVisibility(View.GONE);
-            orderDetailDeliverItemView.setVisibility(View.VISIBLE);
-            if (orderBean.isTwiceConfirm) {
-                orderDetailDeliverItemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
-                    @Override
-                    public void onUpdate(boolean isEnd) {
-                        requestDeliverInfo();
-                    }
-                });
+        if (orderBean.isSeparateOrder() && orderBean.isTwiceConfirm) {// 二次确认订单
+            if (orderBean.isTwiceCancelShowSpan) {
+                showDeliverDeliverItemView();
+            } else {
+                orderDetailDeliverItemView.setVisibility(View.GONE);
+                orderDetailGuideInfo.setVisibility(View.GONE);
+                childCancelTV.setVisibility(View.GONE);
             }
-            requestDeliverInfo();
+        } else if (orderBean.orderStatus.code == 2 && parentOrderBean.isSeparateOrder()) {
+            showDeliverDeliverItemView();
         } else if (orderBean.orderStatus.code > 2) {
             orderDetailDeliverItemView.setVisibility(View.GONE);
             if (orderBean.orderGuideInfo == null) {
@@ -100,6 +97,21 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
             childCancelTV.setVisibility(View.GONE);
         }
         orderDetailTravelView.update(orderBean);
+    }
+
+    private void showDeliverDeliverItemView() {
+        orderDetailGuideInfo.setVisibility(View.GONE);
+        childCancelTV.setVisibility(View.GONE);
+        orderDetailDeliverItemView.setVisibility(View.VISIBLE);
+        if (orderBean.isTwiceConfirm) {
+            orderDetailDeliverItemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
+                @Override
+                public void onUpdate(boolean isEnd) {
+                    requestDeliverInfo();
+                }
+            });
+        }
+        requestDeliverInfo();
     }
 
     private void requestDeliverInfo() {
