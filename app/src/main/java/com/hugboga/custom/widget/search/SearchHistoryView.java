@@ -1,7 +1,6 @@
 package com.hugboga.custom.widget.search;
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.QueryCityActivity;
 import com.hugboga.custom.adapter.SearchAdapter;
@@ -57,6 +57,9 @@ public class SearchHistoryView extends LinearLayout {
     SearchAfterAdapter searchAfterAdapter;
 
     QueryCityActivity mActivity;
+
+    public static boolean queryGuideRun = false; //是否真该查询司导
+    public static boolean queryLineRun = false; //是否真该查询线路
     boolean stopQequest = false;
 
     public SearchHistoryView(Context context) {
@@ -110,15 +113,13 @@ public class SearchHistoryView extends LinearLayout {
     }
 
     public void showResultQuery(final String searchStr) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showMoreQuery(searchStr);
-            }
-        }, 300);
+        if (queryGuideRun || queryLineRun) {
+            return;
+        }
+        showMoreQuery(searchStr);
     }
 
-    public void showMoreQuery(String searchStr) {
+    private void showMoreQuery(String searchStr) {
         if (stopQequest) {
             stopQequest = false;
             return;
@@ -226,7 +227,6 @@ public class SearchHistoryView extends LinearLayout {
      * @param keyword
      */
     public void addAfterSearchDestinationModel(List<SearchGroupBean> list, String keyword) {
-
         if (searchHistoryAfterList.getChildCount() > 0) {
             searchHistoryAfterList.removeAllViews();
         }
