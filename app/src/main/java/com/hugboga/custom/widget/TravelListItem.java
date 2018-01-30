@@ -32,6 +32,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ImChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
+import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestImChatId;
@@ -344,7 +345,13 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
      */
     private void setStatusView(final OrderBean orderBean) {
         mAssessment.setOnClickListener(null);
-        mStatus.setText(orderBean.orderStatus.name);
+        mStatus.setText(orderBean.isTwiceConfirm ? getContext().getResources().getString(R.string.order_detail_state_twiceconfirm) : orderBean.orderStatus.name);
+        if (orderBean.orderStatus == OrderStatus.INITSTATE || orderBean.isTwiceConfirm) {
+            mStatus.setTextColor(0xffff2525);
+        } else {
+            mStatus.setTextColor(0xff7f7f7f);
+        }
+
         boolean isShowAvartarLayout = false;
         if (orderBean.orderType == 888 && orderBean.isSeparateOrder() && orderBean.orderStatus.code > 1) {
             List<String> subOrderGuideAvartar = orderBean.subOrderGuideAvartar;
@@ -387,7 +394,6 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
         }
         switch (orderBean.orderStatus) {
             case INITSTATE://等待支付 初始状态
-                mStatus.setTextColor(0xffff2525);
                 mStatusLayout.setVisibility(View.VISIBLE);
                 lineView.setVisibility(View.VISIBLE);
                 br_layout.setVisibility(View.GONE);//添加投保人
@@ -403,7 +409,6 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 mAssessment.setVisibility(View.GONE);//评价司导
                 break;
             case PAYSUCCESS://预订成功
-                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mHeadLayout.setVisibility(View.GONE);
@@ -442,7 +447,6 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
             case AGREE://司导已接单
             case ARRIVED://司导已到达
             case SERVICING://服务中
-                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mAssessment.setVisibility(View.GONE);
@@ -506,7 +510,6 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 break;
             case NOT_EVALUATED://未评价
             case COMPLETE://已完成
-                mStatus.setTextColor(0xff7f7f7f);
                 mStatusLayout.setVisibility(View.VISIBLE);
                 lineView.setVisibility(View.VISIBLE);
                 mPrice.setVisibility(View.GONE);
@@ -552,7 +555,6 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 break;
             case CANCELLED://已取消
             case REFUNDED://已退款
-                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mAssessment.setVisibility(View.GONE);
@@ -580,7 +582,6 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 }
                 break;
             case COMPLAINT://客诉处理中
-                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mAssessment.setVisibility(View.GONE);

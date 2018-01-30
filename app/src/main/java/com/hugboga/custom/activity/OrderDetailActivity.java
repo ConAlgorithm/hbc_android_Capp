@@ -95,7 +95,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     private Params params;
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
-    private DeliverInfoBean deliverInfoBean;
 
     private boolean isAppointGuideSucceed = false;
     CsDialog csDialog;
@@ -360,17 +359,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     private boolean eventVerification(EventAction action) {
         return orderBean != null && orderBean.orderNo.equals(action.getData());
-    }
-
-    /*
-     * 记录子单发单信息
-     * */
-    public DeliverInfoBean getDeliverInfoBean() {
-        return deliverInfoBean;
-    }
-
-    public void setDeliverInfoBean(DeliverInfoBean deliverInfoBean) {
-        this.deliverInfoBean = deliverInfoBean;
     }
 
     /**

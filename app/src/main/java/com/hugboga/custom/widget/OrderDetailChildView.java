@@ -1,5 +1,6 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -15,8 +16,12 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestDeliverInfo;
 import com.hugboga.custom.utils.ApiReportHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,17 +60,16 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
         OrderBean parentOrderBean = orderDetailActivity.getOrderBean();
 
         orderBean = (OrderBean) _data;
-        if (orderBean.orderStatus.code == 2 && parentOrderBean.isSeparateOrder()) {
-            orderDetailGuideInfo.setVisibility(View.GONE);
-            childCancelTV.setVisibility(View.GONE);
-            orderDetailDeliverItemView.setVisibility(View.VISIBLE);
-            DeliverInfoBean deliverInfoBean = ((OrderDetailActivity)getContext()).getDeliverInfoBean();
-            if (deliverInfoBean != null) {
-                orderDetailDeliverItemView.loadingLayout(deliverInfoBean);
+        if (orderBean.isSeparateOrder() && orderBean.isTwiceConfirm) {// 二次确认订单
+            if (orderBean.isTwiceCancelShowSpan) {
+                showDeliverDeliverItemView();
             } else {
-                RequestDeliverInfo request = new RequestDeliverInfo(getContext(), orderBean.orderNo);
-                HttpRequestUtils.request(getContext(), request, this, false);
+                orderDetailDeliverItemView.setVisibility(View.GONE);
+                orderDetailGuideInfo.setVisibility(View.GONE);
+                childCancelTV.setVisibility(View.GONE);
             }
+        } else if (orderBean.orderStatus.code == 2 && parentOrderBean.isSeparateOrder()) {
+            showDeliverDeliverItemView();
         } else if (orderBean.orderStatus.code > 2) {
             orderDetailDeliverItemView.setVisibility(View.GONE);
             if (orderBean.orderGuideInfo == null) {
@@ -95,6 +99,34 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
         orderDetailTravelView.update(orderBean);
     }
 
+    private void showDeliverDeliverItemView() {
+        orderDetailGuideInfo.setVisibility(View.GONE);
+        childCancelTV.setVisibility(View.GONE);
+        orderDetailDeliverItemView.setVisibility(View.VISIBLE);
+        if (orderBean.isTwiceConfirm) {
+            orderDetailDeliverItemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
+                @Override
+                public void onUpdate(boolean isEnd) {
+                    requestDeliverInfo();
+                }
+            });
+        }
+        requestDeliverInfo();
+    }
+
+    private void requestDeliverInfo() {
+        if (getContext() instanceof Activity) {
+            if (((Activity) getContext()).isFinishing()) {
+                return;
+            }
+        }
+        if (orderBean == null) {
+            return;
+        }
+        RequestDeliverInfo request = new RequestDeliverInfo(getContext(), orderBean.orderNo);
+        HttpRequestUtils.request(getContext(), request, this, false);
+    }
+
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         ApiReportHelper.getInstance().addReport(_request);
@@ -105,8 +137,20 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
                 orderDetailDeliverItemView.setVisibility(View.GONE);
                 return;
             }
-            orderDetailActivity.setDeliverInfoBean(deliverInfoBean);
-            orderDetailDeliverItemView.loadingLayout(deliverInfoBean);
+
+            if (deliverInfoBean.isTwiceConfirm()) {
+                if (deliverInfoBean.isOrderStatusChanged()) {//订单状态改变
+                    OrderBean parentOrderBean = orderDetailActivity.getOrderBean();
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, parentOrderBean.orderNo));
+                    orderDetailDeliverItemView.setOnCountdownEndListener(null);
+                    orderDetailDeliverItemView.stop();
+                } else {
+                    orderDetailDeliverItemView.countdownLayout(deliverInfoBean);
+                }
+            } else {
+                orderDetailDeliverItemView.loadingLayout(deliverInfoBean);
+            }
+
         }
     }
 

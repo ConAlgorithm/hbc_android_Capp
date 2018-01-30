@@ -54,6 +54,7 @@ class BaseCountdown {
     private float mTempSuffixSecondLeftMargin, mTempSuffixSecondRightMargin;
     private float mTempSuffixMillisecondLeftMargin;
     private String mTempSuffixMinute, mTempSuffixSecond;
+    private float mSuffixCorrectBaseline;
 
     public void initStyleAttr(Context context, TypedArray ta) {
         mContext = context;
@@ -86,6 +87,7 @@ class BaseCountdown {
         mSuffixSecondLeftMargin = ta.getDimension(R.styleable.CountdownView_suffixSecondLeftMargin, -1);
         mSuffixSecondRightMargin = ta.getDimension(R.styleable.CountdownView_suffixSecondRightMargin, -1);
         mSuffixMillisecondLeftMargin = ta.getDimension(R.styleable.CountdownView_suffixMillisecondLeftMargin, -1);
+        mSuffixCorrectBaseline = ta.getDimension(R.styleable.CountdownView_suffixCorrectBaseline, 0);
 
         mHasSetIsShowDay = ta.hasValue(R.styleable.CountdownView_isShowDay);
         mHasSetIsShowHour = ta.hasValue(R.styleable.CountdownView_isShowHour);
@@ -427,7 +429,7 @@ class BaseCountdown {
             default:
             case 1:
                 // center
-                ret = mTimeTextBaseline - mTimeTextHeight / 2 + tempRect.height() / 2;
+                ret = mTimeTextBaseline - mTimeTextHeight / 2 + tempRect.height() / 2 + mSuffixCorrectBaseline;
                 break;
             case 2:
                 // bottom

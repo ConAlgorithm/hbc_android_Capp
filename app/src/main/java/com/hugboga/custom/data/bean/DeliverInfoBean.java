@@ -41,6 +41,25 @@ public class DeliverInfoBean implements Serializable{
      **/
     private int orderStatus;
 
+    /**
+     * 是否二次确认状态，0否，1是
+     **/
+    private Integer twiceConfirm = 0;
+
+    /**
+     * 二次确认状态距离自动取消的时间距离，单位为毫秒
+     **/
+    public Long twiceCancelSpan;
+
+    /**
+     * 二次确认的总时间，单位为毫秒
+     **/
+    public Long twiceCancelTotalSpan;
+
+    public boolean isTwiceConfirm() {
+        return twiceConfirm != null ? twiceConfirm == 1 : false;
+    }
+
     public boolean isCanChoose() {
         return canChoose == 1;
     }

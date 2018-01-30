@@ -197,7 +197,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
-        bottomView.setData(orderType, params.guidesDetailData != null, false);
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
@@ -505,6 +504,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     @Override
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
+        bottomView.setHintData(carBean.price, orderType, params.guidesDetailData != null, false,
+                carBean.reconfirmFlag, carBean.reconfirmTip);
         countView.update(carBean, carListBean, serverDate, params.skuItemBean);
         double additionalPrice = countView.getAdditionalPrice();
         requestSucceedCount = 3;
@@ -579,7 +580,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         bottomView.updatePrice(actualPrice, deductionPrice);
         sensorsActualPrice = actualPrice;
         if (requestCouponCount == 0) {
-            bottomView.setHintTV();
+            bottomView.setHintTV(actualPrice);
         }
     }
 

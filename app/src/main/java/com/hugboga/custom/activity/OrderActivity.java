@@ -172,7 +172,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         countView.setOnCountChangeListener(this);
         countView.update(params.carBean, params.carListBean, params.serverDate);
         bottomView.setOnSubmitOrderListener(this);
-        bottomView.setData(params.orderType, params.guidesDetailData != null, params.carListBean.isSeckills);
+        bottomView.setHintData(params.carBean.price, params.orderType, params.guidesDetailData != null, params.carListBean.isSeckills,
+                params.carBean.reconfirmFlag, params.carBean.reconfirmTip);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
         travelerInfoView.setOrderType(params.orderType, params.carListBean);
         travelerInfoView.setOnSwitchPickOrSendListener(this);
@@ -377,7 +378,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         }
         bottomView.updatePrice(actualPrice, deductionPrice);
         if (requestCouponCount == 0) {
-            bottomView.setHintTV();
+            bottomView.setHintTV(actualPrice);
         }
     }
 

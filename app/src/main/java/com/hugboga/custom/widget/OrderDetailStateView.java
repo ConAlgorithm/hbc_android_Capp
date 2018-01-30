@@ -48,6 +48,10 @@ public class OrderDetailStateView extends RelativeLayout implements HbcViewBehav
             return;
         }
         OrderBean orderBean = (OrderBean) _data;
+        if (orderBean.isTwiceConfirm) {//二次确认订单
+            setStyleSingle(0xFF83E06B, R.string.order_detail_state_twiceconfirm, R.mipmap.order_state_waiting);
+            return;
+        }
         switch (orderBean.orderStatus) {
             case INITSTATE://1:未付款
                 setTypePayment(0xFFFF3B3B, R.string.order_detail_state_unpaid, R.mipmap.order_state_unpaid, orderBean.getPayDeadTime());

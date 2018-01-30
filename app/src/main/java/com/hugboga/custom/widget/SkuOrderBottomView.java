@@ -2,7 +2,9 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -46,8 +48,8 @@ public class SkuOrderBottomView extends LinearLayout {
     private boolean isGuides;
     private boolean isSeckills;
     private double shouldPrice;
-
-
+    public int reconfirmFlag;    // 二次确认标示 0：否 1：是
+    public String reconfirmTip;  // 二次确认提示
 
     public SkuOrderBottomView(Context context) {
         this(context, null);
@@ -111,14 +113,17 @@ public class SkuOrderBottomView extends LinearLayout {
         }
     }
 
+    public void setHintData(double price, int orderType, boolean isGuides, boolean isSeckills, int reconfirmFlag, String reconfirmTip) {
+        setHintData(price, orderType, isGuides, isSeckills, reconfirmFlag, reconfirmTip, false);
+    }
 
-    public void setData(int orderType, boolean isGuides, boolean isSeckills) {
+    public void setHintData(double price, int orderType, boolean isGuides, boolean isSeckills, int reconfirmFlag, String reconfirmTip, boolean isPickupTransfer) {
         this.orderType = orderType;
         this.isGuides = isGuides;
         this.isSeckills = isSeckills;
-        if (isSeckills) {
-            setHintTV();
-        }
+        this.reconfirmFlag = reconfirmFlag;
+        this.reconfirmTip = reconfirmTip;
+        setHintTV(price, isPickupTransfer);
         if (orderType == 3 || orderType == 888) {
             priceDetailTV.setVisibility(View.VISIBLE);
         } else {
@@ -126,30 +131,45 @@ public class SkuOrderBottomView extends LinearLayout {
         }
     }
 
-    public void setHintTV() {
+    public void setHintTV(double price) {
+        setHintTV(price,false);
+    }
+
+    public void setHintTV(double price, boolean isPickupTransfer) {
         if (orderType == 0) {
             selectedGuideHintTV.setVisibility(GONE);
+            return;
         }
         String hint1 = CommonUtils.getString(R.string.order_bottom_hint1);
         String hint2 = CommonUtils.getString(R.string.order_bottom_hint2);
         String showText = "";
-        boolean isShowHint1 = shouldPrice > 200;
+        boolean isShowHint1 = price > 200;
+        int bgColor = 0xFFB2C0D6;
+        selectedGuideHintTV.setGravity(Gravity.CENTER);
 
         boolean isDaily = orderType == 3 || orderType == 888 || orderType == 5 || orderType == 6;
 
-        if (isSeckills) {
+        if (isSeckills) {//秒杀
             if (isDaily) {
                 showText = hint2;
             } else {
                 showText = null;
             }
-        } else if (isGuides) {
-            showText = isShowHint1 ? hint1 : null;
-        } else if (isDaily) {
-            showText = hint2;
         } else {
-            showText = isShowHint1 ? hint1 : null;
+            if (reconfirmFlag == 1 && !TextUtils.isEmpty(reconfirmTip)) {//二次确认订单
+                showText = reconfirmTip;
+                bgColor = 0xFFF56363;
+                selectedGuideHintTV.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+            } else if (isGuides) {//指定司导
+                showText = isShowHint1 ? hint1 : null;
+            } else if (isDaily && !isPickupTransfer) {//包车(组合单只接机加只送机不算包车)
+                showText = hint2;
+            } else {//接送次
+                showText = isShowHint1 ? hint1 : null;
+            }
         }
+
+        selectedGuideHintTV.setBackgroundColor(bgColor);
         selectedGuideHintTV.setText(showText);
         selectedGuideHintTV.setVisibility(showText == null ? GONE : VISIBLE);
     }

@@ -65,6 +65,9 @@ public class CarBean implements IBaseBean ,Cloneable{
     public String carName;
     public String batchNo;
 
+    public int reconfirmFlag; //二次确认标示 0：否 1：是
+    public String reconfirmTip; //二次确认提示
+
     public List<String> serviceTags;
 
     public ArrayList<GroupQuotesBean> quotes;
