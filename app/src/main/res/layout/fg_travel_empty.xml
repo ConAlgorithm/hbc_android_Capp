@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/toolbar"
+    android:background="#f0f0f0">
+
+    <TextView
+        android:id="@+id/travel_login_hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/basic_margin_small"
+        android:layout_marginTop="45dp"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="3dp"
+        android:text="下单后可以在这里\n管理你的行程"
+        android:textColor="#666666"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/travel_login_hint_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:src="@mipmap/travel_list_all_icon" />
+
+    <Button
+        android:id="@+id/travel_empty_btn"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/btn_orange"
+        android:text="开启旅程"
+        android:textColor="#000000"
+        android:textSize="15sp" />
+    <TextView
+        android:layout_above="@id/travel_empty_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginBottom="5dp"
+        android:textColor="#dd000000"
+        android:layout_centerHorizontal="true"
+        android:text="去首页转转定制第一个行程" />
+
+</RelativeLayout>
