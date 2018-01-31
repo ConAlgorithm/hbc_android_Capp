@@ -657,7 +657,8 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                             if (adapter != null && adapter.getDatas() != null) {
                                 boolean hasExist = false;
                                 for (ChatBean tmp : adapter.getDatas()) {
-                                    if (tmp.getNeTargetId().toLowerCase().equals(chatBean.getNeTargetId().toLowerCase())) {
+                                    if (tmp != null && chatBean != null && tmp.getNeTargetId() != null && chatBean.getNeTargetId() != null
+                                            && tmp.getNeTargetId().toLowerCase().equals(chatBean.getNeTargetId().toLowerCase())) {
                                         hasExist = true;
                                         break;
                                     }

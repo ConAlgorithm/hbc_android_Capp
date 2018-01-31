@@ -32,13 +32,20 @@ public class HbcParser extends ImplParser {
         if (TextUtils.isEmpty(data.toString()) || "{}".equals(data.toString())) {
             return null;
         }
+
+        if (data instanceof String) {
+            return data;
+        }
+
+        if (type == null) {
+            throw new IllegalArgumentException("param Type cannot null");
+        }
+
         if (data instanceof JSONArray) {
             JSONArray dataArray = (JSONArray) data;
             return parseArray(dataArray);
         }
-        if (type == null) {
-            throw new IllegalArgumentException("param Type cannot null");
-        }
+
         if (HbcConfig.IS_DEBUG) {
             try {
                 return JsonUtils.fromJson(data.toString(), type);
