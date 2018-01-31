@@ -90,7 +90,7 @@ public class CitySkuView extends FrameLayout {
         city_item_title.setText(destinationGoodsVo.goodsName);
         city_item_price.setText(String.format(getContext().getString(R.string.city_sku_item_price),
                 String.valueOf(PriceFormat.priceNoPoint(destinationGoodsVo.perPrice))));
-        city_item_guide.init(destinationGoodsVo.guideHeadImageUrl); //设置司导头像
+        city_item_guide.init(destinationGoodsVo); //设置司导头像
         city_item_tip.setText(getItemTitle(destinationGoodsVo));
         city_item_tip2.setText(String.format(getContext().getString(R.string.city_sku_title2),
                 String.valueOf(destinationGoodsVo.guideCount)));

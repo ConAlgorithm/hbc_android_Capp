@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by HONGBO on 2017/11/28 10:34.
@@ -26,8 +27,9 @@ public class DestinationGoodsVo implements Parcelable, Serializable {
     public String skuDetailUrl; //sku详情地址
     public String shareUrl; //分享地址
     public String placeList; //商品途径点
-    public String guideHeadImageUrl; //司导头像
     public String guideId; //司导ID
+    public String guideHeadImageUrl; //司导头像
+    public List<String> guideAvatars; //司导头像数组
 
     public DestinationGoodsVo(Parcel in) {
         if (in == null) {
@@ -48,8 +50,36 @@ public class DestinationGoodsVo implements Parcelable, Serializable {
         skuDetailUrl = in.readString();
         shareUrl = in.readString();
         placeList = in.readString();
-        guideHeadImageUrl = in.readString();
         guideId = in.readString();
+        guideHeadImageUrl = in.readString();
+        guideAvatars = in.createStringArrayList();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(goodsNo);
+        dest.writeInt(goodsVersion);
+        dest.writeString(goodsName);
+        dest.writeString(goodsImageUrl);
+        dest.writeString(perPrice);
+        dest.writeInt(guideCount);
+        dest.writeInt(userFavorCount);
+        dest.writeInt(dayCount);
+        dest.writeInt(depCityId);
+        dest.writeString(depCityName);
+        dest.writeInt(arrCityId);
+        dest.writeString(arrCityName);
+        dest.writeString(skuDetailUrl);
+        dest.writeString(shareUrl);
+        dest.writeString(placeList);
+        dest.writeString(guideId);
+        dest.writeString(guideHeadImageUrl);
+        dest.writeStringList(guideAvatars);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<DestinationGoodsVo> CREATOR = new Creator<DestinationGoodsVo>() {
@@ -63,30 +93,4 @@ public class DestinationGoodsVo implements Parcelable, Serializable {
             return new DestinationGoodsVo[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(goodsNo);
-        parcel.writeInt(goodsVersion);
-        parcel.writeString(goodsName);
-        parcel.writeString(goodsImageUrl);
-        parcel.writeString(perPrice);
-        parcel.writeInt(guideCount);
-        parcel.writeInt(userFavorCount);
-        parcel.writeInt(dayCount);
-        parcel.writeInt(depCityId);
-        parcel.writeString(depCityName);
-        parcel.writeInt(arrCityId);
-        parcel.writeString(arrCityName);
-        parcel.writeString(skuDetailUrl);
-        parcel.writeString(shareUrl);
-        parcel.writeString(placeList);
-        parcel.writeString(guideHeadImageUrl);
-        parcel.writeString(guideId);
-    }
 }

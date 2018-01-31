@@ -72,6 +72,7 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
         vo.userFavorCount = albumBean.goodsFavoriteNum;
         vo.dayCount = albumBean.goodsServiceDayNum;
         vo.placeList = albumBean.routeCityDesc;
+        vo.guideAvatars = albumBean.guideAvatars;
         //FIXME XX位当地司导可带你服务，缺少字段@吕博文
         vo.guideCount = albumBean.goodsFavoriteNum;
         return vo;
