@@ -46,6 +46,7 @@
             app:timeTextSize="11sp"
             app:isTimeTextBold="true"
             app:suffixCorrectBaseline="-1.5dp"
+            android:visibility="gone"
             />
     </LinearLayout>
 

@@ -31,6 +31,8 @@ import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.SSLHandshakeException;
 
@@ -102,9 +104,18 @@ public class HttpRequestUtils {
         Callback.Cancelable cancelable = x.http().request(request.getHttpMethod(), request, new CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {//请求成功
-//                MLog.e(request.getClass().getSimpleName()+" onSuccess result=" + result);
-//                MLog.log(MLog.LogLevel.DEBUG, request.getClass().getSimpleName() + " onSuccess result=" + result);
-                HLog.d("REQUEST requestClass=" + request.getClass().getSimpleName() + "，result=" + result);
+
+                if (HbcConfig.IS_DEBUG) {
+                    final Map<String, List<String>> responseHeaders = request.responseHeaders;
+                    long spendTime = getCountLong(responseHeaders.get("X-Android-Received-Millis").get(0)) - getCountLong(responseHeaders.get("X-Android-Sent-Millis").get(0));
+                    StringBuffer stringBuffer = new StringBuffer();
+                    stringBuffer.append(String.format("RESPONSE %1$s, time = %2$s, method = %3$s, headers = %4$s\n"
+                            , request.getClass().getSimpleName(), spendTime, request.getMethod().name(), PairUtils.getRequesetStr(request.getHeaders())));
+                    stringBuffer.append(String.format("url = %1$s\n", request.toString()));
+                    stringBuffer.append("result = " + result);
+                    HLog.d(stringBuffer.toString());
+                }
+
                 try {
                     if ("{\"status\":200}".equals(result)) {
                         listener.onDataRequestSucceed(request);
@@ -157,10 +168,9 @@ public class HttpRequestUtils {
             @Override
             public void beforeRequest(UriRequest urlRequest) throws Throwable {
                 super.beforeRequest(urlRequest);
-                if (request != null && urlRequest != null) {
-                    HLog.d("REQUEST Headers：" + PairUtils.getRequesetStr(request.getHeaders())
-                            + "，Method：" + request.getMethod().name()
-                            + "，Params：" + urlRequest.getCacheKey());
+                if (HbcConfig.IS_DEBUG && request != null && urlRequest != null) {
+                    HLog.d(String.format("REQUEST %1$s, method = %2$s, headers = %3$s\nurl = %4$s\n"
+                            , request.getClass().getSimpleName(), request.getMethod().name(), PairUtils.getRequesetStr(request.getHeaders()), urlRequest.getCacheKey()));
                 }
             }
 
@@ -341,5 +351,18 @@ public class HttpRequestUtils {
             return true;
         }
         return false;
+    }
+
+    public static Long getCountLong(String _count) {
+        if (TextUtils.isEmpty(_count)) {
+            return 0L;
+        }
+        long count = 0;
+        try {
+            count = Long.valueOf(_count);
+        } catch (Exception e) {
+            return 0L;
+        }
+        return count;
     }
 }

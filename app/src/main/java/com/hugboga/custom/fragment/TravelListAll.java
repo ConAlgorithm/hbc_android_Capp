@@ -37,6 +37,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by zhangqiang on 17/6/26.
@@ -46,7 +47,7 @@ public class TravelListAll extends FgBaseTravel {
 
     @BindView(R.id.travel_recyclerview)
     XRecyclerView mXRecyclerView;
-    @BindView(R.id.list_empty)
+    @BindView(R.id.list_empty_all)
     RelativeLayout emptyView;
     @BindView(R.id.travel_footer_get_layout)
     LinearLayout footerGet;
@@ -88,7 +89,6 @@ public class TravelListAll extends FgBaseTravel {
         mXRecyclerView.setFootView(travelLoadingMoreFooter);
         hbcRecyclerSingleTypeAdpater = new HbcRecyclerSingleTypeAdpater(getContext(), TravelListItem.class);
         mXRecyclerView.setAdapter(hbcRecyclerSingleTypeAdpater);
-        getFooterView(inflater);
         mXRecyclerView.setEmptyView(emptyView);
         footerGet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,5 +191,10 @@ public class TravelListAll extends FgBaseTravel {
                 runData(0,0,10);
                 break;
         }
+    }
+
+    @OnClick(R.id.travel_empty_btn)
+    public void onStartTravel() {
+        EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
     }
 }

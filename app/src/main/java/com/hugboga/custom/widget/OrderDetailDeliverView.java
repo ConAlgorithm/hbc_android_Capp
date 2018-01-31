@@ -70,6 +70,7 @@ import cn.iwgang.countdownview.CountdownView;
             return;
         }
         orderBean = (OrderBean) _data;
+        stop();
         if (orderBean.isSeparateOrder()) {// 是否拆单
             setVisibility(View.GONE);
             return;
@@ -81,13 +82,14 @@ import cn.iwgang.countdownview.CountdownView;
             } else {
                 addDetailGuideInfoView(true);
             }
+        } else if (orderBean.isTwiceConfirm) {// 二次确认订单
+            sendRequest(true);
         } else {// 其它订单
-            if (orderBean.orderStatus == OrderStatus.PAYSUCCESS || (orderBean.isTwiceConfirm && orderBean.orderStatus == OrderStatus.PAYSUCCESS)) { // 预订成功 || 二次确认
+            if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 预订成功
                 sendRequest(true);
             } else if (orderBean.orderType != 888 && orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
                 addDetailGuideInfoView(true);
             } else {
-                stop();
                 setVisibility(View.GONE);
             }
         }
@@ -197,7 +199,7 @@ import cn.iwgang.countdownview.CountdownView;
                 setVisibility(View.GONE);
                 return;
             }
-            if (deliverInfoBean.isOrderStatusChanged()) {//订单状态改变
+            if (deliverInfoBean.isOrderStatusChanged() || (orderBean.isTwiceConfirm && !deliverInfoBean.isTwiceConfirm())) {//订单状态改变 || 司导已接单
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
             } else {
                 resetItemView(deliverInfoBean);
