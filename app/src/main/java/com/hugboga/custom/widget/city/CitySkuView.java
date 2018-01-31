@@ -127,6 +127,7 @@ public class CitySkuView extends FrameLayout {
                     if (saveLineImg.isSelected()) {
                         setSensorsShareEvent(destinationGoodsVo.goodsNo);
                     }
+                    city_item_favor.setText(!saveLineImg.isSelected() ? (Integer.parseInt(city_item_favor.getText().toString()) - 1) + "" : (Integer.parseInt(city_item_favor.getText().toString()) + 1) + "");
                     saveLineImg.setEnabled(true);
                 }
                 break;
