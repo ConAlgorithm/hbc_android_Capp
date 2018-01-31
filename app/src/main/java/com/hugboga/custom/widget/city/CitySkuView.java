@@ -32,7 +32,6 @@ import com.hugboga.custom.utils.PriceFormat;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.collection.CollectionHelper;
 import com.hugboga.tools.FormatUtil;
-import com.hugboga.tools.NetImg;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONObject;
@@ -57,7 +56,7 @@ public class CitySkuView extends FrameLayout {
     @BindView(R.id.city_item_title)
     TextView city_item_title; //标题
     @BindView(R.id.city_item_guide)
-    ImageView city_item_guide; //司导头像
+    CityGuidesView city_item_guide; //司导头像
     @BindView(R.id.city_item_tip)
     TextView city_item_tip; //提示语1
     @BindView(R.id.city_item_tip2)
@@ -91,7 +90,7 @@ public class CitySkuView extends FrameLayout {
         city_item_title.setText(destinationGoodsVo.goodsName);
         city_item_price.setText(String.format(getContext().getString(R.string.city_sku_item_price),
                 String.valueOf(PriceFormat.priceNoPoint(destinationGoodsVo.perPrice))));
-        NetImg.showCircleImage(getContext(), city_item_guide, destinationGoodsVo.guideHeadImageUrl);
+        city_item_guide.init(destinationGoodsVo.guideHeadImageUrl); //设置司导头像
         city_item_tip.setText(getItemTitle(destinationGoodsVo));
         city_item_tip2.setText(String.format(getContext().getString(R.string.city_sku_title2),
                 String.valueOf(destinationGoodsVo.guideCount)));

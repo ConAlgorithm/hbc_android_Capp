@@ -91,12 +91,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city_item_img" />
 
-    <ImageView
+    <com.hugboga.custom.widget.city.CityGuidesView
         android:id="@+id/city_item_guide"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@mipmap/icon_avatar_guide"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city_item_title" />
 
