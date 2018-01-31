@@ -31,6 +31,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PriceFormat;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.collection.CollectionHelper;
+import com.hugboga.tools.FormatUtil;
 import com.hugboga.tools.NetImg;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
@@ -127,7 +128,9 @@ public class CitySkuView extends FrameLayout {
                     if (saveLineImg.isSelected()) {
                         setSensorsShareEvent(destinationGoodsVo.goodsNo);
                     }
-                    city_item_favor.setText(!saveLineImg.isSelected() ? (Integer.parseInt(city_item_favor.getText().toString()) - 1) + "" : (Integer.parseInt(city_item_favor.getText().toString()) + 1) + "");
+                    city_item_favor.setText(saveLineImg.isSelected() ?
+                            String.valueOf((FormatUtil.getCountInteger(city_item_favor.getText().toString()) + 1))
+                            : String.valueOf((FormatUtil.getCountInteger(city_item_favor.getText().toString()) - 1)));
                     saveLineImg.setEnabled(true);
                 }
                 break;
