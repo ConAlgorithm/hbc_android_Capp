@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by HONGBO on 2017/11/28 10:34.
  */
 
-public class DestinationGoodsVo implements Parcelable, Serializable{
+public class DestinationGoodsVo implements Parcelable, Serializable {
 
     public String goodsNo; //商品编号
     public int goodsVersion; //商品版本号
@@ -29,7 +29,10 @@ public class DestinationGoodsVo implements Parcelable, Serializable{
     public String guideHeadImageUrl; //司导头像
     public String guideId; //司导ID
 
-    protected DestinationGoodsVo(Parcel in) {
+    public DestinationGoodsVo(Parcel in) {
+        if (in == null) {
+            return;
+        }
         goodsNo = in.readString();
         goodsVersion = in.readInt();
         goodsName = in.readString();

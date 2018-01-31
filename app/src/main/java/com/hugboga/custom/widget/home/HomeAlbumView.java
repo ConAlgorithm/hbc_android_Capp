@@ -50,8 +50,8 @@ public class HomeAlbumView extends LinearLayout {
 
         displayImgWidth = (int) ((560 / 750f) * UIUtils.getScreenWidth());
         displayImgHeight = displayImgWidth;
-        int viewHeight = displayImgHeight + UIUtils.dip2px(70) + UIUtils.dip2px(90);
-        recyclerView.getLayoutParams().height = viewHeight;
+//        int viewHeight = displayImgHeight + UIUtils.dip2px(70) + UIUtils.dip2px(90);
+//        recyclerView.getLayoutParams().height = viewHeight;
 
         recyclerView.setFocusable(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

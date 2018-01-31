@@ -5,17 +5,17 @@ import android.content.Context;
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
-import com.hugboga.custom.widget.city.CitySkuView;
+import com.hugboga.custom.widget.city.CityItemView;
 
 /**
  * Created by HONGBO on 2017/11/30 11:15.
  */
 
-public class CityListModel extends EpoxyModel<CitySkuView> {
+public class CityListModel extends EpoxyModel<CityItemView> {
 
     Context mContext;
     DestinationGoodsVo destinationGoodsVo;
-    CitySkuView view;
+    CityItemView view;
 
     public CityListModel(Context mContext, DestinationGoodsVo destinationGoodsVo) {
         this.mContext = mContext;
@@ -23,22 +23,22 @@ public class CityListModel extends EpoxyModel<CitySkuView> {
     }
 
     @Override
-    public void bind(CitySkuView view) {
+    public void bind(CityItemView view) {
         super.bind(view);
         this.view = view;
-        view.init(destinationGoodsVo);
+        view.update(destinationGoodsVo);
     }
 
     @Override
     protected int getDefaultLayout() {
-        return R.layout.city_list_model;
+        return R.layout.city_list_model_layout;
     }
 
     public DestinationGoodsVo getDestinationGoodsVo() {
         return destinationGoodsVo;
     }
 
-    public CitySkuView getView() {
+    public CityItemView getView() {
         return view;
     }
 }
