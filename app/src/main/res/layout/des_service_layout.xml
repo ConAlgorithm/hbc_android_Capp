@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:text="@string/picksend"
+            android:text="@string/home_goodes_title_transfer"
             android:textColor="#444444"
             android:textSize="12sp" />
     </LinearLayout>
