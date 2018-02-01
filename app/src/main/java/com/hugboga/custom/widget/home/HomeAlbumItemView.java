@@ -69,12 +69,13 @@ public class HomeAlbumItemView extends LinearLayout implements HbcViewBehavior {
         vo.goodsName = albumBean.getGoodsName();
         vo.perPrice = String.valueOf(albumBean.perPrice);
         vo.guideHeadImageUrl = albumBean.guideAvatar;
+        vo.skuDetailUrl = albumBean.goodsDetailUrl;
         vo.userFavorCount = albumBean.goodsFavoriteNum;
         vo.dayCount = albumBean.goodsServiceDayNum;
         vo.placeList = albumBean.routeCityDesc;
+        vo.guideId = albumBean.guideId;
         vo.guideAvatars = albumBean.guideAvatars;
-        //FIXME XX位当地司导可带你服务，缺少字段@吕博文
-        vo.guideCount = albumBean.goodsFavoriteNum;
+        vo.guideCount = albumBean.guidesNum; //可服务司导数
         return vo;
     }
 }

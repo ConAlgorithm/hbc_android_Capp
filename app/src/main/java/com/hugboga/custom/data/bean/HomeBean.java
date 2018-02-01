@@ -83,6 +83,7 @@ public class HomeBean implements Serializable {
         public String guideHomeDesc;                    // 司导个人简介（专辑为2，司导时使用）
         public int goodsFavoriteNum;                    // 商品收藏数
         public int goodsServiceDayNum;                  // 服务天数
+        public int guidesNum;                           // 可服务司导数
         public String routeCityDesc;                    // 途径城市
         public String goodsCountryName;
         public String starCityName;

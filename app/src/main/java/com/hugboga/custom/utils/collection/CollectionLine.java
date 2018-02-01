@@ -38,6 +38,9 @@ public class CollectionLine extends BaseCollection {
 
     @Override
     public boolean isCollection(String targetNo) {
+        if (!UserEntity.getUser().isLogin(getContext())) {
+            return false;
+        }
         return localCollections.containsKey(targetNo) ? localCollections.get(targetNo) : false;
     }
 

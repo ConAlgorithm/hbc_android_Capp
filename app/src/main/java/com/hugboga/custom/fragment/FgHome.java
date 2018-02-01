@@ -37,7 +37,6 @@ import com.yan.pullrefreshlayout.ShowGravity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -166,8 +165,8 @@ public class FgHome extends BaseFragment {
                     titlebarAiIV.setVisibility(View.GONE);
                     searchHintTV.setVisibility(View.VISIBLE);
                     searchBottomLineView.setVisibility(View.VISIBLE);
-                    searchHintTV.setTextColor(UIUtils.getColorWithAlpha(1 - progress,0xFF929292));
-                    searchBottomLineView.setBackgroundColor(UIUtils.getColorWithAlpha(1 - progress,0xFFE6E6E6));
+                    searchHintTV.setTextColor(UIUtils.getColorWithAlpha(1 - progress, 0xFF929292));
+                    searchBottomLineView.setBackgroundColor(UIUtils.getColorWithAlpha(1 - progress, 0xFFE6E6E6));
                 } else if (firstVisibleItemPosition > 1) {
                     titlebarAiIV.setVisibility(View.VISIBLE);
                     searchHintTV.setVisibility(View.GONE);
@@ -266,7 +265,7 @@ public class FgHome extends BaseFragment {
         intent.putExtra("source", getEventSource());
         startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, getEventSource());
-        SensorsUtils.onAppClick("首页", "搜索","");
+        SensorsUtils.onAppClick("首页", "搜索", "");
     }
 
     @OnClick({R.id.homed_titlebar_ai_iv})
@@ -293,9 +292,7 @@ public class FgHome extends BaseFragment {
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
-                break;
             case CLICK_USER_LOOUT:
-                break;
             case LINE_UPDATE_COLLECT:
                 homeAdapter.notifyDataSetChanged();
                 break;
