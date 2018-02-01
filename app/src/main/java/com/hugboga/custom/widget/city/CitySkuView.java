@@ -134,26 +134,34 @@ public class CitySkuView extends FrameLayout {
                 }
                 break;
             case R.id.city_item_root_layout:
-                Intent intent = new Intent(getContext(), SkuDetailActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, destinationGoodsVo.skuDetailUrl);
-                intent.putExtra(Constants.PARAMS_ID, destinationGoodsVo.goodsNo);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                getContext().startActivity(intent);
-                if (getContext() instanceof MainActivity) {
-                    SensorsUtils.onAppClick(getEventSource(), "热门专辑", "首页-热门专辑");
-                }
+                gotoSkuDetail(); //进入玩法详情
                 break;
             case R.id.city_item_guide:
                 if (TextUtils.isEmpty(destinationGoodsVo.guideId)) {
                     return;
                 }
-                GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
-                params.guideId = destinationGoodsVo.guideId;
-                Intent intent2 = new Intent(getContext(), GuideWebDetailActivity.class);
-                intent2.putExtra(Constants.PARAMS_DATA, params);
-                intent2.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                getContext().startActivity(intent2);
+                if (destinationGoodsVo.guideAvatars != null && destinationGoodsVo.guideAvatars.size() >= 2) {
+                    gotoSkuDetail(); //进入玩法详情
+                }else{
+                    GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
+                    params.guideId = destinationGoodsVo.guideId;
+                    Intent intent2 = new Intent(getContext(), GuideWebDetailActivity.class);
+                    intent2.putExtra(Constants.PARAMS_DATA, params);
+                    intent2.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    getContext().startActivity(intent2);
+                }
                 break;
+        }
+    }
+
+    private void gotoSkuDetail(){
+        Intent intent = new Intent(getContext(), SkuDetailActivity.class);
+        intent.putExtra(WebInfoActivity.WEB_URL, destinationGoodsVo.skuDetailUrl);
+        intent.putExtra(Constants.PARAMS_ID, destinationGoodsVo.goodsNo);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        getContext().startActivity(intent);
+        if (getContext() instanceof MainActivity) {
+            SensorsUtils.onAppClick(getEventSource(), "热门专辑", "首页-热门专辑");
         }
     }
 
