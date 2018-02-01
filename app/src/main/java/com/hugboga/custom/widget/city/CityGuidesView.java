@@ -41,8 +41,9 @@ public class CityGuidesView extends RelativeLayout {
             if (destinationGoodsVo.guideAvatars.size() > 1) {
                 //显示两个头像
                 showOrHideImg2(true);
-                NetImg.showCircleImage(getContext(), city_guides_layout_guide1, destinationGoodsVo.guideAvatars.get(0));
-                NetImg.showCircleImage(getContext(), city_guides_layout_guide2, destinationGoodsVo.guideAvatars.get(1));
+                //第一个头像放上面
+                NetImg.showCircleImage(getContext(), city_guides_layout_guide1, destinationGoodsVo.guideAvatars.get(1));
+                NetImg.showCircleImage(getContext(), city_guides_layout_guide2, destinationGoodsVo.guideAvatars.get(0));
             } else {
                 //只显示一个头像
                 showOrHideImg2(false);
