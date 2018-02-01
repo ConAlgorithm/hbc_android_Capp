@@ -57,7 +57,9 @@ public class CountdownView extends View {
 
     private boolean isHideTimeBackground;
     private boolean isAutoHideHour;
+    private boolean isAutoHideDay;
     private boolean isHideHour;
+    private boolean isHideDay;
     private long mPreviousIntervalCallbackTime;
     private long mInterval;
     private long mRemainTime;
@@ -76,6 +78,7 @@ public class CountdownView extends View {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CountdownView);
         isHideTimeBackground = ta.getBoolean(R.styleable.CountdownView_isHideTimeBackground, true);
         isAutoHideHour = ta.getBoolean(R.styleable.CountdownView_isAutoHideHour, false);
+        isAutoHideDay = ta.getBoolean(R.styleable.CountdownView_isAutoHideDay, false);
 
         mCountdown = isHideTimeBackground ? new BaseCountdown() : new BackgroundCountdown();
         mCountdown.initStyleAttr(context,ta);
@@ -315,6 +318,10 @@ public class CountdownView extends View {
             mCountdown.isShowHour = false;
             mCountdown.mSuffixHourTextWidth = 0;
         }
+        if (isAutoHideDay && day == 0) {
+            mCountdown.isShowDay = false;
+            mCountdown.mSuffixDayTextWidth = 0;
+        }
 
         mCountdown.setTimes(day, hour, minute, second, millisecond);
 
@@ -331,7 +338,10 @@ public class CountdownView extends View {
         if (mCountdown.handlerAutoShowTime() || mCountdown.handlerDayLargeNinetyNine()) {
             reLayout();
         } else {
-            if (isAutoHideHour && hour == 0 && !isHideHour) {
+            if(isAutoHideDay && day == 0 && !isHideDay) {
+                isHideDay = true;
+                reLayout();
+            } else if (isAutoHideHour && hour == 0 && !isHideHour) {
                 isHideHour = true;
                 reLayout();
             } else {
@@ -356,6 +366,7 @@ public class CountdownView extends View {
         if (null == dynamicConfig) return;
 
         isHideHour = false;
+        isHideDay = false;
 
         boolean isReLayout = false;
         boolean isInvalidate = false;

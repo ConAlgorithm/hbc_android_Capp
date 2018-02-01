@@ -23,5 +23,15 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/list_empty_all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <include layout="@layout/fg_travel_empty" />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

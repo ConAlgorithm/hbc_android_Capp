@@ -30,6 +30,7 @@
             app:isHideTimeBackground="true"
             android:layout_marginTop="-2dp"
             app:isAutoHideHour="true"
+            app:isAutoHideDay="true"
             app:isShowMinute="true"
             app:isShowSecond="true"
             app:isShowHour="false"

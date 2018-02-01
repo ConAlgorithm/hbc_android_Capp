@@ -3,6 +3,7 @@
 
     <declare-styleable name="CountdownView">
         <attr name="isAutoHideHour" format="boolean" />
+        <attr name="isAutoHideDay" format="boolean" />
         <attr name="isHideTimeBackground" format="boolean" />
         <attr name="isShowTimeBgDivisionLine" format="boolean" />
         <attr name="timeBgDivisionLineColor" format="color" />
