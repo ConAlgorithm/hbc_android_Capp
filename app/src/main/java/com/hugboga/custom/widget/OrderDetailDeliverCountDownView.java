@@ -51,7 +51,8 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
                 DynamicConfig.BackgroundInfo backgroundInfo = new DynamicConfig.BackgroundInfo();
                 backgroundInfo.setShowTimeBgDivisionLine(false);
                 DynamicConfig dynamicConfig = new DynamicConfig.Builder()
-                        .setShowMinute(true).setShowHour(true).setShowSecond(false).setSuffixHour("时").setSuffixMinute("分")
+                        .setShowDay(true).setShowMinute(true).setShowHour(true).setShowSecond(false)
+                        .setSuffixDay("天").setSuffixHour("时").setSuffixMinute("分")
                         .setSuffixLRMargin(UIUtils.dip2px(0)).setSuffixGravity(1)
                         .setSuffixTextColor(0xFF191919).setSuffixTextSize(11).setSuffixTextBold(true)
                         .setTimeTextColor(0xFF191919).setTimeTextSize(11).setTimeTextBold(true)
