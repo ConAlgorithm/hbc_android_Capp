@@ -55,7 +55,7 @@ android {
     }
     flavorDimensions "flavor"
     compileSdkVersion 26
-    buildToolsVersion '27.0.1'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.hugboga.custom"
         minSdkVersion 16
