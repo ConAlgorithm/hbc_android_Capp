@@ -545,7 +545,7 @@ public class QueryCityActivity extends BaseActivity {
      */
     public void searchAllResult(String searchStr) {
         if (searchHistoryView != null) {
-            searchHistoryView.showMoreQuery(searchStr);
+            searchHistoryView.showResultQuery(searchStr);
         }
     }
 
