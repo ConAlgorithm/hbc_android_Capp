@@ -78,7 +78,7 @@ public class HomeGoodsItemView extends LinearLayout implements HbcViewBehavior, 
     private SpannableString getSubtitle(String _guideNum, String _userNum) {
         String userNum = TextUtils.isEmpty(_userNum) ? "0" : _userNum;
         String guideNum = TextUtils.isEmpty(_guideNum) ? "0" : _guideNum;
-        String subtitle = getContext().getResources().getString(R.string.home_goodes_item_subtitle, userNum, guideNum);
+        String subtitle = getContext().getResources().getString(R.string.home_goodes_item_subtitle, guideNum, userNum);
         int startIndex = subtitle.indexOf(userNum);
         int endIndex = startIndex + userNum.length();
         SpannableString spannableString = new SpannableString(subtitle);

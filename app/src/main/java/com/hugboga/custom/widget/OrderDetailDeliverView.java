@@ -195,7 +195,8 @@ import cn.iwgang.countdownview.CountdownView;
         if (_request instanceof RequestDeliverInfo) {
             RequestDeliverInfo request = (RequestDeliverInfo) _request;
             DeliverInfoBean deliverInfoBean = request.getData();
-            if (deliverInfoBean == null) {
+            if (deliverInfoBean == null) {//主单拆单后返回数据"{"status":200}"
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
                 setVisibility(View.GONE);
                 return;
             }
