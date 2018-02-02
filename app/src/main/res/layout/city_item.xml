@@ -1,41 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/city_item_root_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="12dp">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/city_item_img"
-        android:layout_width="0dp"
-        android:layout_height="260dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:adjustViewBounds="true"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:background="@color/default_pic_gray"
+        android:cropToPadding="true"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/imageView_abave"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#16000000"
+        app:layout_constraintBottom_toBottomOf="@+id/city_item_img"
+        app:layout_constraintEnd_toEndOf="@+id/city_item_img"
+        app:layout_constraintStart_toStartOf="@+id/city_item_img"
+        app:layout_constraintTop_toTopOf="@+id/city_item_img" />
+
+    <TextView
+        android:id="@+id/city_item_favor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="23327"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="@+id/city_item_img"
+        app:layout_constraintEnd_toEndOf="@+id/city_item_img" />
+
+    <ImageView
         android:id="@+id/city_item_hear"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="right"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/save_guild_icon"
-        app:layout_constraintEnd_toEndOf="@+id/city_item_img"
-        app:layout_constraintBottom_toBottomOf="@+id/city_item_img" />
+        app:layout_constraintBottom_toTopOf="@+id/city_item_favor"
+        app:layout_constraintEnd_toEndOf="@+id/city_item_favor"
+        app:layout_constraintStart_toStartOf="@+id/city_item_favor" />
 
     <View
         android:id="@+id/view4"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="24dp"
         android:background="#99000000"
         app:layout_constraintBottom_toBottomOf="@+id/city_item_img"
         app:layout_constraintEnd_toEndOf="@+id/city_item_img_price"
@@ -46,6 +65,7 @@
         android:id="@+id/city_item_img_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:paddingBottom="4dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
@@ -60,11 +80,10 @@
         android:id="@+id/city_item_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:ellipsize="end"
         android:maxLines="2"
+        android:minLines="2"
         android:text="冬季北海道登山滑雪极限极限极冬季北海道登山滑雪极限极限极冬季北海道登山滑雪..."
         android:textColor="#151515"
         android:textSize="18sp"
@@ -72,13 +91,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city_item_img" />
 
-    <ImageView
+    <com.hugboga.custom.widget.city.CityGuidesView
         android:id="@+id/city_item_guide"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@mipmap/icon_avatar_guide"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city_item_title" />
 
@@ -96,11 +113,10 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="285人已收藏 · 7天 · 东京 > 镰仓..."
+        android:text="7天 · 东京 > 镰仓..."
         app:layout_constraintBottom_toTopOf="@+id/city_item_tip2"
         app:layout_constraintEnd_toStartOf="@+id/imageView3"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,7 +127,6 @@
         android:id="@+id/city_item_tip2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         android:text="30位当地人可带你体验"
         app:layout_constraintBottom_toBottomOf="@+id/city_item_guide"

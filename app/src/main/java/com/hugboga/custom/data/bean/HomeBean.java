@@ -3,8 +3,10 @@ package com.hugboga.custom.data.bean;
 import android.text.TextUtils;
 
 import com.hugboga.custom.action.data.ActionBean;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by qingcha on 16/10/19.
@@ -77,10 +79,12 @@ public class HomeBean implements Serializable {
         public String guideId;                          // 司导ID（专辑为2，司导时使用）
         public String guideName;                        // 司导姓名（专辑为2，司导时使用）
         public String guideAvatar;                      // 司导头像（专辑为2，司导时使用）
+        public List<String> guideAvatars;               // 司导头像数组
         public String guideHomeDesc;                    // 司导个人简介（专辑为2，司导时使用）
         public int goodsFavoriteNum;                    // 商品收藏数
         public int goodsServiceDayNum;                  // 服务天数
-        public String routeCityDesc;
+        public int guidesNum;                           // 可服务司导数
+        public String routeCityDesc;                    // 途径城市
         public String goodsCountryName;
         public String starCityName;
         public String aliasName;                        // 别名

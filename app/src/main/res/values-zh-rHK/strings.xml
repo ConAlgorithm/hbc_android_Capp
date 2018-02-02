@@ -1002,7 +1002,7 @@
     <string name="domestic_card_add_phone_hint">辦卡時預留手機號</string>
 
     <!--City text-->
-    <string name="city_sku_title1">%1$s人已收藏 · %2$s天</string>
+    <string name="city_sku_title1">%1$s天</string>
     <string name="city_sku_title11"> · %s</string>
     <string name="city_sku_title2">%s位當地人可帶你體驗</string>
     <string name="city_sku_item_price">¥ %s起/人</string>

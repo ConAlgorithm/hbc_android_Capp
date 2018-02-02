@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/city_guides_layout_guide1"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@mipmap/icon_avatar_guide"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/city_guides_guide22"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/city_guides_layout_guide1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/city_guides_head_bg" />
+
+    <ImageView
+        android:id="@+id/city_guides_layout_guide2"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:background="@mipmap/icon_avatar_guide"
+        app:layout_constraintBottom_toBottomOf="@+id/city_guides_guide22"
+        app:layout_constraintEnd_toEndOf="@+id/city_guides_guide22"
+        app:layout_constraintStart_toStartOf="@+id/city_guides_guide22"
+        app:layout_constraintTop_toTopOf="@+id/city_guides_guide22" />
+</android.support.constraint.ConstraintLayout>
