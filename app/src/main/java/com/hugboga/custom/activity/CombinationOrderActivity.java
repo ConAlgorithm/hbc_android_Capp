@@ -224,7 +224,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
                 //DialogUtil.getInstance(CombinationOrderActivity.this).showServiceDialog(CombinationOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-                csDialog = CommonUtils.csDialog(CombinationOrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+                csDialog = CommonUtils.csDialog(CombinationOrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, "按天包车", new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
                         if (csDialog != null && csDialog.isShowing()) {

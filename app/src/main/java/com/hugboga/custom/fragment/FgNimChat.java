@@ -159,8 +159,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             @Override
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(), "客服", null);
-                //DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
-                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
+                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, "私聊-私聊小管家", new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
                         if (csDialog != null && csDialog.isShowing()) {
@@ -442,7 +441,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
             Intent intent = new Intent(getContext(), UnicornServiceActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
-            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+            intent.putExtra(Constants.PARAMS_SOURCE, "私聊-客服");
             startActivity(intent);
             SensorsUtils.onAppClick(getEventSource(), "旅行小管家", "");
         } else if (chatBean.getTargetType() == 1) {

@@ -211,8 +211,17 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             @Override
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
-                //DialogUtil.getInstance(OrderActivity.this).showServiceDialog(OrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-                csDialog = CommonUtils.csDialog(OrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+                String serviceSource = "";
+                switch (params.orderType) {
+                    case 1:
+                        serviceSource = "接机";
+                    case 2:
+                        serviceSource = "送机";
+                    case 4:
+                        serviceSource = "单次";
+                    break;
+                }
+                csDialog = CommonUtils.csDialog(OrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, serviceSource, new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
                         if (csDialog != null && csDialog.isShowing()) {

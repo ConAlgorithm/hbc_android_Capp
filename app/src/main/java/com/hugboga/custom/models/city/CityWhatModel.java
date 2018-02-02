@@ -83,7 +83,7 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
                 }
                 Intent intent = new Intent(mContext, UnicornServiceActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getServiceSource());
                 mContext.startActivity(intent);
             }
         }
@@ -95,6 +95,21 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
             } else if (mContext instanceof CityActivity) {
                 CityActivity cityActivity = (CityActivity) mContext;
                 return cityActivity.getEventSource();
+            }
+            return null;
+        }
+
+        public String getServiceSource() {
+            if (mContext instanceof AiResultActivity) {
+                AiResultActivity aiResultActivity = (AiResultActivity) mContext;
+                return aiResultActivity.getEventSource();
+            } else if (mContext instanceof CityActivity) {
+                CityActivity cityActivity = (CityActivity) mContext;
+                if (cityActivity.paramsData != null) {
+                    return cityActivity.paramsData.titleName;
+                } else {
+                    return cityActivity.getEventSource();
+                }
             }
             return null;
         }
