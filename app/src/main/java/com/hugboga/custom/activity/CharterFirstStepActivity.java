@@ -236,7 +236,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         switch (view.getId()) {
             case R.id.charter_first_bottom_service_layout:
                 //DialogUtil.showCallDialogTitle(this,getEventSource(),UnicornServiceActivity.SourceType.TYPE_CHARTERED);
-                csDialog = CommonUtils.csDialog(activity, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), false, new CsDialog.OnCsListener() {
+                csDialog = CommonUtils.csDialog(activity, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, "按天包车", false, new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
                         csDialog.dismiss();
