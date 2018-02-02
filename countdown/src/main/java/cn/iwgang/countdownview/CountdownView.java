@@ -314,13 +314,14 @@ public class CountdownView extends View {
         int second = (int)((ms % (1000 * 60)) / 1000);
         int millisecond = (int)(ms % 1000);
 
-        if (isAutoHideHour && hour == 0) {
-            mCountdown.isShowHour = false;
-            mCountdown.mSuffixHourTextWidth = 0;
-        }
-        if (isAutoHideDay && day == 0) {
+        if (mCountdown.isShowDay && isAutoHideDay && day == 0) {
             mCountdown.isShowDay = false;
             mCountdown.mSuffixDayTextWidth = 0;
+        }
+
+        if (isAutoHideHour && hour == 0 && day == 0) {
+            mCountdown.isShowHour = false;
+            mCountdown.mSuffixHourTextWidth = 0;
         }
 
         mCountdown.setTimes(day, hour, minute, second, millisecond);

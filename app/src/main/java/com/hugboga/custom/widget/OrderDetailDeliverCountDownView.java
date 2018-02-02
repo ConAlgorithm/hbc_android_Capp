@@ -69,6 +69,7 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
         }
 
         progressView.setProgress(progress);
+        lastRemainTime = countdownMillisecond;
         countdownView.start(countdownMillisecond);
         countdownView.setOnCountdownEndListener(this);
         setOnCountdownIntervalListener(1000, deliverInfoBean);
