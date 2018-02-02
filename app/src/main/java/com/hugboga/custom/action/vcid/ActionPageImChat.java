@@ -29,7 +29,7 @@ public class ActionPageImChat extends ActionPageBase {
         }
         int type = CommonUtils.getCountInteger(bean.type);
         if (type == 3) {
-            UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST);
+            UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST, actionBean.source);
         } else if (type == 1) {
             NIMChatActivity.start(getContext(), bean.guideId, bean.tid, actionBean.source);
         }

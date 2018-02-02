@@ -82,7 +82,7 @@ public class UnicornUtils {
                 || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null)) {
             return;
         }
-        if (!CommonUtils.isLogin(context, "客服")) {
+        if (!CommonUtils.isLogin(context, source)) {
             return;
         }
         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
@@ -105,21 +105,21 @@ public class UnicornUtils {
         }
     }
 
-    public static void openServiceActivity(Context context, int sourceType) {
-        if (!CommonUtils.isLogin(context, "客服")) {
+    public static void openServiceActivity(Context context, int sourceType, String source) {
+        if (!CommonUtils.isLogin(context, source)) {
             return;
         }
         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
         params.sourceType = sourceType;
         Intent intent = new Intent(context, ServiceQuestionActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
-        intent.putExtra(Constants.PARAMS_SOURCE, "客服IM");
+        intent.putExtra(Constants.PARAMS_SOURCE, source);
         context.startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
     }
 
     public static void addServiceFragment(BaseActivity activity, int containerId
-            , ProductDetail productDetail, int staffId, ArrayList<ServiceUserInfo> extraList) {
+            , ProductDetail productDetail, int staffId, ArrayList<ServiceUserInfo> extraList, String source) {
         SharedPre.setInteger(UserEntity.getUser().getUserId(activity), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
         SharedPre.setInteger(UserEntity.getUser().getUserId(activity), SharedPre.QY_GROUP_ID, staffId);
 
@@ -141,14 +141,14 @@ public class UnicornUtils {
 
         // 设置访客来源，标识访客是从哪个页面发起咨询的，用于客服了解用户是从什么页面进入三个参数分别为来源页面的url，来源页面标题，来源页面额外信息（可自由定义）
         // 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
-        ConsultSource source = new ConsultSource("", "CAPP_Android", "");
+        ConsultSource consultSource = new ConsultSource("", source, "");
         if (staffId > 0) {
-            source.groupId = staffId;
+            consultSource.groupId = staffId;
         }
         if (productDetail != null) {
-            source.productDetail = productDetail;
+            consultSource.productDetail = productDetail;
         }
-        ServiceMessageFragment fragment = Unicorn.newServiceFragment("旅行小管家", source, new FrameLayout(activity));
+        ServiceMessageFragment fragment = Unicorn.newServiceFragment("旅行小管家", consultSource, new FrameLayout(activity));
         if (fragment == null) {
             return;
         }
