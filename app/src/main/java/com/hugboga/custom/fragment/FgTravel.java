@@ -289,7 +289,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener {
             @Override
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(), "客服", "");
-                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
+                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, "行程-客服", new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
                         if (csDialog != null && csDialog.isShowing()) {

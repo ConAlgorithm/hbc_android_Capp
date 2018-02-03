@@ -132,6 +132,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     private int requestCouponCount = 0;
 
     private boolean requestedSubmit = false;
+    private boolean requestPayNo = false;
     CsDialog csDialog;
 
     @Override
@@ -223,7 +224,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
                 //DialogUtil.getInstance(CombinationOrderActivity.this).showServiceDialog(CombinationOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-                csDialog = CommonUtils.csDialog(CombinationOrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+                csDialog = CommonUtils.csDialog(CombinationOrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, "按天包车", new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
                         if (csDialog != null && csDialog.isShowing()) {
@@ -347,11 +348,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             }
             explainView.setCancleTips(cancleTips);
         } else if (_request instanceof RequestOrderGroup) {
-            requestedSubmit = false;
             orderInfoBean = ((RequestOrderGroup) _request).getData();
             if (orderInfoBean.getPriceActual() == 0) {
                 requestPayNo(orderInfoBean.getOrderno());
             } else {
+                requestedSubmit = false;
                 ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
                 requestParams.couponId = discountView.isCheckedTravelFund() ? "" : getCouponId();
                 requestParams.orderId = orderInfoBean.getOrderno();
@@ -371,6 +372,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 charterDataUtils.cleanGuidesDate();
             }
         } else if (_request instanceof RequestPayNo) {
+            requestPayNo = false;
+            requestedSubmit = false;
             RequestPayNo mParser = (RequestPayNo) _request;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
                 if ("travelFundPay".equals(mParser.getData()) || "couppay".equals(mParser.getData())) {
@@ -413,6 +416,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             return;
         }
         if (request instanceof RequestPayNo) {
+            requestPayNo = false;
             return;
         } else if (request instanceof RequestOrderGroup) {
             requestedSubmit = false;
@@ -786,6 +790,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
      * 金额为零，直接请求支付接口（支付宝）
      * */
     private void requestPayNo(String orderNo) {
+        if (requestPayNo) {
+            return;
+        } else {
+            requestPayNo = true;
+        }
         RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, discountView.isCheckedTravelFund() ? "" : getCouponId());
         requestData(pequestPayNo);
     }

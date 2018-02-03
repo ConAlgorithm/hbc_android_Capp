@@ -86,7 +86,7 @@
         android:layout_marginTop="16dp"
         android:drawablePadding="@dimen/basic_margin_small"
         android:drawableTop="@mipmap/search_aeroplane_icon"
-        android:text="接送机"
+        android:text="华人接送机"
         android:textAlignment="center"
         android:textColor="#444444"
         android:visibility="visible"

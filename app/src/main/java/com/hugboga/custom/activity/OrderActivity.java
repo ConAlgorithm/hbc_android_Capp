@@ -110,6 +110,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     private int requestCouponCount = 0;
 
     private boolean requestedSubmit = false;
+    private boolean requestPayNo = false;
     CsDialog csDialog;
 
     public static class Params implements Serializable {
@@ -210,8 +211,17 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             @Override
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
-                //DialogUtil.getInstance(OrderActivity.this).showServiceDialog(OrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-                csDialog = CommonUtils.csDialog(OrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+                String serviceSource = "";
+                switch (params.orderType) {
+                    case 1:
+                        serviceSource = "接机";
+                    case 2:
+                        serviceSource = "送机";
+                    case 4:
+                        serviceSource = "单次";
+                    break;
+                }
+                csDialog = CommonUtils.csDialog(OrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, serviceSource, new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
                         if (csDialog != null && csDialog.isShowing()) {
@@ -464,6 +474,11 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
      * 金额为零，直接请求支付接口（支付宝）
      * */
     private void requestPayNo(String orderNo) {
+        if (requestPayNo) {
+            return;
+        } else {
+            requestPayNo = true;
+        }
         RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, discountView.isCheckedTravelFund() ? "" : getCouponId());
         requestData(pequestPayNo);
     }
@@ -640,11 +655,11 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             requestCouponCount--;
             discountView.setDeductionBean(deductionBean);
         } else if (_request instanceof RequestSubmitBase) {
-            requestedSubmit = false;
             orderInfoBean = ((RequestSubmitBase) _request).getData();
             if (orderInfoBean.getPriceActual() == 0) {
                 requestPayNo(orderInfoBean.getOrderno());
             } else {
+                requestedSubmit = false;
                 ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
                 requestParams.couponId = discountView.isCheckedTravelFund() ? "" : getCouponId();
                 requestParams.orderId = orderInfoBean.getOrderno();
@@ -662,6 +677,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 startActivity(intent);
             }
         } else if (_request instanceof RequestPayNo) {
+            requestPayNo = false;
+            requestedSubmit = false;
             RequestPayNo mParser = (RequestPayNo) _request;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
                 if ("travelFundPay".equals(mParser.getData()) || "couppay".equals(mParser.getData())) {
@@ -693,6 +710,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         if (request instanceof RequestSubmitBase) {
             requestedSubmit = false;
             CommonUtils.apiErrorShowService(OrderActivity.this, errorInfo, request, OrderActivity.this.getEventSource());
+        } else if (request instanceof RequestPayNo) {
+            requestPayNo = false;
         }
     }
 

@@ -5,11 +5,16 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.ServiceQuestionBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.request.RequestAvailableCustomerService;
+import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.UnicornDetailView;
 import com.hugboga.custom.widget.UnicornOrderView;
@@ -29,6 +34,9 @@ public class UnicornServiceActivity extends BaseActivity {
     FrameLayout orderStateLayout;
 
     private Params params;
+
+    private ArrayList<UnicornUtils.ServiceUserInfo> extraList = new ArrayList<>();
+    private ProductDetail productDetail = null;
 
     public static class Params implements Serializable {
         public int sourceType;
@@ -62,8 +70,6 @@ public class UnicornServiceActivity extends BaseActivity {
         initDefaultTitleBar();
         fgTitle.setText(R.string.unicorn_service_title);
 
-        ArrayList<UnicornUtils.ServiceUserInfo> extraList = new ArrayList<>();
-        ProductDetail productDetail = null;
         switch (params.sourceType) {
             case SourceType.TYPE_CHARTERED:
             case SourceType.TYPE_LINE:
@@ -102,15 +108,44 @@ public class UnicornServiceActivity extends BaseActivity {
                 productDetail = null;
                 break;
         }
-        int roleId = params.questionItem != null ? params.questionItem.customRole : 0;
-        if (roleId == 0 && (params.sourceType == SourceType.TYPE_CHARTERED || params.sourceType == SourceType.TYPE_LINE || params.sourceType == SourceType.TYPE_AI_RESULT)) {
-            if (params.groupId != 0) {
-                roleId = params.groupId;
-            } else {
-                roleId = UnicornUtils.UNICORN_ERP_GROUPID;//默认售前ID
-            }
+        int groupId = params.questionItem != null ? params.questionItem.customRole : 0;
+        if (groupId == 0 && isPreSales(params.sourceType) && params.groupId != 0) {
+            groupId = params.groupId;
         }
-        UnicornUtils.addServiceFragment(this, R.id.unicorn_service_container_layout, productDetail, roleId, extraList);
+        if (groupId == 0) {
+            requestData(new RequestAvailableCustomerService(this),true);
+        } else {
+            addServiceFragment(groupId);
+        }
+    }
+
+    //是否是是售前客服
+    private boolean isPreSales(int sourceType) {
+        return sourceType == SourceType.TYPE_CHARTERED || sourceType == SourceType.TYPE_LINE || sourceType == SourceType.TYPE_AI_RESULT;
+    }
+
+    private void addServiceFragment(int _groupId) {
+        int groupId = _groupId;
+        if (groupId == 0 && isPreSales(params.sourceType)) {
+            groupId = UnicornUtils.UNICORN_ERP_GROUPID;//默认售前ID
+        }
+        UnicornUtils.addServiceFragment(this, R.id.unicorn_service_container_layout, productDetail, groupId, extraList, getIntentSource());
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
+        ApiReportHelper.getInstance().addReport(request);
+        if (request instanceof RequestAvailableCustomerService) {
+            String groupId = ((RequestAvailableCustomerService)request).getData();
+            addServiceFragment(CommonUtils.getCountInteger(groupId));
+        }
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        addServiceFragment(0);
     }
 
     @Override

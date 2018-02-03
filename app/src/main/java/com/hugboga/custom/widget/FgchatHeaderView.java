@@ -50,7 +50,7 @@ public class FgchatHeaderView extends LinearLayout {
                 });
                 break;
             case R.id.chat_header_online_layout:
-                UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST);
+                UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST,"私聊");
                 break;
         }
     }

@@ -904,7 +904,7 @@
     <string name="home_search_all_here">结果全都在这了</string>
     <string name="home_search_see_all">查看全部</string>
 
-    <string name="home_goodes_title_transfer">境外中文接送机</string>
+    <string name="home_goodes_title_transfer">华人接送机</string>
     <string name="home_goodes_title_chartered">按天包车畅游</string>
     <string name="home_goodes_favorite_num">%1$s人已收藏</string>
     <string name="home_goodes_service_day">%1$s天 · %2$s</string>
@@ -915,7 +915,7 @@
     <string name="home_goodes_price">¥%1$s起/人</string>
     <string name="home_book">立即预订</string>
     <string name="home_goodes_price_car">¥%1$s起/车</string>
-    <string name="home_goodes_item_subtitle">已服务%1$s用户 | %2$s位司导</string>
+    <string name="home_goodes_item_subtitle">%1$s位司导 | 已服务%2$s用户</string>
     <string name="home_ai_where_to_go">想去哪里?</string>
     <string name="home_top_up_detail">松手，查看详情</string>
     <string name="home_top_pull">继续下拉，秒懂皇包车旅行</string>
