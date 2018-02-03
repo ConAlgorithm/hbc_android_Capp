@@ -463,7 +463,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                     mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
 
-                    if(orderBean.isIm){
+                    if(!orderBean.isSeparateOrder() && orderBean.isIm){
                         mBtnChat.setVisibility(View.VISIBLE);
                         mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
                         showMessageNum(mBtnChatNum, orderBean.imcount);//显示未读小红点个数
@@ -530,7 +530,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                     mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
 
-                    if(orderBean.isIm){
+                    if(!orderBean.isSeparateOrder() && orderBean.isIm){
                         mBtnChat.setVisibility(View.VISIBLE);
                         mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
                         showMessageNum(mBtnChatNum, orderBean.imcount);//显示未读小红点个数
