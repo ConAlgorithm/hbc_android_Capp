@@ -137,8 +137,10 @@ public class CitySkuView extends FrameLayout {
                 gotoSkuDetail(); //进入玩法详情
                 break;
             case R.id.city_item_guide:
-                if (TextUtils.isEmpty(destinationGoodsVo.guideId) ||
-                        (destinationGoodsVo.guideAvatars != null && destinationGoodsVo.guideAvatars.size() >= 2)) {
+                if (TextUtils.isEmpty(destinationGoodsVo.guideId)) {
+                    return;
+                }
+                if (destinationGoodsVo.guideAvatars != null && destinationGoodsVo.guideAvatars.size() >= 2) {
                     gotoSkuDetail(); //进入玩法详情
                 } else {
                     GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
