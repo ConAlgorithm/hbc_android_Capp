@@ -137,12 +137,10 @@ public class CitySkuView extends FrameLayout {
                 gotoSkuDetail(); //进入玩法详情
                 break;
             case R.id.city_item_guide:
-                if (TextUtils.isEmpty(destinationGoodsVo.guideId)) {
-                    return;
-                }
-                if (destinationGoodsVo.guideAvatars != null && destinationGoodsVo.guideAvatars.size() >= 2) {
+                if (TextUtils.isEmpty(destinationGoodsVo.guideId) ||
+                        (destinationGoodsVo.guideAvatars != null && destinationGoodsVo.guideAvatars.size() >= 2)) {
                     gotoSkuDetail(); //进入玩法详情
-                }else{
+                } else {
                     GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
                     params.guideId = destinationGoodsVo.guideId;
                     Intent intent2 = new Intent(getContext(), GuideWebDetailActivity.class);
@@ -154,7 +152,7 @@ public class CitySkuView extends FrameLayout {
         }
     }
 
-    private void gotoSkuDetail(){
+    private void gotoSkuDetail() {
         Intent intent = new Intent(getContext(), SkuDetailActivity.class);
         intent.putExtra(WebInfoActivity.WEB_URL, destinationGoodsVo.skuDetailUrl);
         intent.putExtra(Constants.PARAMS_ID, destinationGoodsVo.goodsNo);
