@@ -86,7 +86,6 @@ public class CitySkuView extends FrameLayout {
     public void init(DestinationGoodsVo destinationGoodsVo) {
         this.destinationGoodsVo = destinationGoodsVo;
         Tools.showImageNotCenterCrop(city_item_img, destinationGoodsVo.goodsImageUrl, R.mipmap.home_default_route_item);
-        city_item_favor.setText(String.valueOf(destinationGoodsVo.userFavorCount));
         city_item_title.setText(destinationGoodsVo.goodsName);
         city_item_price.setText(String.format(getContext().getString(R.string.city_sku_item_price),
                 String.valueOf(PriceFormat.priceNoPoint(destinationGoodsVo.perPrice))));
@@ -94,7 +93,10 @@ public class CitySkuView extends FrameLayout {
         city_item_tip.setText(getItemTitle(destinationGoodsVo));
         city_item_tip2.setText(String.format(getContext().getString(R.string.city_sku_title2),
                 String.valueOf(destinationGoodsVo.guideCount)));
-        saveLineImg.setSelected(CollectionHelper.getIns(getContext()).getCollectionLine().isCollection(destinationGoodsVo.goodsNo)); //显示收藏线路信息
+        city_item_favor.setText(String.valueOf(CollectionHelper.getIns(getContext()).getCollectionLine()
+                .showFavorsNum(destinationGoodsVo.goodsNo, destinationGoodsVo.userFavorCount)));
+        saveLineImg.setSelected(CollectionHelper.getIns(getContext()).getCollectionLine()
+                .isCollection(destinationGoodsVo.goodsNo)); //显示收藏线路信息
     }
 
     /**

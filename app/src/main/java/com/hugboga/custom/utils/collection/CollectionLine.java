@@ -96,6 +96,7 @@ public class CollectionLine extends BaseCollection {
             if (request.getData() != null) {
                 UserFavoriteLineList favoriteLine = (UserFavoriteLineList) request.getData();
                 if (favoriteLine != null && favoriteLine.goodsNos != null) {
+                    oldCollections = buildMap(favoriteLine.goodsNos); //记录查询收藏的数据
                     serverCollections = buildMap(favoriteLine.goodsNos); //记录为服务器端数据
                     localCollections = buildMap(favoriteLine.goodsNos); //记录为本地数据
                 }
@@ -106,6 +107,31 @@ public class CollectionLine extends BaseCollection {
         } else if (request instanceof RequestCollectLineNo) {
             //收藏提交数据成功
             serverCollections.put(((RequestCollectLineNo) request).getGoodsNo(), true);
+        }
+    }
+
+    /**
+     * 根据最新收藏数据识别收藏变化数
+     *
+     * @param targetNo
+     * @return
+     */
+    public int showFavorsNum(String targetNo, int serviceFavorsNum) {
+        if (!UserEntity.getUser().isLogin(getContext())) {
+            return serviceFavorsNum;
+        }
+        if (oldCollections.containsKey(targetNo)) {
+            if (localCollections.containsKey(targetNo)) {
+                return localCollections.get(targetNo) ? serviceFavorsNum : serviceFavorsNum - 1;
+            } else {
+                return serviceFavorsNum - 1;
+            }
+        } else {
+            if (localCollections.containsKey(targetNo)) {
+                return localCollections.get(targetNo) ? serviceFavorsNum + 1 : serviceFavorsNum;
+            } else {
+                return serviceFavorsNum;
+            }
         }
     }
 }

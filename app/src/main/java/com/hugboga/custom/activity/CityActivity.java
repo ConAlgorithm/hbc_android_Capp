@@ -395,6 +395,10 @@ public class CityActivity extends BaseActivity {
                 if (totalCount != 0) {
                     chatMessageListener(true);
                 }
+            case CLICK_USER_LOGIN:
+            case CLICK_USER_LOOUT:
+            case LINE_UPDATE_COLLECT:
+                adapter.notifyDataSetChanged();
                 break;
         }
     }
