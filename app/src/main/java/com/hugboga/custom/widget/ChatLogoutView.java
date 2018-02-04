@@ -119,7 +119,7 @@ public class ChatLogoutView extends LinearLayout {
 
     public void setLooper(boolean isLooper) {
         this.isLooper = isLooper;
-        if (isLooper) {
+        if (isLooper && scrollview != null) {
             handler.sendEmptyMessage(0);
         }
     }

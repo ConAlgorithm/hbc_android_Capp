@@ -396,6 +396,10 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         if (paramsData != null) {
             position--;
         }
+        if (position >= adapter.getCount()) {
+            adapter.notifyDataSetChanged();
+            return;
+        }
         CouponBean bean = (CouponBean) adapter.getItem(position - 1);
         if (paramsData != null) {
             EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, bean));
