@@ -144,6 +144,9 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
                 int allCancelFee = 0;
                 for (int i = 0; i < size; i++) {
                     OrderPriceInfo childPriceInfo = subOrderList.get(i).orderPriceInfo;
+                    if (childPriceInfo.isRefund != 1) {
+                        continue;
+                    }
                     addBillView(refundItemLayout, CommonUtils.getString(R.string.order_detail_item_travel) + " " + (i + 1), "" + (int)childPriceInfo.refundPrice);
                     allRefundPrice += childPriceInfo.refundPrice;
                     allCancelFee += childPriceInfo.cancelFee;
