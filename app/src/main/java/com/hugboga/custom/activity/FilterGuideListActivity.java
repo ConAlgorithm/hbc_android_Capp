@@ -254,6 +254,10 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
     @Override
     public void onItemClick(View view, int position, Object itemData) {
+        if (position >= mAdapter.getListCount()) {
+            mAdapter.notifyDataSetChanged();
+            return;
+        }
         GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
         ArrayList<FilterGuideBean> guideList = mAdapter.getDatas();
         params.guideId = guideList.get(position).guideId;

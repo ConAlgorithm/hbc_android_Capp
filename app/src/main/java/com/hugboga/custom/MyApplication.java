@@ -79,8 +79,6 @@ public class MyApplication extends HbcApplication implements Application.Activit
         x.Ext.setDebug(false); //设置xUtils的debug模式
         setHlog(); //设置日志配置
         getChannelNum();
-        initUrlHost();
-        initConfig();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
 //            CrashReport.initCrashReport(this, "900024779", false);
@@ -89,12 +87,14 @@ public class MyApplication extends HbcApplication implements Application.Activit
             e.printStackTrace();
         }
 
-        UmengADPlus umengADPlus = new UmengADPlus();
-        umengADPlus.sendMessage(this, "55ccb4cfe0f55ab500004a9d");
-
-
         final boolean inMainProcess = inMainProcess(mAppContext);
         if (inMainProcess) {
+            initUrlHost();
+            initConfig();
+
+            UmengADPlus umengADPlus = new UmengADPlus();
+            umengADPlus.sendMessage(this, "55ccb4cfe0f55ab500004a9d");
+
             UnicornUtils.initUnicorn(); // 七鱼
             initSensorsData();          // 初始化神策
 

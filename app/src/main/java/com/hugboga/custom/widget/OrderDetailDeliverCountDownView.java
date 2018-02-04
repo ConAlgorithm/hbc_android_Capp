@@ -27,6 +27,7 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
     private long lastRemainTime = 0;
     private OnUpdateListener onUpdateListener;
     private boolean isResetCountdownView = true;
+    private boolean isStop;
 
     public OrderDetailDeliverCountDownView(Context context) {
         this(context, null);
@@ -70,6 +71,7 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
 
         progressView.setProgress(progress);
         lastRemainTime = countdownMillisecond;
+        isStop = false;
         countdownView.start(countdownMillisecond);
         countdownView.setOnCountdownEndListener(this);
         setOnCountdownIntervalListener(1000, deliverInfoBean);
@@ -80,6 +82,9 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
         countdownView.setOnCountdownIntervalListener(interval, new CountdownView.OnCountdownIntervalListener() {
             @Override
             public void onInterval(CountdownView cv, long remainTime) {
+                if (isStop) {
+                    return;
+                }
                 long stayTime = deliverInfoBean.isTwiceConfirm() ? deliverInfoBean.twiceCancelTotalSpan : deliverInfoBean.stayTime;
 
                 if (stayTime > remainTime) {
@@ -126,6 +131,7 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
     public void stop() {
         if (countdownView != null) {
             try {
+                isStop = true;
                 countdownView.stop();
             } catch (Exception e) {
                 e.printStackTrace();

@@ -317,6 +317,9 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
 
 
     private void commitInsure() {
+        if (orderBean == null) {
+            finish();
+        }
         RequestSubmitInsure requestSubmitInsure = new RequestSubmitInsure(activity,
                 UserEntity.getUser().getUserId(activity), getInsuranceUserId(), orderBean.orderNo);
         HttpRequestUtils.request(activity, requestSubmitInsure, this);

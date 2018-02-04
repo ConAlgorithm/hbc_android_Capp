@@ -289,14 +289,22 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             if (emptyLayout != null) {
                 emptyLayout.setVisibility(View.VISIBLE);
             }
-            chatLogoutView.setLooper(true);
-            chatLayout.setVisibility(View.GONE);
+            if (chatLogoutView != null) {
+                chatLogoutView.setLooper(true);
+            }
+            if (chatLayout != null) {
+                chatLayout.setVisibility(View.GONE);
+            }
         } else {
             if (emptyLayout != null) {
                 emptyLayout.setVisibility(View.GONE);
             }
-            chatLogoutView.setLooper(false);
-            chatLayout.setVisibility(View.VISIBLE);
+            if (chatLogoutView != null) {
+                chatLogoutView.setLooper(false);
+            }
+            if (chatLayout != null) {
+                chatLayout.setVisibility(View.VISIBLE);
+            }
             sendRequest(0, true);
         }
     }
