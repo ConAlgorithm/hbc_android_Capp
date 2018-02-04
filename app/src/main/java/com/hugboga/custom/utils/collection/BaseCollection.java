@@ -25,6 +25,7 @@ import java.util.Map;
 public abstract class BaseCollection implements ICollection, HttpRequestListener {
 
     protected WeakReference<Context> weakReference;
+    Map<String, Boolean> oldCollections = new HashMap<>(); //查询收藏记录数据
     Map<String, Boolean> serverCollections = new HashMap<>(); //服务器端记录收藏数据
     Map<String, Boolean> localCollections = new HashMap<>(); //本地收藏的数据
 
@@ -93,6 +94,7 @@ public abstract class BaseCollection implements ICollection, HttpRequestListener
                 break;
             case CLICK_USER_LOOUT:
                 //退出后清空数据，停止同步
+                oldCollections.clear();
                 serverCollections.clear();
                 localCollections.clear();
                 break;
