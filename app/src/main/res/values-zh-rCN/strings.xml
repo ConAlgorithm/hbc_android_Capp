@@ -327,6 +327,7 @@
     <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；聊天信息可作为纠纷凭证，获得平台保障。</string>
     <string name="order_detail_bargain_end">共砍掉</string>
     <string name="order_detail_bargain">已砍掉</string>
+    <string name="order_detail_state_twiceconfirm">正在确认订单</string>
     <string name="order_detail_state_unpaid">等待支付</string>
     <string name="order_detail_state_success">预订成功</string>
     <string name="order_detail_state_received">司导已接单</string>
@@ -375,6 +376,7 @@
     <string name="order_detail_fxjourney_detail">详情</string>
     <string name="order_detail_fxjourney_guidename">司导 %1$s 提供</string>
     <string name="order_detail_fxjourney_days">%1$s日</string>
+    <string name="order_detail_countdown_title">剩余</string>
 
     <string name="select_day">请选择游玩日期</string>
 
