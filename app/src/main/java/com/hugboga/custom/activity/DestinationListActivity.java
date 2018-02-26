@@ -25,7 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class DestinationListActivity extends BaseActivity implements XRecyclerView.LoadingListener {
+public class DestinationListActivity extends BaseActivity implements LoadMoreRecyclerView.LoadingListener {
 
     @BindView(R.id.destination_list_titlebar)
     TitleBar titlebar;
@@ -118,11 +118,6 @@ public class DestinationListActivity extends BaseActivity implements XRecyclerVi
     @OnClick(R.id.destination_list_empty)
     public void onEmptyRefreshData() {
         requestList(0, true);
-    }
-
-    @Override
-    public void onRefresh() {
-
     }
 
     @Override

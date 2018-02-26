@@ -53,7 +53,7 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
-public class FilterGuideListActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener, XRecyclerView.LoadingListener{
+public class FilterGuideListActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener, LoadMoreRecyclerView.LoadingListener{
 
     @BindView(R.id.guide_list_filter_layout)
     GuideFilterLayout filterLayout;
@@ -194,10 +194,6 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     @Override
     public String getEventId() {
         return StatisticConstant.LAUNCH_GLIST;
-    }
-
-    @Override
-    public void onRefresh() {
     }
 
     @Override
