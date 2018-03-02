@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.hugboga.custom.activity.ServicerCenterActivity;
 import com.hugboga.custom.activity.SettingActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
@@ -40,6 +42,7 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.im.ImObserverHelper;
 import com.netease.nimlib.sdk.StatusCode;
@@ -68,6 +71,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     private TextView couponTV, couponUnitTV;
     private TextView travelFundTV, travelFundUnitTV;
     private TextView tv_login;
+    private ImageView bannerIV;
 
     private MenuItemAdapter menuItemAdapter;
     private String mobile;
@@ -153,6 +157,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         travelFundTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_tv);//旅游基金
         couponUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_unit_tv);
         travelFundUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_unit_tv);
+        bannerIV = (ImageView) header.findViewById(R.id.banner_iv);
         header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
         header.findViewById(R.id.slidemenu_header_travelfund_layout).setOnClickListener(this);
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
@@ -207,12 +212,10 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             }
 
             couponTV.setText("" + UserEntity.getUser().getCoupons(getContext()));
-            couponTV.setTextColor(getContext().getResources().getColor(R.color.default_btn_yellow_n));
-            couponUnitTV.setTextColor(getContext().getResources().getColor(R.color.default_btn_yellow_n));
+            couponTV.setTextColor(0xFFEBA479);
 
             travelFundTV.setText("" + UserEntity.getUser().getTravelFund(getContext()));
-            travelFundTV.setTextColor(getContext().getResources().getColor(R.color.default_btn_yellow_n));
-            travelFundUnitTV.setTextColor(getContext().getResources().getColor(R.color.default_btn_yellow_n));
+            travelFundTV.setTextColor(0xFFEBA479);
         }
     }
 
@@ -224,11 +227,11 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         menuItemAdapter.notifyDataSetChanged();
         couponTV.setText("0");
         couponTV.setTextColor(0xff929292);
-        couponUnitTV.setTextColor(0xff929292);
 
         travelFundTV.setText("0");
         travelFundTV.setTextColor(0xff929292);
-        travelFundUnitTV.setTextColor(0xff929292);
+
+        bannerIV.setVisibility(View.GONE);
     }
 
     @Override
@@ -368,6 +371,21 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
 
             //是否需要设置密码,展示小红点
             setShowPoint(user.needInitPwd);
+
+            if (!TextUtils.isEmpty(user.bannerUrl)) {
+                bannerIV.setVisibility(View.VISIBLE);
+                bannerIV.getLayoutParams().height = (int) ((130 / 750.0f) * UIUtils.getScreenWidth());
+                bannerIV.getLayoutParams().width = UIUtils.getScreenWidth();
+                Tools.showImage(bannerIV, user.bannerUrl);
+                bannerIV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), WebInfoActivity.class);
+                        intent.putExtra(WebInfoActivity.WEB_URL, "https://www.baidu.com/");//TODO
+                        getContext().startActivity(intent);
+                    }
+                });
+            }
         }
     }
 

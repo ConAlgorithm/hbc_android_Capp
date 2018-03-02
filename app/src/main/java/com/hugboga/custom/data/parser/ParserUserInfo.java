@@ -27,6 +27,8 @@ public class ParserUserInfo extends ImplParser {
         userBean.travelFund = jsonObj.optInt("travelFund", 0);
         userBean.coupons = jsonObj.optInt("coupons", 0);
         userBean.needInitPwd = jsonObj.optBoolean("needInitPwd",false);
+        userBean.bannerUrl = jsonObj.optString("bannerUrl");
+        userBean.userType = jsonObj.optInt("userType");
         return userBean;
     }
 }

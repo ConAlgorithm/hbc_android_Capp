@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 206
+    //current urlErrorCode 209
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -153,12 +153,13 @@ public class UrlLibs {
     public static final String GUIDES_SAVED                 = "ucenter/v1.3/c/favorite/guides";                         // 已收藏司导列表 163
     public static final String GET_INVITATION_CODE          = "ucenter/v1.0/c/invitation/code";                         // 获取邀请码
     public static final String DEDUCTION                    = "ucenter/v1.0/c/travelFund/deduction";                    // 获取可用优惠券
-    public static final String TRAVELFUND_LOGS              = "ucenter/v1.0/c/travelFund/logs";                         // 旅游基金流水
-    public static final String TRAVELFUND_INVITATION_LOGS   = "ucenter/v1.1/c/travelFund/logs/invitation";              // 查询通过邀请用户获得的基金流水
     public static final String LINES_SAVED                  = "ucenter/v1.0/c/favorite/goodsNoList";                    // 已收藏线路列表 181
     public static final String COLLECT_LINES_LIST           = "ucenter/v1.0/c/favorite/goodsList";                      // 收藏线路列表 182
     public static final String COLLECT_LINES_NO             = "ucenter/v1.0/c/favorite/goods";                          // 收藏线路  183
     public static final String UNCOLLECT_LINES_NO           = "ucenter/v1.0/c/unfavorite/goods";                        // 取消收藏线路  184
+    public static final String TRAVELFUND_HOME              = "ucenter/v1.0/c/travelFundHome";                          // 用户旅游基金首页  207
+    public static final String QUERY_TRAVELFUND_INCOMELOG   = "ucenter/v1.0/c/queryTravelFundIncomeLog";                // 分页查询用户旅游基金收入流水  208
+    public static final String QUERY_TRAVELFUND_EXPENSELOG  = "ucenter/v1.0/c/queryTravelFundExpenseLog";               // 分页查询用户旅游基金支出流水  209
 
     public static final String SERVER_IP_SUBMIT_PICKUP      = "trade/v1.5/c/order/pickup?";                             // 提交订单 接机
     public static final String SERVER_IP_SUBMIT_PICKUP2     = "trade/v1.4/c/order/pickup?";                             // 提交订单 秒杀接机150
