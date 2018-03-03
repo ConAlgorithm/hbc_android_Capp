@@ -6,11 +6,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.TravelFundData;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -21,7 +22,6 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.HbcLoadingMoreFooter;
 import com.hugboga.custom.widget.LoadMoreRecyclerView;
@@ -86,7 +86,7 @@ public class TravelFundActivity extends BaseActivity implements LoadMoreRecycler
         titlerBottomLine.setVisibility(View.GONE);
         titlerBar.setBackgroundColor(0xFFFFAA74);
         fgTitle.setTextColor(0xFFFFFFFF);
-        fgTitle.setText(getString(R.string.travel_fund_title));
+        fgTitle.setText(getString(UserEntity.getUser().isProxyUser(this) ? R.string.travel_fund_title2 : R.string.travel_fund_title));
         fgRightTV.setVisibility(View.VISIBLE);
         fgRightTV.setText(getString(R.string.travel_fund_rule));
         fgRightTV.setTextColor(0xFFFFFFFF);
@@ -94,9 +94,10 @@ public class TravelFundActivity extends BaseActivity implements LoadMoreRecycler
             @Override
             public void onClick(View v) {
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_FOUNDREGUL);
-                SensorsUtils.onAppClick(getEventSource(), "查看规则", getIntentSource());
+                SensorsUtils.onAppClick(getEventSource(), "使用规则", getIntentSource());
                 Intent intent = new Intent(TravelFundActivity.this, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_RAVEL_FUND_RULE);
+                intent.putExtra(WebInfoActivity.WEB_URL, isProxyUser() ? UrlLibs.H5_RAVEL_FUND_RULE_AGENTS : UrlLibs.H5_RAVEL_FUND_RULE);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
             }
         });
@@ -193,7 +194,16 @@ public class TravelFundActivity extends BaseActivity implements LoadMoreRecycler
 
     @Override
     public String getEventSource() {
-        return "旅游基金";
+        if (isProxyUser()) {//代理用户
+            return "钱包";
+        } else {
+            return "旅游基金";
+        }
+    }
+
+    //是否是代理用户
+    private boolean isProxyUser() {
+        return UserEntity.getUser().isProxyUser(this);
     }
 
     @Override
@@ -210,6 +220,12 @@ public class TravelFundActivity extends BaseActivity implements LoadMoreRecycler
 
     @Override
     public void onSwitchRecord(boolean isUsed) {
+        if (isProxyUser()) {
+            SensorsUtils.onAppClick(getEventSource(), isUsed ? "支出明细" : "收入明细", getIntentSource());
+        } else {
+            SensorsUtils.onAppClick(getEventSource(), isUsed ? "使用明细" : "奖励明细", getIntentSource());
+        }
+
         List<TravelFundData.TravelFundItemBean> list = !isUsed ? travelFundData.incomeLogList : travelFundData.expenseLogList;
         if (list != null && list.size() == 0) {
             travelFundHeaderView.showEmptyView();

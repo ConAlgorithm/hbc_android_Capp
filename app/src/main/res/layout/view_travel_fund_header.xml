@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:background="#ffab6f">
     <TextView
+        android:id="@+id/travel_fund_residue_price_hint_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -87,6 +88,7 @@
             android:gravity="center"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/record_invited_used_price_hint_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -175,10 +177,10 @@
         android:id="@+id/travel_fund_empty_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:paddingTop="40dp"
         android:paddingBottom="50dp"
         android:gravity="center"
+        android:visibility="gone"
         android:background="#ffffff"
         android:orientation="vertical">
         <ImageView
@@ -194,12 +196,18 @@
             android:layout_marginTop="10dp"
             android:textColor="#8a8a8a"
             android:textSize="15sp" />
-        <ImageView
+        <TextView
             android:id="@+id/travel_fund_empty_get_iv"
-            android:layout_width="215dp"
+            android:layout_width="wrap_content"
             android:layout_height="42dp"
+            android:gravity="center"
+            android:text="@string/travel_fund_gain"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
             android:layout_marginTop="16dp"
-            android:background="@mipmap/travelfund_buttom_btn"
+            android:background="@drawable/selector_travel_fund_empty_get"
             />
     </LinearLayout>
 </LinearLayout>

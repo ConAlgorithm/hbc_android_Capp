@@ -81,8 +81,9 @@ public class UrlLibs {
     public static String H5_PROBLEM = H5_HOST+"/cinfos/problem.html"; //常见问题
     public static String H5_PROTOCOL = H5_HOST+"/cinfos/protocol.html"; // 用户协议
     public static String H5_SERVICE = H5_HOST+"/cinfos/service.html"; // 服务承诺
-    public static String H5_RAVEL_FUND_RULE = H5_HOST+ "/cinfos/actdes.html";//旅游基金规则说明
-
+    public static String H5_RAVEL_FUND_RULE = H5_HOST+ "/cinfos/travelfund.html";//旅游基金规则说明
+    public static String H5_RAVEL_FUND_RULE_AGENTS = H5_HOST+ "/cinfos/travelfundagents.html";//旅游基金代理规则说明
+    public static String H5_INVITE_FRIEND = BuildConfig.SHARE_BASE_URL_3 + "/h5/cactivity/inviteFriend/index.html";//旅游基金页面
     public static String H5_TAI_MANGU = H5_HOST + "/cinfos/tai/BBK.html";//曼谷
     public static String H5_TAI_PUJIDAO = H5_HOST + "/cinfos/tai/bki.html";//普吉
     public static String H5_TAI_QINGMAI = H5_HOST + "/cinfos/tai/cnx.html";//清迈

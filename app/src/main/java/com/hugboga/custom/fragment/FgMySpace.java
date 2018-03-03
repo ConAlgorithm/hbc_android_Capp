@@ -33,6 +33,7 @@ import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -72,6 +73,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     private TextView travelFundTV, travelFundUnitTV;
     private TextView tv_login;
     private ImageView bannerIV;
+    private TextView travelFundHintTV;
 
     private MenuItemAdapter menuItemAdapter;
     private String mobile;
@@ -158,6 +160,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         couponUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_unit_tv);
         travelFundUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_unit_tv);
         bannerIV = (ImageView) header.findViewById(R.id.banner_iv);
+        travelFundHintTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_hint_tv);
         header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
         header.findViewById(R.id.slidemenu_header_travelfund_layout).setOnClickListener(this);
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
@@ -232,6 +235,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         travelFundTV.setTextColor(0xff929292);
 
         bannerIV.setVisibility(View.GONE);
+        travelFundHintTV.setText(getContext().getResources().getString(R.string.myspace_header_travel_fund));
     }
 
     @Override
@@ -363,6 +367,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             UserEntity.getUser().setTravelFund(getContext(), user.travelFund);
             UserEntity.getUser().setCoupons(getContext(), user.coupons);
             UserEntity.getUser().setNeedInitPwd(getContext(), user.needInitPwd);
+            UserEntity.getUser().setUserType(getContext(), user.userType);
             this.mobile = user.mobile;
             couponTV.setText("" + user.coupons);
             travelFundTV.setText("" + user.travelFund);
@@ -381,11 +386,13 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getContext(), WebInfoActivity.class);
-                        intent.putExtra(WebInfoActivity.WEB_URL, "https://www.baidu.com/");//TODO
+                        intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INVITE_FRIEND);
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         getContext().startActivity(intent);
                     }
                 });
             }
+            travelFundHintTV.setText(getContext().getResources().getString(user.userType == 201 ? R.string.travel_fund_title2 : R.string.myspace_header_travel_fund));
         }
     }
 

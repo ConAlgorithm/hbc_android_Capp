@@ -221,13 +221,22 @@
 
     <string name="travel_fund_title">旅游基金</string>
     <string name="travel_fund_rule">使用规则</string>
-    <string name="travel_fund_residue_price">基金金额(元)</string>
+    <string name="travel_fund_residue_price">基金余额(元)</string>
     <string name="travel_fund_incentive_price">累计奖励(元)</string>
     <string name="travel_fund_used_price">累计使用(元)</string>
     <string name="travel_fund_incentive_record">奖励明细</string>
     <string name="travel_fund_used_record">使用明细</string>
     <string name="travel_fund_incentive_empty_hint">您还没有获得奖励</string>
     <string name="travel_fund_used_empty_hint">您还没有使用过旅游基金</string>
+    <string name="travel_fund_gain">立刻赚取旅游基金 >>></string>
+    <string name="travel_fund_title2">钱包</string>
+    <string name="travel_fund_residue_price2">钱包余额(元)</string>
+    <string name="travel_fund_used_price2">累计支出(元)</string>
+    <string name="travel_fund_incentive_record2">收入明细</string>
+    <string name="travel_fund_used_record2">支出明细</string>
+    <string name="travel_fund_incentive_empty_hint2">您还有没收支记录</string>
+    <string name="travel_fund_used_empty_hint2">您还没有支出记录</string>
+    <string name="travel_fund_gain2">邀请赚佣金 >>></string>
 
     <string name="evaluate_et_hint">您对这位司导是否满意呢？说说您的感受吧~对其他小伙伴帮助很大哦（20个字上带图评价可返钱哦)</string>
     <string name="evaluate_et_hint2">您对这位司导是否满意呢？说说您的感受吧~对其他小伙伴帮助很大哦</string>
