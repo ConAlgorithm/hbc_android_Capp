@@ -2,12 +2,14 @@ package com.hugboga.custom.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -56,6 +58,8 @@ public class TravelListUnevaludate extends FgBaseTravel {
     RelativeLayout emptyView;
     @BindView(R.id.travel_footer_get_layout)
     LinearLayout footerGet;
+    @BindView(R.id.travel_footer_text_layout)
+    TextView textView;
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
     int refreshOrNot = 1;
 
@@ -155,7 +159,7 @@ public class TravelListUnevaludate extends FgBaseTravel {
         if (request.getOffset() == 0 && mXRecyclerView != null) {
             mXRecyclerView.smoothScrollToPosition(0);
         }
-        if( mXRecyclerView != null){
+        if (mXRecyclerView != null) {
             mXRecyclerView.refreshComplete();
         }
     }
@@ -170,10 +174,12 @@ public class TravelListUnevaludate extends FgBaseTravel {
         super.onDataRequestSucceed(request);
         if (request instanceof RequestOrderListUnevaludate) {
             TravelListAllBean travelListAllBean = (TravelListAllBean) request.getData();
-            if (request!=null && request.getOffset() == 0) {
+            if (request != null && request.getOffset() == 0) {
                 mXRecyclerView.smoothScrollToPosition(0);
             }
             if (mXRecyclerView != null && travelListAllBean != null) {
+                textView.setText("".equals(travelListAllBean.inviteContent) ? getResources().getText(R.string.travel_footer_fund_content) : travelListAllBean.inviteContent);
+                mXRecyclerView.setEmptyView(emptyView);
                 if (hbcRecyclerSingleTypeAdpater != null) {
                     hbcRecyclerSingleTypeAdpater.addData(travelListAllBean.resultBean, request.getOffset() > 0);
                 }
@@ -212,13 +218,13 @@ public class TravelListUnevaludate extends FgBaseTravel {
             //开启活动
             if (evaluateReturnMoney.backFlag == 1) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
-                if(hbcRecyclerSingleTypeAdpater!= null && hbcRecyclerSingleTypeAdpater.getListCount() > 0){
-                    if( hbcRecyclerSingleTypeAdpater.getHeadersCount() <= 0){
-                        hbcRecyclerSingleTypeAdpater.addHeaderView(getHeaderView(inflater,evaluateReturnMoney));
+                if (hbcRecyclerSingleTypeAdpater != null && hbcRecyclerSingleTypeAdpater.getListCount() > 0) {
+                    if (hbcRecyclerSingleTypeAdpater.getHeadersCount() <= 0) {
+                        hbcRecyclerSingleTypeAdpater.addHeaderView(getHeaderView(inflater, evaluateReturnMoney));
                     }
                 }
-            }else{
-                if(hbcRecyclerSingleTypeAdpater != null && hbcRecyclerSingleTypeAdpater.getHeadersCount()>0){
+            } else {
+                if (hbcRecyclerSingleTypeAdpater != null && hbcRecyclerSingleTypeAdpater.getHeadersCount() > 0) {
                     hbcRecyclerSingleTypeAdpater.cleanAllHeaderView(true);
                 }
             }
@@ -243,15 +249,16 @@ public class TravelListUnevaludate extends FgBaseTravel {
         }
     }
 
-    protected View getHeaderView(LayoutInflater inflater,EvaluateReturnMoney evaluateReturnMoney){
+    protected View getHeaderView(LayoutInflater inflater, EvaluateReturnMoney evaluateReturnMoney) {
         View headerView = inflater.inflate(R.layout.evaluate_header_view, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         headerView.setLayoutParams(params);
         ImageView imageView = (ImageView) headerView.findViewById(R.id.bannar_layout);
         Tools.showImage(imageView, evaluateReturnMoney.activityImgUrl, R.mipmap.evaluate_banner);
-        intentBannarActivity(imageView,evaluateReturnMoney);
+        intentBannarActivity(imageView, evaluateReturnMoney);
         return headerView;
     }
+
     protected void intentBannarActivity(View view, final EvaluateReturnMoney evaluateReturnMoney) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override

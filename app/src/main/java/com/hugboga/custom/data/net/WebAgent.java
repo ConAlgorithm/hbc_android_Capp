@@ -52,6 +52,7 @@ import com.hugboga.custom.data.bean.InsureBean;
 import com.hugboga.custom.data.bean.PushToGuideIMBeam;
 import com.hugboga.custom.data.bean.SeckillsBean;
 import com.hugboga.custom.data.bean.ShareBean;
+import com.hugboga.custom.data.bean.ShareFundBean;
 import com.hugboga.custom.data.bean.ShareInfoBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -69,6 +70,7 @@ import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SaveFileTask;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.ShareFundPopupWindow;
 import com.hugboga.im.custom.attachment.MsgSkuAttachment;
 import com.qiyukf.unicorn.api.ProductDetail;
 
@@ -205,6 +207,24 @@ public class WebAgent implements HttpRequestListener {
                 } else {
                     CommonUtils.shareOptimize(mActivity, shareBean.type, shareBean.picUrl, shareBean.title, shareBean.content, shareBean.goUrl, null);
                 }
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void webFundShare(final String param) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ShareFundBean shareFundBean = JsonUtils.getObject(param, ShareFundBean.class);
+                if (shareFundBean == null) {
+                    return;
+                }
+                if(mActivity instanceof WebInfoActivity){
+                    ShareFundPopupWindow shareFundPopupWindow = new ShareFundPopupWindow(mActivity,shareFundBean);
+                    shareFundPopupWindow.showAsDropDown(((WebInfoActivity)mActivity).titlebar);
+                }
+
             }
         });
     }

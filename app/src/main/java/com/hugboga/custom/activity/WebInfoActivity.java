@@ -76,7 +76,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     @BindView(R.id.webview)
     WebView webView;
     @BindView(R.id.webview_titlebar)
-    RelativeLayout titlebar;
+    public RelativeLayout titlebar;
 
     private DialogUtil mDialogUtil;
 

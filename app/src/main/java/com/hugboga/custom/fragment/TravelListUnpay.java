@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -50,6 +51,8 @@ public class TravelListUnpay extends FgBaseTravel{
     RelativeLayout emptyView;
     @BindView(R.id.travel_footer_get_layout)
     LinearLayout footerGet;
+    @BindView(R.id.travel_footer_text_layout)
+    TextView textView;
     int refreshOrNot = 1;
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
     @Override
@@ -162,6 +165,8 @@ public class TravelListUnpay extends FgBaseTravel{
             mXRecyclerView.smoothScrollToPosition(0);
         }
         if (mXRecyclerView != null && travelListAllBean!=null) {
+            textView.setText("".equals(travelListAllBean.inviteContent) ? getResources().getText(R.string.travel_footer_fund_content) : travelListAllBean.inviteContent);
+            mXRecyclerView.setEmptyView(emptyView);
             if (hbcRecyclerSingleTypeAdpater != null) {
                 hbcRecyclerSingleTypeAdpater.addData(travelListAllBean.resultBean, request.getOffset() > 0);
             }
