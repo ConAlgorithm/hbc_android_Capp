@@ -6,6 +6,19 @@
     android:orientation="vertical"
     android:background="#ffab6f">
     <TextView
+        android:id="@+id/travel_fund_blocked_price_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="center"
+        android:text="@string/travel_fund_blocked_price_tv"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:background="#22ffffff"
+        />
+    <TextView
         android:id="@+id/travel_fund_residue_price_hint_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,7 +63,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="76dp"
-        android:background="#11ffffff">
+        android:background="#10ffffff">
 
         <View
             android:id="@+id/accumulative_middle_line_view"
@@ -65,6 +78,7 @@
             android:gravity="center"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/record_invited_incentive_price_hint_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

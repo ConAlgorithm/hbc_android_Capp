@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.TwoDimensionUtlis;
@@ -104,6 +105,7 @@ public class TwoDimensionActivity extends BaseActivity {
         String[] paths = new String[]{Environment.getExternalStorageDirectory().toString()};
         MediaScannerConnection.scanFile(this, paths, null, null);
         CommonUtils.showToast("已保存到系统相册");
+        SensorsUtils.onAppClick(getEventSource(), "保存", UserEntity.getUser().isProxyUser(this) ? "邀请新用户" : "邀请好友赢免单");
     }
 
     private void returnBitmap(final String url) {
@@ -142,6 +144,6 @@ public class TwoDimensionActivity extends BaseActivity {
 
     @Override
     public String getEventSource() {
-        return "邀请二维码页";
+        return "我的邀请二维码";
     }
 }

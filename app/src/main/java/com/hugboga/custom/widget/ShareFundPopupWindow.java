@@ -19,6 +19,8 @@ import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.TwoDimensionActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ShareFundBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -40,8 +42,9 @@ public class ShareFundPopupWindow implements View.OnClickListener {
     private CompatPopupWindow popup;
     private LinearLayout linearLayout;
     private ShareFundBean shareFundBean;
+    private String refer;
 
-    public ShareFundPopupWindow(Context context, ShareFundBean shareFundBean) {
+    public ShareFundPopupWindow(Context context, ShareFundBean shareFundBean, String refer) {
         this.shareFundBean = shareFundBean;
         menuLayout = LayoutInflater.from(context).inflate(R.layout.popup_share_travel_fund, null);
         popup = new CompatPopupWindow(menuLayout, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -53,6 +56,7 @@ public class ShareFundPopupWindow implements View.OnClickListener {
         menuLayout.findViewById(R.id.note).setOnClickListener(this);
         menuLayout.findViewById(R.id.pr_code).setOnClickListener(this);
         menuLayout.findViewById(R.id.bg_view).setOnClickListener(this);
+        this.refer = refer;
     }
 
     public void showAsDropDown(View header_left_btn) {
@@ -122,32 +126,40 @@ public class ShareFundPopupWindow implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        String pageName = UserEntity.getUser().isProxyUser(context) ? "邀请新用户" : "邀请好友赢免单";
+        String elementContent = null;
         switch (v.getId()) {
             case R.id.wx_share:
                 WXShare(1);
+                elementContent = "微信";
                 break;
             case R.id.wx_share_two:
                 WXShare(2);
+                elementContent = "朋友圈";
                 break;
             case R.id.link:
                 ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 cm.setText(shareFundBean.shareData.goUrl);
                 CommonUtils.showToast("链接复制成功");
                 closePopupWindow();
+                elementContent = "复制链接";
                 break;
             case R.id.pr_code:
                 Intent intent = new Intent(context, TwoDimensionActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, ((BaseActivity) context).getEventSource());
                 intent.putExtra(TwoDimensionActivity.TWODIMENSION, shareFundBean.shareData.goUrl);
+                intent.putExtra(Constants.PARAMS_SOURCE, pageName);
                 context.startActivity(intent);
                 closePopupWindow();
+                elementContent = "二维码";
                 break;
             case R.id.note:
                 grantSendMessages();
+                elementContent = "短信";
                 break;
             case R.id.bg_view:
                 closePopupWindow();
                 break;
         }
+        SensorsUtils.onAppClick(pageName, elementContent, refer);
     }
 }

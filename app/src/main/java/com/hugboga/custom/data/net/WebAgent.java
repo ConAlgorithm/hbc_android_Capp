@@ -29,6 +29,7 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
+import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
@@ -221,7 +222,7 @@ public class WebAgent implements HttpRequestListener {
                     return;
                 }
                 if(mActivity instanceof WebInfoActivity){
-                    ShareFundPopupWindow shareFundPopupWindow = new ShareFundPopupWindow(mActivity,shareFundBean);
+                    ShareFundPopupWindow shareFundPopupWindow = new ShareFundPopupWindow(mActivity,shareFundBean,getIntentSource());
                     shareFundPopupWindow.showAsDropDown(((WebInfoActivity)mActivity).titlebar);
                 }
 
@@ -713,6 +714,14 @@ public class WebAgent implements HttpRequestListener {
             source = ((SkuDetailActivity) mActivity).getEventSource();
         }
         return source;
+    }
+
+    public String getIntentSource() {
+        String intentSource = "";
+        if (mActivity instanceof BaseActivity) {
+            intentSource = ((BaseActivity) mActivity).getIntentSource();
+        }
+        return intentSource;
     }
 
     @JavascriptInterface
