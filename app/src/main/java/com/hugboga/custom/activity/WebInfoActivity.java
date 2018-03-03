@@ -131,6 +131,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if (!TextUtils.isEmpty(url)) {
+                addCookies(url);
                 if (url.contains("/app/detail.html")) {
                     String goodsNo = CommonUtils.getUrlValue(url, "goodsNo");
                     if (TextUtils.isEmpty(goodsNo)) {
@@ -292,7 +293,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 setUrlUserId();
-                addCookies();
+                addCookies(url);
                 if (!TextUtils.isEmpty(url)) {
                     webView.loadUrl(url);
                 }
@@ -386,7 +387,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         isLogin = UserEntity.getUser().isLogin(this);
         url = getIntent().getStringExtra(WEB_URL);
         setUrlUserId();
-        addCookies();
+        addCookies(url);
 
         if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
@@ -395,10 +396,13 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         SensorsUtils.setSensorsShowUpWebView(webView);
     }
 
-    private void addCookies() {
+    private void addCookies(String _url) {
+        if (TextUtils.isEmpty(_url)) {
+            return;
+        }
         if (isLogin) {
             try {
-                synCookies(url, "capp_user=" + webAgent.getUserInfoJson());
+                synCookies(_url, "capp_user=" + webAgent.getUserInfoJson());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -407,7 +411,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         }
 
         //开发者模式，设置特殊cookies
-        CommonUtils.synDebugCookies(url);
+        CommonUtils.synDebugCookies(_url);
     }
 
     @Override
