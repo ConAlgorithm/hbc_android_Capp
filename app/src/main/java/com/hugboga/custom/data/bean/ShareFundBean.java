@@ -7,4 +7,5 @@ package com.hugboga.custom.data.bean;
 public class ShareFundBean {
     public ShareBean shareData;
     public String message;
+
 }

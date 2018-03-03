@@ -2,6 +2,7 @@ package com.hugboga.custom.widget;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,6 +21,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ShareFundBean;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.AnimationUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -130,12 +132,13 @@ public class ShareFundPopupWindow implements View.OnClickListener {
             case R.id.link:
                 ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 cm.setText(shareFundBean.shareData.goUrl);
+                CommonUtils.showToast("链接复制成功");
                 closePopupWindow();
                 break;
             case R.id.pr_code:
                 Intent intent = new Intent(context, TwoDimensionActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, ((BaseActivity) context).getEventSource());
-                intent.putExtra(TwoDimensionActivity.TWODIMENSION, "http://www.baidu.com");
+                intent.putExtra(TwoDimensionActivity.TWODIMENSION, shareFundBean.shareData.goUrl);
                 context.startActivity(intent);
                 closePopupWindow();
                 break;

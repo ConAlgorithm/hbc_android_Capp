@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.TwoDimensionUtlis;
 
@@ -98,10 +99,10 @@ public class TwoDimensionActivity extends BaseActivity {
         cardView.buildDrawingCache();
         Bitmap bitmap = cardView.getDrawingCache();
 
-
         MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "we", "ssssdfsdf");
         String[] paths = new String[]{Environment.getExternalStorageDirectory().toString()};
         MediaScannerConnection.scanFile(this, paths, null, null);
+        CommonUtils.showToast("已保存到系统相册");
     }
 
     private void returnBitmap(final String url) {
