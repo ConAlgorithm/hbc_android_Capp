@@ -80,9 +80,9 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     ImObserverHelper imObserverHelper;
 
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
-            Arrays.asList(new LvMenuItem(R.mipmap.personal_icon_policy_holder, CommonUtils.getString(R.string.myspace_item_policy_holder)),
+            Arrays.asList(new LvMenuItem(R.mipmap.personal_icon_collect_guide, CommonUtils.getString(R.string.myspace_item_collect_line)),
                     new LvMenuItem(R.mipmap.personal_icon_collect, CommonUtils.getString(R.string.myspace_item_collect)),
-                    new LvMenuItem(R.mipmap.personal_icon_collect_guide, CommonUtils.getString(R.string.myspace_item_collect_line)),
+                    new LvMenuItem(R.mipmap.personal_icon_policy_holder, CommonUtils.getString(R.string.myspace_item_policy_holder)),
                     new LvMenuItem(R.mipmap.personal_icon_kefu, CommonUtils.getString(R.string.myspace_item_service)),
                     new LvMenuItem(R.mipmap.personal_icon_rule, CommonUtils.getString(R.string.myspace_item_rule)),
                     new LvMenuItem(R.mipmap.personal_icon_set, CommonUtils.getString(R.string.myspace_item_set), MenuItemAdapter.ItemType.SET),
@@ -238,12 +238,12 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (position) {
-            case 1://常用投保人
-                if (isLogin("个人中心-常用投保人")) {
-                    Intent intent = new Intent(getContext(), InsureActivity.class);
+            case 1://收藏线路
+                if (isLogin("个人中心-收藏线路")) {
+                    Intent intent = new Intent(getContext(), CollectLineListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
-                    SensorsUtils.onAppClick(getEventSource(), "常用投保人", "");
+                    SensorsUtils.onAppClick(getEventSource(), "我收藏的线路", "");
                 }
                 break;
             case 2://收藏司导
@@ -254,12 +254,12 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     SensorsUtils.onAppClick(getEventSource(), "我收藏的司导", "");
                 }
                 break;
-            case 3://收藏线路
-                if (isLogin("个人中心-收藏线路")) {
-                    Intent intent = new Intent(getContext(), CollectLineListActivity.class);
+            case 3://常用投保人
+                if (isLogin("个人中心-常用投保人")) {
+                    Intent intent = new Intent(getContext(), InsureActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
-                    SensorsUtils.onAppClick(getEventSource(), "我收藏的线路", "");
+                    SensorsUtils.onAppClick(getEventSource(), "常用投保人", "");
                 }
                 break;
             case 4://联系客服
