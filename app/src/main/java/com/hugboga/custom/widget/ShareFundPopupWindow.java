@@ -8,27 +8,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.TwoDimensionActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ShareFundBean;
-import com.hugboga.custom.data.bean.TravelFundData;
-import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.net.ShareUrls;
-import com.hugboga.custom.data.request.RequestGetInvitationCode;
-import com.hugboga.custom.data.request.RequestTravelFundLogs;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.PermissionRes;
@@ -117,13 +106,10 @@ public class ShareFundPopupWindow implements View.OnClickListener {
 
 
     private void WXShare(int type) {
-
         WXShareUtils wxShareUtils = WXShareUtils.getInstance(context);
         wxShareUtils.source = getClass().getSimpleName();
         wxShareUtils.share(type, shareFundBean.shareData.picUrl, shareFundBean.shareData.title, shareFundBean.shareData.content, shareFundBean.shareData.goUrl);
-
         closePopupWindow();
-
     }
 
     private void closePopupWindow() {
