@@ -26,10 +26,14 @@ import butterknife.OnClick;
 
 public class TravelFundHeaderView extends LinearLayout implements HbcViewBehavior {
 
+    @BindView(R.id.travel_fund_blocked_price_tv)
+    TextView blockedPriceTV;
     @BindView(R.id.travel_fund_residue_price_hint_tv)
     TextView residuePriceHintTV;
     @BindView(R.id.travel_fund_residue_price_tv)
     TextView residuePriceTV;
+    @BindView(R.id.record_invited_incentive_price_hint_tv)
+    TextView incentivePriceHintTV;
     @BindView(R.id.record_invited_used_price_hint_tv)
     TextView usedPriceHintTV;
     @BindView(R.id.record_invited_incentive_price_tv)
@@ -69,6 +73,7 @@ public class TravelFundHeaderView extends LinearLayout implements HbcViewBehavio
         ButterKnife.bind(this);
         if (isProxyUser()) {
             residuePriceHintTV.setText(getContext().getResources().getString(R.string.travel_fund_residue_price2));
+            incentivePriceHintTV.setText(getContext().getResources().getString(R.string.travel_fund_incentive_price2));
             usedPriceHintTV.setText(getContext().getResources().getString(R.string.travel_fund_used_price2));
             incentiveRecordTV.setText(getContext().getResources().getString(R.string.travel_fund_incentive_record2));
             usedRecordTV.setText(getContext().getResources().getString(R.string.travel_fund_used_record2));
@@ -135,6 +140,12 @@ public class TravelFundHeaderView extends LinearLayout implements HbcViewBehavio
         incentivePriceTV.setText(CommonUtils.doubleTrans(travelFundData.totalIncomeAmount));//累计奖励
         usedPriceTV.setText(CommonUtils.doubleTrans(travelFundData.totalExpenseAmount));//累计使用
         travelFundInviteTV.setVisibility(View.VISIBLE);
+        if (travelFundData.frozenBalanceAmount > 0) {
+            blockedPriceTV.setVisibility(View.VISIBLE);
+            blockedPriceTV.setText(getContext().getResources().getString(R.string.travel_fund_blocked_price_tv, CommonUtils.doubleTrans(travelFundData.frozenBalanceAmount)));
+        } else {
+            blockedPriceTV.setVisibility(View.GONE);
+        }
     }
 
     public interface OnSwitchRecordListener {

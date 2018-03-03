@@ -221,6 +221,7 @@
 
     <string name="travel_fund_title">旅游基金</string>
     <string name="travel_fund_rule">使用规则</string>
+    <string name="travel_fund_blocked_price_tv">冻结金额(元)：%1$s</string>
     <string name="travel_fund_residue_price">基金余额(元)</string>
     <string name="travel_fund_incentive_price">累计奖励(元)</string>
     <string name="travel_fund_used_price">累计使用(元)</string>
@@ -231,6 +232,7 @@
     <string name="travel_fund_gain">立刻赚取旅游基金 >>></string>
     <string name="travel_fund_title2">钱包</string>
     <string name="travel_fund_residue_price2">钱包余额(元)</string>
+    <string name="travel_fund_incentive_price2">累计收入(元)</string>
     <string name="travel_fund_used_price2">累计支出(元)</string>
     <string name="travel_fund_incentive_record2">收入明细</string>
     <string name="travel_fund_used_record2">支出明细</string>

@@ -150,7 +150,11 @@ public class TravelFundActivity extends BaseActivity implements LoadMoreRecycler
             } else {
                 travelFundHeaderView.showEmptyView();
             }
-            recyclerView.setNoMore(adapter.getListCount() >= _travelFundData.incomeTotalCount);
+            if (adapter.getListCount() == 0) {
+                recyclerView.loadMoreComplete();
+            } else {
+                recyclerView.setNoMore(adapter.getListCount() >= _travelFundData.incomeTotalCount);
+            }
         } else if (_request instanceof RequestTravelFundExpenseLog) {//使用明细
             RequestTravelFundExpenseLog request = (RequestTravelFundExpenseLog) _request;
             TravelFundData _travelFundData = request.getData();
@@ -161,14 +165,15 @@ public class TravelFundActivity extends BaseActivity implements LoadMoreRecycler
             travelFundData.expenseLogList.addAll(_travelFundData.expenseLogList);
 
             if (travelFundHeaderView.isUsed()) {
-                if (_travelFundData.expenseTotalCount == 0) {
-                    travelFundHeaderView.showEmptyView();
-                } else {
-                    travelFundHeaderView.hideEmptyView();
-                }
                 int offset = _request.getOffset();
                 adapter.addData(_travelFundData.expenseLogList, offset > 0);
-                recyclerView.setNoMore(adapter.getListCount() >= _travelFundData.expenseTotalCount);
+                if (_travelFundData.expenseTotalCount == 0) {
+                    travelFundHeaderView.showEmptyView();
+                    recyclerView.loadMoreComplete();
+                } else {
+                    travelFundHeaderView.hideEmptyView();
+                    recyclerView.setNoMore(adapter.getListCount() >= _travelFundData.incomeTotalCount);
+                }
             }
         } else if (_request instanceof RequestTravelFundIncomeLog) {//奖励明细
             RequestTravelFundIncomeLog request = (RequestTravelFundIncomeLog) _request;
@@ -233,7 +238,11 @@ public class TravelFundActivity extends BaseActivity implements LoadMoreRecycler
             travelFundHeaderView.hideEmptyView();
         }
         adapter.addData(list, false);
-        recyclerView.setNoMore(adapter.getListCount() >= (!isUsed ? travelFundData.incomeTotalCount : travelFundData.expenseTotalCount));
+        if (adapter.getListCount() == 0) {
+            recyclerView.loadMoreComplete();
+        } else {
+            recyclerView.setNoMore(adapter.getListCount() >= (!isUsed ? travelFundData.incomeTotalCount : travelFundData.expenseTotalCount));
+        }
         recyclerView.smoothScrollToPosition(0);
         if (travelFundData.expenseLogList == null) {
             sendRequestTravelFundExpenseLog(0,true);
