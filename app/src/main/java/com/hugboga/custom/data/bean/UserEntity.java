@@ -35,6 +35,7 @@ public class UserEntity {
     public String ageType;//年龄
     public double longitude;//经度
     public double latitude;//维度
+    public int userType;//用户类型 101：普通用户 201：代理用户
 
     private String rimUserId;
     private String nimUserId;
@@ -398,6 +399,26 @@ public class UserEntity {
             SharedPre shared = new SharedPre(activity);
             shared.saveStringValue(SharedPre.RIM_USERID, rimUserId);
             this.rimUserId = rimUserId;
+        }
+    }
+
+    public boolean isProxyUser(Context activity) {//是否是代理用户
+        SharedPre shared = new SharedPre(activity);
+        userType = shared.getIntValue(SharedPre.USER_TYPE);
+        return userType == 201;
+    }
+
+    public Integer getUserType(Context activity) {
+        SharedPre shared = new SharedPre(activity);
+        userType = shared.getIntValue(SharedPre.USER_TYPE);
+        return userType;
+    }
+
+    public void setUserType(Context activity, Integer userType) {
+        if (userType != 0) {
+            SharedPre shared = new SharedPre(activity);
+            shared.saveIntValue(SharedPre.USER_TYPE, userType);
+            this.userType = userType;
         }
     }
 

@@ -496,7 +496,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
     private void requestError() {
         isLoading = false;
-        swipeRefreshLayout.setRefreshing(false);
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
         if (!NetWork.isNetworkAvailable(MyApplication.getAppContext())) {
             setLocalData();
             return;
