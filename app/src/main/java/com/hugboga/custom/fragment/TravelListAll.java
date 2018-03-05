@@ -16,6 +16,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
 import com.hugboga.custom.constants.Constants;
@@ -23,6 +24,7 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.TravelListAllBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserTravel;
 import com.hugboga.custom.data.request.RequestOrderListAll;
 import com.hugboga.custom.statistic.MobClickUtils;
@@ -96,7 +98,8 @@ public class TravelListAll extends FgBaseTravel {
         footerGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), TravelFundActivity.class);
+                Intent intent = new Intent(getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INVITE_FRIEND);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 getContext().startActivity(intent);
                 MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);

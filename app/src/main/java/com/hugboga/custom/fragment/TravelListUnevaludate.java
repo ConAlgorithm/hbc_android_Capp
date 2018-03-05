@@ -28,6 +28,7 @@ import com.hugboga.custom.data.bean.TravelListAllBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserTravel;
 import com.hugboga.custom.data.request.RequestEvaluateReturnMoney;
 import com.hugboga.custom.data.request.RequestOrderListUnevaludate;
@@ -112,7 +113,8 @@ public class TravelListUnevaludate extends FgBaseTravel {
         footerGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), TravelFundActivity.class);
+                Intent intent = new Intent(getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INVITE_FRIEND);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 getContext().startActivity(intent);
                 MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);

@@ -28,6 +28,7 @@ import com.hugboga.custom.utils.TwoDimensionUtlis;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -50,7 +51,7 @@ public class TwoDimensionActivity extends BaseActivity {
     public static final String TWODIMENSION = "TwoDimension";
     private String url = "";
     private Handler handler = new Handler();
-    private Bitmap avatarBitmap;
+    WeakReference<Bitmap> bitmapWeakReference;
 
     @Override
     public int getContentViewId() {
@@ -85,7 +86,7 @@ public class TwoDimensionActivity extends BaseActivity {
         if (!TextUtils.isEmpty(avatar)) {
             returnBitmap(avatar);
         } else {
-            avatarBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_avatar_user);
+            bitmapWeakReference = new WeakReference<Bitmap>(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_avatar_user));
             handler.post(runnable);
         }
 
@@ -119,7 +120,7 @@ public class TwoDimensionActivity extends BaseActivity {
                     conn.setDoInput(true);
                     conn.connect();
                     InputStream is = conn.getInputStream();
-                    avatarBitmap = BitmapFactory.decodeStream(is);
+                    bitmapWeakReference = new WeakReference<Bitmap>(BitmapFactory.decodeStream(is));
                     is.close();
                     handler.post(runnable);
                 } catch (IOException e) {
@@ -132,13 +133,12 @@ public class TwoDimensionActivity extends BaseActivity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if (avatarBitmap == null) {
+            if (bitmapWeakReference == null) {
                 return;
             }
-            Bitmap bitmap = TwoDimensionUtlis.createQRCodeBitmap(url, 700, ImageUtils.toRoundBitmap(avatarBitmap), 0.2F);
+            Bitmap bitmap = TwoDimensionUtlis.createQRCodeBitmap(url, 700, ImageUtils.toRoundBitmap(bitmapWeakReference.get()), 0.2F);
             twoDimensionImageView.setImageBitmap(bitmap);
-            avatarBitmap = null;
-            bitmap = null;
+
         }
     };
 
