@@ -172,7 +172,7 @@ public class TravelFundActivity extends BaseActivity implements LoadMoreRecycler
                     recyclerView.loadMoreComplete();
                 } else {
                     travelFundHeaderView.hideEmptyView();
-                    recyclerView.setNoMore(adapter.getListCount() >= _travelFundData.incomeTotalCount);
+                    recyclerView.setNoMore(adapter.getListCount() >= _travelFundData.expenseTotalCount);
                 }
             }
         } else if (_request instanceof RequestTravelFundIncomeLog) {//奖励明细
