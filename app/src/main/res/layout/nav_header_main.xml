@@ -123,12 +123,6 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1">
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="15dp"
-                android:layout_marginRight="32dp"
-                android:layout_alignParentRight="true"
-                android:background="@mipmap/personal_invite" />
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
