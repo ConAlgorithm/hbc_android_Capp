@@ -55,6 +55,7 @@ public class TravelListDoing extends FgBaseTravel {
     @BindView(R.id.travel_footer_text_layout)
     TextView textView;
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
+    private TravelLoadingMoreFooter travelLoadingMoreFooter;
     int refreshOrNot = 1;
 
     @Override
@@ -92,10 +93,14 @@ public class TravelListDoing extends FgBaseTravel {
 
     @Override
     protected void initViews() {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
         mXRecyclerView.setLayoutManager(layoutManager);
         hbcRecyclerSingleTypeAdpater = new HbcRecyclerSingleTypeAdpater(getContext(), TravelListItem.class);
         mXRecyclerView.setAdapter(hbcRecyclerSingleTypeAdpater);
+        travelLoadingMoreFooter = new TravelLoadingMoreFooter(getContext());
+        travelLoadingMoreFooter.setCustomlayout(inflater);
+        mXRecyclerView.setFootView(travelLoadingMoreFooter);
         //getFooterView(inflater);
         mXRecyclerView.setEmptyView(emptyView);
         footerGet.setOnClickListener(new View.OnClickListener() {
@@ -168,11 +173,7 @@ public class TravelListDoing extends FgBaseTravel {
             mXRecyclerView.smoothScrollToPosition(0);
         }
         if (mXRecyclerView != null && travelListAllBean != null) {
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            TravelLoadingMoreFooter travelLoadingMoreFooter = new TravelLoadingMoreFooter(getContext());
-            travelLoadingMoreFooter.setCustomlayout(inflater);
             travelLoadingMoreFooter.setFooterContent(travelListAllBean.inviteContent);
-            mXRecyclerView.setFootView(travelLoadingMoreFooter);
             if (hbcRecyclerSingleTypeAdpater != null) {
                 hbcRecyclerSingleTypeAdpater.addData(travelListAllBean.resultBean, request.getOffset() > 0);
             }

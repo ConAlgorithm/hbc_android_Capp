@@ -33,7 +33,7 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
     private SimpleViewSwitcher progressCon;
     private TextView mText;
     LayoutInflater inflater;
-    private String str;
+    private View footerView;
 
     public TravelLoadingMoreFooter(Context context) {
         super(context);
@@ -107,7 +107,7 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
     }
 
     protected View getFooterView(LayoutInflater inflater) {
-        View footerView = inflater.inflate(R.layout.view_travel_footer, null);
+        footerView = inflater.inflate(R.layout.view_travel_footer, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         footerView.setLayoutParams(params);
         intentTravelFundActivity(footerView);
@@ -127,12 +127,13 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
 
             }
         });
-        TextView textView = view.findViewById(R.id.travel_footer_text_layout);
-        textView.setText("".equals(str) ? getResources().getText(R.string.travel_footer_fund_content) : str);
+
     }
 
     public void setFooterContent(String str) {
-        this.str = str;
+        if (footerView == null) return;
+        TextView textView = footerView.findViewById(R.id.travel_footer_text_layout);
+        textView.setText("".equals(str) ? getResources().getText(R.string.travel_footer_fund_content) : str);
     }
 
 }

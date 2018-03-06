@@ -62,7 +62,7 @@ public class TravelListUnevaludate extends FgBaseTravel {
     TextView textView;
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
     int refreshOrNot = 1;
-    private LayoutInflater inflater;
+    private TravelLoadingMoreFooter travelLoadingMoreFooter;
 
     @Override
     protected void loadData() {
@@ -99,11 +99,14 @@ public class TravelListUnevaludate extends FgBaseTravel {
 
     @Override
     protected void initViews() {
-        inflater = LayoutInflater.from(getActivity());
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
         mXRecyclerView.setLayoutManager(layoutManager);
         hbcRecyclerSingleTypeAdpater = new HbcRecyclerSingleTypeAdpater(getContext(), TravelListItem.class);
         mXRecyclerView.setAdapter(hbcRecyclerSingleTypeAdpater);
+        travelLoadingMoreFooter = new TravelLoadingMoreFooter(getContext());
+        travelLoadingMoreFooter.setCustomlayout(inflater);
+        mXRecyclerView.setFootView(travelLoadingMoreFooter);
         //mXRecyclerView.addHeaderView(getHeaderView(inflater));
         getFooterView(inflater);
         mXRecyclerView.setEmptyView(emptyView);
@@ -149,7 +152,6 @@ public class TravelListUnevaludate extends FgBaseTravel {
                 }
             }
         });
-
     }
 
     @Override
@@ -179,10 +181,7 @@ public class TravelListUnevaludate extends FgBaseTravel {
                 mXRecyclerView.smoothScrollToPosition(0);
             }
             if (mXRecyclerView != null && travelListAllBean != null) {
-                TravelLoadingMoreFooter travelLoadingMoreFooter = new TravelLoadingMoreFooter(getContext());
-                travelLoadingMoreFooter.setCustomlayout(inflater);
                 travelLoadingMoreFooter.setFooterContent(travelListAllBean.inviteContent);
-                mXRecyclerView.setFootView(travelLoadingMoreFooter);
                 if (hbcRecyclerSingleTypeAdpater != null) {
                     hbcRecyclerSingleTypeAdpater.addData(travelListAllBean.resultBean, request.getOffset() > 0);
                 }
