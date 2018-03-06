@@ -89,7 +89,7 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
     public void setState(int state) {
         switch (state) {
             case STATE_LOADING:
-                progressCon.setVisibility(View.VISIBLE);
+//                progressCon.setVisibility(View.VISIBLE);
                 mText.setText("正在加载...");
                 this.setVisibility(View.VISIBLE);
                 break;
