@@ -15,7 +15,6 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.OrderDetailActivity;
-import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
@@ -58,12 +57,14 @@ public class TravelListAll extends FgBaseTravel {
     TextView textView;
     int refreshOrNot = 1;
     protected HbcRecyclerSingleTypeAdpater<OrderBean> hbcRecyclerSingleTypeAdpater;
+    private TravelLoadingMoreFooter travelLoadingMoreFooter;
 
     @Override
     protected void loadData() {
-        refreshOrNot= 2;
-        runData(0,0,10);
+        refreshOrNot = 2;
+        runData(0, 0, 10);
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,10 +76,12 @@ public class TravelListAll extends FgBaseTravel {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
     @Override
     public int getContentViewId() {
         return R.layout.travel_list;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -89,11 +92,11 @@ public class TravelListAll extends FgBaseTravel {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
         mXRecyclerView.setLayoutManager(layoutManager);
-        TravelLoadingMoreFooter travelLoadingMoreFooter = new TravelLoadingMoreFooter(getContext());
-        travelLoadingMoreFooter.setCustomlayout(inflater);
-        mXRecyclerView.setFootView(travelLoadingMoreFooter);
         hbcRecyclerSingleTypeAdpater = new HbcRecyclerSingleTypeAdpater(getContext(), TravelListItem.class);
         mXRecyclerView.setAdapter(hbcRecyclerSingleTypeAdpater);
+        travelLoadingMoreFooter = new TravelLoadingMoreFooter(getContext());
+        travelLoadingMoreFooter.setCustomlayout(inflater);
+        mXRecyclerView.setFootView(travelLoadingMoreFooter);
         mXRecyclerView.setEmptyView(emptyView);
         footerGet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,13 +114,13 @@ public class TravelListAll extends FgBaseTravel {
             @Override
             public void onItemClick(View view, int position, Object itemData) {
                 OrderBean bean = (OrderBean) itemData;
-                if(bean != null){
+                if (bean != null) {
                     OrderDetailActivity.Params params = new OrderDetailActivity.Params();
                     params.orderType = bean.orderType;
                     params.orderId = bean.orderNo;
                     Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
-                    intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     getActivity().startActivity(intent);
                 }
             }
@@ -125,50 +128,52 @@ public class TravelListAll extends FgBaseTravel {
         mXRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                refreshOrNot= 1;
-                runData(0,0,10);
+                refreshOrNot = 1;
+                runData(0, 0, 10);
             }
 
             @Override
             public void onLoadMore() {
-                refreshOrNot= 2;
-                if (hbcRecyclerSingleTypeAdpater.getListCount()>0) {
-                    runData(0, hbcRecyclerSingleTypeAdpater == null ? 0 : hbcRecyclerSingleTypeAdpater.getListCount(),10);
+                refreshOrNot = 2;
+                if (hbcRecyclerSingleTypeAdpater.getListCount() > 0) {
+                    runData(0, hbcRecyclerSingleTypeAdpater == null ? 0 : hbcRecyclerSingleTypeAdpater.getListCount(), 10);
                 }
             }
         });
     }
 
 
-    public Callback.Cancelable runData(int orderShowType, int pageIndex,int pageSize) {
-        BaseRequest request = new RequestOrderListAll(getActivity(),orderShowType,pageSize,pageIndex);
-        return HttpRequestUtils.request(getActivity(), request, this,true);
+    public Callback.Cancelable runData(int orderShowType, int pageIndex, int pageSize) {
+        BaseRequest request = new RequestOrderListAll(getActivity(), orderShowType, pageSize, pageIndex);
+        return HttpRequestUtils.request(getActivity(), request, this, true);
     }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
         TravelListAllBean travelListAllBean = (TravelListAllBean) request.getData();
-        if (request!=null && request.getOffset() == 0) {
+        textView.setText("".equals(travelListAllBean.inviteContent) ? getResources().getText(R.string.travel_footer_fund_content) : travelListAllBean.inviteContent);
+        mXRecyclerView.setEmptyView(emptyView);
+        if (request != null && request.getOffset() == 0) {
             mXRecyclerView.smoothScrollToPosition(0);
         }
-        if (mXRecyclerView != null && travelListAllBean!=null) {
-            textView.setText("".equals(travelListAllBean.inviteContent) ? getResources().getText(R.string.travel_footer_fund_content) : travelListAllBean.inviteContent);
-            mXRecyclerView.setEmptyView(emptyView);
+        if (mXRecyclerView != null && travelListAllBean != null) {
+            travelLoadingMoreFooter.setFooterContent(travelListAllBean.inviteContent);
+
             if (hbcRecyclerSingleTypeAdpater != null) {
                 hbcRecyclerSingleTypeAdpater.addData(travelListAllBean.resultBean, request.getOffset() > 0);
             }
 
-            if(refreshOrNot == 1){
+            if (refreshOrNot == 1) {
                 mXRecyclerView.refreshComplete();
-            }else if(refreshOrNot == 2){
+            } else if (refreshOrNot == 2) {
                 mXRecyclerView.loadMoreComplete();
             }
-            if(hbcRecyclerSingleTypeAdpater!= null){
+            if (hbcRecyclerSingleTypeAdpater != null) {
                 mXRecyclerView.setNoMore(hbcRecyclerSingleTypeAdpater.getListCount() >= travelListAllBean.totalSize);
             }
             Bundle bundle = new Bundle();
-            bundle.putSerializable("travelListAllBean",travelListAllBean);
+            bundle.putSerializable("travelListAllBean", travelListAllBean);
             bundle.putInt("requestType", ParserTravel.AllLISTT);
             EventBus.getDefault().post(new EventAction(EventType.TRAVEL_LIST_NUMBER, bundle));
 
@@ -181,7 +186,7 @@ public class TravelListAll extends FgBaseTravel {
         if (request.getOffset() == 0 && mXRecyclerView != null) {
             mXRecyclerView.smoothScrollToPosition(0);
         }
-        if( mXRecyclerView != null){
+        if (mXRecyclerView != null) {
             mXRecyclerView.refreshComplete();
         }
     }
@@ -190,13 +195,14 @@ public class TravelListAll extends FgBaseTravel {
     public void onDataRequestCancel(BaseRequest request) {
         super.onDataRequestCancel(request);
     }
+
     @Subscribe
     public void onEventMainThread(EventAction action) {
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
-                refreshOrNot= 1;
-                runData(0,0,10);
+                refreshOrNot = 1;
+                runData(0, 0, 10);
                 break;
         }
     }
