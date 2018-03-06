@@ -68,7 +68,7 @@
         <View
             android:id="@+id/accumulative_middle_line_view"
             android:layout_width="1px"
-            android:layout_height="32dp"
+            android:layout_height="26dp"
             android:background="#ffffff"
             android:layout_centerInParent="true" />
         <LinearLayout
@@ -81,7 +81,7 @@
                 android:id="@+id/record_invited_incentive_price_hint_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/travel_fund_incentive_price"
                 android:textColor="#ffffff"
                 android:textSize="13sp" />
@@ -105,7 +105,7 @@
                 android:id="@+id/record_invited_used_price_hint_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/travel_fund_used_price"
                 android:textColor="#ffffff"
                 android:textSize="13sp" />
