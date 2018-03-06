@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.TravelFundActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
@@ -31,6 +33,7 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
     private SimpleViewSwitcher progressCon;
     private TextView mText;
     LayoutInflater inflater;
+    private String str;
 
     public TravelLoadingMoreFooter(Context context) {
         super(context);
@@ -107,20 +110,29 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
         View footerView = inflater.inflate(R.layout.view_travel_footer, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         footerView.setLayoutParams(params);
-        intentTravelFundActivity(footerView.findViewById(R.id.travel_footer_get_layout));
+        intentTravelFundActivity(footerView);
         return footerView;
     }
 
     protected void intentTravelFundActivity(View view) {
-        view.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.travel_footer_get_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SensorsUtils.onAppClick("行程", "旅游基金-点击领取", "");
-                Intent intent = new Intent(getContext(), TravelFundActivity.class);
+                MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);
+                Intent intent = new Intent(getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INVITE_FRIEND);
                 intent.putExtra(Constants.PARAMS_SOURCE, "行程");
                 getContext().startActivity(intent);
-                MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);
+
             }
         });
+        TextView textView = view.findViewById(R.id.travel_footer_text_layout);
+        textView.setText("".equals(str) ? getResources().getText(R.string.travel_footer_fund_content) : str);
     }
+
+    public void setFooterContent(String str) {
+        this.str = str;
+    }
+
 }
