@@ -20,8 +20,8 @@ public class ActionPageTravelFund extends ActionPageBase {
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
         if (ActionUtils.isLogin(context, actionBean)) {
-            Intent intent = new Intent(context, WebInfoActivity.class);
-            intent.putExtra(WebInfoActivity.WEB_URL, UserEntity.getUser().isProxyUser(context) ? UrlLibs.H5_RAVEL_FUND_RULE_AGENTS : UrlLibs.H5_RAVEL_FUND_RULE);
+            Intent intent = new Intent(getContext(), WebInfoActivity.class);
+            intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INVITE_FRIEND);
             intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
             context.startActivity(intent);
         }
