@@ -224,7 +224,7 @@ public class UrlLibs {
     public static final String API_CITY_HOME_LIST           = "goods/v1.5/c/home/cityGoods?";                           // 城市商品列表
     public static final String API_CITY_HOME_COUNTRY_LIST   = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
     public static final String API_CITY_HOME_ROUTE_LIST     = "goods/v1.4/c/home/lineGroupGoods?";                      // 线路圈
-    public static final String API_GOODS_BY_ID              = "goods/v1.3/c/home/goodsByNo";                            // 按商品编号查商品详情
+    public static final String API_GOODS_BY_ID              = "goods/v1.4/c/home/goodsByNo";                            // 按商品编号查商品详情
     public static final String GOODS_BOOK_DATE              = "goods/v1.0/c/home/goodsbookdate";                        // 根据商品编号查询可预订日期
     public static final String API_COUNTRY_GROUP            = "goods/v1.0/c/home/countryGroup";                         // 国家线路圈页 137
     public static final String API_GOODS_FILTER             = "goods/v1.0/c/home/goods/search";                         // 商品列表页筛选 139
@@ -232,10 +232,10 @@ public class UrlLibs {
     public static final String API_QUERY_GOODS_STOCK        = "goods/v1.1/c/queryGoodsStock";                           // 商品库存171
     public static final String API_QUERY_GUIDE_STOCK        = "goods/v1.1/c/queryGuideGoodsStock";                      // 商品司导库存172
     public static final String API_GOODS_GUIDE_FILTER_OPTIONS= "goods/v1.0/c/goodsguidecondition";                      // 关联商品的可服务司导过滤条件 175
-    public static final String API_GOODS_LINE_SEARCH        = "goods/v1.1/c/goodsSearch";                               // 线路搜索 177
-    public static final String API_RECOMMENDED_GOODS        = "goods/v1.0/c/crossRecommendedGoods";                     // 根据订单城市交叉推荐商品列表v1.0 185
-    public static final String API_CITY_DESTINATION_HOME    = "goods/v1.0/c/queryDestinationHome";                      // 查询目的地首页 194
-    public static final String API_CITY_QUERY_SKU_LIST      = "goods/v1.0/c/pageQueryDestinationGoodsList?";            // 查询目的地玩法列表 195
+    public static final String API_GOODS_LINE_SEARCH        = "goods/v1.2/c/goodsSearch";                               // 线路搜索 177
+    public static final String API_RECOMMENDED_GOODS        = "goods/v1.1/c/crossRecommendedGoods";                     // 根据订单城市交叉推荐商品列表v1.0 185
+    public static final String API_CITY_DESTINATION_HOME    = "goods/v1.1/c/queryDestinationHome";                      // 查询目的地首页 194
+    public static final String API_CITY_QUERY_SKU_LIST      = "goods/v1.1/c/pageQueryDestinationGoodsList?";            // 查询目的地玩法列表 195
     public static final String API_QUERY_CITY_GUIDE         = "goods/v1.0/c/queryCityGuide";                            // 查询目的地玩法列表 199
     public static final String API_QUERY_SHARE_INFO         = "goods/v1.0/c/queryShareInfo?";                           // 查询目的地分享信息 200
     public static final String API_QUERY_TAG_GOODS_LIST     = "goods/v1.0/c/pageQueryTagGoodsList";                     // 分页查询标签玩法列表 201
