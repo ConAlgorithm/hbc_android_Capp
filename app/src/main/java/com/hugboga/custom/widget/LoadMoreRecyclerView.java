@@ -12,15 +12,12 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 
 import java.util.List;
 
-/**
- * Created by qingcha on 17/12/12.
- */
 public class LoadMoreRecyclerView extends RecyclerView {
     private boolean isLoadingData = false;
     private boolean isNoMore = false;
     private int mLoadingMoreProgressStyle = ProgressStyle.SysProgress;
     private WrapAdapter mWrapAdapter;
-    private com.jcodecraeer.xrecyclerview.XRecyclerView.LoadingListener mLoadingListener;
+    private LoadingListener mLoadingListener;
     private static final int TYPE_FOOTER = 10001;
     private View mFootView;
 
@@ -240,7 +237,11 @@ public class LoadMoreRecyclerView extends RecyclerView {
         }
     }
 
-    public void setLoadingListener(com.jcodecraeer.xrecyclerview.XRecyclerView.LoadingListener listener) {
+    public void setLoadingListener(LoadingListener listener) {
         mLoadingListener = listener;
+    }
+
+    public interface LoadingListener {
+        void onLoadMore();
     }
 }

@@ -164,17 +164,17 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         mDialogUtil = DialogUtil.getInstance(activity);
 
         url = getLoadUrl();
-        addCookies();
+        addCookies(url);
         loadUrl();
         setSensorsDefaultEvent();
 
         initHeaderLeftClick();
     }
 
-    private void addCookies() {
+    private void addCookies(String _url) {
         if (UserEntity.getUser().isLogin(this)) {
             try {
-                CommonUtils.synCookies(url, "capp_user=" + webAgent.getUserInfoJson());
+                CommonUtils.synCookies(_url, "capp_user=" + webAgent.getUserInfoJson());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -182,7 +182,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             CommonUtils.removeAllCookies();
         }
         //开发者模式，设置特殊cookies
-        CommonUtils.synDebugCookies(url);
+        CommonUtils.synDebugCookies(_url);
     }
 
     @Override
@@ -324,7 +324,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 url = getLoadUrl();
-                addCookies();
+                addCookies(url);
                 loadUrl();
                 getSkuItemBean(false);
                 break;
@@ -475,8 +475,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//            webView.loadUrl(url);
-            return false;
+            addCookies(url);
+            webView.loadUrl(url);
+            return true;
         }
 
         @Override

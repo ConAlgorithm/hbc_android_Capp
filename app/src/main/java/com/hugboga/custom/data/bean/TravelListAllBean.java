@@ -13,5 +13,5 @@ public class TravelListAllBean implements Serializable {
     public int unpayTotalSize;
     public int ingTotalSize;
     public int evaluationTotalSize;
-
+    public String inviteContent;
 }

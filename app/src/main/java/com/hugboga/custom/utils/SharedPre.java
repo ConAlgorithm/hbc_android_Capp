@@ -55,6 +55,7 @@ public class SharedPre {
 	public static String GENDER ="gender";
 	public static String AGETYPE ="ageType";
 	public static String APP_LAUNCH_COUNT ="appLaunchCount";
+	public static String USER_TYPE ="userType";
 
 	public static String RIM_USERID ="rim_userId";//融云userid
 

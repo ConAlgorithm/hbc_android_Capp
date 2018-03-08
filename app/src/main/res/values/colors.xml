@@ -31,7 +31,7 @@
     <color name="servicer_center_content_bg">#f9f9f9</color>
 
     <!-- My color -->
-
+    <color name="my_two_dimension_text_color">#FFEBAB84</color>
     <!-- My name color -->
     <color name="my_info_bg">#F9F9F9</color>
     <color name="my_info_menu_title">#343434</color>

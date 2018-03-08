@@ -29,6 +29,7 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
+import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.CityActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
@@ -52,6 +53,7 @@ import com.hugboga.custom.data.bean.InsureBean;
 import com.hugboga.custom.data.bean.PushToGuideIMBeam;
 import com.hugboga.custom.data.bean.SeckillsBean;
 import com.hugboga.custom.data.bean.ShareBean;
+import com.hugboga.custom.data.bean.ShareFundBean;
 import com.hugboga.custom.data.bean.ShareInfoBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -69,6 +71,7 @@ import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SaveFileTask;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.ShareFundPopupWindow;
 import com.hugboga.im.custom.attachment.MsgSkuAttachment;
 import com.qiyukf.unicorn.api.ProductDetail;
 
@@ -205,6 +208,24 @@ public class WebAgent implements HttpRequestListener {
                 } else {
                     CommonUtils.shareOptimize(mActivity, shareBean.type, shareBean.picUrl, shareBean.title, shareBean.content, shareBean.goUrl, null);
                 }
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void webFundShare(final String param) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ShareFundBean shareFundBean = JsonUtils.getObject(param, ShareFundBean.class);
+                if (shareFundBean == null) {
+                    return;
+                }
+                if(mActivity instanceof WebInfoActivity){
+                    ShareFundPopupWindow shareFundPopupWindow = new ShareFundPopupWindow(mActivity,shareFundBean,getIntentSource());
+                    shareFundPopupWindow.showAsDropDown(((WebInfoActivity)mActivity).titlebar);
+                }
+
             }
         });
     }
@@ -472,6 +493,7 @@ public class WebAgent implements HttpRequestListener {
             jsonObject.put("nickName", UserEntity.getUser().getNickname(mActivity));
             jsonObject.put("areaCode", UserEntity.getUser().getAreaCode(mActivity));
             jsonObject.put("mobile", UserEntity.getUser().getPhone(mActivity));
+            jsonObject.put("avatar", UserEntity.getUser().getAvatar(mActivity));
             return jsonObject.toString();
         } catch (Exception e) {
             return "";
@@ -693,6 +715,14 @@ public class WebAgent implements HttpRequestListener {
             source = ((SkuDetailActivity) mActivity).getEventSource();
         }
         return source;
+    }
+
+    public String getIntentSource() {
+        String intentSource = "";
+        if (mActivity instanceof BaseActivity) {
+            intentSource = ((BaseActivity) mActivity).getIntentSource();
+        }
+        return intentSource;
     }
 
     @JavascriptInterface

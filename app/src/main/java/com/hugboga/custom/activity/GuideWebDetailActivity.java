@@ -142,7 +142,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
-                addCookies();
+                addCookies(getLoadUrl());
                 loadUrl();
                 if (!paramsData.isChooseGuide) {
                     sendRequest();
@@ -190,7 +190,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         }
         mDialogUtil = DialogUtil.getInstance(activity);
 
-        addCookies();
+        addCookies(getLoadUrl());
         loadUrl();
 
         if (paramsData.isChooseGuide) {
@@ -215,10 +215,10 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         sendRequest();
     }
 
-    private void addCookies() {
+    private void addCookies(String _url) {
         if (UserEntity.getUser().isLogin(this)) {
             try {
-                CommonUtils.synCookies(getLoadUrl(), "capp_user=" + webAgent.getUserInfoJson());
+                CommonUtils.synCookies(_url, "capp_user=" + webAgent.getUserInfoJson());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -227,7 +227,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         }
 
         //开发者模式，设置特殊cookies
-        CommonUtils.synDebugCookies(getLoadUrl());
+        CommonUtils.synDebugCookies(_url);
     }
 
     public String getLoadUrl() {
@@ -298,6 +298,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            addCookies(url);
             return false;
         }
 

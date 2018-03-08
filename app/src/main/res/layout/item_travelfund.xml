@@ -2,124 +2,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="72dp"
     android:orientation="horizontal"
-    android:clipToPadding="false"
-    android:clipChildren="false"
-    android:paddingLeft="12dip"
-    android:paddingRight="12dip">
+    android:paddingLeft="17dip"
+    android:paddingRight="17dip">
 
-    <net.grobas.view.PolygonImageView
-        android:id="@+id/travelfund_avatar_iv"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="24dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="24dp"
-        android:src="@mipmap/icon_avatar_user"
-        app:poly_border="false"
-        app:poly_border_color="@android:color/white"
-        app:poly_border_width="5dp"
-        app:poly_corner_radius="5"
-        app:poly_rotation_angle="25"
-        app:poly_shadow="false"
-        app:poly_shadow_color="@android:color/black"
-        app:poly_vertices="0" />
-
-    <LinearLayout
-        android:id="@+id/travelfund_amount_layout"
+    <TextView
+        android:id="@+id/travelfund_price_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="90dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/travelfund_amount_sign_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+"
-                android:textColor="@color/default_yellow"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/travelfund_amount_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="@color/default_yellow"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/travelfund_amount_unit_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/yuan"
-                android:textColor="@color/default_yellow"
-                android:textSize="16sp" />
-        </LinearLayout>
-        <TextView
-            android:id="@+id/travelfund_des_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-2dp"
-            android:layout_gravity="right"
-            android:textColor="@color/default_yellow"
-            android:textSize="12sp" />
-    </LinearLayout>
+        android:text="-450"
+        android:textColor="@color/default_black"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/travelfund_amount_layout"
-        android:layout_toRightOf="@id/travelfund_avatar_iv"
+        android:layout_toLeftOf="@id/travelfund_price_tv"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/travelfund_title_tv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/travelfund_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="12dp"
-                android:ellipsize="end"
-                android:maxWidth="120dp"
-                android:singleLine="true"
-                android:textColor="@color/default_black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/travelfund_source_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/default_black"
-                android:textSize="12sp" />
-        </LinearLayout>
+            android:layout_marginRight="12dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="支付曼谷线路包车游"
+            android:textColor="@color/default_black"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/travelfund_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
+            android:text="6d6d6d"
             android:textColor="#999999"
             android:textSize="12sp" />
     </LinearLayout>
@@ -127,8 +50,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="-12dp"
-        android:layout_marginRight="-12dp"
         android:layout_alignParentBottom="true"
         android:background="#44999999" />
 </RelativeLayout>

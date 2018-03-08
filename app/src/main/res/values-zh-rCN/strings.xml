@@ -220,22 +220,23 @@
     <string name="collect_line_empty_hint">您当前还未收藏线路呢</string>
 
     <string name="travel_fund_title">旅游基金</string>
-    <string name="travel_fund_rule">查看规则</string>
-    <string name="travel_fund_residue_price">基金余额:</string>
-    <string name="travel_fund_validity">有效期至%1$s</string>
-    <string name="travel_fund_invite_record">查看邀请记录></string>
-    <string name="travel_fund_invite_record_title">邀请记录</string>
-    <string name="travel_fund_use_record_title">基金明细</string>
-    <string name="travel_fund_use_record">明细</string>
-    <string name="travel_fund_subtitle">邀请好友</string>
-    <string name="travel_fund_subtitle_2">好友首次消费</string>
-    <string name="travel_fund_description">Ta即可获得&#160;%1$s元&#160;优惠劵</string>
-    <string name="travel_fund_description_2">您马上得&#160;%1$s元&#160;旅行基金\n另外还可得Ta消费金额的&#160;%2$s&#160;!</string>
-    <string name="travel_fund_invite">立即邀请</string>
-    <string name="travel_fund_record_empty_hint">还没有任何明细\n邀请好友，免费赚旅游基金</string>
-    <string name="travel_fund_invitation_friends_record_empty_hint">还没有好友贡献旅游基金\n快去邀请他们</string>
-    <string name="travel_fund_record_invited">已成功邀请</string>
-    <string name="travel_fund_record_obtain">已获得奖励</string>
+    <string name="travel_fund_rule">使用规则</string>
+    <string name="travel_fund_residue_price">基金余额(元)</string>
+    <string name="travel_fund_incentive_price">累计奖励(元)</string>
+    <string name="travel_fund_used_price">累计使用(元)</string>
+    <string name="travel_fund_incentive_record">奖励明细</string>
+    <string name="travel_fund_used_record">使用明细</string>
+    <string name="travel_fund_incentive_empty_hint">您还没有获得奖励</string>
+    <string name="travel_fund_used_empty_hint">您还没有使用过旅游基金</string>
+    <string name="travel_fund_gain">立刻赚取旅游基金 >>></string>
+    <string name="travel_fund_title2">钱包</string>
+    <string name="travel_fund_residue_price2">钱包余额(元)</string>
+    <string name="travel_fund_used_price2">累计支出(元)</string>
+    <string name="travel_fund_incentive_record2">收入明细</string>
+    <string name="travel_fund_used_record2">支出明细</string>
+    <string name="travel_fund_incentive_empty_hint2">您还有没收支记录</string>
+    <string name="travel_fund_used_empty_hint2">您还没有支出记录</string>
+    <string name="travel_fund_gain2">邀请赚佣金 >>></string>
 
     <string name="evaluate_et_hint">您对这位司导是否满意呢？说说您的感受吧~对其他小伙伴帮助很大哦（20个字上带图评价可返钱哦)</string>
     <string name="evaluate_et_hint2">您对这位司导是否满意呢？说说您的感受吧~对其他小伙伴帮助很大哦</string>
@@ -327,6 +328,7 @@
     <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；聊天信息可作为纠纷凭证，获得平台保障。</string>
     <string name="order_detail_bargain_end">共砍掉</string>
     <string name="order_detail_bargain">已砍掉</string>
+    <string name="order_detail_state_twiceconfirm">正在确认订单</string>
     <string name="order_detail_state_unpaid">等待支付</string>
     <string name="order_detail_state_success">预订成功</string>
     <string name="order_detail_state_received">司导已接单</string>
@@ -375,6 +377,7 @@
     <string name="order_detail_fxjourney_detail">详情</string>
     <string name="order_detail_fxjourney_guidename">司导 %1$s 提供</string>
     <string name="order_detail_fxjourney_days">%1$s日</string>
+    <string name="order_detail_countdown_title">剩余</string>
 
     <string name="select_day">请选择游玩日期</string>
 

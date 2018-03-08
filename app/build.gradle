@@ -1,0 +1,317 @@
+apply plugin: 'com.android.application'
+apply plugin: 'newlens'
+apply plugin: 'channel'
+apply plugin: 'com.jakewharton.butterknife'
+
+Properties getProperties() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties;
+}
+
+String keyStoreGpFile() {
+    return getProperties().getProperty('storeFilegp');
+}
+//google pl 需要替换证书
+String keyStoreFile() {
+    return getProperties().getProperty('storeFile');
+}
+
+String localKeyAlias() {
+    return getProperties().getProperty('keyAlias');
+}
+
+String localKeyPassword() {
+    return getProperties().getProperty('keyPassword');
+}
+
+String localStorePassword() {
+    return getProperties().getProperty('storePassword');
+}
+
+
+android {
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+    }
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    signingConfigs {
+        hbcSign {
+            keyAlias localKeyAlias()
+            keyPassword localKeyPassword()
+            storeFile file(keyStoreFile())
+            storePassword localStorePassword()
+        }
+        hbcSignGp {
+            keyAlias localKeyAlias()
+            keyPassword localKeyPassword()
+            storeFile file(keyStoreGpFile())
+            storePassword localStorePassword()
+        }
+    }
+    flavorDimensions "flavor"
+    compileSdkVersion 26
+    buildToolsVersion '27.0.1'
+    defaultConfig {
+        applicationId "com.hugboga.custom"
+        minSdkVersion 16
+        targetSdkVersion 23
+        //version start
+        versionCode 103160
+        versionName "6.0.4"
+        //version end
+        //signingConfig signingConfigs.hbcSign
+        //signingConfig signingConfigs.hbcSignGp
+        multiDexEnabled true
+        ndk {
+            //设置支持的SO库架构
+            abiFilters /*"arm64-v8a",*/ "armeabi-v7a", "x86"/*, "x86_64"*/
+            //abiFilters 'arm64-v8a',/*'armeabi'*/ 'x86', 'armeabi-v7a'/*, 'x86_64', 'arm64-v8a'*/
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    productFlavors {
+        //==productFlavors_start==
+        developer {
+            dimension 'flavor'
+        }
+        /*==examination_start==*/
+        examination {
+            dimension 'flavor'
+        }
+        /*==examination_end==*/
+        '10001' { dimension 'flavor' }//安智
+        '10002' { dimension 'flavor' }//百度
+        '10003' { dimension 'flavor' }//应用宝
+        '10006' { dimension 'flavor' }//360
+        '10008' { dimension 'flavor' }//小米
+        '10009' { dimension 'flavor' }//豌豆荚
+        '10012' { dimension 'flavor' }//华为
+        '10013' { dimension 'flavor' }//oppo
+        '10090' { dimension 'flavor' }//百度sem
+        '10091' { dimension 'flavor' }//神马搜索
+        '10092' { dimension 'flavor' }//今日头条
+        '10093' { dimension 'flavor' }//今日头条2
+        '10081' { dimension 'flavor' }
+        '10082' { dimension 'flavor' }
+        '10083' { dimension 'flavor' }
+        '10084' { dimension 'flavor' }
+        '10085' { dimension 'flavor' }
+        '10086' { dimension 'flavor' }
+        '10087' { dimension 'flavor' }
+        '10088' { dimension 'flavor' }
+        '10089' { dimension 'flavor' }
+        '10094' { dimension 'flavor' }
+        '10095' { dimension 'flavor' }
+        '10099' { dimension 'flavor' }//信息流平台
+        /*==formal_start==*/
+        '10000' { dimension 'flavor' }//官网
+        /*==formal_end==*/
+        '10007' {//google play
+            applicationId 'com.hugboga.custom.gp'
+            dimension 'flavor'
+        }
+        //==productFlavors_end==
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.hbcSign
+//            signingConfig signingConfigs.hbcSignGp
+        }
+        debug {
+            debuggable true
+            signingConfig signingConfigs.hbcSign
+            //signingConfig signingConfigs.hbcSignGp
+        }
+    }
+
+    productFlavors.all { flavor ->
+        switch (flavor.name) {
+            case 'developer':
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5-dev.huangbaoche.com/"')
+                flavor.buildConfigField('String', 'H5_HOST', '"https://info-dev.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_1', '"https://op-dev.huangbaoche.com/app/auth.html"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_2', '"https://act-dev.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3', '"https://act-dev.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_4', '"https://m-dev.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_APPID', '"wx1354271c597184ee"')
+                flavor.buildConfigField('String', 'CREDIT_CARD_PAY_ENVIRONMENT', '"00"')
+                flavor.buildConfigField('String', 'WX_APP_ID', '"wx89138279bb15267f"')
+                flavor.manifestPlaceholders(JPUSH_PKGNAME: defaultConfig.applicationId, JPUSH_APPKEY: "580ff852cd505c00c4be92d6", JPUSH_CHANNEL: "hbc"
+                        , APP_CHANNEL: "developer", AMAP_KEY: "6852d22dca51b4f64a52d050ca6ef663", HUAWEI_APPID: "10335147"
+                        , GETUI_APP_ID: "ud0gtIy6KnALL157Yl9lD4", GETUI_APP_KEY: "FgdhNvx43h8t5K2AA0Mfw1", GETUI_APP_SECRET: "vcqTMx2yU16Ns3Ajq67mr1")
+                break;
+            case 'examination':
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5-test.huangbaoche.com/"')
+                flavor.buildConfigField('String', 'H5_HOST', '"https://info-test.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_1', '"https://op-test.huangbaoche.com/app/auth.html"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_2', '"https://act-test.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3', '"https://act-test.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_4', '"https://m-test.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_APPID', '"wx1354271c597184ee"')
+                flavor.buildConfigField('String', 'CREDIT_CARD_PAY_ENVIRONMENT', '"00"')
+                flavor.buildConfigField('String', 'WX_APP_ID', '"wx89138279bb15267f"')
+                flavor.manifestPlaceholders(JPUSH_PKGNAME: defaultConfig.applicationId, JPUSH_APPKEY: "580ff852cd505c00c4be92d6", JPUSH_CHANNEL: "hbc"
+                        , APP_CHANNEL: "examination", AMAP_KEY: "6852d22dca51b4f64a52d050ca6ef663", HUAWEI_APPID: "10335147"
+                        , GETUI_APP_ID: "ud0gtIy6KnALL157Yl9lD4", GETUI_APP_KEY: "FgdhNvx43h8t5K2AA0Mfw1", GETUI_APP_SECRET: "vcqTMx2yU16Ns3Ajq67mr1")
+                break;
+            case '10007'://googlePlay
+                //测试环境srart
+//                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5-test.huangbaoche.com/"')
+//                flavor.buildConfigField('String', 'H5_HOST', '"https://info-test.huangbaoche.com"')
+//                flavor.buildConfigField('String', 'SHARE_BASE_URL_1', '"https://op-test.huangbaoche.com/app/auth.html"')
+//                flavor.buildConfigField('String', 'SHARE_BASE_URL_2', '"https://act-test.huangbaoche.com"')
+//                flavor.buildConfigField('String', 'SHARE_BASE_URL_3', '"https://act-test.huangbaoche.com"')
+//                flavor.buildConfigField('String', 'SHARE_BASE_URL_4', '"https://m-test.huangbaoche.com"')
+//                flavor.buildConfigField('String', 'SHARE_APPID', '"wx1354271c597184ee"')
+//                flavor.buildConfigField('String', 'CREDIT_CARD_PAY_ENVIRONMENT', '"00"')
+                //测试环境end
+
+                flavor.buildConfigField('String', 'WX_APP_ID', '"wxc5e385ba83a4f64e"')
+                flavor.manifestPlaceholders(JPUSH_PKGNAME: "com.hugboga.custom.gp", JPUSH_APPKEY: "be9b3f0366947883c7cbc337", JPUSH_CHANNEL: "hbc"
+                        , APP_CHANNEL: "" + flavor.name, AMAP_KEY: "c106e6b2b66ce872680891131ae7701b", HUAWEI_APPID: "100174333"
+                        , GETUI_APP_ID: "510Bzmrn3F8G1iHg07th35", GETUI_APP_KEY: "q4EMEWNf1J8dSlTfpNQEw8", GETUI_APP_SECRET: "y1pRKqxrryAFWjI31EQyu9")
+
+//                //正式环境srart
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5.huangbaoche.com/"')
+                flavor.buildConfigField('String', 'H5_HOST','"https://info.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"https://op.huangbaoche.com/app/auth.html"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"https://act.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"https://act.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"https://m.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_APPID','"wx62ad814ba9bf0b68"')
+                flavor.buildConfigField('String', 'CREDIT_CARD_PAY_ENVIRONMENT', '"01"')
+//                //正式环境end
+                break;
+            default:
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5.huangbaoche.com/"')
+                flavor.buildConfigField('String', 'H5_HOST', '"https://info.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_1', '"https://op.huangbaoche.com/app/auth.html"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_2', '"https://act.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3', '"https://act.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_4', '"https://m.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_APPID', '"wx62ad814ba9bf0b68"')
+                flavor.buildConfigField('String', 'CREDIT_CARD_PAY_ENVIRONMENT', '"01"')
+                flavor.buildConfigField('String', 'WX_APP_ID', '"wx89138279bb15267f"')
+                flavor.manifestPlaceholders(JPUSH_PKGNAME: defaultConfig.applicationId, JPUSH_APPKEY: "580ff852cd505c00c4be92d6", JPUSH_CHANNEL: "hbc"
+                        , APP_CHANNEL: "" + flavor.name, AMAP_KEY: "6852d22dca51b4f64a52d050ca6ef663", HUAWEI_APPID: "10335147"
+                        , GETUI_APP_ID: "ud0gtIy6KnALL157Yl9lD4", GETUI_APP_KEY: "FgdhNvx43h8t5K2AA0Mfw1", GETUI_APP_SECRET: "vcqTMx2yU16Ns3Ajq67mr1")
+                break;
+        }
+    }
+
+    //==applicationVariants_start==
+//    applicationVariants.all { variant ->
+//        variant.outputs.all {
+//            def apkName = 'CAPP_V' + defaultConfig.versionName + '_' + defaultConfig.versionCode + '_' + name
+//            if (!variant.flavorName.isEmpty()) {
+//                apkName += ('_' + variant.flavorName)
+//            }
+//            outputFileName = apkName + '.apk'
+//        }
+//    }
+    //==applicationVariants_end==
+    //==applicationVariants==
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.facebook.android:facebook-android-sdk:+'
+    compile 'com.android.support:design:+'
+    compile 'com.android.support:support-v4:+'
+    compile project(':hbcframe')
+    compile project(path: ':ultraviewpager')
+    compile project(':polygonimageview')
+    compile project(':timepicker')
+    compile project(':imageselector')
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.14'
+    compile 'com.yalantis:ucrop:1.3.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    annotationProcessor 'com.zhy:mpermission-compiler:1.0.0'
+    compile 'com.zhy:mpermission-api:1.0.0'
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.mani:ThinDownloadManager:1.2.4'
+    compile 'com.anupcowkur:reservoir:3.1.0'
+    compile 'com.github.mrengineer13:snackbar:1.2.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.tencent.bugly:crashreport:2.3.1'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile project(':viewpagerindicator')
+    compile project(path: ':datepicker')
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'se.emilsjolander:stickylistheaders:2.7.0'
+    compile project(':unicorn')
+    compile 'com.github.chrisbanes:PhotoView:1.3.0'
+    compile project(':countdown')
+    compile 'jp.wasabeef:blurry:2.0.3'
+    compile 'com.airbnb.android:epoxy:2.7.3'
+    compile 'com.hbc.im:nim_libary:1.6.9'
+    compile 'com.hugboga.tools:app-tools:1.0.6'
+    compile 'com.hugboga.mediaplayer:app-mediaplayer:1.0.0'
+    compile 'tk.hongbo.label:single-label:1.0.7'
+    compile 'com.android.support:cardview-v7:+'
+    compile 'com.jcodecraeer:xrecyclerview:1.3.2'
+    compile 'com.7heaven.ioswidget:iosswitch:0.6'
+    compile 'com.androidkun:XTabLayout:1.1.1'
+    compile files('libs/smantifraud.jar')
+    compile files('libs/fm-sdk-3.0.9.jar')
+    compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.7.0'
+    compile 'com.leon.channel:helper:1.0.5'
+    compile 'cn.jiguang.sdk:jpush:3.0.9'
+    // 此处以JPush 3.0.9 版本为例。
+    compile 'cn.jiguang.sdk:jcore:1.1.7'
+    // 此处以JCore 1.1.7 版本为例。
+    compile 'com.yan:pullrefreshlayout:2.1.07'
+    compile 'com.wang.avi:library:2.1.3'
+    compile 'in.srain.cube:ultra-ptr:1.0.11'
+    compile 'org.apache.commons.io:commonsIO:2.5.0'
+    compile 'com.getui:sdk-for-google-play:2.10.3.5'
+    compile 'com.huawei.android.hms:push:2.5.2.300'
+}
+
+rebuildChannel {
+    //baseDebugApk = new File(project.rootDir, "app/build/outputs/apk/CAPP_V5.2.1_102960_baseDebug.apk")
+    baseReleaseApk = new File(project.rootDir, "app/build/outputs/apk/CAPP_V5.2.1_102960_baseRelease.apk")
+//默认为new File(project.buildDir, "rebuildChannel/debug")
+    //debugOutputDir = Debug渠道包输出目录
+//默认为new File(project.buildDir, "rebuildChannel/release")
+    releaseOutputDir = new File(project.rootDir, "rebuildChannel/release")
+}
+
+channel {
+    //多渠道包的输出目录，默认为new File(project.buildDir,"channel")
+    baseOutputDir = new File(project.buildDir, "channel")
+    //多渠道包的命名规则，默认为：${appName}-${versionName}-${versionCode}-${flavorName}-${buildType}
+    apkNameFormat = '${appName}-${versionName}-${versionCode}-${flavorName}-${buildType}'
+}
+
+//configurations.all {
+//    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+//        def requested = details.requested
+//        if (requested.group == 'com.android.support') {
+//            if (!requested.name.startsWith("multidex")) {
+//                details.useVersion '25.3.1'
+//            }
+//        }
+//    }
+//}

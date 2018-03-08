@@ -23,6 +23,7 @@ public class ParserTravel extends ImplParser {
     public TravelListAllBean parseObject(JSONObject obj) throws Throwable {
         TravelListAllBean travelListAllBean = new TravelListAllBean();
         travelListAllBean.totalSize = obj.optInt("totalSize");
+        travelListAllBean.inviteContent = obj.optString("inviteContent");
         JSONArray jsonArray = obj.optJSONArray("resultBean");
         ArrayList<OrderBean> listData = new ArrayList<OrderBean>();
         if (jsonArray != null) {
