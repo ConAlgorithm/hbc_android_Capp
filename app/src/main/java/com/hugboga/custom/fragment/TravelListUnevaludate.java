@@ -17,7 +17,6 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.OrderDetailActivity;
-import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
@@ -63,6 +62,7 @@ public class TravelListUnevaludate extends FgBaseTravel {
     TextView textView;
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
     int refreshOrNot = 1;
+    private TravelLoadingMoreFooter travelLoadingMoreFooter;
 
     @Override
     protected void loadData() {
@@ -102,11 +102,11 @@ public class TravelListUnevaludate extends FgBaseTravel {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
         mXRecyclerView.setLayoutManager(layoutManager);
-        TravelLoadingMoreFooter travelLoadingMoreFooter = new TravelLoadingMoreFooter(getContext());
-        travelLoadingMoreFooter.setCustomlayout(inflater);
-        mXRecyclerView.setFootView(travelLoadingMoreFooter);
         hbcRecyclerSingleTypeAdpater = new HbcRecyclerSingleTypeAdpater(getContext(), TravelListItem.class);
         mXRecyclerView.setAdapter(hbcRecyclerSingleTypeAdpater);
+        travelLoadingMoreFooter = new TravelLoadingMoreFooter(getContext());
+        travelLoadingMoreFooter.setCustomlayout(inflater);
+        mXRecyclerView.setFootView(travelLoadingMoreFooter);
         //mXRecyclerView.addHeaderView(getHeaderView(inflater));
         getFooterView(inflater);
         mXRecyclerView.setEmptyView(emptyView);
@@ -152,7 +152,6 @@ public class TravelListUnevaludate extends FgBaseTravel {
                 }
             }
         });
-
     }
 
     @Override
@@ -176,12 +175,13 @@ public class TravelListUnevaludate extends FgBaseTravel {
         super.onDataRequestSucceed(request);
         if (request instanceof RequestOrderListUnevaludate) {
             TravelListAllBean travelListAllBean = (TravelListAllBean) request.getData();
+            textView.setText("".equals(travelListAllBean.inviteContent) ? getResources().getText(R.string.travel_footer_fund_content) : travelListAllBean.inviteContent);
+            mXRecyclerView.setEmptyView(emptyView);
             if (request != null && request.getOffset() == 0) {
                 mXRecyclerView.smoothScrollToPosition(0);
             }
             if (mXRecyclerView != null && travelListAllBean != null) {
-                textView.setText("".equals(travelListAllBean.inviteContent) ? getResources().getText(R.string.travel_footer_fund_content) : travelListAllBean.inviteContent);
-                mXRecyclerView.setEmptyView(emptyView);
+                travelLoadingMoreFooter.setFooterContent(travelListAllBean.inviteContent);
                 if (hbcRecyclerSingleTypeAdpater != null) {
                     hbcRecyclerSingleTypeAdpater.addData(travelListAllBean.resultBean, request.getOffset() > 0);
                 }

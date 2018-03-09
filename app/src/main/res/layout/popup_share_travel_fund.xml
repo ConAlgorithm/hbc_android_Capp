@@ -7,7 +7,7 @@
         android:id="@+id/bg_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#750E0E0E" />
+        android:background="#bf000000" />
 
     <LinearLayout
         android:id="@+id/linear_layout"
