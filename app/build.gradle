@@ -219,7 +219,6 @@ android {
 //    }
     //==applicationVariants_end==
     //==applicationVariants==
-    buildToolsVersion '27.0.3'
 }
 
 repositories {
