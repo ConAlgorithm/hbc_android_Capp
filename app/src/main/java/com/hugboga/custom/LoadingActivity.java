@@ -76,6 +76,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     private ActionBean actionBean;
 
     int loading_time = 3;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -111,9 +112,9 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             //启动APP
             final int appLaunchCount = SharedPre.getInteger(SharedPre.APP_LAUNCH_COUNT, 0);
             JSONObject properties = new JSONObject();
-            if(MyApplication.getChannelNum() != null){
+            if (MyApplication.getChannelNum() != null) {
                 properties.put("hbc_channelId", MyApplication.getChannelNum());
-            }else {
+            } else {
                 properties.put("hbc_channelId", BuildConfig.FLAVOR);
             }
 
@@ -154,7 +155,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     private void schemeIntent(Intent _intent) {
         Intent intent = _intent;
         String scheme = intent.getScheme();
-        if (getString(R.string.hbc_scheme).equals(scheme)) {
+        if (Constants.SCHEMA_HBCC.equals(scheme)) {
             String data = null;
 
             Bundle extras = getIntent().getExtras();
@@ -210,19 +211,19 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                 handler.sendEmptyMessage(200);
             }
         });
-        timeSecond.setText(String.format(getString(R.string.loading_time),loading_time+""));
+        timeSecond.setText(String.format(getString(R.string.loading_time), loading_time + ""));
     }
 
     //    Handler timeHandler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if(loading_time > 0) {
+            if (loading_time > 0) {
                 --loading_time;
                 timeSecond.setText(String.format(getString(R.string.loading_time), loading_time + ""));
-                if(loading_time > 0){
+                if (loading_time > 0) {
                     handler.postDelayed(runnable, 1000);
-                }else{
+                } else {
                     handler.sendEmptyMessage(200);
                 }
             }
@@ -307,36 +308,36 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         BaseRequest baseRequest = isEmpty ? new RequestAccessKey(this) : new RequestUpdateDeviceInfo(this);
         HttpRequestUtils.request(this, baseRequest, new HttpRequestListener() {
 
-                    @Override
-                    public void onDataRequestSucceed(BaseRequest _request) {
-                        if (_request instanceof RequestAccessKey) {
-                            UserSession.getUser().setAccessKey(LoadingActivity.this, (String) _request.getData());
-                        }
-                    }
+            @Override
+            public void onDataRequestSucceed(BaseRequest _request) {
+                if (_request instanceof RequestAccessKey) {
+                    UserSession.getUser().setAccessKey(LoadingActivity.this, (String) _request.getData());
+                }
+            }
 
-                    @Override
-                    public void onDataRequestCancel(BaseRequest request) {
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
 
-                    }
+            }
 
-                    @Override
-                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
 
-                    }
+            }
         }, false);
     }
 
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if(!adClick) {
+            if (!adClick) {
                 goNext();
             }
         }
     };
 
 
-    private void goNext(){
+    private void goNext() {
         adClick = true;
         Intent intent = null;
         handler.removeMessages(200);
@@ -368,7 +369,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             RequestADPicture requestADPicture = (RequestADPicture) request;
             ADPictureBean adPictureBean = requestADPicture.getData();
             if (adPictureBean.displayFlag.equalsIgnoreCase("1")) {
-                handler.postDelayed(runnable,1000);
+                handler.postDelayed(runnable, 1000);
                 timeSecond.setVisibility(View.VISIBLE);
                 bottom_txt.setVisibility(View.GONE);
                 showAd(adPictureBean);
@@ -380,6 +381,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     }
 
     boolean adClick = false;
+
     private void showAd(final ADPictureBean adPictureBean) {
         String imgUrl;
         //Animation animation= AnimationUtils.loadAnimation(this,R.anim.loading);
@@ -389,18 +391,18 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             } else if (ImageUtils.getScreenWidth(this) > 1080 && adPictureBean.picList.size() >= 3) {
                 imgUrl = adPictureBean.picList.get(2).picture;
             } else {
-                if(adPictureBean.picList.size() >=2){
+                if (adPictureBean.picList.size() >= 2) {
                     imgUrl = adPictureBean.picList.get(1).picture;
-                }else{
+                } else {
                     imgUrl = adPictureBean.picList.get(0).picture;
                 }
             }
-            if(!imgUrl.isEmpty()){
-                Tools.showAdImage(show_ad,imgUrl);
+            if (!imgUrl.isEmpty()) {
+                Tools.showAdImage(show_ad, imgUrl);
                 show_ad.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!TextUtils.isEmpty(adPictureBean.urlAddress)) {
+                        if (!TextUtils.isEmpty(adPictureBean.urlAddress)) {
                             EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "启动页推广图");
                             EventUtil.onDefaultEvent(StatisticConstant.LAUNCH_ACTIVITY, "启动页推广图");
                             adClick = true;
@@ -447,7 +449,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(handler!= null ){
+        if (handler != null) {
             handler.removeCallbacks(runnable);
         }
     }

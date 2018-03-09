@@ -155,7 +155,7 @@ public class UrlLibs {
     public static final String GET_INVITATION_CODE          = "ucenter/v1.0/c/invitation/code";                         // 获取邀请码
     public static final String DEDUCTION                    = "ucenter/v1.0/c/travelFund/deduction";                    // 获取可用优惠券
     public static final String LINES_SAVED                  = "ucenter/v1.0/c/favorite/goodsNoList";                    // 已收藏线路列表 181
-    public static final String COLLECT_LINES_LIST           = "ucenter/v1.0/c/favorite/goodsList";                      // 收藏线路列表 182
+    public static final String COLLECT_LINES_LIST           = "ucenter/v1.1/c/favorite/goodsList";                      // 收藏线路列表 182
     public static final String COLLECT_LINES_NO             = "ucenter/v1.0/c/favorite/goods";                          // 收藏线路  183
     public static final String UNCOLLECT_LINES_NO           = "ucenter/v1.0/c/unfavorite/goods";                        // 取消收藏线路  184
     public static final String TRAVELFUND_HOME              = "ucenter/v1.0/c/travelFundHome";                          // 用户旅游基金首页  207
@@ -169,7 +169,7 @@ public class UrlLibs {
     public static final String SERVER_IP_SUBMIT_DAILY12     = "trade/v1.5/c/order/daily?";                              // 提交订单 日租包车 ???? 2个
     public static final String RECOMMENDLIN                 = "trade/v1.5/c/order/recommendline?";                      // 提交订单 推荐线路
     public static final String API_ORDER_EDIT               = "trade/v1.2/c/order/edit";                                // 修改订单
-    public static final String SERVER_IP_ORDER_DETAIL       = "trade/v1.5/c/order/detail?";                             // 订单详情
+    public static final String SERVER_IP_ORDER_DETAIL       = "trade/v1.6/c/order/detail?";                             // 订单详情
     public static final String SERVER_IP_ORDER_CANCEL       = "trade/v1.0/c/order/cancel?";                             // 取消订单
     public static final String GET_USER_COUPON              = "trade/v1.0/c/order/home?";                               // 获取用户优惠卷
     public static final String SERVER_IP_GUIDES_COMMENTS    = "trade/v1.3/c/order/evaluate?";                           // 对车导评价 *** 1.0
@@ -206,7 +206,7 @@ public class UrlLibs {
     public static final String API_EPOS_SMS_VERIFY          = "trade/v1.0/c/epos/verifysale";                           // 易宝短信验证 192
     public static final String API_EPOS_BIND_LIST           = "trade/v1.0/c/epos/bindlist";                             // 国内信用卡绑定列表  193
     public static final String API_IP_FAKE_AI_GET           = "trade/v1.1/c/ai/askready?";                              // AI数据GET  197
-    public static final String API_IP_FAKE_AI_POST          = "trade/v1.1/c/ai/askDuoDuo?";                             // AI数据POST 196
+    public static final String API_IP_FAKE_AI_POST          = "trade/v1.2/c/ai/askDuoDuo?";                             // AI数据POST 196
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.5/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.5/c/airportTransferPrice?";                     // 查询价格 送机
@@ -224,7 +224,7 @@ public class UrlLibs {
     public static final String API_CITY_HOME_LIST           = "goods/v1.5/c/home/cityGoods?";                           // 城市商品列表
     public static final String API_CITY_HOME_COUNTRY_LIST   = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
     public static final String API_CITY_HOME_ROUTE_LIST     = "goods/v1.4/c/home/lineGroupGoods?";                      // 线路圈
-    public static final String API_GOODS_BY_ID              = "goods/v1.3/c/home/goodsByNo";                            // 按商品编号查商品详情
+    public static final String API_GOODS_BY_ID              = "goods/v1.4/c/home/goodsByNo";                            // 按商品编号查商品详情
     public static final String GOODS_BOOK_DATE              = "goods/v1.0/c/home/goodsbookdate";                        // 根据商品编号查询可预订日期
     public static final String API_COUNTRY_GROUP            = "goods/v1.0/c/home/countryGroup";                         // 国家线路圈页 137
     public static final String API_GOODS_FILTER             = "goods/v1.0/c/home/goods/search";                         // 商品列表页筛选 139
@@ -232,10 +232,10 @@ public class UrlLibs {
     public static final String API_QUERY_GOODS_STOCK        = "goods/v1.1/c/queryGoodsStock";                           // 商品库存171
     public static final String API_QUERY_GUIDE_STOCK        = "goods/v1.1/c/queryGuideGoodsStock";                      // 商品司导库存172
     public static final String API_GOODS_GUIDE_FILTER_OPTIONS= "goods/v1.0/c/goodsguidecondition";                      // 关联商品的可服务司导过滤条件 175
-    public static final String API_GOODS_LINE_SEARCH        = "goods/v1.1/c/goodsSearch";                               // 线路搜索 177
-    public static final String API_RECOMMENDED_GOODS        = "goods/v1.0/c/crossRecommendedGoods";                     // 根据订单城市交叉推荐商品列表v1.0 185
-    public static final String API_CITY_DESTINATION_HOME    = "goods/v1.0/c/queryDestinationHome";                      // 查询目的地首页 194
-    public static final String API_CITY_QUERY_SKU_LIST      = "goods/v1.0/c/pageQueryDestinationGoodsList?";            // 查询目的地玩法列表 195
+    public static final String API_GOODS_LINE_SEARCH        = "goods/v1.2/c/goodsSearch";                               // 线路搜索 177
+    public static final String API_RECOMMENDED_GOODS        = "goods/v1.1/c/crossRecommendedGoods";                     // 根据订单城市交叉推荐商品列表v1.0 185
+    public static final String API_CITY_DESTINATION_HOME    = "goods/v1.1/c/queryDestinationHome";                      // 查询目的地首页 194
+    public static final String API_CITY_QUERY_SKU_LIST      = "goods/v1.1/c/pageQueryDestinationGoodsList?";            // 查询目的地玩法列表 195
     public static final String API_QUERY_CITY_GUIDE         = "goods/v1.0/c/queryCityGuide";                            // 查询目的地玩法列表 199
     public static final String API_QUERY_SHARE_INFO         = "goods/v1.0/c/queryShareInfo?";                           // 查询目的地分享信息 200
     public static final String API_QUERY_TAG_GOODS_LIST     = "goods/v1.0/c/pageQueryTagGoodsList";                     // 分页查询标签玩法列表 201
@@ -293,7 +293,7 @@ public class UrlLibs {
     public static final String API_OSS_TOKEN_URL            = "passport/v1.0/ossToken";                                 // 获取图片上传环境参数 157
     public static final String API_UPDATE_ANTICHEAT_INFO    = "passport/v1.0/updateAntiCheatInfo";                      // 更新设备反作弊信息 186
 
-    public static final String API_HOME                     = "basicdata/v1.5/c/home/aggregation";                      // 首页城市卡片列表
+    public static final String API_HOME                     = "basicdata/v1.6/c/home/aggregation";                      // 首页城市卡片列表
     public static final String API_DESTINATIONS_TAB         = "basicdata/v1.0/c/home/destlist";                         // 目的地列表  167
     public static final String API_DESTINATIONS_HOT         = "basicdata/v1.0/c/queryHotDestinationHome";               // 目的地热门城市 168
     public static final String API_DESTINATIONS_LINE        = "basicdata/v1.0/c/queryTopDestinationHome";               // 目的地线路   169

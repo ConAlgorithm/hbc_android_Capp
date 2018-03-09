@@ -475,9 +475,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//            webView.loadUrl(url);
             addCookies(url);
-            return false;
+            webView.loadUrl(url);
+            return true;
         }
 
         @Override
