@@ -119,7 +119,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            if (headerTitle != null && view != null && !TextUtils.isEmpty(view.getTitle())) {
+            if (headerTitle != null && view != null && !TextUtils.isEmpty(view.getTitle()) && !view.getTitle().startsWith("http") ) {
                 WebInfoActivity.this.title = view.getTitle();
                 headerTitle.setText(view.getTitle());
                 if (webAgent != null) {
@@ -225,7 +225,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         public void onReceivedTitle(WebView view, String _title) {
             super.onReceivedTitle(view, _title);
             if (TextUtils.isEmpty(title) && headerTitle != null) {
-                if (!view.getTitle().startsWith("http:") && !TextUtils.isEmpty(view.getTitle())) {
+                if (!view.getTitle().startsWith("http") && !TextUtils.isEmpty(view.getTitle())) {
                     WebInfoActivity.this.title = view.getTitle();
                     headerTitle.setText(view.getTitle());
                     if (webAgent != null) {
