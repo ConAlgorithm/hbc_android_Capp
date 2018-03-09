@@ -16,6 +16,7 @@ public final class Constants {
     public static final String HEAD_IMAGE = "head.jpg";
     public static final String HEAD_IMAGE_NEW = "head_new.jpg";
     public static final String VERSION_FILE = "huangbaoche_C.apk";
+    public static final String SCHEMA_HBCC = "hbcc"; //皇包车schema
 
     public static final int BUSINESS_TYPE_PICK = 1;//接机
     public static final int BUSINESS_TYPE_SEND = 2;//送机
