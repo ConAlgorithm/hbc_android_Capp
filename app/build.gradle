@@ -38,7 +38,6 @@ android {
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
-
     signingConfigs {
         hbcSign {
             keyAlias localKeyAlias()
@@ -54,15 +53,14 @@ android {
         }
     }
     flavorDimensions "flavor"
-    compileSdkVersion 26
-    buildToolsVersion '27.0.1'
+    compileSdkVersion 27
     defaultConfig {
         applicationId "com.hugboga.custom"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 26
         //version start
         versionCode 103160
-        versionName "6.0.4"
+        versionName "6.0.3"
         //version end
         //signingConfig signingConfigs.hbcSign
         //signingConfig signingConfigs.hbcSignGp
@@ -78,7 +76,6 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-
     productFlavors {
         //==productFlavors_start==
         developer {
@@ -122,7 +119,6 @@ android {
         }
         //==productFlavors_end==
     }
-
     buildTypes {
         release {
             minifyEnabled true
@@ -136,7 +132,6 @@ android {
             //signingConfig signingConfigs.hbcSignGp
         }
     }
-
     productFlavors.all { flavor ->
         switch (flavor.name) {
             case 'developer':
@@ -186,12 +181,12 @@ android {
 
 //                //正式环境srart
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5.huangbaoche.com/"')
-                flavor.buildConfigField('String', 'H5_HOST','"https://info.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"https://op.huangbaoche.com/app/auth.html"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"https://act.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"https://act.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"https://m.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_APPID','"wx62ad814ba9bf0b68"')
+                flavor.buildConfigField('String', 'H5_HOST', '"https://info.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_1', '"https://op.huangbaoche.com/app/auth.html"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_2', '"https://act.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3', '"https://act.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_4', '"https://m.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_APPID', '"wx62ad814ba9bf0b68"')
                 flavor.buildConfigField('String', 'CREDIT_CARD_PAY_ENVIRONMENT', '"01"')
 //                //正式环境end
                 break;
@@ -211,7 +206,6 @@ android {
                 break;
         }
     }
-
     //==applicationVariants_start==
 //    applicationVariants.all { variant ->
 //        variant.outputs.all {
@@ -224,6 +218,7 @@ android {
 //    }
     //==applicationVariants_end==
     //==applicationVariants==
+    buildToolsVersion '27.0.3'
 }
 
 repositories {
@@ -233,60 +228,61 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.facebook.android:facebook-android-sdk:+'
-    compile 'com.android.support:design:+'
-    compile 'com.android.support:support-v4:+'
-    compile project(':hbcframe')
-    compile project(path: ':ultraviewpager')
-    compile project(':polygonimageview')
-    compile project(':timepicker')
-    compile project(':imageselector')
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.14'
-    compile 'com.yalantis:ucrop:1.3.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.facebook.android:facebook-android-sdk:+'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:support-v4:+'
+    implementation 'com.android.support:cardview-v7:+'
+    implementation 'com.android.support:design:+'
+    implementation 'com.android.support:recyclerview-v7:+'
+    implementation project(':hbcframe')
+    implementation project(':ultraviewpager')
+    implementation project(':polygonimageview')
+    implementation project(':timepicker')
+    implementation project(':imageselector')
+    implementation project(':viewpagerindicator')
+    implementation project(':datepicker')
+    implementation project(':unicorn')
+    implementation project(':countdown')
+    implementation 'com.hbc.im:nim_libary:1.6.9'
+    implementation 'com.hugboga.tools:app-tools:1.0.7'
+    implementation 'com.hugboga.mediaplayer:app-mediaplayer:1.0.0'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.1.14'
+    implementation 'com.yalantis:ucrop:1.3.2'
     annotationProcessor 'com.zhy:mpermission-compiler:1.0.0'
-    compile 'com.zhy:mpermission-api:1.0.0'
-    compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'com.google.code.gson:gson:2.6.2'
-    compile 'com.mani:ThinDownloadManager:1.2.4'
-    compile 'com.anupcowkur:reservoir:3.1.0'
-    compile 'com.github.mrengineer13:snackbar:1.2.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.tencent.bugly:crashreport:2.3.1'
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.zhy:mpermission-api:1.0.0'
+    implementation 'com.umeng.analytics:analytics:latest.integration'
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.mani:ThinDownloadManager:1.2.4'
+    implementation 'com.anupcowkur:reservoir:3.1.0'
+    implementation 'com.github.mrengineer13:snackbar:1.2.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.tencent.bugly:crashreport:2.3.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile project(':viewpagerindicator')
-    compile project(path: ':datepicker')
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'se.emilsjolander:stickylistheaders:2.7.0'
-    compile project(':unicorn')
-    compile 'com.github.chrisbanes:PhotoView:1.3.0'
-    compile project(':countdown')
-    compile 'jp.wasabeef:blurry:2.0.3'
-    compile 'com.airbnb.android:epoxy:2.7.3'
-    compile 'com.hbc.im:nim_libary:1.6.9'
-    compile 'com.hugboga.tools:app-tools:1.0.6'
-    compile 'com.hugboga.mediaplayer:app-mediaplayer:1.0.0'
-    compile 'tk.hongbo.label:single-label:1.0.7'
-    compile 'com.android.support:cardview-v7:+'
-    compile 'com.jcodecraeer:xrecyclerview:1.3.2'
-    compile 'com.7heaven.ioswidget:iosswitch:0.6'
-    compile 'com.androidkun:XTabLayout:1.1.1'
-    compile files('libs/smantifraud.jar')
-    compile files('libs/fm-sdk-3.0.9.jar')
-    compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.7.0'
-    compile 'com.leon.channel:helper:1.0.5'
-    compile 'cn.jiguang.sdk:jpush:3.0.9'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'se.emilsjolander:stickylistheaders:2.7.0'
+    implementation 'com.github.chrisbanes:PhotoView:1.3.0'
+    implementation 'jp.wasabeef:blurry:2.0.3'
+    implementation 'com.airbnb.android:epoxy:2.7.3'
+    implementation 'tk.hongbo.label:single-label:1.0.7'
+    implementation 'com.jcodecraeer:xrecyclerview:1.3.2'
+    implementation 'com.7heaven.ioswidget:iosswitch:0.6'
+    implementation 'com.androidkun:XTabLayout:1.1.1'
+    implementation files('libs/smantifraud.jar')
+    implementation files('libs/fm-sdk-3.0.9.jar')
+    implementation 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.7.0'
+    implementation 'com.leon.channel:helper:1.0.5'
+    implementation 'cn.jiguang.sdk:jpush:3.0.9'
     // 此处以JPush 3.0.9 版本为例。
-    compile 'cn.jiguang.sdk:jcore:1.1.7'
+    implementation 'cn.jiguang.sdk:jcore:1.1.7'
     // 此处以JCore 1.1.7 版本为例。
-    compile 'com.yan:pullrefreshlayout:2.1.07'
-    compile 'com.wang.avi:library:2.1.3'
-    compile 'in.srain.cube:ultra-ptr:1.0.11'
-    compile 'org.apache.commons.io:commonsIO:2.5.0'
-    compile 'com.getui:sdk-for-google-play:2.10.3.5'
-    compile 'com.huawei.android.hms:push:2.5.2.300'
+    implementation 'com.yan:pullrefreshlayout:2.1.07'
+    implementation 'com.wang.avi:library:2.1.3'
+    implementation 'in.srain.cube:ultra-ptr:1.0.11'
+    implementation 'org.apache.commons.io:commonsIO:2.5.0'
+    implementation 'com.getui:sdk-for-google-play:2.10.3.5'
+    implementation 'com.huawei.android.hms:push:2.5.2.300'
 }
 
 rebuildChannel {
@@ -305,12 +301,25 @@ channel {
     apkNameFormat = '${appName}-${versionName}-${versionCode}-${flavorName}-${buildType}'
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-compat:27.1.0'
+        force 'com.android.support:appcompat-v7:27.1.0'
+        force 'com.android.support:support-core-utils:27.1.0'
+        force 'com.android.support:support-core-ui:27.1.0'
+        force 'com.android.support:support-fragment:27.1.0'
+        force 'com.android.support:support-annotations:27.1.0'
+        force 'com.android.support:design:27.1.0'
+        force 'com.android.support:recyclerview-v7:27.1.0'
+    }
+}
+
 //configurations.all {
 //    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
 //        def requested = details.requested
 //        if (requested.group == 'com.android.support') {
 //            if (!requested.name.startsWith("multidex")) {
-//                details.useVersion '25.3.1'
+//                details.useVersion '27.1.0'
 //            }
 //        }
 //    }
