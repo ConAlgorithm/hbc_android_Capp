@@ -93,7 +93,7 @@ public class UrlLibs {
     public static String H5_SHAREGUI = H5_HOST + "/cactivity/shareGui/index.html?";//分享砍价
     public static String H5_CREDIT_CARD_ARGEEMENT =H5_HOST + "/cinfos/pay_agreement.html";//常用信用卡协议
 
-    public static String H5_GUIDE_DETAIL = BuildConfig.SHARE_BASE_URL_3 + "/h5/gactivity/guideIndex2/index.html?";
+    public static String H5_GUIDE_DETAIL = BuildConfig.SHARE_BASE_URL_4 + "/guide/index.html?";
     public static String H5_RULES = BuildConfig.SHARE_BASE_URL_3+"/h5/cactivity/bargainNew/bargainInfo.html";//  砍价活动规则
 
 
