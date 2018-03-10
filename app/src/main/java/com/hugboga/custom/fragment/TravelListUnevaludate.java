@@ -182,6 +182,7 @@ public class TravelListUnevaludate extends FgBaseTravel {
             }
             if (mXRecyclerView != null && travelListAllBean != null) {
                 travelLoadingMoreFooter.setFooterContent(travelListAllBean.inviteContent);
+                mXRecyclerView.setFootView(travelLoadingMoreFooter);
                 if (hbcRecyclerSingleTypeAdpater != null) {
                     hbcRecyclerSingleTypeAdpater.addData(travelListAllBean.resultBean, request.getOffset() > 0);
                 }
@@ -194,7 +195,6 @@ public class TravelListUnevaludate extends FgBaseTravel {
                 if (hbcRecyclerSingleTypeAdpater != null) {
                     mXRecyclerView.setNoMore(hbcRecyclerSingleTypeAdpater.getListCount() >= travelListAllBean.totalSize);
                 }
-
                 //返现开关
                 RequestEvaluateReturnMoney requestEvaluateReturnMoney = new RequestEvaluateReturnMoney(getContext());
                 HttpRequestUtils.request(getActivity(), requestEvaluateReturnMoney, this, false);
@@ -246,6 +246,7 @@ public class TravelListUnevaludate extends FgBaseTravel {
 
             case CLICK_USER_LOGIN:
                 refreshOrNot = 1;
+                initViews();
                 runData(6, 0, 10);
                 break;
         }

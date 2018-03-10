@@ -34,6 +34,7 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
     private TextView mText;
     LayoutInflater inflater;
     private View footerView;
+    private TextView textView;
 
     public TravelLoadingMoreFooter(Context context) {
         super(context);
@@ -127,12 +128,11 @@ public class TravelLoadingMoreFooter extends HbcLoadingMoreFooter {
 
             }
         });
-
+        textView = footerView.findViewById(R.id.travel_footer_text_layout);
     }
 
     public void setFooterContent(String str) {
         if (footerView == null) return;
-        TextView textView = footerView.findViewById(R.id.travel_footer_text_layout);
         textView.setText("".equals(str) ? getResources().getText(R.string.travel_footer_fund_content) : str);
     }
 

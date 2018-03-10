@@ -174,6 +174,7 @@ public class TravelListDoing extends FgBaseTravel {
         }
         if (mXRecyclerView != null && travelListAllBean != null) {
             travelLoadingMoreFooter.setFooterContent(travelListAllBean.inviteContent);
+            mXRecyclerView.setFootView(travelLoadingMoreFooter);
             if (hbcRecyclerSingleTypeAdpater != null) {
                 hbcRecyclerSingleTypeAdpater.addData(travelListAllBean.resultBean, request.getOffset() > 0);
             }
@@ -202,6 +203,7 @@ public class TravelListDoing extends FgBaseTravel {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 refreshOrNot = 1;
+                initViews();
                 runData(5, 0, 10);
                 break;
         }

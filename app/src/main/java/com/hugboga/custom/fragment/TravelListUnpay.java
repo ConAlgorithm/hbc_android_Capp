@@ -177,6 +177,7 @@ public class TravelListUnpay extends FgBaseTravel {
         }
         if (mXRecyclerView != null && travelListAllBean != null) {
             travelLoadingMoreFooter.setFooterContent(travelListAllBean.inviteContent);
+            mXRecyclerView.setFootView(travelLoadingMoreFooter);
 
             if (hbcRecyclerSingleTypeAdpater != null) {
                 hbcRecyclerSingleTypeAdpater.addData(travelListAllBean.resultBean, request.getOffset() > 0);
@@ -204,6 +205,7 @@ public class TravelListUnpay extends FgBaseTravel {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 refreshOrNot = 1;
+                initViews();
                 runData(4, 0, 10);
                 break;
         }
